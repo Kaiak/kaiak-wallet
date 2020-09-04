@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "Nano cryptocurrency wallet",
+  "description": "Nano is a feeless cryptocurrency. A secure and fast way to transfer money across borders.",
+  "type": "web",
+  "launch_path": "/index.html",
+  "icons": {
+    "56": "/assets/icons/kaios_56.png",
+    "112": "/assets/icons/kaios_112.png",
+    "128": "/assets/icons/kaios_128.png"
+  },
+  "developer": {
+    "name": "Philipp Blum",
+    "url": "https://www.facebook.com/Philipp-Blum-100785578393066"
+  },
+  "locales": {
+    "en-US": {
+      "name": "Nano cryptocurrency wallet",
+      "subtitle": "A secure and fast wallet for the nano cryptocurrency",
+      "description": "Nano is a feeless cryptocurrency. A secure and fast way to transfer money across borders."
+    }
+  },
+  "default_locale": "en-US"
+}
