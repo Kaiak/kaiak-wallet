@@ -1,6 +1,7 @@
 function sendView(app, config){
     const templateLoader = app.templateLoader;
 
+    app.navigation.clear();
     app.setHeader('Select the way to send');
 
     const elements = [
@@ -15,5 +16,6 @@ function sendView(app, config){
             data: { key: "send_address" }
         }
     ];
+
     return list(app.templateLoader, {elements});
 }

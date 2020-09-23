@@ -6,6 +6,7 @@ function NanoWallet(config){
 
     const self = {
         init,
+        render,
         templateLoader: templateLoader,
         setHeader: dom.setHeader,
         setBody: dom.setBody,
@@ -20,37 +21,44 @@ function NanoWallet(config){
         navigation,
     };
 
-    function renderPage(html){
-        return new Promise((resolve, reject) => {
-            const observer = new MutationObserver(function(mutations) {
-                if (!!body.children.length) {
-                    resolve();
-                    observer.disconnect();
-                }else{
-                    reject()
-                }
-            });
-            observer.observe(body, {attributes: false, childList: true, characterData: false, subtree:false});
-            body.innerHTML = html;
-        });
-    }
-
-    function render() {
-        switch(store.getState().view){
+    function render(state) {
+        switch(state){
             case RECEIVE_VIEW:
-                receiveView(self, config).then(dom.setBody);
+                receiveView(self, config).then(html => {
+                    app.navigation.init();
+                    dom.setBody(html);
+                });
                 break;
             case MENU_VIEW:
-                menuView(self, config).then(dom.setBody);
+                menuView(self, config).then(html => {
+                    app.navigation.init();
+                    dom.setBody(html)
+                });
                 break;
             case BALANCE_VIEW:
-                balanceView(self, config).then(array => {dom.setBody(array[0]);});
+                balanceView(self, config).then(array => {
+                    app.navigation.init();
+                    dom.setBody(array[0]);
+                });
                 break;
             case SETUP_VIEW:
-                setupView(self, config).then(dom.setBody);
+                setupView(self, config).then(html => {
+                    app.navigation.init();
+                    dom.setBody(html);
+                });
                 break;
             case SEND_VIEW:
-                sendView(self, config).then(dom.setBody);
+                sendView(self, config).then(html => {
+                    app.navigation.init();
+                    dom.setBody(html);
+                });
+                break;
+            case SEND_ADDRESS_VIEW:
+                sendAddressView(self, config).then(html => {
+                    app.navigation.init();
+                    dom.setBody(html);
+                });
+                break;
         }
     }
 
@@ -68,7 +76,7 @@ function NanoWallet(config){
                 break;
             case 'ArrowRight':
                 if(!!navigation.targetElement){
-                    loadView(navigation.targetElement.dataset.key);
+                    store.dispatch({type: HISTORY_BACK_ACTION_TYPE});
                 }else{
                     e.preventDefault();
                 }
@@ -81,15 +89,11 @@ function NanoWallet(config){
                 }
                 break;
             case 'Backspace':
-                console.log("Backspace");
-                if(history.data().length === 0){
-                    e.preventDefault();
-                }else{
-                    history.back();
-                }
+                store.dispatch({type: HISTORY_BACK_ACTION_TYPE});
                 break;
             case 'Enter':
                 let selection = store.getState().navSelection
+                console.log(store.getState().navSelection);
                 if(!!selection){
                     store.dispatch({ type: SELECT_VIEW_ACTION_TYPE, selection });
                 }else{
@@ -100,7 +104,7 @@ function NanoWallet(config){
                 console.log("Soft left");
                 break;
             case 'SoftRight':
-                loadView(MENU);
+                menuView(self, config).then(dom.setBody);
                 break;
             case 'Shift':
                 console.log("shift");
@@ -111,7 +115,7 @@ function NanoWallet(config){
     function init(){
         document.activeElement.addEventListener('keydown', handleKeydown);
         const status = localStorage.getItem('wallet_status');
-        store.subscribe(render);
+        observer.observe("view", render);
         store.dispatch({type: SELECT_VIEW_ACTION_TYPE, viewName: RECEIVE_VIEW});
     }
 

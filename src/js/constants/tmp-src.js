@@ -16,11 +16,13 @@ const TMPL_VIEW_SRC_BALANCE = TMPL_VIEWS_BASE + "/balance";
 const TMPL_VIEW_SRC_BALANCE_HTML = TMPL_VIEW_SRC_BALANCE + "/balance.html"
 
 const TMPL_COMP_SRC_LIST = TMPL_COMP_BASE + "/list";
-const TMPL_COMP_SRC_LIST_HTML = TMPL_COMP_SRC_LIST + "/list.html"
-const TMPL_COMP_SRC_LIST_ELEM_HTML = TMPL_COMP_SRC_LIST + "/list-element.html"
-const TMPL_COMP_SRC_LIST_ELEM_IMG_HTML = TMPL_COMP_SRC_LIST + "/list-element_img.html"
-const TMPL_COMP_SRC_LIST_ELEM_DESC_HTML = TMPL_COMP_SRC_LIST + "/list-element_desc.html"
+const TMPL_COMP_SRC_LIST_HTML = TMPL_COMP_SRC_LIST + "/list.html";
+const TMPL_COMP_SRC_LIST_ELEM_HTML = TMPL_COMP_SRC_LIST + "/list-element.html";
+const TMPL_COMP_SRC_LIST_ELEM_IMG_HTML = TMPL_COMP_SRC_LIST + "/list-element_img.html";
+const TMPL_COMP_SRC_LIST_ELEM_DESC_HTML = TMPL_COMP_SRC_LIST + "/list-element_desc.html";
 
-const TMPL_COMP_SRC_BUTTON_HTML = TMPL_COMP_BASE + "/button.html"
+const TMPL_COMP_SRC_BUTTON_HTML = TMPL_COMP_BASE + "/button.html";
 
-const TMPL_COMP_SRC_SEPARATOR_HTML = TMPL_COMP_BASE + "/separator.html"
+const TMPL_COMP_SRC_SEPARATOR_HTML = TMPL_COMP_BASE + "/separator.html";
+
+const TMPL_COMP_SRC_INPUT_HTML = TMPL_COMP_BASE + "/input.html";

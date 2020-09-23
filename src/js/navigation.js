@@ -8,6 +8,9 @@ function Navigation(){
         init: function(){
             targetElement = elements[0];
             targetElement.focus();
+            console.log(targetElement);
+            console.log("INIT");
+            store.dispatch({type: SELECT_NAV_ELEMENT_ACTION_TYPE, key: elementData[0].key});
         },
         clear: function(){
             current = 0;
@@ -30,15 +33,14 @@ function Navigation(){
                 current--;
                 elements[current].focus();
                 targetElement = elements[current];
-
-                return true;
             }else{
                 current = elements.length-1;
                 elements[current].focus();
                 targetElement = elements[current];
-
-                return true;
             }
+
+            store.dispatch({type: SELECT_NAV_ELEMENT_ACTION_TYPE, key: elementData[current].key});
+            return true;
         },
         down: function(){
             const next = current+1;
@@ -46,15 +48,14 @@ function Navigation(){
                 current++;
                 elements[current].focus();
                 targetElement = elements[current];
-
-                return true;
             }else{
                 current = 0;
                 elements[current].focus();
                 targetElement = elements[current];
-
-                return true;
             }
+
+            store.dispatch({type: SELECT_NAV_ELEMENT_ACTION_TYPE, key: elementData[current].key});
+            return true;
         }
     }
 }

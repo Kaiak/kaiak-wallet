@@ -1,6 +1,5 @@
 function nanoWalletStore(state = {}, action){
     console.log(action);
-    console.log(getView(state.view, action));
 
     return {
         form: getForm(state.form, action),

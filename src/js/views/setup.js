@@ -31,15 +31,8 @@ function setupView(app, config){
     ];
 
     return Promise.all(promises).then((values) => {
-        const [view, languageSep, languageList, addLangButton, walletSep, walletList, addWalletButton, saveButton] = values;
-
-        view.appendChild(languageSep);
-        view.appendChild(languageList);
-        view.appendChild(addLangButton);
-        view.appendChild(walletSep);
-        view.appendChild(walletList);
-        view.appendChild(addWalletButton);
-        view.appendChild(saveButton);
+        const [view, ...elements] = values;
+        elements.forEach(element => view.appendChild(element));
 
         console.log("Setup loaded");
 

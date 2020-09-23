@@ -31,7 +31,6 @@ function receiveView(app, config){
 
         return values[0];
     }).then(html => {
-        app.navigation.init();
         return html;
     });
 }

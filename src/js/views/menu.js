@@ -38,13 +38,11 @@ function menuView(app, config){
     ];
 
     return Promise.all(promises).then((values) => {
-        const view = values[0];
-        const list = values[1];
+        const [view, list] = values;
 
         templateLoader.replaceHTMLTag(view, "menu-list", list);
         return view;
     }).then(html => {
-        app.navigation.init();
         return html;
     });
 }

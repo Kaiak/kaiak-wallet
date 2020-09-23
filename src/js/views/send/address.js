@@ -8,7 +8,7 @@ function sendAddressView(app, config){
         button(templateLoader, {text: "Send"})
     ];
 
-    Promise.all(promises).then(values => {
+    return Promise.all(promises).then(values => {
        const view = document.createElement('div');
        values.forEach(element => view.appendChild(element));
        return view;
