@@ -1,0 +1,8 @@
+{
+  "name": "nano-kaios",
+  "version": "0.1",
+  "description": "KaiOS Nano Wallet",
+  "main": "index.js",
+  "repository": "https://github.com/Citrullin/nano-kaios.git",
+  "license": "GNU General Public License v2.0"
+}
