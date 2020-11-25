@@ -5,12 +5,12 @@
 
     let walletElements = [
         {
-            text: "main",
+            primaryText: "main",
             type: "primary",
             data: {key: "main"}
         },
         {
-            text: "savings",
+            primaryText: "savings",
             type: "primary",
             data: {key: "savings"}
         }

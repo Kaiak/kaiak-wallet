@@ -6,7 +6,7 @@
 <ul class="kui-list">
     {#each elements as el}
         {#if el.type === 'primary'}
-            <ListElement text={el.text}/>
+            <ListElement text={el.primaryText}/>
         {/if}
     {/each}
 </ul>
