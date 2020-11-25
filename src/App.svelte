@@ -5,7 +5,7 @@
 	import Menu from "./svelte/view/Menu.svelte";
 
 	let header = "Receive"
-	let view = RECEIVE_VIEW
+	let view = RECEIVE_VIEW.viewKey
 
 	const unsubscribe = viewStore.subscribe(value => {
 		const {viewKey, title} = value;
@@ -16,7 +16,7 @@
 	});
 
 	const showMenu = () => {
-		viewStore.set({viewKey: MENU_VIEW, title: "Menu"})
+		viewStore.set(MENU_VIEW)
 	}
 
 </script>
@@ -28,9 +28,9 @@
 		<h1 class="kui-h1" id="kui-header">{header}</h1>
 	</div>
 	<div class="kui-content-area" id="content-area">
-		{#if view === RECEIVE_VIEW}
+		{#if view === RECEIVE_VIEW.viewKey}
 			<Receive />
-		{:else if view === MENU_VIEW}
+		{:else if view === MENU_VIEW.viewKey}
 			<Menu />
 		{/if}
 		<div id="kui-options" class="kui-option-menu"></div>
