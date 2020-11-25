@@ -1,7 +1,11 @@
 <script>
     export let text;
+
+    const onClick = () => {
+
+    }
 </script>
 
-<button class="kui-btn">
+<button class="navigation kui-btn" on:click={onClick}>
     {text}
 </button>

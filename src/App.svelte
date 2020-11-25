@@ -1,8 +1,10 @@
 <script>
 	import Receive from "./svelte/view/Receive.svelte";
-	import {viewStore} from "./svelte/stores/stores";
+	import {loadedComponentStore, viewStore} from "./svelte/stores/stores";
 	import {RECEIVE_VIEW, MENU_VIEW} from "./js/constants/views";
 	import Menu from "./svelte/view/Menu.svelte";
+	import {onMount} from "svelte";
+	import {handleKeydown} from "./svelte/machinery/eventListener";
 
 	let header = "Receive"
 	let view = RECEIVE_VIEW.viewKey
@@ -24,6 +26,12 @@
 	const init = (el) => {
 		el.focus();
 	}
+
+	onMount(() => {
+		const elements = document.activeElement.getElementsByClassName('navigation')
+		console.log(elements)
+		loadedComponentStore.set({elements: elements})
+	})
 
 </script>
 

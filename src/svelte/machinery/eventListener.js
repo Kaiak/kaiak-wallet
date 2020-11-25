@@ -1,15 +1,19 @@
-import {HISTORY_BACK_ACTION_TYPE, SELECT_VIEW_ACTION_TYPE} from "../../js/constants/actions";
-import menuView from "../../js/views/menu";
-import {navigationStore} from "../stores/stores";
+import {loadedComponentStore, viewStore} from "../stores/stores";
 import Navigation from "./navigation";
+import {MENU_VIEW} from "../../js/constants/views";
 
 let selection = undefined;
 
-const navigation = new Navigation();
+const elementSelector = (selectedElement) => {
+    selection = selectedElement
+    console.log("Selected: " + selectedElement)
+}
+let navigation = new Navigation([], elementSelector);
 
-const unsubscribe = navigationStore.subscribe((v) => {
-    console.log(v)
-    selection = v;
+const unsubscribe = loadedComponentStore.subscribe((value) => {
+    document.activeElement.removeEventListener('keydown', handleKeydown);
+    navigation = new Navigation(value.elements, elementSelector)
+    document.activeElement.addEventListener('keydown', handleKeydown);
 })
 
 export function handleKeydown(e) {
@@ -26,7 +30,7 @@ export function handleKeydown(e) {
             break;
         case 'ArrowRight':
             if(!!navigation.targetElement){
-                navigationStore.set({type: HISTORY_BACK_ACTION_TYPE});
+                // navigationStore.set({type: HISTORY_BACK_ACTION_TYPE});
             }else{
                 e.preventDefault();
             }
@@ -39,11 +43,12 @@ export function handleKeydown(e) {
             }
             break;
         case 'Backspace':
-            store.dispatch({type: HISTORY_BACK_ACTION_TYPE});
+            // navigationStore.set({type: HISTORY_BACK_ACTION_TYPE});
             break;
         case 'Enter':
             if(!!selection){
-                navigationStore.set({ type: SELECT_VIEW_ACTION_TYPE, selection });
+                selection.click()
+                e.preventDefault();
             }else{
                 e.preventDefault();
             }
@@ -52,10 +57,10 @@ export function handleKeydown(e) {
             console.log("Soft left");
             break;
         case 'SoftRight':
-            menuView(self, config).then(dom.setBody);
+            viewStore.set(MENU_VIEW)
             break;
         case 'Shift':
-            console.log("shift");
+            viewStore.set(MENU_VIEW)
             break;
     }
 }
