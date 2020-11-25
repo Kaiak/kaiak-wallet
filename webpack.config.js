@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     mode: 'development',
@@ -10,4 +11,16 @@ module.exports = {
     devServer: {
         contentBase: './dist',
     },
+    plugins: [
+        new CopyPlugin({
+            patterns: [
+                { from: "index.html", to: "index.html" },
+                { from: "src/tmpl", to: "src/tmpl" },
+                { from: "src/css", to: "css" },
+            ],
+            options: {
+                concurrency: 100,
+            },
+        }),
+    ],
 };

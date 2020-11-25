@@ -8,9 +8,13 @@
     "start": "webpack serve"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^6.3.2",
     "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "redux": "^4.0.5"
+  }
 }
