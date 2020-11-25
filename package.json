@@ -5,7 +5,8 @@
   "repository": "https://github.com/Citrullin/nano-kaios.git",
   "license": "GNU General Public License v2.0",
   "scripts": {
-    "start": "webpack serve"
+    "build": "webpack",
+    "dev": "webpack serve"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^6.3.2",
