@@ -1,7 +1,18 @@
 <script>
 	import Receive from "./svelte/view/Receive.svelte";
+	import {viewStore} from "./svelte/stores/stores";
 
 	let header = "Receive"
+	let view = "receive"
+
+	const unsubscribe = viewStore.subscribe(value => {
+		const {viewKey, title} = value;
+		if(viewKey) {
+			header = title;
+			view = viewKey;
+		}
+	});
+
 </script>
 
 
@@ -11,7 +22,9 @@
 		<h1 class="kui-h1" id="kui-header">{header}</h1>
 	</div>
 	<div class="kui-content-area" id="content-area">
-		<Receive />
+		{#if view === "receive"}
+			<Receive />
+		{/if}
 		<div id="kui-options" class="kui-option-menu"></div>
 	</div>
 </div>
