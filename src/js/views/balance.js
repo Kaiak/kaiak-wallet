@@ -1,5 +1,6 @@
 import list from "../components/list/list";
 import separator from "../components/separator";
+import {TMPL_VIEW_SRC_BALANCE_HTML} from "../constants/tmp-src";
 
 export default function balanceView(app, config){
     const templateLoader = app.templateLoader;

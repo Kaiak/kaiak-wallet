@@ -6,7 +6,14 @@ import AppHistory from "./history";
 import {observer} from "./store/observer";
 import {store} from "./store/store";
 import {HISTORY_BACK_ACTION_TYPE, SELECT_VIEW_ACTION_TYPE} from "./constants/actions";
-import {BALANCE_VIEW, MENU_VIEW, RECEIVE_VIEW, SEND_ADDRESS_VIEW, SEND_VIEW, SETUP_VIEW} from "./constants/views";
+import {
+    BALANCE_VIEW,
+    MENU_VIEW,
+    RECEIVE_VIEW,
+    SEND_ADDRESS_VIEW,
+    SEND_VIEW,
+    SETUP_VIEW
+} from "./constants/views";
 import receiveView from "./views/receive";
 import menuView from "./views/menu";
 import balanceView from "./views/balance";
