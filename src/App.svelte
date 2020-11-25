@@ -6,17 +6,23 @@
 
 	let header = "Receive"
 	let view = RECEIVE_VIEW.viewKey
+	let views = []
 
 	const unsubscribe = viewStore.subscribe(value => {
 		const {viewKey, title} = value;
 		if (viewKey) {
 			header = title;
 			view = viewKey;
+			views.push(value)
 		}
 	});
 
 	const showMenu = () => {
 		viewStore.set(MENU_VIEW)
+	}
+
+	const init = (el) => {
+		el.focus();
 	}
 
 </script>

@@ -4,7 +4,7 @@
 </script>
 
 <ul class="kui-list">
-    {#each elements as el}
+    {#each elements as el, index}
         {#if el.type === 'primary'}
             <ListElement text={el.primaryText}/>
         {/if}

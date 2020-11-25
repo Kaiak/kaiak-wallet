@@ -2,6 +2,7 @@
     import Seperator from "../components/Seperator.svelte";
     import List from "../components/List.svelte";
     import Button from "../components/Button.svelte";
+    import {onMount} from "svelte";
 
     let walletElements = [
         {
@@ -15,6 +16,10 @@
             data: {key: "savings"}
         }
     ];
+
+    onMount(() => {
+        console.log('mounts')
+    })
 </script>
 
 <div id="receive__view">
