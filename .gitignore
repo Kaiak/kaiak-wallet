@@ -1,4 +1,4 @@
 *.iml
 .idea/
 node_modules/
-dist/main.js
+dist/
