@@ -1,4 +1,7 @@
-function Navigation(){
+import {store} from "./store/store";
+import {SELECT_NAV_ELEMENT_ACTION_TYPE} from "./constants/actions";
+
+export default function Navigation(){
     let current = 0;
     let elements = [];
     let elementData = [];

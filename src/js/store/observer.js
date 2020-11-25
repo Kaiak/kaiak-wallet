@@ -18,4 +18,4 @@ function StoreObserver(){
     }
 }
 
-var observer = new StoreObserver();
+export const observer = new StoreObserver();

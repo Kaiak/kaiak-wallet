@@ -1,3 +1,19 @@
+import config from './config'
+import TemplateLoader from './template-loader'
+import AppDOM from "./AppDOM";
+import Navigation from "./navigation";
+import AppHistory from "./history";
+import {observer} from "./store/observer";
+import {store} from "./store/store";
+import {HISTORY_BACK_ACTION_TYPE, SELECT_VIEW_ACTION_TYPE} from "./constants/actions";
+import {BALANCE_VIEW, MENU_VIEW, RECEIVE_VIEW, SEND_ADDRESS_VIEW, SEND_VIEW, SETUP_VIEW} from "./constants/views";
+import receiveView from "./views/receive";
+import menuView from "./views/menu";
+import balanceView from "./views/balance";
+import setupView from "./views/setup";
+import sendView from "./views/send/send";
+import sendAddressView from "./views/send/address";
+
 function NanoWallet(config){
     const templateLoader = new TemplateLoader();
     const dom = new AppDOM();

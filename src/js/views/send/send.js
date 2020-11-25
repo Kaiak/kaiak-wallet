@@ -1,4 +1,6 @@
-function sendView(app, config){
+import list from "../../components/list/list";
+
+export default function sendView(app, config){
     const templateLoader = app.templateLoader;
 
     app.navigation.clear();
@@ -17,5 +19,5 @@ function sendView(app, config){
         }
     ];
 
-    return list(app.templateLoader, {elements});
+    return list(app, app.templateLoader, {elements});
 }

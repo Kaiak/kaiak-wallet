@@ -1,4 +1,4 @@
-function menuItems(state = [], action = {}){
+export default function menuItems(state = [], action = {}){
     state = [
         {
             img: "",

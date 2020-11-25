@@ -1,4 +1,9 @@
-function setupView(app, config){
+import list from "../components/list/list";
+import separator from "../components/separator";
+import button from "../components/button";
+import {TMPL_VIEW_SRC_SETUP_HTML} from "../constants/tmp-src";
+
+export default function setupView(app, config){
     const templateLoader = app.templateLoader;
 
     app.setHeader('Setup');
@@ -22,10 +27,10 @@ function setupView(app, config){
     const promises = [
         templateLoader.load(TMPL_VIEW_SRC_SETUP_HTML).then(templateLoader.parseHTML),
         separator(templateLoader, {text: "Languages"}),
-        list(templateLoader, {elements: languageData}),
+        list(app, templateLoader, {elements: languageData}),
         button(templateLoader, {text: "Add language"}),
         separator(templateLoader, {text: "Wallets"}),
-        list(templateLoader, {elements: walletData}),
+        list(app, templateLoader, {elements: walletData}),
         button(templateLoader, {text: "Add wallet"}),
         button(templateLoader, {text: "Save"})
     ];

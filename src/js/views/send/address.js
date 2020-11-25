@@ -1,4 +1,4 @@
-function sendAddressView(app, config){
+export default function sendAddressView(app, config){
     const templateLoader = app.templateLoader;
 
     app.setHeader('Send Nano by address');

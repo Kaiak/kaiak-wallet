@@ -1,4 +1,4 @@
-function balanceItems(state = {}, action = {}){
+export default function balanceItems(state = {}, action = {}){
     state = {
         translation: {
             lastUpdate: "Last update"
