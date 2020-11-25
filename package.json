@@ -6,7 +6,8 @@
   "license": "GNU General Public License v2.0",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack serve"
+    "dev": "webpack serve",
+    "clean": "rm -rf build/"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^6.3.2",
