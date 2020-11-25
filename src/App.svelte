@@ -20,7 +20,13 @@
 	});
 
 	const showMenu = () => {
-		viewStore.set(MENU_VIEW)
+		if(view === MENU_VIEW.viewKey) {
+			let current = views.pop()
+			let next = views.pop()
+			viewStore.set(next)
+		} else {
+			viewStore.set(MENU_VIEW)
+		}
 	}
 
 	const init = (el) => {
