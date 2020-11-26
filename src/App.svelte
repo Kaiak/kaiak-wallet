@@ -1,14 +1,14 @@
 <script>
-	import Receive from "./svelte/view/Receive.svelte";
-	import {loadedComponentStore, viewStore} from "./svelte/stores/stores";
-	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW, SETUP_VIEW, SEND_VIEW, ABOUT_VIEW} from "./svelte/constants/views";
-	import Menu from "./svelte/view/Menu.svelte";
+	import Receive from "./view/Receive.svelte";
+	import {loadedComponentStore, viewStore} from "./stores/stores";
+	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW, SETUP_VIEW, SEND_VIEW, ABOUT_VIEW} from "./constants/views";
+	import Menu from "./view/Menu.svelte";
 	import {onMount} from "svelte";
-	import {handleKeydown} from "./svelte/machinery/eventListener";
-	import Balance from "./svelte/view/Balance.svelte";
-	import Setup from "./svelte/view/Setup.svelte";
-	import Send from "./svelte/view/Send.svelte";
-	import About from "./svelte/view/About.svelte";
+	import {handleKeydown} from "./machinery/eventListener";
+	import Balance from "./view/Balance.svelte";
+	import Setup from "./view/Setup.svelte";
+	import Send from "./view/Send.svelte";
+	import About from "./view/About.svelte";
 
 	let header = "Receive"
 	let view = RECEIVE_VIEW.viewKey
