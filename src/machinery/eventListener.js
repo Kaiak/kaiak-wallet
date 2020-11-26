@@ -17,7 +17,6 @@ const unsubscribe = loadedComponentStore.subscribe((value) => {
 })
 
 export function handleKeydown(e) {
-    console.log(e)
     switch (e.key) {
         case 'ArrowUp':
             if(!navigation.up()){
