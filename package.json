@@ -32,6 +32,8 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
+    "nano-rpc-fetch": "^0.0.9",
+    "nanocurrency-web": "^1.2.2",
     "redux": "^4.0.5",
     "sirv-cli": "^1.0.0"
   }
