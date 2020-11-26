@@ -23,4 +23,4 @@ Ensure that you have `adb` installed, and that `$ adb devices` returns the conne
 
 Publish to device with:
 
-    $ yarn publish
+    $ yarn push
