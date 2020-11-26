@@ -1,7 +1,7 @@
 <script>
     import List from "../components/List.svelte";
     import {viewStore} from "../stores/stores";
-    import {BALANCE_VIEW} from "../../js/constants/views";
+    import {BALANCE_VIEW} from "../constants/views";
     let menu = [
         {
             primaryText: "Receive",

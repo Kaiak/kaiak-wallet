@@ -1,7 +1,7 @@
 <script>
 	import Receive from "./svelte/view/Receive.svelte";
 	import {loadedComponentStore, viewStore} from "./svelte/stores/stores";
-	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW} from "./js/constants/views";
+	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW} from "./svelte/constants/views";
 	import Menu from "./svelte/view/Menu.svelte";
 	import {onMount} from "svelte";
 	import {handleKeydown} from "./svelte/machinery/eventListener";

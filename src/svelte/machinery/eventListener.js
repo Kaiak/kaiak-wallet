@@ -1,6 +1,6 @@
 import {loadedComponentStore, viewStore} from "../stores/stores";
 import Navigation from "./navigation";
-import {MENU_VIEW} from "../../js/constants/views";
+import {MENU_VIEW} from "../constants/views";
 
 let selection = undefined;
 
