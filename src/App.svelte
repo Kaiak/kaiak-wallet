@@ -1,10 +1,11 @@
 <script>
 	import Receive from "./svelte/view/Receive.svelte";
 	import {loadedComponentStore, viewStore} from "./svelte/stores/stores";
-	import {RECEIVE_VIEW, MENU_VIEW} from "./js/constants/views";
+	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW} from "./js/constants/views";
 	import Menu from "./svelte/view/Menu.svelte";
 	import {onMount} from "svelte";
 	import {handleKeydown} from "./svelte/machinery/eventListener";
+	import Balance from "./svelte/view/Balance.svelte";
 
 	let header = "Receive"
 	let view = RECEIVE_VIEW.viewKey
@@ -20,7 +21,7 @@
 	});
 
 	const showMenu = () => {
-		if(view === MENU_VIEW.viewKey) {
+		if (view === MENU_VIEW.viewKey) {
 			let current = views.pop()
 			let next = views.pop()
 			viewStore.set(next)
@@ -50,6 +51,8 @@
 	<div class="kui-content-area" id="content-area">
 		{#if view === RECEIVE_VIEW.viewKey}
 			<Receive />
+		{:else if view === BALANCE_VIEW.viewKey}
+			<Balance />
 		{:else if view === MENU_VIEW.viewKey}
 			<Menu />
 		{/if}

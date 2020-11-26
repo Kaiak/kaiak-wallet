@@ -139,7 +139,7 @@ function NanoWallet(config){
         document.activeElement.addEventListener('keydown', handleKeydown);
         const status = localStorage.getItem('wallet_status');
         observer.observe("view", render);
-        store.dispatch({type: SELECT_VIEW_ACTION_TYPE, viewName: RECEIVE_VIEW});
+        store.dispatch({type: SELECT_VIEW_ACTION_TYPE, viewName: BALANCE_VIEW});
     }
 
     return self;
