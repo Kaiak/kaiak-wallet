@@ -1,11 +1,12 @@
 <script>
 	import Receive from "./svelte/view/Receive.svelte";
 	import {loadedComponentStore, viewStore} from "./svelte/stores/stores";
-	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW} from "./svelte/constants/views";
+	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW, SETUP_VIEW} from "./svelte/constants/views";
 	import Menu from "./svelte/view/Menu.svelte";
 	import {onMount} from "svelte";
 	import {handleKeydown} from "./svelte/machinery/eventListener";
 	import Balance from "./svelte/view/Balance.svelte";
+	import Setup from "./svelte/view/Setup.svelte";
 
 	let header = "Receive"
 	let view = RECEIVE_VIEW.viewKey
@@ -53,6 +54,8 @@
 			<Receive />
 		{:else if view === BALANCE_VIEW.viewKey}
 			<Balance />
+		{:else if view === SETUP_VIEW.viewKey}
+			<Setup />
 		{:else if view === MENU_VIEW.viewKey}
 			<Menu />
 		{/if}
