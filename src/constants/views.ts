@@ -1,7 +1,12 @@
-export const SETUP_VIEW = {
+interface View {
+    viewKey: string
+    title: string
+}
+
+export const SETUP_VIEW: View = {
     viewKey: "SETUP_VIEW",
     title: "Setup",
-};
+}
 
 export const RECEIVE_VIEW = {
     viewKey: "RECEIVE_VIEW",
