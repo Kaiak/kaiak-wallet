@@ -1,22 +1,28 @@
 {
   "name": "nano-kaios",
-  "version": "0.1",
+  "version": "0.0.1",
   "description": "KaiOS Nano Wallet",
   "repository": "https://github.com/Citrullin/nano-kaios.git",
   "license": "GNU General Public License v2.0",
   "scripts": {
-    "build": "webpack",
-    "dev": "webpack serve",
-    "clean": "rm -rf build/"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public",
+    "push": "cp -r public/ build/ && kaios-scripts push"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^6.3.2",
-    "webpack": "^5.6.0",
-    "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^3.11.0"
+    "@rollup/plugin-commonjs": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^10.0.0",
+    "kaios-scripts": "^0.0.9",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.0.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0"
   },
-  "private": true,
   "dependencies": {
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "sirv-cli": "^1.0.0"
   }
 }
