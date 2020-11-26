@@ -21,6 +21,10 @@ export const BALANCE_VIEW = {
     viewKey: "BALANCE_VIEW",
     title: "Balance",
 };
+export const TRANSACTIONS_VIEW = {
+    viewKey: "TRANSACTIONS_VIEW",
+    title: "Transactions",
+};
 export const SEND_VIEW = {
     viewKey: "SEND_VIEW",
     title: "Send"

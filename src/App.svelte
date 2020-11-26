@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Receive from "./view/Receive.svelte";
 	import {loadedComponentStore, viewStore} from "./stores/stores";
-	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW, SETUP_VIEW, SEND_VIEW, ABOUT_VIEW, BACK} from "./constants/views";
+	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW, SETUP_VIEW, SEND_VIEW, ABOUT_VIEW, BACK, TRANSACTIONS_VIEW} from "./constants/views";
 	import Menu from "./view/Menu.svelte";
 	import {onMount} from "svelte";
 	import {handleKeydown} from "./machinery/eventListener";
@@ -9,6 +9,8 @@
 	import Setup from "./view/Setup.svelte";
 	import Send from "./view/Send.svelte";
 	import About from "./view/About.svelte";
+	import {resolveHistory} from "./machinery/nano-rpc";
+	import Transactions from "./view/Transactions.svelte";
 
 	let header = "Receive"
 	let view = RECEIVE_VIEW.viewKey
@@ -20,7 +22,7 @@
 			let current = views.pop()
 			let next = views.pop()
 			viewStore.set(next)
-		} else if(viewKey) {
+		} else if (viewKey) {
 			header = title;
 			view = viewKey;
 			views.push(value)
@@ -62,6 +64,8 @@
 			<Send />
 		{:else if view === BALANCE_VIEW.viewKey}
 			<Balance />
+		{:else if view === TRANSACTIONS_VIEW.viewKey}
+			<Transactions />
 		{:else if view === SETUP_VIEW.viewKey}
 			<Setup />
 		{:else if view === MENU_VIEW.viewKey}
