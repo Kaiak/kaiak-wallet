@@ -26,3 +26,7 @@ export const SEND_VIEW = {
     viewKey: "SEND_VIEW",
     title: "Send"
 }
+export const ABOUT_VIEW = {
+    viewKey: "ABOUT_VIEW",
+    title: "About"
+}
