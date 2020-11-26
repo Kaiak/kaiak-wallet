@@ -1,5 +1,7 @@
 # Nano KaiOS
 
+A community driven [Nano](https://nano.org/) Wallet for [KaiOS](https://developer.kaiostech.com/).
+
 This is an app built with  [Svelte](https://svelte.dev)
 
 ## To run
