@@ -7,7 +7,6 @@
         {
             primaryText: "English",
             type: "primary",
-            data: {key: "english"}
         }
     ];
 
@@ -15,7 +14,6 @@
         {
             primaryText: "Main",
             type: "primary",
-            data: {key: "main"}
         }
     ];
 </script>
