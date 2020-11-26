@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Receive from "./view/Receive.svelte";
 	import {loadedComponentStore, viewStore} from "./stores/stores";
 	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW, SETUP_VIEW, SEND_VIEW, ABOUT_VIEW, BACK} from "./constants/views";
