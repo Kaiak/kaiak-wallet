@@ -1,4 +1,4 @@
-function optionItems(state = {}, action = {}){
+export default function optionItems(state = {}, action = {}){
     state = {
         visible: false,
         items: []

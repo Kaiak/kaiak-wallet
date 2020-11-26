@@ -1,4 +1,10 @@
-function listElement(templateLoader, args){
+import {
+    TMPL_COMP_SRC_LIST_ELEM_DESC_HTML,
+    TMPL_COMP_SRC_LIST_ELEM_HTML,
+    TMPL_COMP_SRC_LIST_ELEM_IMG_HTML
+} from "../../constants/tmp-src";
+
+export default function listElement(app, templateLoader, args){
     function primary(args){
         return templateLoader.load(TMPL_COMP_SRC_LIST_ELEM_HTML).then((res) =>
             res.replace("{PRIMARY_TEXT}", args.primaryText)

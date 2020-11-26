@@ -1,4 +1,9 @@
-function receiveView(app, config){
+import {TMPL_VIEW_SRC_RECEIVE_HTML} from "../constants/tmp-src";
+import separator from "../components/separator";
+import list from "../components/list/list";
+import button from "../components/button";
+
+export default function receiveView(app, config){
     const templateLoader = app.templateLoader;
 
     app.navigation.clear();
@@ -20,7 +25,7 @@ function receiveView(app, config){
     const promises = [
         templateLoader.load(TMPL_VIEW_SRC_RECEIVE_HTML).then((html) => templateLoader.parseHTML(html)),
         separator(templateLoader, {text: "Select your wallet"}),
-        list(templateLoader, {elements: walletElements}),
+        list(app, templateLoader, {elements: walletElements}),
         button(templateLoader, {text: "Generate address"})
     ];
 

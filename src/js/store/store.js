@@ -1,3 +1,12 @@
+import { createStore } from 'redux'
+import getForm from "./form";
+import getNavSelection from "./selection";
+import getHistory from "./history";
+import getView from "./view";
+import optionItems from "./option-items";
+import menuItems from "./menu-items";
+import balanceItems from "./balance-items";
+
 function nanoWalletStore(state = {}, action){
     console.log(action);
 
@@ -12,4 +21,4 @@ function nanoWalletStore(state = {}, action){
     }
 }
 
-var store = Redux.createStore(nanoWalletStore);
+export let store = createStore(nanoWalletStore);

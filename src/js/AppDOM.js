@@ -1,4 +1,4 @@
-function AppDOM(){
+export default function AppDOM(){
     const body = document.getElementById('kui-body');
     const header = document.getElementById('kui-header');
     const options = document.getElementById('kui-options');
@@ -11,6 +11,7 @@ function AppDOM(){
             body.appendChild(html);
         },
         setHeader: function(text){
+            console.log(document.getElementById('kui-header'))
             header.innerText = text;
         },
         setOptions: function(html){

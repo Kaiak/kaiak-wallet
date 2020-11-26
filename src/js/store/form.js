@@ -1,4 +1,4 @@
-function getForm(state = [], action = {}){
+export default function getForm(state = [], action = {}){
 
     return state;
 }

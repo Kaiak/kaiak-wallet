@@ -1,4 +1,7 @@
-function sendAddressView(app, config){
+import button from "../../components/button";
+import input from "../../components/input";
+
+export default function sendAddressView(app, config){
     const templateLoader = app.templateLoader;
 
     app.setHeader('Send Nano by address');

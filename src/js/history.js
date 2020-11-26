@@ -1,4 +1,4 @@
-function AppHistory(app, config){
+export default function AppHistory(app, config){
     var data = [];
     console.log(app);
 

@@ -1,4 +1,7 @@
-function menuView(app, config){
+import {TMPL_VIEW_SRC_MENU_HTML} from "../constants/tmp-src";
+import list from "../components/list/list";
+
+export default function menuView(app, config){
     const templateLoader = app.templateLoader;
 
     app.navigation.clear();
@@ -34,7 +37,7 @@ function menuView(app, config){
 
     const promises = [
         templateLoader.load(TMPL_VIEW_SRC_MENU_HTML).then(templateLoader.parseHTML),
-        list(templateLoader, {elements: menu})
+        list(app, templateLoader, {elements: menu})
     ];
 
     return Promise.all(promises).then((values) => {

@@ -1,4 +1,4 @@
-function TemplateLoader(){
+export default function TemplateLoader() {
     return {
         load: function(path){
             const xhr = new XMLHttpRequest();
@@ -44,6 +44,8 @@ function TemplateLoader(){
                     }
                 }
             }else{
+                console.log(typeof parent)
+                console.log(parent.getElementsByTagName(htmlTag))
                 parent.replaceChild(replaceWith, parent.getElementsByTagName(htmlTag)[0]);
             }
         }

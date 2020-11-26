@@ -1,4 +1,8 @@
-function balanceView(app, config){
+import list from "../components/list/list";
+import separator from "../components/separator";
+import {TMPL_VIEW_SRC_BALANCE_HTML} from "../constants/tmp-src";
+
+export default function balanceView(app, config){
     const templateLoader = app.templateLoader;
 
     app.navigation.clear();
@@ -30,7 +34,7 @@ function balanceView(app, config){
 
             let promise = [
                 separator(templateLoader, {text: account.name}),
-                list(templateLoader, {elements: [data]})
+                list(app, templateLoader, {elements: [data]})
             ];
 
             return Promise.all(promise).then(values => {
