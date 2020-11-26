@@ -1,9 +1,3 @@
-
-
-
-export const SETTINGS_VIEW = "SETTINGS_VIEW";
-export const TRANSACTION_HISTORY_VIEW = "TRANSACTION_HISTORY_VIEW";
-
 export const SETUP_VIEW = {
     viewKey: "SETUP_VIEW",
     title: "Setup",
@@ -29,4 +23,8 @@ export const SEND_VIEW = {
 export const ABOUT_VIEW = {
     viewKey: "ABOUT_VIEW",
     title: "About"
+}
+export const BACK = {
+    viewKey: "BACK",
+    title: undefined,
 }

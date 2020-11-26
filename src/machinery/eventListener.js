@@ -1,6 +1,6 @@
 import {loadedComponentStore, viewStore} from "../stores/stores";
 import Navigation from "./navigation";
-import {MENU_VIEW} from "../constants/views";
+import {BACK, MENU_VIEW} from "../constants/views";
 
 let selection = undefined;
 
@@ -17,6 +17,7 @@ const unsubscribe = loadedComponentStore.subscribe((value) => {
 })
 
 export function handleKeydown(e) {
+    console.log(e)
     switch (e.key) {
         case 'ArrowUp':
             if(!navigation.up()){
@@ -43,7 +44,8 @@ export function handleKeydown(e) {
             }
             break;
         case 'Backspace':
-            // navigationStore.set({type: HISTORY_BACK_ACTION_TYPE});
+            console.log('herer')
+            viewStore.set(BACK)
             break;
         case 'Enter':
             if(!!selection){

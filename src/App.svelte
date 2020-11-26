@@ -1,7 +1,7 @@
 <script>
 	import Receive from "./view/Receive.svelte";
 	import {loadedComponentStore, viewStore} from "./stores/stores";
-	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW, SETUP_VIEW, SEND_VIEW, ABOUT_VIEW} from "./constants/views";
+	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW, SETUP_VIEW, SEND_VIEW, ABOUT_VIEW, BACK} from "./constants/views";
 	import Menu from "./view/Menu.svelte";
 	import {onMount} from "svelte";
 	import {handleKeydown} from "./machinery/eventListener";
@@ -16,7 +16,11 @@
 
 	const unsubscribe = viewStore.subscribe(value => {
 		const {viewKey, title} = value;
-		if (viewKey) {
+		if (viewKey && viewKey === BACK.viewKey) {
+			let current = views.pop()
+			let next = views.pop()
+			viewStore.set(next)
+		} else if(viewKey) {
 			header = title;
 			view = viewKey;
 			views.push(value)
