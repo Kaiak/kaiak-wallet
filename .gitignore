@@ -6,5 +6,6 @@ yarn-error.log
 
 /node_modules/
 /public/build/
+/build/
 
 .DS_Store
