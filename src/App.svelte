@@ -1,12 +1,13 @@
 <script>
 	import Receive from "./svelte/view/Receive.svelte";
 	import {loadedComponentStore, viewStore} from "./svelte/stores/stores";
-	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW, SETUP_VIEW} from "./svelte/constants/views";
+	import {RECEIVE_VIEW, MENU_VIEW, BALANCE_VIEW, SETUP_VIEW, SEND_VIEW} from "./svelte/constants/views";
 	import Menu from "./svelte/view/Menu.svelte";
 	import {onMount} from "svelte";
 	import {handleKeydown} from "./svelte/machinery/eventListener";
 	import Balance from "./svelte/view/Balance.svelte";
 	import Setup from "./svelte/view/Setup.svelte";
+	import Send from "./svelte/view/Send.svelte";
 
 	let header = "Receive"
 	let view = RECEIVE_VIEW.viewKey
@@ -52,6 +53,8 @@
 	<div class="kui-content-area" id="content-area">
 		{#if view === RECEIVE_VIEW.viewKey}
 			<Receive />
+		{:else if view === SEND_VIEW.viewKey}
+			<Send />
 		{:else if view === BALANCE_VIEW.viewKey}
 			<Balance />
 		{:else if view === SETUP_VIEW.viewKey}

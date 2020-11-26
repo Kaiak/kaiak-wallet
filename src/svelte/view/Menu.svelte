@@ -1,7 +1,7 @@
 <script>
     import List from "../components/List.svelte";
     import {viewStore} from "../stores/stores";
-    import {BALANCE_VIEW, SETUP_VIEW} from "../constants/views";
+    import {BALANCE_VIEW, SEND_VIEW, SETUP_VIEW} from "../constants/views";
     let menu = [
         {
             primaryText: "Receive",
@@ -11,15 +11,14 @@
         {
             primaryText: "Send",
             type: "primary",
-            data: { key: "send" }
+            data: { key: "send" },
+            onClick: () => viewStore.set(SEND_VIEW)
         },
         {
             primaryText: "Balance",
             type: "primary",
             data: { key: "balance" },
-            onClick: () => {
-                viewStore.set(BALANCE_VIEW)
-            }
+            onClick: () => viewStore.set(BALANCE_VIEW)
         },
         {
             primaryText: "Transaction history",
@@ -35,9 +34,7 @@
             primaryText: "Setup",
             type: "primary",
             data: { key: "setup" },
-            onClick: () => {
-                viewStore.set(SETUP_VIEW)
-            }
+            onClick: () => viewStore.set(SETUP_VIEW)
         }
     ];
 </script>
