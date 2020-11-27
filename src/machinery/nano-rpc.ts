@@ -8,6 +8,7 @@ export interface NanoTransaction {
     account: NanoAccount
     amount: string
     type: string
+    localTimestamp: string
 }
 
 const nanoApi = new NodeRPCsApi(new Configuration({
@@ -27,7 +28,8 @@ export async function resolveHistory(address: string): Promise<NanoTransaction[]
         return {
             account: block.account,
             amount: rawToNano(block.amount, 5),
-            type: block.type
+            type: block.type,
+            localTimestamp: block.localTimestamp
         }
     })
 }

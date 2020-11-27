@@ -19,18 +19,27 @@
             errorLoading = true
         }
     })
+
+    let selected: NanoTransaction | undefined = undefined
+
+    const setSelected = (time) => {
+        selected = history.filter(h => h.localTimestamp === time)[0]
+    }
 </script>
 
 <div>
-    {#if history.length > 0}
+    {#if selected}
+        <div>{selected.localTimestamp}</div>
+    {:else if history.length > 0}
         <List>
-        {#each history as transaction}
-            <ListItem><Transaction transaction={transaction} /></ListItem>
-        {/each}
+            {#each history as transaction}
+                <ListItem on:click={() => setSelected(transaction.localTimestamp)}><Transaction transaction={transaction}/></ListItem>
+            {/each}
         </List>
     {:else if errorLoading}
         unable to load transactions
     {:else}
         loading history
     {/if}
+
 </div>
