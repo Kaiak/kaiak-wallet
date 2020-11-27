@@ -2,13 +2,19 @@
     import type { NanoTransaction } from "../../machinery/nano-rpc";
 
     export let transaction: NanoTransaction
-</script>
 
-{#if transaction.type === 'receive'}
-    <span data-l10n-id="transaction-received"></span>
-{:else}
-    <span data-l10n-id="transaction-sent"></span>
-{/if}
+    const transactionType = () => {
+        switch (transaction.type) {
+            case 'receive':
+                return "transaction-received"
+            case 'send':
+                return "transaction-sent"
+            default:
+                return "unknown"
+        }
+    }
+</script>
+<span data-l10n-id={transactionType()}></span>
 {transaction.amount}
 <span data-l10n-id="transaction-from"></span>
 {transaction.account}
