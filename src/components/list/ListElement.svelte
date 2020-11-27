@@ -6,15 +6,9 @@
 </script>
 <li tabindex="1">
     <div class="kui-list-cont">
-        {#if !!primaryLanguageId}
-            <p class="kui-pri" data-l10n-id="{primaryLanguageId}"></p>
-        {:else if !!primaryText}
-            <p class="kui-pri">{primaryText}</p>
-        {/if}
-        {#if !!secondaryLanguageId}
-            <p class="kui-sec" data-l10n-id="{secondaryLanguageId}"></p>
-        {:else if !!secondaryText}
-            <p class="kui-sec">{secondaryText}</p>
+        <p class="kui-pri" data-l10n-id="{primaryLanguageId}">{primaryText}</p>
+        {#if !!secondaryLanguageId || !!secondaryText}
+        <p class="kui-sec" data-l10n-id="{secondaryLanguageId}">{secondaryText}</p>
         {/if}
     </div>
 </li>
