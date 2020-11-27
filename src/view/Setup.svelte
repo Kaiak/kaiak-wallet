@@ -19,13 +19,13 @@
 </script>
 
 <div id="setup__view">
-    <Seperator text="Languages"/>
+    <Seperator languageId="languages"/>
     <List elements={languageData} />
-    <Button text="Add language"/>
-    <Seperator text="Wallets" />
+    <Button languageId="addLanguage"/>
+    <Seperator languageId="wallets" />
     <List elements={walletData} />
-    <Button text="Add wallet"/>
-    <Button text="Save"/>
+    <Button languageId="addWallet"/>
+    <Button languageId="save"/>
 </div>
 
 
