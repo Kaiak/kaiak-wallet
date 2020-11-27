@@ -33,6 +33,7 @@
 			let next = views.pop()
 			viewStore.set(next)
 		} else {
+			console.log('er')
 			viewStore.set(MENU_VIEW)
 		}
 	}

@@ -1,25 +1,11 @@
 <script>
-    import List from "../components/List.svelte";
     import QRcode from "./send/QRcode.svelte";
     import Input from "./send/Input.svelte";
     import Seperator from "../components/Seperator.svelte";
+    import List from "../components/List.svelte";
+    import Primary from "../components/list/Primary.svelte";
 
     let selectedSend = undefined;
-
-    const elements = [
-        {
-            primaryText: "Send by QR code",
-            type: "primary",
-            data: {key: "send_qr"},
-            onClick: () => selectedSend = "qr",
-        },
-        {
-            primaryText: "Send by address",
-            type: "primary",
-            data: {key: "send_address"},
-            onClick: () => selectedSend = "input",
-        }
-    ];
 
 </script>
 <Seperator text="Select the way you send" />
@@ -28,5 +14,8 @@
 {:else if selectedSend === 'input'}
     <Input />
 {:else}
-    <List elements={elements} />
+    <List>
+        <Primary primaryText="Send by QR code" on:click={() => selectedSend = "qr"}/>
+        <Primary primaryText="Send by address" on:click={() => selectedSend = "input"}/>
+    </List>
 {/if}
