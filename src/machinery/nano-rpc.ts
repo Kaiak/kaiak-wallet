@@ -1,11 +1,12 @@
 import {AccountHistoryRequestActionEnum, Configuration, NodeRPCsApi} from "nano-rpc-fetch";
 import type {AccountHistoryRequest, AccountHistoryResponse} from "nano-rpc-fetch";
+import { tools } from 'nanocurrency-web'
 
 type NanoAccount = string
 
 export interface NanoTransaction {
     account: NanoAccount
-    amount: number
+    amount: string
     type: string
 }
 
@@ -25,8 +26,12 @@ export async function resolveHistory(address: string): Promise<NanoTransaction[]
     return history.history.map(block => {
         return {
             account: block.account,
-            amount: block.amount,
+            amount: rawToNano(block.amount, 5),
             type: block.type
         }
     })
+}
+
+function rawToNano(raw: number, fractions?: number): string {
+    return Number.parseFloat(tools.convert(raw.toString(), 'RAW', 'NANO')).toFixed(fractions)
 }
