@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
     import Seperator from "../components/Seperator.svelte";
     import List from "../components/List.svelte";
+    import WithSecondary from "../components/list/WithSecondary.svelte";
 
-    const accounts = [
+    const accounts: any[] = [
         {
             name: "Main",
             key: "main",
@@ -17,18 +18,11 @@
         }
     ];
 
-    const toListElement = (account) => {
-        return {
-            primaryText: account.balance,
-            secondaryText: account.last_update,
-            type: "secondary",
-            data: { key: account.key }
-        };
-    }
-
 </script>
 
 {#each accounts as account}
-    <Seperator primaryText={account.name}/>
-    <List elements={[toListElement(account)]} />
+    <Seperator primaryText={account.name} />
+    <List>
+        <WithSecondary primaryText={account.balance} secondaryText={account.last_update}/>
+    </List>
 {/each}
