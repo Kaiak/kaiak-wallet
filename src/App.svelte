@@ -59,7 +59,7 @@
 	</div>
 	<div class="kui-content-area" id="content-area">
 		{#if view === RECEIVE_VIEW.viewKey}
-			<Transactions />
+			<Receive />
 		{:else if view === SEND_VIEW.viewKey}
 			<Send />
 		{:else if view === BALANCE_VIEW.viewKey}
