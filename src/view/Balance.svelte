@@ -29,6 +29,6 @@
 </script>
 
 {#each accounts as account}
-    <Seperator text={account.name}/>
+    <Seperator primaryText={account.name}/>
     <List elements={[toListElement(account)]} />
 {/each}

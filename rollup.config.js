@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import multi from '@rollup/plugin-multi-entry';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -31,7 +32,7 @@ function serve() {
 }
 
 export default {
-	input: 'src/main.ts',
+	input: ['src/main.ts', 'node_modules/kaios-gaia-l10n/l10n.js'],
 	output: {
 		sourcemap: true,
 		format: 'iife',
@@ -39,6 +40,7 @@ export default {
 		file: 'public/build/bundle.js'
 	},
 	plugins: [
+		multi(),
 		svelte({
 			preprocess: sveltePreprocess(),
 			compilerOptions: {

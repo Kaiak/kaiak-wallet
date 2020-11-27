@@ -4,32 +4,26 @@
     import {ABOUT_VIEW, BALANCE_VIEW, RECEIVE_VIEW, SEND_VIEW, SETUP_VIEW} from "../constants/views";
     let menu = [
         {
-            primaryText: "Receive",
-            type: "primary",
+            primaryLanguageId: "receive",
             onClick: () => viewStore.set(RECEIVE_VIEW),
         },
         {
-            primaryText: "Send",
-            type: "primary",
+            primaryLanguageId: "send",
             onClick: () => viewStore.set(SEND_VIEW),
         },
         {
-            primaryText: "Balance",
-            type: "primary",
+            primaryLanguageId: "balance",
             onClick: () => viewStore.set(BALANCE_VIEW),
         },
         {
-            primaryText: "Transaction history",
-            type: "primary",
+            primaryLanguageId: "transactionHistory",
         },
         {
-            primaryText: "About",
-            type: "primary",
+            primaryLanguageId: "about",
             onClick: () => viewStore.set(ABOUT_VIEW),
         },
         {
-            primaryText: "Setup",
-            type: "primary",
+            primaryLanguageId: "setup",
             onClick: () => viewStore.set(SETUP_VIEW),
         }
     ];

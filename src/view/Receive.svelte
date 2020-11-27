@@ -21,8 +21,8 @@
 </script>
 
 <div id="receive__view">
-    <Seperator text="Select your wallet" />
+    <Seperator languageId="selectYourWallet" />
     <List elements={walletElements} />
-    <Button text="Generate address"/>
+    <Button languageId="generateAddress"/>
 </div>
 
