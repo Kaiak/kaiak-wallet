@@ -17,3 +17,7 @@ export interface NanoTransaction {
     type: string
     localTimestamp: string
 }
+
+export interface Balance {
+    amount: string
+}

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NanoAccount} from "../../machinery/models";
+    import type {Balance, NanoAccount} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
@@ -7,6 +7,8 @@
     import Send from "./Send.svelte";
     import Receive from "./Receive.svelte";
     import {backPressesStore} from "../../stores/stores";
+    import {onMount} from "svelte";
+    import {resolveBalance} from "../../machinery/nano-rpc";
 
     export let account: NanoAccount
 
@@ -18,10 +20,20 @@
         action = selectedAction
     }
 
+    let separatorText: string = account.alias
+    onMount(async () => {
+        try {
+            const balance: Balance = await resolveBalance(account.address)
+            separatorText = `${account.alias} ${balance.amount}`
+        } catch (error) {
+            console.log('error loading balance')
+        }
+    })
+
 </script>
 
 {#if action === 'menu'}
-    <Seperator languageId="actions" primaryText={account.alias}/>
+    <Seperator languageId="actions" primaryText={separatorText}/>
     <List>
         <Primary primaryLanguageId="transactions" on:click={() => selectAction('transactions') }/>
         <Primary primaryLanguageId="send" on:click={() => selectAction('send') }/>
