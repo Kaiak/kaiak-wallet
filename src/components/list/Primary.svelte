@@ -3,6 +3,8 @@
     export let primaryLanguageId: string;
     export let primaryText: string;
 </script>
-<ListItem primaryLanguageId={primaryLanguageId} on:click>
-    {primaryText}
+<ListItem on:click>
+    <p class="kui-pri" data-l10n-id="{primaryLanguageId}">
+        {primaryText}
+    </p>
 </ListItem>
