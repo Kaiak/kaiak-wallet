@@ -1,4 +1,4 @@
-interface View {
+export interface View {
     viewKey: string
     title: string
 }
