@@ -2,6 +2,10 @@ import {backPressesStore, loadedComponentStore, viewStore} from "../stores/store
 import Navigation from "./navigation";
 import {BACK, MENU_VIEW} from "../constants/views";
 
+export interface LoadedElements {
+    elements: HTMLElement[]
+}
+
 let selection = undefined;
 
 const elementSelector = (selectedElement) => {
