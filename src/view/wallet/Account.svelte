@@ -6,20 +6,26 @@
     import Transactions from "../Transactions.svelte";
     import Send from "./Send.svelte";
     import Receive from "./Receive.svelte";
+    import {backPressesStore} from "../../stores/stores";
 
     export let account: NanoAccount
 
     type AccountAction = 'menu' | 'transactions' | 'send' | 'receive'
-    let action: AccountAction | undefined = 'menu'
+    let action: AccountAction = 'menu'
+
+    const selectAction = (selectedAction: AccountAction) => {
+        backPressesStore.set(() => action = 'menu')
+        action = selectedAction
+    }
 
 </script>
 
 {#if action === 'menu'}
     <Seperator languageId="actions" primaryText={account.alias}/>
     <List>
-        <Primary primaryLanguageId="transactions" on:click={() => action = 'transactions' }/>
-        <Primary primaryLanguageId="send" on:click={() => action = 'send' }/>
-        <Primary primaryLanguageId="receive" on:click={() => action = 'receive' }/>
+        <Primary primaryLanguageId="transactions" on:click={() => selectAction('transactions') }/>
+        <Primary primaryLanguageId="send" on:click={() => selectAction('send') }/>
+        <Primary primaryLanguageId="receive" on:click={() => selectAction('receive') }/>
     </List>
 {:else if action === 'transactions'}
     <Seperator languageId="transactions" primaryText={account.alias}/>

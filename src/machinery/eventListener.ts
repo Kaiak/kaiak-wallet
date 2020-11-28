@@ -1,4 +1,4 @@
-import {loadedComponentStore, viewStore} from "../stores/stores";
+import {backPressesStore, loadedComponentStore, viewStore} from "../stores/stores";
 import Navigation from "./navigation";
 import {BACK, MENU_VIEW} from "../constants/views";
 
@@ -16,6 +16,11 @@ const unsubscribe = loadedComponentStore.subscribe((value) => {
     document.activeElement.addEventListener('keydown', handleKeydown);
 })
 
+let backPresses: (() => any)[] = []
+const unsubscribeBackPress = backPressesStore.subscribe((b: () => any) =>  {
+    backPresses.push(b)
+})
+
 export function handleKeydown(e) {
     switch (e.key) {
         case 'ArrowUp':
@@ -29,22 +34,28 @@ export function handleKeydown(e) {
             }
             break;
         case 'ArrowRight':
-            if(!!navigation.targetElement){
-                // navigationStore.set({type: HISTORY_BACK_ACTION_TYPE});
+            if(!!selection){
+                selection.click()
+                e.preventDefault();
             }else{
                 e.preventDefault();
             }
             break;
         case 'ArrowLeft':
-            if(history.data().length === 0){
+            if(backPresses.length > 0) {
+                const backPressToRun = backPresses.pop()
+                backPressToRun()
+            } else {
                 e.preventDefault();
-            }else{
-                history.back();
             }
             break;
         case 'Backspace':
-            console.log('herer')
-            viewStore.set(BACK)
+            if(backPresses.length > 0) {
+                const backPressToRun = backPresses.pop()
+                backPressToRun()
+            } else {
+                e.preventDefault();
+            }
             break;
         case 'Enter':
             if(!!selection){

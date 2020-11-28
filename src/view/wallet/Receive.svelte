@@ -19,7 +19,6 @@
         <span data-l10n-id="receive-loading-qr"></span>
     {/if}
 
-
     <span>{account.alias}</span>
     <span>{account.address}</span>
 </div>

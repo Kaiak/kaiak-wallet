@@ -1,11 +1,12 @@
-<script>
+<script lang="ts">
     import QRcode from "../send/QRcode.svelte";
     import Input from "../send/Input.svelte";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
 
-    let selectedSend = undefined;
+    type SendAction = 'qr' | 'input'
+    let selectedSend: SendAction | undefined = undefined;
 </script>
 <Seperator languageId="send-select" />
 {#if selectedSend === 'qr'}

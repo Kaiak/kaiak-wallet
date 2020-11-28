@@ -4,6 +4,7 @@
     import List from "../components/List.svelte";
     import Primary from "../components/list/Primary.svelte";
     import Account from "./wallet/Account.svelte";
+    import {backPressesStore} from "../stores/stores";
 
     let wallet: NanoWallet = {
         accounts: [
@@ -20,6 +21,11 @@
     }
     let selectedAccount: NanoAccount | undefined = undefined
 
+    const selectAccount = (account: NanoAccount) => {
+        backPressesStore.set(() => selectedAccount = undefined)
+        selectedAccount = account;
+    }
+
 </script>
 
 {#if selectedAccount}
@@ -27,7 +33,7 @@
 {:else}
     <List>
         {#each wallet.accounts as account}
-            <Primary primaryText={account.alias} on:click={() => selectedAccount = account} />
+            <Primary primaryText={account.alias} on:click={() => selectAccount(account)} />
         {/each}
     </List>
     <Button languageId="generateAddress"/>
