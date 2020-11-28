@@ -9,11 +9,11 @@
 	import Setup from "./view/Setup.svelte";
 	import Send from "./view/Send.svelte";
 	import About from "./view/About.svelte";
-	import {resolveHistory} from "./machinery/nano-rpc";
 	import Transactions from "./view/Transactions.svelte";
 
-	let header = "Receive"
-	let view = RECEIVE_VIEW.viewKey
+	let header: string | undefined = undefined
+	let view: string | undefined = undefined
+
 	let views = []
 
 	const unsubscribe = viewStore.subscribe(value => {
@@ -59,6 +59,8 @@
 	</div>
 	<div class="kui-content-area" id="content-area">
 		{#if view === RECEIVE_VIEW.viewKey}
+			<Receive />
+		{:else if view === RECEIVE_VIEW.viewKey}
 			<Receive />
 		{:else if view === SEND_VIEW.viewKey}
 			<Send />

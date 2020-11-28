@@ -1,15 +1,7 @@
 import {AccountHistoryRequestActionEnum, Configuration, NodeRPCsApi} from "nano-rpc-fetch";
 import type {AccountHistoryRequest, AccountHistoryResponse} from "nano-rpc-fetch";
 import { tools } from 'nanocurrency-web'
-
-type NanoAccount = string
-
-export interface NanoTransaction {
-    account: NanoAccount
-    amount: string
-    type: string
-    localTimestamp: string
-}
+import type {NanoTransaction} from "./models";
 
 const nanoApi = new NodeRPCsApi(new Configuration({
     basePath: "https://nano.mehl.no/node"

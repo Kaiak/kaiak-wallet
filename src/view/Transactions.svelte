@@ -1,20 +1,19 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import {resolveHistory} from "../machinery/nano-rpc";
-    import type {NanoTransaction} from "../machinery/nano-rpc";
-    import type {AccountHistoryResponse} from "nano-rpc-fetch";
     import Transaction from "./transactions/Transaction.svelte";
     import List from "../components/List.svelte";
-    import Primary from "../components/list/Primary.svelte";
     import ListItem from "../components/list/ListItem.svelte";
+    import type {NanoAddress, NanoTransaction} from "../machinery/models";
 
-    const arbitraryAccount = "nano_1ninja7rh37ehfp9utkor5ixmxyg8kme8fnzc4zty145ibch8kf5jwpnzr3r"
+    export let address: NanoAddress = "nano_3rw4un6ys57hrb39sy1qx8qy5wukst1iiponztrz9qiz6qqa55kxzx4491or"
+
     let history: NanoTransaction[] = []
     let errorLoading: boolean = false
 
     onMount(async () => {
         try {
-            history = await resolveHistory(arbitraryAccount)
+            history = await resolveHistory(address)
         } catch (error) {
             errorLoading = true
         }

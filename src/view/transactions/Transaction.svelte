@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { NanoTransaction } from "../../machinery/nano-rpc";
+    import type { NanoTransaction } from "../../machinery/models";
 
     export let transaction: NanoTransaction
 
