@@ -8,11 +8,6 @@ export const SETUP_VIEW: View = {
     title: "Setup",
 }
 
-export const WALLET_VIEW = {
-    viewKey: "WALLET_VIEW",
-    title: "Wallet"
-}
-
 export const RECEIVE_VIEW = {
     viewKey: "RECEIVE_VIEW",
     title: "Receive"
