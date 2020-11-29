@@ -8,6 +8,7 @@ import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import multi from '@rollup/plugin-multi-entry';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
+import babel from "@rollup/plugin-babel";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -68,6 +69,13 @@ export default {
 			inlineSources: !production
 		}),
 		nodePolyfills(),
+		babel({
+			extensions: ['.ts', '.mjs', '.html', '.svelte'],
+			babelHelpers: 'runtime',
+			exclude: ['node_modules/@babel/**'],
+			presets: [['@babel/preset-env']],
+			plugins: [['@babel/plugin-transform-runtime']]
+		}),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
