@@ -11,7 +11,7 @@
 		BACK,
 		TRANSACTIONS_VIEW,
 	} from "./constants/views";
-	import type { View } from "./constants/views";
+	import type {View} from "./constants/views";
 	import Menu from "./view/Menu.svelte";
 	import {onMount} from "svelte";
 	import {handleKeydown} from "./machinery/eventListener";
@@ -20,6 +20,7 @@
 	import Send from "./view/Send.svelte";
 	import About from "./view/About.svelte";
 	import Transactions from "./view/Transactions.svelte";
+	import Wallet from "./view/Wallet.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -69,7 +70,7 @@
 	</div>
 	<div class="kui-content-area" id="content-area">
 		{#if view === RECEIVE_VIEW.viewKey}
-			<Receive />
+			<Wallet />
 		{:else if view === SEND_VIEW.viewKey}
 			<Send />
 		{:else if view === BALANCE_VIEW.viewKey}
