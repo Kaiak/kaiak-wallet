@@ -57,6 +57,7 @@ export function handleKeydown(e) {
             if(backPresses.length > 0) {
                 const backPressToRun = backPresses.pop()
                 backPressToRun()
+                e.preventDefault();
             } else {
                 e.preventDefault();
             }
