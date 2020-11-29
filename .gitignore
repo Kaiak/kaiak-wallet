@@ -6,6 +6,5 @@ yarn.lock
 
 /node_modules/
 /public/build/
-/build/
 
 .DS_Store

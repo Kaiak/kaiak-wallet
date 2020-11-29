@@ -8,8 +8,8 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public",
-    "clean": "rm -rf build/ public/build",
-    "push": "yarn clean && yarn build && cp -r public/ build/ && kaios-scripts push",
+    "clean": "rm -rf public/build",
+    "push": "yarn clean && yarn build && kaios-scripts push",
     "validate": "svelte-check"
   },
   "devDependencies": {
