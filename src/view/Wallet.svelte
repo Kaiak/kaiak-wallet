@@ -5,12 +5,13 @@
     import Primary from "../components/list/Primary.svelte";
     import Account from "./wallet/Account.svelte";
     import {backPressesStore} from "../stores/stores";
+    import WithSecondary from "../components/list/WithSecondary.svelte";
 
     let wallet: NanoWallet = {
         accounts: [
             {
                 alias: "Main",
-                address: "nano_1jtx5p8141zjtukz4msp1x93st7nh475f74odj8673qqm96xczmtcnanos1o"
+                address: "nano_3niceeeyiaa86k58zhaeygxfkuzgffjtwju9ep33z9c8qekmr3iuc95jbqc8"
             },
             {
                 alias: "Savings",
@@ -33,7 +34,7 @@
 {:else}
     <List>
         {#each wallet.accounts as account}
-            <Primary primaryText={account.alias} on:click={() => selectAccount(account)} />
+            <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
         {/each}
     </List>
     <Button languageId="generateAddress"/>

@@ -9,10 +9,11 @@
     import {backPressesStore} from "../../stores/stores";
     import {onMount} from "svelte";
     import {resolveBalance} from "../../machinery/nano-rpc";
+    import Button from "../../components/Button.svelte";
 
     export let account: NanoAccount
 
-    type AccountAction = 'menu' | 'transactions' | 'send' | 'receive'
+    type AccountAction = 'menu' | 'transactions' | 'send' | 'receive' | 'update'
     let action: AccountAction = 'menu'
 
     const selectAction = (selectedAction: AccountAction) => {
@@ -24,7 +25,7 @@
     onMount(async () => {
         try {
             const balance: Balance = await resolveBalance(account.address)
-            separatorText = `${account.alias} ${balance.amount}`
+            separatorText = `${account.alias} ${balance.amount} Nano`
         } catch (error) {
             console.log('error loading balance')
         }
@@ -38,6 +39,7 @@
         <Primary primaryLanguageId="transactions" on:click={() => selectAction('transactions') }/>
         <Primary primaryLanguageId="send" on:click={() => selectAction('send') }/>
         <Primary primaryLanguageId="receive" on:click={() => selectAction('receive') }/>
+        <Button languageId="update-button" on:click={() => selectAction('update') }/>
     </List>
 {:else if action === 'transactions'}
     <Seperator languageId="transactions" primaryText={account.alias}/>
