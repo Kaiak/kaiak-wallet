@@ -18,7 +18,7 @@ const elementSelector = (selectedElement) => {
 };
 let navigation = new Navigation([], elementSelector);
 
-loadedComponentStore.subscribe((value) => {
+const test = loadedComponentStore.subscribe((value) => {
   document.activeElement.removeEventListener('keydown', handleKeydown);
   navigation = new Navigation(value.elements, elementSelector);
   document.activeElement.addEventListener('keydown', handleKeydown);
