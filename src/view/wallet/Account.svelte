@@ -3,7 +3,7 @@
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
-    import Transactions from "../Transactions.svelte";
+    import Transactions from "./Transactions.svelte";
     import Send from "./Send.svelte";
     import Receive from "./Receive.svelte";
     import {backPressesStore} from "../../stores/stores";

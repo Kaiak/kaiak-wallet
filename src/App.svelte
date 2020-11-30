@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Receive from "./view/Receive.svelte";
 	import {loadedComponentStore, viewStore} from "./stores/stores";
 	import {
 		RECEIVE_VIEW,
@@ -15,11 +14,8 @@
 	import Menu from "./view/Menu.svelte";
 	import {onMount} from "svelte";
 	import {handleKeydown} from "./machinery/eventListener";
-	import Balance from "./view/Balance.svelte";
 	import Setup from "./view/Setup.svelte";
-	import Send from "./view/Send.svelte";
 	import About from "./view/About.svelte";
-	import Transactions from "./view/Transactions.svelte";
 	import Wallet from "./view/Wallet.svelte";
 
 	let header: string | undefined = undefined
@@ -71,12 +67,6 @@
 	<div class="kui-content-area" id="content-area">
 		{#if view === RECEIVE_VIEW.viewKey}
 			<Wallet />
-		{:else if view === SEND_VIEW.viewKey}
-			<Send />
-		{:else if view === BALANCE_VIEW.viewKey}
-			<Balance />
-		{:else if view === TRANSACTIONS_VIEW.viewKey}
-			<Transactions />
 		{:else if view === SETUP_VIEW.viewKey}
 			<Setup />
 		{:else if view === MENU_VIEW.viewKey}

@@ -1,10 +1,10 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {resolveHistory} from "../machinery/nano-rpc";
-    import Transaction from "./transactions/Transaction.svelte";
-    import List from "../components/List.svelte";
-    import ListItem from "../components/list/ListItem.svelte";
-    import type {NanoAddress, NanoTransaction} from "../machinery/models";
+    import {resolveHistory} from "../../machinery/nano-rpc";
+    import Transaction from "../transactions/Transaction.svelte";
+    import List from "../../components/List.svelte";
+    import ListItem from "../../components/list/ListItem.svelte";
+    import type {NanoAddress, NanoTransaction} from "../../machinery/models";
 
     export let address: NanoAddress = "nano_3rw4un6ys57hrb39sy1qx8qy5wukst1iiponztrz9qiz6qqa55kxzx4491or"
 
