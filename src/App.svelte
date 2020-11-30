@@ -1,14 +1,10 @@
 <script lang="ts">
 	import {loadedComponentStore, viewStore} from "./stores/stores";
 	import {
-		RECEIVE_VIEW,
 		MENU_VIEW,
-		BALANCE_VIEW,
 		SETUP_VIEW,
-		SEND_VIEW,
+		WALLET_VIEW,
 		ABOUT_VIEW,
-		BACK,
-		TRANSACTIONS_VIEW,
 	} from "./constants/views";
 	import type {View} from "./constants/views";
 	import Menu from "./view/Menu.svelte";
@@ -25,15 +21,9 @@
 
 	const unsubscribe = viewStore.subscribe<View>(value => {
 		const {viewKey, title} = value;
-		if (viewKey && viewKey === BACK.viewKey) {
-			let current = views.pop()
-			let next = views.pop()
-			viewStore.set(next)
-		} else if (viewKey) {
-			header = title;
-			view = viewKey;
-			views.push(value)
-		}
+		header = title;
+		view = viewKey;
+		views.push(value)
 	});
 
 	const showMenu = () => {
@@ -65,7 +55,7 @@
 		<h1 class="kui-h1" id="kui-header">{header}</h1>
 	</div>
 	<div class="kui-content-area" id="content-area">
-		{#if view === RECEIVE_VIEW.viewKey}
+		{#if view === WALLET_VIEW.viewKey}
 			<Wallet />
 		{:else if view === SETUP_VIEW.viewKey}
 			<Setup />
