@@ -4,7 +4,7 @@ import {
   viewStore,
 } from '../stores/stores';
 import Navigation from './navigation';
-import { BACK, MENU_VIEW } from '../constants/views';
+import { MENU_VIEW } from '../constants/views';
 
 export interface LoadedElements {
   elements: HTMLElement[];
@@ -18,14 +18,14 @@ const elementSelector = (selectedElement) => {
 };
 let navigation = new Navigation([], elementSelector);
 
-const unsubscribe = loadedComponentStore.subscribe((value) => {
+loadedComponentStore.subscribe((value) => {
   document.activeElement.removeEventListener('keydown', handleKeydown);
   navigation = new Navigation(value.elements, elementSelector);
   document.activeElement.addEventListener('keydown', handleKeydown);
 });
 
 let backPresses: (() => any)[] = [];
-const unsubscribeBackPress = backPressesStore.subscribe((b: () => any) => {
+backPressesStore.subscribe((b: () => any) => {
   backPresses.push(b);
 });
 
