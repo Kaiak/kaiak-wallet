@@ -10,7 +10,8 @@
     "start": "sirv public",
     "clean": "rm -rf public/build",
     "push": "yarn clean && yarn build && kaios-scripts push",
-    "validate": "svelte-check"
+    "validate": "svelte-check",
+    "lint": "eslint --fix 'src/**/*.ts'"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.12.1",
@@ -33,7 +34,15 @@
     "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.3",
+    "eslint": "^7.11.0",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-svelte3": "^2.7.3",
+    "prettier": "^2.1.2",
+    "prettier-plugin-svelte": "^1.4.1"
   },
   "dependencies": {
     "nano-rpc-fetch": "^1.0.0",
