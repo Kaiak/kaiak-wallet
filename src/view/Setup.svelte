@@ -3,9 +3,11 @@
     import List from "../components/List.svelte";
     import Button from "../components/Button.svelte";
     import Primary from "../components/list/Primary.svelte";
+    import Content from "../components/Content.svelte";
 </script>
 
-<div id="setup__view">
+
+<Content titleKey="setup">
     <Seperator languageId="languages"/>
     <List>
         <Primary primaryText="English" on:click={() => console.log('English')}/>
@@ -17,6 +19,6 @@
     </List>
     <Button languageId="addWallet"/>
     <Button languageId="save"/>
-</div>
+</Content>
 
 

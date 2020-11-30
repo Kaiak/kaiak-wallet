@@ -6,6 +6,7 @@
     import Account from "./wallet/Account.svelte";
     import {backPressesStore} from "../stores/stores";
     import WithSecondary from "../components/list/WithSecondary.svelte";
+    import Content from "../components/Content.svelte";
 
     let wallet: NanoWallet = {
         accounts: [
@@ -29,14 +30,16 @@
 
 </script>
 
-{#if selectedAccount}
-    <Account account={selectedAccount} />
-{:else}
-    <List>
-        {#each wallet.accounts as account}
-            <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
-        {/each}
-    </List>
-    <Button languageId="generateAddress"/>
-{/if}
+<Content titleKey="wallet">
+    {#if selectedAccount}
+        <Account account={selectedAccount} />
+    {:else}
+        <List>
+            {#each wallet.accounts as account}
+                <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
+            {/each}
+        </List>
+        <Button languageId="generateAddress"/>
+    {/if}
+</Content>
 

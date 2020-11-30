@@ -52,11 +52,7 @@
 </script>
 
 <main>
-<div id="kui-app">
-	<div class="kui-header">
-		<h1 class="kui-h1" id="kui-header" data-l10n-id={header}></h1>
-	</div>
-	<div class="kui-content-area" id="content-area">
+	<div id="kui-app">
 		{#if view === WALLET_VIEW.viewKey}
 			<Wallet />
 		{:else if view === SETUP_VIEW.viewKey}
@@ -66,12 +62,11 @@
 		{:else if view === ABOUT_VIEW.viewKey}
 			<About />
 		{/if}
-		<div id="kui-options" class="kui-option-menu"></div>
 	</div>
-</div>
-<div class="kui-software-key">
-	<h5 role="button" class="kui-h5 kui-text-left" id="kui-left-soft-key"></h5>
-	<h5 role="button" class="kui-h5 kui-text-center kui-text-upcase" id="kui-middle-soft-key"></h5>
-	<h5 role="button" class="kui-h5 kui-text-right" on:click={showMenu} data-l10n-id="rightNavButton"></h5>
-</div>
+
+	<div class="kui-software-key">
+		<h5 role="button" class="kui-h5 kui-text-left" id="kui-left-soft-key"></h5>
+		<h5 role="button" class="kui-h5 kui-text-center kui-text-upcase" id="kui-middle-soft-key"></h5>
+		<h5 role="button" class="kui-h5 kui-text-right" on:click={showMenu} data-l10n-id="rightNavButton"></h5>
+	</div>
 </main>
