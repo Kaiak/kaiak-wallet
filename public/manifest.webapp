@@ -13,6 +13,13 @@
     "name": "Philipp Blum",
     "url": "https://www.facebook.com/Philipp-Blum-100785578393066"
   },
+  "deeplinks": {
+    "regex": "^(app://)(nano/)(nano_|xrb_)([0-9a-zA-Z]{60})($|(\\?amount=)((\\d+\\.\\d\\d)|(\\d+)))($|&message=[a-zA-Z0-9]+)",
+    "action": "open-nano-deeplink"
+  },
+  "activities": {
+
+  },
   "locales": {
     "en-US": {
       "name": "Nano cryptocurrency wallet",
