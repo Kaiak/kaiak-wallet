@@ -26,7 +26,6 @@ loadedComponentStore.subscribe((value) => {
 
 let backPresses: (() => any)[] = [];
 backPressesStore.subscribe((b: () => any) => {
-  console.log(b);
   backPresses.push(b);
 });
 

@@ -31,8 +31,6 @@
 		header = title;
 		view = viewKey;
 		views.push(value)
-
-		console.log(header)
 	});
 
 	const showMenu = () => {
