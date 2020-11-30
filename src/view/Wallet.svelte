@@ -4,7 +4,7 @@
     import List from "../components/List.svelte";
     import Primary from "../components/list/Primary.svelte";
     import Account from "./wallet/Account.svelte";
-    import {backPressesStore} from "../stores/stores";
+    import {backPressesStore, selectedAccountStore} from "../stores/stores";
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
 
@@ -23,10 +23,10 @@
     }
     let selectedAccount: NanoAccount | undefined = undefined
 
-    const selectAccount = (account: NanoAccount) => {
+    selectedAccountStore.subscribe(account => {
         backPressesStore.set(() => selectedAccount = undefined)
-        selectedAccount = account;
-    }
+        selectedAccount = account
+    })
 
 </script>
 
@@ -36,7 +36,7 @@
     {:else}
         <List>
             {#each wallet.accounts as account}
-                <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
+                <WithSecondary primaryText={account.alias} on:click={() => selectedAccountStore.set(account)} secondaryText={account.address} />
             {/each}
         </List>
         <Button languageId="generateAddress"/>
