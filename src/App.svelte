@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {loadedComponentStore, viewStore} from "./stores/stores";
+	import {backPressesStore, loadedComponentStore, viewStore} from "./stores/stores";
 	import {
 		MENU_VIEW,
 		SETUP_VIEW,
@@ -21,19 +21,22 @@
 
 	const unsubscribe = viewStore.subscribe<View>(value => {
 		const {viewKey, title} = value;
+		backPressesStore.set(() => {
+			let _ = views.pop()
+			let next: View | undefined = views.pop()
+			if(next) {
+				viewStore.set(next)
+			}
+		})
 		header = title;
 		view = viewKey;
 		views.push(value)
+
+		console.log(header)
 	});
 
 	const showMenu = () => {
-		if (view === MENU_VIEW.viewKey) {
-			let current = views.pop()
-			let next = views.pop()
-			viewStore.set(next)
-		} else {
-			viewStore.set(MENU_VIEW)
-		}
+		viewStore.set(MENU_VIEW)
 	}
 
 	const init = (el) => {
@@ -48,11 +51,10 @@
 
 </script>
 
-
 <main>
 <div id="kui-app">
 	<div class="kui-header">
-		<h1 class="kui-h1" id="kui-header">{header}</h1>
+		<h1 class="kui-h1" id="kui-header" data-l10n-id={header}></h1>
 	</div>
 	<div class="kui-content-area" id="content-area">
 		{#if view === WALLET_VIEW.viewKey}
