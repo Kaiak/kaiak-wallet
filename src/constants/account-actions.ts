@@ -1,1 +1,1 @@
-export type AccountAction = 'transactions' | 'send' | 'receive' | 'update'
+export type AccountAction = 'transactions' | 'send' | 'receive' | 'update';

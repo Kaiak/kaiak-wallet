@@ -17,5 +17,5 @@ export const ABOUT_VIEW = {
 };
 export const WALLET_VIEW = {
   viewKey: 'WALLET_VIEW',
-  title: 'wallet'
-}
+  title: 'wallet',
+};
