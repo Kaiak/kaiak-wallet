@@ -1,18 +1,12 @@
 <script lang="ts">
-	import {backPressesStore, loadedComponentStore, navigationStore, viewStore} from "./stores/stores";
-	import {
-		MENU_VIEW,
-		SETUP_VIEW,
-		WALLET_VIEW,
-		ABOUT_VIEW,
-	} from "./constants/views";
+	import {loadedComponentStore, navigationStore} from "./stores/stores";
 	import Menu from "./view/Menu.svelte";
 	import {onMount} from "svelte";
 	import {handleKeydown} from "./machinery/eventListener";
 	import Setup from "./view/Setup.svelte";
 	import About from "./view/About.svelte";
 	import Wallet from "./view/Wallet.svelte";
-	import type {MenuSelector, NavigationState} from "./machinery/NavigationState";
+	import type { NavigationState } from "./machinery/NavigationState";
 	import {pushState} from "./machinery/eventListener";
 
 	let header: string | undefined = undefined

@@ -12,17 +12,8 @@ export const loadedComponentStore: Writable<LoadedElements> = writable<LoadedEle
     elements: [],
   }
 );
-export const backPressesStore: Writable<() => any> = writable<() => any>(
-  () => {}
-);
-
-export const selectedAccountStore: Writable<NanoAccount | undefined> = writable(
-  undefined
-);
-export const selectedActionStore: Writable<
-  AccountAction | undefined
-> = writable(undefined);
 
 export const navigationStore: Writable<NavigationState> = writable({
     menu: 'wallet',
+    account: undefined,
 })

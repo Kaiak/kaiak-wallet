@@ -1,10 +1,7 @@
 import {
-  backPressesStore,
-  loadedComponentStore, navigationStore,
-  viewStore,
+  loadedComponentStore, navigationStore
 } from '../stores/stores';
 import { Navigation } from './navigation';
-import { MENU_VIEW } from '../constants/views';
 import type {NavigationState} from "./NavigationState";
 
 export interface LoadedElements {
@@ -30,6 +27,7 @@ loadedComponentStore.subscribe((value) => {
 
 let stateHistory: NavigationState[] = [{
   menu: 'wallet',
+  account: undefined
 }]
 
 let index = 0
@@ -43,9 +41,10 @@ function popState(): void {
 }
 
 export function pushState(state: NavigationState): void {
+  console.log(state)
   stateHistory.push(state)
   navigationStore.set(state)
-  index = stateHistory.length - 1;
+  index++;
 }
 
 export function handleKeydown(e) {
@@ -88,10 +87,10 @@ export function handleKeydown(e) {
       console.log('Soft left');
       break;
     case 'SoftRight':
-      viewStore.set(MENU_VIEW);
+      // viewStore.set(MENU_VIEW);
       break;
     case 'Shift':
-      viewStore.set(MENU_VIEW);
+      // viewStore.set(MENU_VIEW);
       break;
   }
 }
