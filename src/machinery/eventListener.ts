@@ -3,7 +3,7 @@ import {
   loadedComponentStore,
   viewStore,
 } from '../stores/stores';
-import Navigation from './navigation';
+import {Navigation} from './navigation';
 import { MENU_VIEW } from '../constants/views';
 
 export interface LoadedElements {
@@ -14,14 +14,16 @@ let selection = undefined;
 
 const elementSelector = (selectedElement) => {
   selection = selectedElement;
-  console.log('Selected: ' + selectedElement);
 };
-let navigation = new Navigation([], elementSelector);
+let navigation = null;
 
 loadedComponentStore.subscribe((value) => {
-  document.activeElement.removeEventListener('keydown', handleKeydown);
-  navigation = new Navigation(value.elements, elementSelector);
-  document.activeElement.addEventListener('keydown', handleKeydown);
+  if(value.elements.length > 0){
+    document.removeEventListener('keydown', handleKeydown);
+    navigation = new Navigation(value.elements, elementSelector);
+    document.addEventListener('keydown', handleKeydown);
+    navigation.focus()
+  }
 });
 
 let backPresses: (() => any)[] = [];
@@ -32,12 +34,12 @@ backPressesStore.subscribe((b: () => any) => {
 export function handleKeydown(e) {
   switch (e.key) {
     case 'ArrowUp':
-      if (!navigation.up()) {
+      if (navigation.up()) {
         e.preventDefault();
       }
       break;
     case 'ArrowDown':
-      if (!navigation.down()) {
+      if (navigation.down()) {
         e.preventDefault();
       }
       break;
