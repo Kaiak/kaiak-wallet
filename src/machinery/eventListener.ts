@@ -35,10 +35,10 @@ let stateHistory: NavigationState[] = [{
 let index = 0
 
 function popState(): void {
-  if(index >= 0) {
+  if(index > 0) {
+    index--
     const nextState = stateHistory[index]
     navigationStore.set(nextState)
-    index--
   }
 }
 

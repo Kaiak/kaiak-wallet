@@ -8,6 +8,7 @@
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import type {AccountAction} from "../constants/account-actions";
     import type {NavigationState} from "../machinery/NavigationState";
+    import {pushState} from "../machinery/eventListener";
 
     let selectedAccount: NanoAccount | undefined = undefined
     selectedAccountStore.subscribe((account) => {
@@ -29,15 +30,13 @@
 
 <Content titleKey="menu">
     <List>
-        <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => {
-            navigationStore.set({...state, menu: 'wallet', index: undefined})
-        }}/>
+        <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => pushState({...state, menu: 'wallet'})}/>
         {#if selectedAccount}
             <WithSecondary primaryLanguageId="send" secondaryText={selectedAccount.alias} on:click={() => setWalletView('send')}/>
             <WithSecondary primaryLanguageId="transactions" secondaryText={selectedAccount.alias} on:click={() => setWalletView('transactions')}/>
             <WithSecondary primaryLanguageId="receive" secondaryText={selectedAccount.alias} on:click={() => setWalletView('receive')}/>
         {/if}
-        <Primary primaryLanguageId="about" primaryText="about" on:click={() => navigationStore.set({...state, menu: 'about', index: undefined})}/>
-        <Primary primaryLanguageId="setup" primaryText="setup" on:click={() => viewStore.set(SETUP_VIEW)}/>
+        <Primary primaryLanguageId="about" primaryText="about" on:click={() => pushState({...state, menu: 'about'})}/>
+        <Primary primaryLanguageId="setup" primaryText="setup" on:click={() => pushState({...state, menu: 'setup'})}/>
     </List>
 </Content>
