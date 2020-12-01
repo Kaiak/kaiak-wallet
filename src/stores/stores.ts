@@ -4,6 +4,7 @@ import type { View } from '../constants/views';
 import type { LoadedElements } from '../machinery/eventListener';
 import type { NanoAccount } from '../machinery/models';
 import type { AccountAction } from '../constants/account-actions';
+import type {NavigationState} from "../machinery/NavigationState";
 
 export const viewStore: Writable<View> = writable<View>(WALLET_VIEW);
 export const loadedComponentStore: Writable<LoadedElements> = writable<LoadedElements>(
@@ -21,3 +22,7 @@ export const selectedAccountStore: Writable<NanoAccount | undefined> = writable(
 export const selectedActionStore: Writable<
   AccountAction | undefined
 > = writable(undefined);
+
+export const navigationStore: Writable<NavigationState> = writable({
+    menu: 'wallet',
+})

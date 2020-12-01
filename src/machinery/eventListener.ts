@@ -1,10 +1,11 @@
 import {
   backPressesStore,
-  loadedComponentStore,
+  loadedComponentStore, navigationStore,
   viewStore,
 } from '../stores/stores';
 import { Navigation } from './navigation';
 import { MENU_VIEW } from '../constants/views';
+import type {NavigationState} from "./NavigationState";
 
 export interface LoadedElements {
   elements: HTMLElement[];
@@ -26,10 +27,26 @@ loadedComponentStore.subscribe((value) => {
   }
 });
 
-let backPresses: (() => any)[] = [];
-backPressesStore.subscribe((b: () => any) => {
-  backPresses.push(b);
-});
+
+let stateHistory: NavigationState[] = [{
+  menu: 'wallet',
+}]
+
+let index = 0
+
+function popState(): void {
+  if(index >= 0) {
+    const nextState = stateHistory[index]
+    navigationStore.set(nextState)
+    index--
+  }
+}
+
+export function pushState(state: NavigationState): void {
+  stateHistory.push(state)
+  navigationStore.set(state)
+  index = stateHistory.length - 1;
+}
 
 export function handleKeydown(e) {
   switch (e.key) {
@@ -52,21 +69,12 @@ export function handleKeydown(e) {
       }
       break;
     case 'ArrowLeft':
-      if (backPresses.length > 0) {
-        const backPressToRun = backPresses.pop();
-        backPressToRun();
-      } else {
-        e.preventDefault();
-      }
+      popState();
+      e.preventDefault();
       break;
     case 'Backspace':
-      if (backPresses.length > 0) {
-        const backPressToRun = backPresses.pop();
-        backPressToRun();
-        e.preventDefault();
-      } else {
-        e.preventDefault();
-      }
+      popState();
+      e.preventDefault();
       break;
     case 'Enter':
       if (selection) {
