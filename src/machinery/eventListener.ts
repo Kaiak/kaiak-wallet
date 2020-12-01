@@ -15,7 +15,7 @@ let selection = undefined;
 const elementSelector = (selectedElement) => {
   selection = selectedElement;
 };
-let navigation = null;
+let navigation = new Navigation([], elementSelector);;
 
 loadedComponentStore.subscribe((value) => {
   if(value.elements.length > 0){
