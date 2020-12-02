@@ -1,6 +1,6 @@
 import { Writable, writable } from 'svelte/store';
 import type { LoadedElements } from '../machinery/eventListener';
-import type {NavigationState} from "../machinery/NavigationState";
+import type { NavigationState } from '../machinery/NavigationState';
 
 export const loadedComponentStore: Writable<LoadedElements> = writable<LoadedElements>(
   {
@@ -9,6 +9,6 @@ export const loadedComponentStore: Writable<LoadedElements> = writable<LoadedEle
 );
 
 export const navigationStore: Writable<NavigationState> = writable({
-    menu: 'wallet',
-    account: undefined,
-})
+  menu: 'wallet',
+  account: undefined,
+});

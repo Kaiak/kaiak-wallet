@@ -1,8 +1,6 @@
-import {
-  loadedComponentStore, navigationStore
-} from '../stores/stores';
+import { loadedComponentStore, navigationStore } from '../stores/stores';
 import { Navigation } from './navigation';
-import type {NavigationState} from "./NavigationState";
+import type { NavigationState } from './NavigationState';
 
 export interface LoadedElements {
   elements: HTMLElement[];
@@ -24,33 +22,34 @@ loadedComponentStore.subscribe((value) => {
   }
 });
 
+let stateHistory: NavigationState[] = [
+  {
+    menu: 'wallet',
+    account: undefined,
+  },
+];
 
-let stateHistory: NavigationState[] = [{
-  menu: 'wallet',
-  account: undefined
-}]
-
-let index = 0
+let index = 0;
 
 export function popState(): boolean {
-  if(index > 0) {
-    index--
-    const nextState = stateHistory[index]
-    navigationStore.set(nextState)
-    return true
+  if (index > 0) {
+    index--;
+    const nextState = stateHistory[index];
+    navigationStore.set(nextState);
+    return true;
   } else {
-    return false
+    return false;
   }
 }
 
 export function pushState(state: NavigationState): void {
   index++;
-  if(stateHistory.length > index) {
-    stateHistory[index] = state
+  if (stateHistory.length > index) {
+    stateHistory[index] = state;
   } else {
-    stateHistory.push(state)
+    stateHistory.push(state);
   }
-  navigationStore.set(state)
+  navigationStore.set(state);
 }
 
 export function handleKeydown(e) {
@@ -78,7 +77,7 @@ export function handleKeydown(e) {
       e.preventDefault();
       break;
     case 'Backspace':
-      if(popState()) {
+      if (popState()) {
         e.preventDefault();
       }
       break;
@@ -96,8 +95,8 @@ export function handleKeydown(e) {
     case 'SoftRight':
       pushState({
         menu: 'menu',
-        account: undefined
-      })
+        account: undefined,
+      });
       break;
   }
 }
