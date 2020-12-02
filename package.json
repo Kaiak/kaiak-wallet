@@ -11,7 +11,8 @@
     "clean": "rm -rf public/build",
     "push": "yarn clean && yarn build && kaios-scripts push",
     "validate": "svelte-check",
-    "lint": "eslint 'src/**/*.ts'"
+    "lint": "eslint 'src/**/*.ts'",
+    "fixlint": "eslint --fix 'src/**/*.ts'"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.12.1",

@@ -3,7 +3,7 @@ import {
   loadedComponentStore,
   viewStore,
 } from '../stores/stores';
-import {Navigation} from './navigation';
+import { Navigation } from './navigation';
 import { MENU_VIEW } from '../constants/views';
 
 export interface LoadedElements {
@@ -15,14 +15,14 @@ let selection = undefined;
 const elementSelector = (selectedElement) => {
   selection = selectedElement;
 };
-let navigation = new Navigation([], elementSelector);;
+let navigation = new Navigation([], elementSelector);
 
 loadedComponentStore.subscribe((value) => {
-  if(value.elements.length > 0){
+  if (value.elements.length > 0) {
     document.removeEventListener('keydown', handleKeydown);
     navigation = new Navigation(value.elements, elementSelector);
     document.addEventListener('keydown', handleKeydown);
-    navigation.focus()
+    navigation.focus();
   }
 });
 
