@@ -14,7 +14,7 @@
     let history: NanoTransaction[] = []
     let errorLoading: boolean = false
 
-    let state: NavigationState | undefined = undefined
+    let state: NavigationState
     let selected: NanoTransaction | undefined = undefined
 
     navigationStore.subscribe(value => {

@@ -13,7 +13,7 @@
     import type {AccountAction, NavigationState, SelectedAccountState} from "../../machinery/NavigationState";
     import {pushState} from "../../machinery/eventListener";
 
-    let state: NavigationState | undefined = undefined
+    let state: NavigationState
     let selectedAccount: SelectedAccountState | undefined = undefined
     let separatorText: string | undefined = undefined
 

@@ -32,15 +32,18 @@ let stateHistory: NavigationState[] = [{
 
 let index = 0
 
-function popState(): void {
+export function popState(): void {
   if(index > 0) {
     index--
     const nextState = stateHistory[index]
+    console.log("nextState")
+    console.log(nextState)
     navigationStore.set(nextState)
   }
 }
 
 export function pushState(state: NavigationState): void {
+  console.log("pushState")
   console.log(state)
   stateHistory.push(state)
   navigationStore.set(state)

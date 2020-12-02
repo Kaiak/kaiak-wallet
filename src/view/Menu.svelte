@@ -7,7 +7,7 @@
     import type {NavigationState, AccountAction} from "../machinery/NavigationState";
     import {pushState} from "../machinery/eventListener";
 
-    let state: NavigationState | undefined = undefined
+    let state: NavigationState
 
     navigationStore.subscribe(value => {
         state = value
