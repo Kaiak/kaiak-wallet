@@ -24,7 +24,7 @@
 	})
 
 	const toggleMenu = () => {
-		state.menu === 'menu' ? popState() : pushState({...state, menu: 'menu' })
+		pushState({...state, menu: 'menu' })
 	}
 
 </script>

@@ -43,6 +43,12 @@ export function popState(): boolean {
 }
 
 export function pushState(state: NavigationState): void {
+  /** Ignore if previous state was menu and we are pushing menu */
+  if (state.menu === 'menu' && stateHistory[index].menu === 'menu') {
+    popState();
+    return;
+  }
+
   index++;
   if (stateHistory.length > index) {
     stateHistory[index] = state;
@@ -93,10 +99,7 @@ export function handleKeydown(e) {
       console.log('Soft left');
       break;
     case 'SoftRight':
-      pushState({
-        menu: 'menu',
-        account: undefined,
-      });
+      pushState({ ...stateHistory[index], menu: 'menu' });
       break;
   }
 }
