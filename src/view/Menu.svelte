@@ -20,7 +20,7 @@
 
 <Content titleKey="menu">
     <List>
-        <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => pushState({...state, menu: 'wallet'})}/>
+        <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => pushState({...state, menu: 'wallet', account: undefined})}/>
         {#if state.account?.selectedAccount}
             <WithSecondary primaryLanguageId="send" secondaryText={state.account?.selectedAccount.alias} on:click={() => setWalletView('send')}/>
             <WithSecondary primaryLanguageId="transactions" secondaryText={state.account?.selectedAccount.alias} on:click={() =>  setWalletView('transactions')}/>
