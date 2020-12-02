@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type {NanoWallet} from "../machinery/models";
+    import type {NanoAccount, NanoWallet} from "../machinery/models";
     import Button from "../components/Button.svelte";
     import List from "../components/List.svelte";
     import Account from "./wallet/Account.svelte";
     import {navigationStore,} from "../stores/stores";
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
-    import type {NavigationState} from "../machinery/NavigationState";
+    import type {NavigationState, SelectedAccountState} from "../machinery/NavigationState";
     import {pushState} from "../machinery/eventListener";
 
     let wallet: NanoWallet = {
@@ -27,6 +27,9 @@
     const unsubscribe = navigationStore.subscribe<NavigationState>(value => {
         navigationState = value
     });
+    const selectAccount = (account: NanoAccount) => {
+        pushState({...navigationState, account: {selectedAccount: account, view: undefined, selectedTransaction: undefined}})
+    }
 
 </script>
 
@@ -36,7 +39,7 @@
     {:else}
         <List>
             {#each wallet.accounts as account}
-                <WithSecondary primaryText={account.alias} on:click={() => pushState({...navigationState, account: { selectedAccount: account}})} secondaryText={account.address} />
+                <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
             {/each}
         </List>
         <Button languageId="generateAddress"/>

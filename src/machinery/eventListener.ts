@@ -32,11 +32,14 @@ let stateHistory: NavigationState[] = [{
 
 let index = 0
 
-export function popState(): void {
+export function popState(): boolean {
   if(index > 0) {
     index--
     const nextState = stateHistory[index]
     navigationStore.set(nextState)
+    return true
+  } else {
+    return false
   }
 }
 
@@ -75,8 +78,9 @@ export function handleKeydown(e) {
       e.preventDefault();
       break;
     case 'Backspace':
-      popState();
-      e.preventDefault();
+      if(popState()) {
+        e.preventDefault();
+      }
       break;
     case 'Enter':
       if (selection) {
@@ -90,10 +94,10 @@ export function handleKeydown(e) {
       console.log('Soft left');
       break;
     case 'SoftRight':
-      // viewStore.set(MENU_VIEW);
-      break;
-    case 'Shift':
-      // viewStore.set(MENU_VIEW);
+      pushState({
+        menu: 'menu',
+        account: undefined
+      })
       break;
   }
 }

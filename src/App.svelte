@@ -2,12 +2,11 @@
 	import {loadedComponentStore, navigationStore} from "./stores/stores";
 	import Menu from "./view/Menu.svelte";
 	import {onMount} from "svelte";
-	import {handleKeydown, popState} from "./machinery/eventListener";
+	import {handleKeydown, popState, pushState} from "./machinery/eventListener";
 	import Setup from "./view/Setup.svelte";
 	import About from "./view/About.svelte";
 	import Wallet from "./view/Wallet.svelte";
 	import type { NavigationState } from "./machinery/NavigationState";
-	import {pushState} from "./machinery/eventListener";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -17,10 +16,6 @@
 	const unsubscribe = navigationStore.subscribe<NavigationState>(value => {
 		state = value
 	});
-
-	const init = (el) => {
-		// el.focus();
-	}
 
 	onMount(() => {
 		const elements = document.activeElement.getElementsByClassName('navigation')
