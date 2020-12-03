@@ -1,6 +1,6 @@
 import type { NanoAccount, NanoTransaction } from './models';
 
-export type MenuSelector = 'wallet' | 'setup' | 'menu' | 'about';
+export type MenuSelector = 'wallet' | 'setup' | 'menu' | 'about' | 'unlock';
 export type AccountAction = 'send' | 'transactions' | 'receive';
 
 export interface SelectedAccountState {

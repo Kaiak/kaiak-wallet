@@ -6,7 +6,8 @@
 	import Setup from "./view/Setup.svelte";
 	import About from "./view/About.svelte";
 	import Wallet from "./view/Wallet.svelte";
-	import type { NavigationState } from "./machinery/NavigationState";
+	import type {NavigationState} from "./machinery/NavigationState";
+	import Unlock from "./view/Unlock.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -18,13 +19,16 @@
 	});
 
 	onMount(() => {
+		// Check if we have wallet
+		navigationStore.set({...state, menu: 'unlock'})
+
 		const elements = document.activeElement.getElementsByClassName('navigation')
 		console.log(elements)
 		loadedComponentStore.set({elements: elements})
 	})
 
 	const toggleMenu = () => {
-		pushState({...state, menu: 'menu' })
+		pushState({...state, menu: 'menu'})
 	}
 
 </script>
@@ -39,6 +43,8 @@
 			<Menu />
 		{:else if state.menu === 'about'}
 			<About />
+		{:else if state.menu === 'unlock'}
+			<Unlock />
 		{/if}
 	</div>
 
