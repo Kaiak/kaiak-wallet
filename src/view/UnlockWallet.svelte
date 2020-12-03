@@ -4,6 +4,7 @@
     import Button from "../components/Button.svelte";
     import {unlockWallet} from "../machinery/wallet";
     import type { WalletData } from "../machinery/wallet";
+    import {pushMenu} from "../machinery/eventListener";
 
     let inputPhrase: string | undefined;
 
@@ -13,11 +14,14 @@
 
     const unlock = () => {
         const data: WalletData | undefined = unlockWallet(inputPhrase)
-        console.log(data)
     }
+
+    const createNew = () => pushMenu('create')
+
 </script>
 
 <Content titleKey="unlock-wallet">
     <LabelledInput languageId="unlock-label" placeholderLanguage="unlock-label" on:change={onInputPassword}/>
     <Button languageId="unlock-wallet" on:click={unlock}/>
+    <Button languageId="create-new-wallet" on:click={createNew} />
 </Content>

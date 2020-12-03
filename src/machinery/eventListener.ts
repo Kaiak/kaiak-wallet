@@ -1,6 +1,6 @@
 import { loadedComponentStore, navigationStore } from '../stores/stores';
 import { Navigation } from './navigation';
-import type { NavigationState } from './NavigationState';
+import type {MenuSelector, NavigationState} from './NavigationState';
 
 export interface LoadedElements {
   elements: HTMLElement[];
@@ -40,6 +40,10 @@ export function popState(): boolean {
   } else {
     return false;
   }
+}
+
+export function pushMenu(menu: MenuSelector): void {
+  pushState({...stateHistory[index], menu})
 }
 
 export function pushState(state: NavigationState): void {

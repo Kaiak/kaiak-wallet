@@ -2,12 +2,13 @@
 	import {loadedComponentStore, navigationStore} from "./stores/stores";
 	import Menu from "./view/Menu.svelte";
 	import {onMount} from "svelte";
-	import {handleKeydown, popState, pushState} from "./machinery/eventListener";
+	import {pushMenu} from "./machinery/eventListener";
 	import Setup from "./view/Setup.svelte";
 	import About from "./view/About.svelte";
 	import Wallet from "./view/Wallet.svelte";
 	import type {NavigationState} from "./machinery/NavigationState";
-	import Unlock from "./view/Unlock.svelte";
+	import UnlockWallet from "./view/UnlockWallet.svelte";
+	import CreateWallet from "./view/CreateWallet.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -20,16 +21,13 @@
 
 	onMount(() => {
 		// Check if we have wallet
-		navigationStore.set({...state, menu: 'unlock'})
-
+		pushMenu('unlock')
 		const elements = document.activeElement.getElementsByClassName('navigation')
 		console.log(elements)
 		loadedComponentStore.set({elements: elements})
 	})
 
-	const toggleMenu = () => {
-		pushState({...state, menu: 'menu'})
-	}
+	const toggleMenu = () => pushMenu('menu')
 
 </script>
 
@@ -44,7 +42,9 @@
 		{:else if state.menu === 'about'}
 			<About />
 		{:else if state.menu === 'unlock'}
-			<Unlock />
+			<UnlockWallet />
+		{:else if state.menu === 'create'}
+			<CreateWallet />
 		{/if}
 	</div>
 
