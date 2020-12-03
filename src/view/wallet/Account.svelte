@@ -1,54 +1,57 @@
 <script lang="ts">
-    import type {Balance, NanoAccount} from "../../machinery/models";
+    import type {Balance} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
     import Transactions from "./Transactions.svelte";
     import Send from "./Send.svelte";
     import Receive from "./Receive.svelte";
-    import {backPressesStore, selectedActionStore} from "../../stores/stores";
+    import {navigationStore} from "../../stores/stores";
     import {onMount} from "svelte";
     import {resolveBalance} from "../../machinery/nano-rpc";
     import Button from "../../components/Button.svelte";
-    import type {AccountAction} from "../../constants/account-actions";
+    import type {AccountAction, NavigationState, SelectedAccountState} from "../../machinery/NavigationState";
+    import {pushState} from "../../machinery/eventListener";
 
-    export let account: NanoAccount
+    let state: NavigationState
+    let selectedAccount: SelectedAccountState | undefined = undefined
+    let separatorText: string | undefined = undefined
 
-    let action: AccountAction | undefined = undefined
-
-    selectedActionStore.subscribe((selectedAction) => {
-        if(account && selectedAction) {
-            backPressesStore.set(() => action = undefined)
-        }
-        action = selectedAction
+    navigationStore.subscribe(value => {
+        state = value
+        selectedAccount = state?.account
+        separatorText = selectedAccount?.selectedAccount.alias
     })
 
-    let separatorText: string = account.alias
     onMount(async () => {
         try {
-            const balance: Balance = await resolveBalance(account.address)
-            separatorText = `${account.alias} ${balance.amount} Nano`
+            const balance: Balance = await resolveBalance(selectedAccount.selectedAccount?.address)
+            separatorText = `${selectedAccount.selectedAccount?.alias} ${balance.amount} Nano`
         } catch (error) {
             console.log('error loading balance')
         }
     })
 
+    const setAccountAction = (a: AccountAction) => {
+        pushState({...state, account: {...selectedAccount, view: a}})
+    }
+
 </script>
 
-{#if action === undefined}
+{#if selectedAccount?.view === undefined}
     <Seperator languageId="actions" primaryText={separatorText}/>
     <List>
-        <Primary primaryLanguageId="transactions" on:click={() => selectedActionStore.set('transactions') }/>
-        <Primary primaryLanguageId="send" on:click={() => selectedActionStore.set('send') }/>
-        <Primary primaryLanguageId="receive" on:click={() => selectedActionStore.set('receive') }/>
-        <Button languageId="update-button" on:click={() => selectedActionStore.set('update') }/>
+        <Primary primaryLanguageId="transactions" on:click={() => setAccountAction('transactions') }/>
+        <Primary primaryLanguageId="send" on:click={() => setAccountAction('send') }/>
+        <Primary primaryLanguageId="receive" on:click={() => setAccountAction('receive') }/>
+        <Button languageId="update-button" on:click={() => setAccountAction('update') }/>
     </List>
-{:else if action === 'transactions'}
-    <Seperator languageId="transactions" primaryText={account.alias}/>
-    <Transactions address={account.address}/>
-{:else if action === 'send'}
+{:else if selectedAccount.view === 'transactions'}
+    <Seperator languageId="transactions" primaryText={selectedAccount?.selectedAccount.alias}/>
+    <Transactions address={selectedAccount?.selectedAccount.address}/>
+{:else if selectedAccount?.view === 'send'}
     <Send />
-{:else if action === 'receive'}
-    <Receive account={account} />
+{:else if selectedAccount?.view === 'receive'}
+    <Receive account={selectedAccount?.selectedAccount} />
 {/if}
 

@@ -1,38 +1,35 @@
 <script lang="ts">
-    import {selectedAccountStore, viewStore, selectedActionStore} from "../stores/stores";
-    import {WALLET_VIEW, ABOUT_VIEW, SETUP_VIEW} from "../constants/views";
+    import { navigationStore } from "../stores/stores";
     import List from "../components/List.svelte";
     import Primary from "../components/list/Primary.svelte";
     import Content from "../components/Content.svelte";
-    import type {NanoAccount} from "../machinery/models";
     import WithSecondary from "../components/list/WithSecondary.svelte";
-    import type {AccountAction} from "../constants/account-actions";
+    import type {NavigationState, AccountAction, MenuSelector} from "../machinery/NavigationState";
+    import {pushState} from "../machinery/eventListener";
 
-    let selectedAccount: NanoAccount | undefined = undefined
-    selectedAccountStore.subscribe((account) => {
-        selectedAccount = account;
+    let state: NavigationState
+
+    navigationStore.subscribe(value => {
+        state = value
     })
-    const setWalletView = (action: AccountAction) => {
-        viewStore.set(WALLET_VIEW)
-        selectedActionStore.set(action)
+
+    const setAppView = (menu: MenuSelector) => {
+        pushState({...state, menu: menu, account: undefined})
     }
-
-
+    const setWalletView = (a: AccountAction) => {
+        pushState({...state, menu: 'wallet', account: {...state.account, view: a}})
+    }
 </script>
 
 <Content titleKey="menu">
     <List>
-        <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => {
-            selectedAccountStore.set(undefined)
-            selectedActionStore.set(undefined)
-            viewStore.set(WALLET_VIEW)
-        }}/>
-        {#if selectedAccount}
-            <WithSecondary primaryLanguageId="send" secondaryText={selectedAccount.alias} on:click={() => setWalletView('send')}/>
-            <WithSecondary primaryLanguageId="transactions" secondaryText={selectedAccount.alias} on:click={() => setWalletView('transactions')}/>
-            <WithSecondary primaryLanguageId="receive" secondaryText={selectedAccount.alias} on:click={() => setWalletView('receive')}/>
+        <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => setAppView('wallet')}/>
+        {#if state.account?.selectedAccount}
+            <WithSecondary primaryLanguageId="send" secondaryText={state.account?.selectedAccount.alias} on:click={() => setWalletView('send')}/>
+            <WithSecondary primaryLanguageId="transactions" secondaryText={state.account?.selectedAccount.alias} on:click={() =>  setWalletView('transactions')}/>
+            <WithSecondary primaryLanguageId="receive" secondaryText={state.account?.selectedAccount.alias} on:click={() =>  setWalletView('receive')}/>
         {/if}
-        <Primary primaryLanguageId="about" primaryText="about" on:click={() => viewStore.set(ABOUT_VIEW)}/>
-        <Primary primaryLanguageId="setup" primaryText="setup" on:click={() => viewStore.set(SETUP_VIEW)}/>
+        <Primary primaryLanguageId="about" primaryText="about" on:click={() => setAppView('about')}/>
+        <Primary primaryLanguageId="setup" primaryText="setup" on:click={() => setAppView('setup')}/>
     </List>
 </Content>

@@ -2,11 +2,12 @@
     import type {NanoAccount, NanoWallet} from "../machinery/models";
     import Button from "../components/Button.svelte";
     import List from "../components/List.svelte";
-    import Primary from "../components/list/Primary.svelte";
     import Account from "./wallet/Account.svelte";
-    import {backPressesStore, selectedAccountStore} from "../stores/stores";
+    import {navigationStore,} from "../stores/stores";
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
+    import type {NavigationState, SelectedAccountState} from "../machinery/NavigationState";
+    import {pushState} from "../machinery/eventListener";
 
     let wallet: NanoWallet = {
         accounts: [
@@ -21,22 +22,24 @@
         ],
         seed: "some-seed"
     }
-    let selectedAccount: NanoAccount | undefined = undefined
+    let navigationState: NavigationState
 
-    selectedAccountStore.subscribe(account => {
-        backPressesStore.set(() => selectedAccount = undefined)
-        selectedAccount = account
-    })
+    const unsubscribe = navigationStore.subscribe<NavigationState>(value => {
+        navigationState = value
+    });
+    const selectAccount = (account: NanoAccount) => {
+        pushState({...navigationState, account: {selectedAccount: account, view: undefined, selectedTransaction: undefined}})
+    }
 
 </script>
 
 <Content titleKey="wallet">
-    {#if selectedAccount}
-        <Account account={selectedAccount} />
+    {#if navigationState.account}
+        <Account account={navigationState.account} />
     {:else}
         <List>
             {#each wallet.accounts as account}
-                <WithSecondary primaryText={account.alias} on:click={() => selectedAccountStore.set(account)} secondaryText={account.address} />
+                <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
             {/each}
         </List>
         <Button languageId="generateAddress"/>

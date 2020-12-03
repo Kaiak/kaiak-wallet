@@ -5,11 +5,22 @@
     import List from "../../components/List.svelte";
     import ListItem from "../../components/list/ListItem.svelte";
     import type {NanoAddress, NanoTransaction} from "../../machinery/models";
+    import type {NavigationState} from "../../machinery/NavigationState";
+    import {navigationStore} from "../../stores/stores";
+    import {pushState} from "../../machinery/eventListener";
 
-    export let address: NanoAddress = "nano_3rw4un6ys57hrb39sy1qx8qy5wukst1iiponztrz9qiz6qqa55kxzx4491or"
+    export let address: NanoAddress
 
     let history: NanoTransaction[] = []
     let errorLoading: boolean = false
+
+    let state: NavigationState
+    let selected: NanoTransaction | undefined = undefined
+
+    navigationStore.subscribe(value => {
+        state = value
+        selected = state.account?.selectedTransaction
+    })
 
     onMount(async () => {
         try {
@@ -19,10 +30,9 @@
         }
     })
 
-    let selected: NanoTransaction | undefined = undefined
-
     const setSelected = (time) => {
-        selected = history.filter(h => h.localTimestamp === time)[0]
+        const selectedTransaction: NanoTransaction | undefined = history.filter(h => h.localTimestamp === time)[0]
+        pushState({...state, account: {...state.account, selectedTransaction: selectedTransaction}})
     }
 </script>
 

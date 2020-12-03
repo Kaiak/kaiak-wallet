@@ -1,10 +1,6 @@
-import {
-  backPressesStore,
-  loadedComponentStore,
-  viewStore,
-} from '../stores/stores';
+import { loadedComponentStore, navigationStore } from '../stores/stores';
 import { Navigation } from './navigation';
-import { MENU_VIEW } from '../constants/views';
+import type { NavigationState } from './NavigationState';
 
 export interface LoadedElements {
   elements: HTMLElement[];
@@ -26,10 +22,41 @@ loadedComponentStore.subscribe((value) => {
   }
 });
 
-let backPresses: (() => any)[] = [];
-backPressesStore.subscribe((b: () => any) => {
-  backPresses.push(b);
-});
+let stateHistory: NavigationState[] = [
+  {
+    menu: 'wallet',
+    account: undefined,
+  },
+];
+
+let index = 0;
+
+export function popState(): boolean {
+  if (index > 0) {
+    index--;
+    const nextState = stateHistory[index];
+    navigationStore.set(nextState);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function pushState(state: NavigationState): void {
+  /** Ignore if previous state was menu and we are pushing menu */
+  if (state.menu === 'menu' && stateHistory[index].menu === 'menu') {
+    popState();
+    return;
+  }
+
+  index++;
+  if (stateHistory.length > index) {
+    stateHistory[index] = state;
+  } else {
+    stateHistory.push(state);
+  }
+  navigationStore.set(state);
+}
 
 export function handleKeydown(e) {
   switch (e.key) {
@@ -52,19 +79,11 @@ export function handleKeydown(e) {
       }
       break;
     case 'ArrowLeft':
-      if (backPresses.length > 0) {
-        const backPressToRun = backPresses.pop();
-        backPressToRun();
-      } else {
-        e.preventDefault();
-      }
+      popState();
+      e.preventDefault();
       break;
     case 'Backspace':
-      if (backPresses.length > 0) {
-        const backPressToRun = backPresses.pop();
-        backPressToRun();
-        e.preventDefault();
-      } else {
+      if (popState()) {
         e.preventDefault();
       }
       break;
@@ -80,10 +99,7 @@ export function handleKeydown(e) {
       console.log('Soft left');
       break;
     case 'SoftRight':
-      viewStore.set(MENU_VIEW);
-      break;
-    case 'Shift':
-      viewStore.set(MENU_VIEW);
+      pushState({ ...stateHistory[index], menu: 'menu' });
       break;
   }
 }
