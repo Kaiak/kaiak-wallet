@@ -22,9 +22,6 @@
 	onMount(() => {
 		// Check if we have wallet
 		pushMenu('unlock')
-		const elements = document.activeElement.getElementsByClassName('navigation')
-		console.log(elements)
-		loadedComponentStore.set({elements: elements})
 	})
 
 	const toggleMenu = () => pushMenu('menu')

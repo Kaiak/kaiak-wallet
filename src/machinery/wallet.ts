@@ -1,9 +1,9 @@
 import SecureLS from "secure-ls";
 import { wallet } from 'nanocurrency-web'
+import type {NanoWallet} from "./models";
 
 interface AccountAlias {
-    index: number,
-    alias: string
+    alias: string,
 }
 
 export interface WalletData {
@@ -18,14 +18,20 @@ export interface WalletResult {
 
 const WALLET_STORE = 'wallet_store';
 
-export function unlockWallet(encryptionSecret: string): WalletData | undefined {
+export function unlockWallet(encryptionSecret: string): NanoWallet | undefined {
     let ls = new SecureLS({encodingType: 'aes', encryptionSecret: encryptionSecret})
     try {
-        const data: any = ls.get(WALLET_STORE)
+        const data: WalletData = ls.get(WALLET_STORE)
         if(data.seed && data.aliases) {
+            const addresses = wallet.accounts(data.seed, 0, data.aliases.length - 1)
             return {
                 seed: data.seed,
-                aliases: data.aliases
+                accounts: addresses.map((address, i) => {
+                    return {
+                        alias: data.aliases[i] ? data.aliases[i].alias : 'undefined',
+                        address: address.address
+                    }
+                })
             }
         } else {
             return undefined;
@@ -41,7 +47,7 @@ export function generateWallet(): WalletResult {
     return {
         data: {
             seed: w.seed,
-            aliases: []
+            aliases: [{alias: 'test'}]
         },
         mnemonic: w.mnemonic,
     }
@@ -50,4 +56,14 @@ export function generateWallet(): WalletResult {
 export function storeWallet(walletData: WalletData, encryptionSecret: string): void {
     let ls = new SecureLS({encodingType: 'aes', encryptionSecret: encryptionSecret})
     ls.set(WALLET_STORE, walletData)
+}
+
+/** TODO: Store */
+export function addNanoAccount(walletData: NanoWallet): NanoWallet {
+    const next = walletData.accounts.length
+    const nextAccount = wallet.accounts(walletData.seed, 0, next)[next]
+    return {
+        seed: walletData.seed,
+        accounts: [...walletData.accounts, {address: nextAccount.address, alias: undefined}]
+    }
 }

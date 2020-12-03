@@ -6,49 +6,40 @@
     import {navigationStore,} from "../stores/stores";
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
-    import type {NavigationState, SelectedAccountState} from "../machinery/NavigationState";
-    import {pushState} from "../machinery/eventListener";
+    import type {NavigationState} from "../machinery/NavigationState";
+    import {patchState, pushState} from "../machinery/eventListener";
+    import {addNanoAccount} from "../machinery/wallet";
 
-    let wallet: NanoWallet = {
-        accounts: [
-            {
-                alias: "Main",
-                address: "nano_3niceeeyiaa86k58zhaeygxfkuzgffjtwju9ep33z9c8qekmr3iuc95jbqc8"
-            },
-            {
-                alias: "Savings",
-                address: "nano_1hzoje373eapce4ses7xsx539suww5555hi9q8i8j7hpbayzxq4c4nn91hr8"
-            }
-        ],
-        seed: "some-seed"
-    }
     let navigationState: NavigationState
+    let wallet: NanoWallet | undefined
 
     const unsubscribe = navigationStore.subscribe<NavigationState>(value => {
         navigationState = value
-        if(value.walletData) {
-            wallet = {
-                accounts: [],
-                seed: value.walletData.seed
-            }
-        }
+        wallet = value.walletData
     });
     const selectAccount = (account: NanoAccount) => {
         pushState({...navigationState, account: {selectedAccount: account, view: undefined, selectedTransaction: undefined}})
     }
 
+    const addAccount = () => {
+        const updatedNanoWallet = addNanoAccount(wallet)
+        patchState({...navigationState, walletData: updatedNanoWallet})
+    }
+
 </script>
 
-<Content titleKey="wallet">
-    {#if navigationState.account}
-        <Account account={navigationState.account} />
-    {:else}
-        <List>
-            {#each wallet.accounts as account}
-                <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
-            {/each}
-        </List>
-        <Button languageId="generateAddress"/>
-    {/if}
-</Content>
+{#if wallet}
+    <Content titleKey="wallet">
+        {#if navigationState.account}
+            <Account account={navigationState.account} />
+        {:else}
+            <List>
+                {#each wallet.accounts as account}
+                    <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
+                {/each}
+            </List>
+            <Button languageId="add-account" on:click={addAccount}/>
+        {/if}
+    </Content>
+{/if}
 

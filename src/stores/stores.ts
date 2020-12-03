@@ -11,4 +11,5 @@ export const loadedComponentStore: Writable<LoadedElements> = writable<LoadedEle
 export const navigationStore: Writable<NavigationState> = writable({
   menu: 'wallet',
   account: undefined,
+  walletData: undefined,
 });

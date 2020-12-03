@@ -4,7 +4,7 @@ export class Navigation {
   elements = [];
   selectedElement = null;
 
-  constructor(elements: HTMLElement[], selectedElement) {
+  constructor(elements: HtmlCollectionOf<Element>, selectedElement) {
     if (elements.length > 0) {
       this.elements = elements;
       this.selectedElement = selectedElement;

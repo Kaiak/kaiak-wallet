@@ -3,7 +3,7 @@ import { Navigation } from './navigation';
 import type {MenuSelector, NavigationState} from './NavigationState';
 
 export interface LoadedElements {
-  elements: HTMLElement[];
+  elements: HTMLCollectionOf<Element>;
 }
 
 let selection = undefined;
@@ -26,6 +26,7 @@ let stateHistory: NavigationState[] = [
   {
     menu: 'wallet',
     account: undefined,
+    walletData: undefined,
   },
 ];
 
@@ -44,6 +45,11 @@ export function popState(): boolean {
 
 export function pushMenu(menu: MenuSelector): void {
   pushState({...stateHistory[index], menu})
+}
+
+export function patchState(state: NavigationState): void {
+  stateHistory[index] = state;
+  navigationStore.set(state)
 }
 
 export function pushState(state: NavigationState): void {
