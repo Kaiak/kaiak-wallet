@@ -26,6 +26,12 @@
 
     const unsubscribe = navigationStore.subscribe<NavigationState>(value => {
         navigationState = value
+        if(value.walletData) {
+            wallet = {
+                accounts: [],
+                seed: value.walletData.seed
+            }
+        }
     });
     const selectAccount = (account: NanoAccount) => {
         pushState({...navigationState, account: {selectedAccount: account, view: undefined, selectedTransaction: undefined}})

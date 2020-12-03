@@ -4,7 +4,7 @@
     import Button from "../components/Button.svelte";
     import {unlockWallet} from "../machinery/wallet";
     import type { WalletData } from "../machinery/wallet";
-    import {pushMenu} from "../machinery/eventListener";
+    import {pushMenu, pushState} from "../machinery/eventListener";
 
     let inputPhrase: string | undefined;
 
@@ -14,6 +14,9 @@
 
     const unlock = () => {
         const data: WalletData | undefined = unlockWallet(inputPhrase)
+        if(data) {
+            pushState({menu: 'wallet', walletData: data, account: undefined})
+        }
     }
 
     const createNew = () => pushMenu('create')
