@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Balance} from "../../machinery/models";
+    import type {NANO} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
@@ -8,10 +8,11 @@
     import Receive from "./Receive.svelte";
     import {navigationStore} from "../../stores/stores";
     import {onMount} from "svelte";
-    import {resolveBalance} from "../../machinery/nano-rpc";
     import Button from "../../components/Button.svelte";
     import type {AccountAction, NavigationState, SelectedAccountState} from "../../machinery/NavigationState";
     import {pushState} from "../../machinery/eventListener";
+    import {resolveBalance} from "../../machinery/nano-rpc-fetch-wrapper";
+    import {loadWalletData} from "../../machinery/nano-ops";
 
     let state: NavigationState
     let selectedAccount: SelectedAccountState | undefined = undefined
@@ -25,7 +26,7 @@
 
     onMount(async () => {
         try {
-            const balance: Balance = await resolveBalance(selectedAccount.selectedAccount?.address)
+            const balance: NANO = await resolveBalance(selectedAccount.selectedAccount?.address)
             separatorText = `${selectedAccount.selectedAccount?.alias} ${balance.amount} Nano`
         } catch (error) {
             console.log('error loading balance')
@@ -36,6 +37,10 @@
         pushState({...state, account: {...selectedAccount, view: a}})
     }
 
+    const triggerRefresh = async () => {
+        const log = await loadWalletData(selectedAccount.selectedAccount)
+    }
+
 </script>
 
 {#if selectedAccount?.view === undefined}
@@ -44,7 +49,7 @@
         <Primary primaryLanguageId="transactions" on:click={() => setAccountAction('transactions') }/>
         <Primary primaryLanguageId="send" on:click={() => setAccountAction('send') }/>
         <Primary primaryLanguageId="receive" on:click={() => setAccountAction('receive') }/>
-        <Button languageId="update-button" on:click={() => setAccountAction('update') }/>
+        <Button languageId="update-button" on:click={triggerRefresh}/>
     </List>
 {:else if selectedAccount.view === 'transactions'}
     <Seperator languageId="transactions" primaryText={selectedAccount?.selectedAccount.alias}/>

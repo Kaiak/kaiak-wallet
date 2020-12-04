@@ -16,7 +16,7 @@
 </script>
 <div>
     <span data-l10n-id={transactionType()}></span>
-    {transaction.amount}
+    {transaction.amount.amount}
     <span data-l10n-id="transaction-from"></span>
     {transaction.account}
 </div>

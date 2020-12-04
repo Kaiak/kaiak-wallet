@@ -26,6 +26,8 @@ function walletDataToWallet(
       return {
         alias: walletData.aliases[i],
         address: address.address,
+        privateKey: address.privateKey,
+        publicKey: address.publicKey,
       };
     }),
   };

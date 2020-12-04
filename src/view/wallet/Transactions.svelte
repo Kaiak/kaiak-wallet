@@ -1,6 +1,5 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {resolveHistory} from "../../machinery/nano-rpc";
     import Transaction from "../transactions/Transaction.svelte";
     import List from "../../components/List.svelte";
     import ListItem from "../../components/list/ListItem.svelte";
@@ -8,6 +7,7 @@
     import type {NavigationState} from "../../machinery/NavigationState";
     import {navigationStore} from "../../stores/stores";
     import {pushState} from "../../machinery/eventListener";
+    import {resolveHistory} from "../../machinery/nano-rpc-fetch-wrapper";
 
     export let address: NanoAddress
 
