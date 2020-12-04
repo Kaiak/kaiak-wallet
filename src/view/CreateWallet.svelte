@@ -3,7 +3,7 @@
     import Button from "../components/Button.svelte";
     import {onMount} from "svelte";
     import type { WalletResult } from "../machinery/wallet";
-    import {generateWallet, storeWallet} from "../machinery/wallet";
+    import {createWallet, generateWallet} from "../machinery/wallet";
     import Seperator from "../components/Seperator.svelte";
     import LabelledInput from "../components/LabelledInput.svelte";
     import {pushMenu} from "../machinery/eventListener";
@@ -17,7 +17,7 @@
 
     const create = () => {
         if(generatedWallet) {
-            storeWallet(generatedWallet.data, inputPhrase)
+            createWallet(generatedWallet, inputPhrase)
             pushMenu('unlock')
         }
     }
@@ -34,7 +34,7 @@
         <Seperator languageId="wallet-mnemonic"/>
         {generatedWallet.mnemonic}
         <Seperator languageId="wallet-seed" />
-        <div style="overflow-wrap: break-word;">{generatedWallet.data.seed}</div>
+        <div style="overflow-wrap: break-word;">{generatedWallet.seed}</div>
         <Seperator languageId="wallet-password" />
         <LabelledInput on:change={inputPassword} />
         <Button languageId="create" on:click={create} />

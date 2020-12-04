@@ -9,7 +9,7 @@
 	import type {NavigationState} from "./machinery/NavigationState";
 	import UnlockWallet from "./view/UnlockWallet.svelte";
 	import CreateWallet from "./view/CreateWallet.svelte";
-	import {walletDataExists} from "./machinery/wallet";
+	import {walletDataExists} from "./machinery/secure-storage";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -26,8 +26,6 @@
 		} else {
 			pushMenu('create')
 		}
-		// Check if we have wallet
-
 	})
 
 	const toggleMenu = () => pushMenu('menu')

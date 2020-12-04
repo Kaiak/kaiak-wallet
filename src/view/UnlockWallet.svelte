@@ -2,9 +2,9 @@
     import Content from "../components/Content.svelte";
     import LabelledInput from "../components/LabelledInput.svelte";
     import Button from "../components/Button.svelte";
-    import {unlockWallet} from "../machinery/wallet";
     import {pushMenu, pushState} from "../machinery/eventListener";
     import type {NanoWallet} from "../machinery/models";
+    import {unlockWallet} from "../machinery/secure-storage";
 
     let inputPhrase: string | undefined;
 
