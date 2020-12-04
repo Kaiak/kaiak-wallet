@@ -22,7 +22,7 @@ export function createWallet(
   const nanoWallet: NanoWallet = {
     seed: walletData.seed,
     encryptionSecret: encryptionSecret,
-    accounts: [{alias: 'main', address: undefined}],
+    accounts: [{ alias: 'main', address: undefined }],
   };
   return setWallet(nanoWallet);
 }
