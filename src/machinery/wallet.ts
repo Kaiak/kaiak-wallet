@@ -41,7 +41,6 @@ export function unlockWallet(encryptionSecret: string): NanoWallet | undefined {
   });
   try {
     const data: WalletData = ls.get(WALLET_STORE);
-    console.log(data)
     if (data.seed && data.aliases) {
       return walletDataToWallet(data)
     } else {
