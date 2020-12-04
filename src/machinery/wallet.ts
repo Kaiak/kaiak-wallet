@@ -1,6 +1,6 @@
-import SecureLS from 'secure-ls';
 import { wallet } from 'nanocurrency-web';
 import type { NanoWallet } from './models';
+import {storage} from "./secure-storage";
 
 interface WalletData {
   seed: string;
@@ -35,12 +35,8 @@ const walletToWalletData: (NanoWallet) => WalletData = (wallet: NanoWallet) => {
 }
 
 export function unlockWallet(encryptionSecret: string): NanoWallet | undefined {
-  let ls = new SecureLS({
-    encodingType: 'aes',
-    encryptionSecret: encryptionSecret,
-  });
   try {
-    const data: WalletData = ls.get(WALLET_STORE);
+    const data: WalletData = storage(encryptionSecret).getItem(WALLET_STORE);
     if (data.seed && data.aliases) {
       return walletDataToWallet(data)
     } else {
@@ -68,11 +64,7 @@ export function storeWallet(
   walletData: NanoWallet,
   encryptionSecret: string
 ): void {
-  let ls = new SecureLS({
-    encodingType: 'aes',
-    encryptionSecret: encryptionSecret,
-  });
-  ls.set(WALLET_STORE, walletToWalletData(walletData));
+  storage(encryptionSecret).setItem(WALLET_STORE, walletToWalletData(walletData))
 }
 
 /** TODO: Store */
@@ -89,6 +81,5 @@ export function addNanoAccount(walletData: NanoWallet): NanoWallet {
 }
 
 export function walletDataExists(): boolean {
-  let ls = new SecureLS()
-  return ls.getAllKeys().length > 0
+  return localStorage.getItem(WALLET_STORE) !== undefined
 }

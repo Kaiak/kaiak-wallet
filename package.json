@@ -46,11 +46,12 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
+    "crypto-js": "^4.0.0",
     "nano-rpc-fetch": "^1.0.0",
     "nanocurrency-web": "^1.2.2",
     "qrcode": "^1.4.4",
     "redux": "^4.0.5",
-    "secure-ls": "^1.2.6",
+    "secure-web-storage": "^1.0.2",
     "sirv-cli": "^1.0.0"
   }
 }
