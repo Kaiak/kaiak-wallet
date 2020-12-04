@@ -2,7 +2,7 @@
     import Content from "../components/Content.svelte";
     import Button from "../components/Button.svelte";
     import {onMount} from "svelte";
-    import type {WalletData, WalletResult} from "../machinery/wallet";
+    import type { WalletResult } from "../machinery/wallet";
     import {generateWallet, storeWallet} from "../machinery/wallet";
     import Seperator from "../components/Seperator.svelte";
     import LabelledInput from "../components/LabelledInput.svelte";

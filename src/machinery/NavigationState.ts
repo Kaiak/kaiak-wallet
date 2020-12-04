@@ -18,5 +18,5 @@ export interface SelectedAccountState {
 export interface NavigationState {
   menu: MenuSelector;
   account: SelectedAccountState | undefined;
-  walletData: NanoWallet | undefined;
+  wallet: NanoWallet | undefined;
 }

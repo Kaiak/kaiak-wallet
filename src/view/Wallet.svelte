@@ -15,7 +15,7 @@
 
     const unsubscribe = navigationStore.subscribe<NavigationState>(value => {
         navigationState = value
-        wallet = value.walletData
+        wallet = value.wallet
     });
     const selectAccount = (account: NanoAccount) => {
         pushState({...navigationState, account: {selectedAccount: account, view: undefined, selectedTransaction: undefined}})
@@ -23,7 +23,7 @@
 
     const addAccount = () => {
         const updatedNanoWallet = addNanoAccount(wallet)
-        patchState({...navigationState, walletData: updatedNanoWallet})
+        patchState({...navigationState, wallet: updatedNanoWallet})
     }
 
 </script>

@@ -2,21 +2,37 @@ import SecureLS from 'secure-ls';
 import { wallet } from 'nanocurrency-web';
 import type { NanoWallet } from './models';
 
-interface AccountAlias {
-  alias: string;
-}
-
-export interface WalletData {
+interface WalletData {
   seed: string;
-  aliases: AccountAlias[];
+  aliases: string[];
 }
 
 export interface WalletResult {
-  data: WalletData;
+  data: NanoWallet;
   mnemonic: string;
 }
 
 const WALLET_STORE = 'wallet_store';
+
+const walletDataToWallet: (WalletData) => NanoWallet = (walletData: WalletData) => {
+  const addresses = wallet.accounts(walletData.seed, 0, walletData.aliases.length - 1);
+  return {
+    seed: walletData.seed,
+    accounts: addresses.map((address, i) => {
+    return {
+      alias: walletData.aliases[i],
+      address: address.address,
+    };
+  }),
+  }
+}
+
+const walletToWalletData: (NanoWallet) => WalletData = (wallet: NanoWallet) => {
+  return {
+    seed: wallet.seed,
+    aliases: wallet.accounts.map(account => account.alias)
+  }
+}
 
 export function unlockWallet(encryptionSecret: string): NanoWallet | undefined {
   let ls = new SecureLS({
@@ -25,17 +41,9 @@ export function unlockWallet(encryptionSecret: string): NanoWallet | undefined {
   });
   try {
     const data: WalletData = ls.get(WALLET_STORE);
+    console.log(data)
     if (data.seed && data.aliases) {
-      const addresses = wallet.accounts(data.seed, 0, data.aliases.length - 1);
-      return {
-        seed: data.seed,
-        accounts: addresses.map((address, i) => {
-          return {
-            alias: data.aliases[i] ? data.aliases[i].alias : 'undefined',
-            address: address.address,
-          };
-        }),
-      };
+      return walletDataToWallet(data)
     } else {
       return undefined;
     }
@@ -47,24 +55,25 @@ export function unlockWallet(encryptionSecret: string): NanoWallet | undefined {
 
 export function generateWallet(): WalletResult {
   const w = wallet.generate();
+  const data: WalletData = {
+    seed: w.seed,
+    aliases: ['test']
+  }
   return {
-    data: {
-      seed: w.seed,
-      aliases: [{ alias: 'test' }],
-    },
+    data: walletDataToWallet(data),
     mnemonic: w.mnemonic,
   };
 }
 
 export function storeWallet(
-  walletData: WalletData,
+  walletData: NanoWallet,
   encryptionSecret: string
 ): void {
   let ls = new SecureLS({
     encodingType: 'aes',
     encryptionSecret: encryptionSecret,
   });
-  ls.set(WALLET_STORE, walletData);
+  ls.set(WALLET_STORE, walletToWalletData(walletData));
 }
 
 /** TODO: Store */
