@@ -87,3 +87,8 @@ export function addNanoAccount(walletData: NanoWallet): NanoWallet {
     ],
   };
 }
+
+export function walletDataExists(): boolean {
+  let ls = new SecureLS()
+  return ls.getAllKeys().length > 0
+}

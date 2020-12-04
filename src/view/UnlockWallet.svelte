@@ -13,7 +13,6 @@
     }
 
     const unlock = () => {
-        console.log(inputPhrase)
         const data: NanoWallet | undefined = unlockWallet(inputPhrase)
         if(data) {
             pushState({menu: 'wallet', wallet: data, account: undefined})
