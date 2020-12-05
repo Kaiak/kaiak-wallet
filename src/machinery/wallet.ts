@@ -22,7 +22,14 @@ export function createWallet(
   const nanoWallet: NanoWallet = {
     seed: walletData.seed,
     encryptionSecret: encryptionSecret,
-    accounts: [{ alias: 'main', address: undefined, privateKey: undefined, publicKey: undefined }],
+    accounts: [
+      {
+        alias: 'main',
+        address: undefined,
+        privateKey: undefined,
+        publicKey: undefined,
+      },
+    ],
   };
   return setWallet(nanoWallet);
 }
@@ -35,7 +42,12 @@ export function addNanoAccount(walletData: NanoWallet): NanoWallet {
     encryptionSecret: walletData.encryptionSecret,
     accounts: [
       ...walletData.accounts,
-      { address: nextAccount.address, alias: undefined, privateKey: nextAccount.privateKey, publicKey: nextAccount.publicKey },
+      {
+        address: nextAccount.address,
+        alias: undefined,
+        privateKey: nextAccount.privateKey,
+        publicKey: nextAccount.publicKey,
+      },
     ],
   };
   return setWallet(updatedNanoWallet);

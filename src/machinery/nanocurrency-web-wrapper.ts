@@ -1,63 +1,68 @@
-import {block, tools} from "nanocurrency-web";
-import type {Frontier, NANO, NanoAddress, PrivateKey} from "./models";
-import type {SendBlock, SignedBlock, ReceiveBlock} from "nanocurrency-web/dist/lib/block-signer";
-
+import { block, tools } from 'nanocurrency-web';
+import type { Frontier, NANO, NanoAddress, PrivateKey } from './models';
+import type {
+  SendBlock,
+  SignedBlock,
+  ReceiveBlock,
+} from 'nanocurrency-web/dist/lib/block-signer';
 
 export function rawToNano(raw: number, fractions?: number): NANO {
-    return {
-        amount: Number.parseFloat(
-            tools.convert(raw.toString(), 'RAW', 'NANO')
-        ).toFixed(fractions)
-    };
+  return {
+    amount: Number.parseFloat(
+      tools.convert(raw.toString(), 'RAW', 'NANO')
+    ).toFixed(fractions),
+  };
 }
 
 export function nanoToRaw(nano: NANO): string {
-    return tools.convert(nano.amount, 'NANO', 'RAW')
+  return tools.convert(nano.amount, 'NANO', 'RAW');
 }
 
 export function signReceiveBlock(
-    address: NanoAddress,
-    privateKey: PrivateKey,
-    workHash: string,
-    pendingBlock: any,
-    frontier: Frontier,
-    walletBalance: NANO
+  address: NanoAddress,
+  privateKey: PrivateKey,
+  workHash: string,
+  pendingBlock: any,
+  frontier: Frontier,
+  walletBalance: NANO
 ): SignedBlock {
-    const blockHash = Object.keys(pendingBlock)[0];
+  const blockHash = Object.keys(pendingBlock)[0];
 
-    const amount = pendingBlock[blockHash].amount;
+  const amount = pendingBlock[blockHash].amount;
 
-    const data: ReceiveBlock = {
-        walletBalanceRaw: nanoToRaw(walletBalance),
-        toAddress: address,
-        transactionHash: blockHash,
-        frontier: frontier,
-        representativeAddress: "nano_1hzoje373eapce4ses7xsx539suww5555hi9q8i8j7hpbayzxq4c4nn91hr8", // TODO
-        amountRaw: amount,
-        work: workHash
-    };
+  const data: ReceiveBlock = {
+    walletBalanceRaw: nanoToRaw(walletBalance),
+    toAddress: address,
+    transactionHash: blockHash,
+    frontier: frontier,
+    representativeAddress:
+      'nano_1hzoje373eapce4ses7xsx539suww5555hi9q8i8j7hpbayzxq4c4nn91hr8', // TODO
+    amountRaw: amount,
+    work: workHash,
+  };
 
-    return block.receive(data, privateKey)
+  return block.receive(data, privateKey);
 }
 
 export function signSendBlock(
-    privateKey: PrivateKey,
-    walletBalanceRaw: NANO,
-    fromAddress: NanoAddress,
-    toAddress: NanoAddress,
-    frontier: string,
-    amount: NANO,
-    workHash: string
+  privateKey: PrivateKey,
+  walletBalanceRaw: NANO,
+  fromAddress: NanoAddress,
+  toAddress: NanoAddress,
+  frontier: string,
+  amount: NANO,
+  workHash: string
 ): SignedBlock {
-    const data: SendBlock = {
-        walletBalanceRaw: nanoToRaw(walletBalanceRaw),
-        fromAddress: fromAddress,
-        toAddress: toAddress,
-        representativeAddress: "nano_1hzoje373eapce4ses7xsx539suww5555hi9q8i8j7hpbayzxq4c4nn91hr8", // TODO
-        frontier: frontier,
-        amountRaw: nanoToRaw(amount), // TODO: Convert to raw
-        work: workHash
-    };
+  const data: SendBlock = {
+    walletBalanceRaw: nanoToRaw(walletBalanceRaw),
+    fromAddress: fromAddress,
+    toAddress: toAddress,
+    representativeAddress:
+      'nano_1hzoje373eapce4ses7xsx539suww5555hi9q8i8j7hpbayzxq4c4nn91hr8', // TODO
+    frontier: frontier,
+    amountRaw: nanoToRaw(amount), // TODO: Convert to raw
+    work: workHash,
+  };
 
-    return block.send(data, privateKey)
+  return block.send(data, privateKey);
 }
