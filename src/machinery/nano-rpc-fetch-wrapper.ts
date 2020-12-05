@@ -1,18 +1,22 @@
-import type { NANO, NanoAddress, NanoTransaction, Frontier } from './models';
+import type { Frontier, NANO, NanoAddress, NanoTransaction } from './models';
 import {
   AccountBalanceRequestActionEnum,
   AccountBalanceResponse,
   AccountHistoryRequestActionEnum,
   AccountHistoryResponse,
   AccountsFrontiersRequestActionEnum,
+  AccountsFrontiersResponse,
   AccountsPendingRequestActionEnum,
+  AccountsPendingResponse,
   BlocksInfoRequestActionEnum,
+  BlocksInfoResponse,
   Configuration,
   ModelBoolean,
   NodeRPCsApi,
   ProcessRequestActionEnum,
   ProcessResponse,
   WorkGenerateRequestActionEnum,
+  WorkGenerateResponse,
 } from 'nano-rpc-fetch';
 import type { BlockInfo, PendingBlock } from 'nano-rpc-fetch/models/index';
 import { rawToNano } from './nanocurrency-web-wrapper';
@@ -33,8 +37,8 @@ export async function resolveBalance(address: NanoAddress): Promise<NANO> {
   return rawToNano(balance.balance, 5);
 }
 
-export function processSimple(block: any): Promise<ProcessResponse> {
-  return nanoApi.process({
+export async function processSimple(block: any): Promise<ProcessResponse> {
+  return await nanoApi.process({
     processRequest: {
       action: ProcessRequestActionEnum.Process,
       block: block,
@@ -44,14 +48,13 @@ export function processSimple(block: any): Promise<ProcessResponse> {
 }
 
 export async function generateWork(frontier: string): Promise<string> {
-  return nanoApi
-    .workGenerate({
-      workGenerateRequest: {
-        action: WorkGenerateRequestActionEnum.WorkGenerate,
-        hash: frontier,
-      },
-    })
-    .then((hash) => hash.work);
+  const response: WorkGenerateResponse = await nanoApi.workGenerate({
+    workGenerateRequest: {
+      action: WorkGenerateRequestActionEnum.WorkGenerate,
+      hash: frontier,
+    },
+  });
+  return response.work;
 }
 
 export async function resolveHistory(
@@ -74,44 +77,41 @@ export async function resolveHistory(
   });
 }
 
-export function getPendingBlocksSimple(
+export async function getPendingBlocksSimple(
   accounts: string[]
 ): Promise<{ [key: string]: { [key: string]: PendingBlock } }> {
-  return nanoApi
-    .accountsPending({
-      accountsPendingRequest: {
-        action: AccountsPendingRequestActionEnum.AccountsPending,
-        accounts: accounts,
-        count: '1',
-        source: true,
-      },
-    })
-    .then((res) => res.blocks);
+  const response: AccountsPendingResponse = await nanoApi.accountsPending({
+    accountsPendingRequest: {
+      action: AccountsPendingRequestActionEnum.AccountsPending,
+      accounts: accounts,
+      count: '1',
+      source: true,
+    },
+  });
+  return response.blocks;
 }
 
-export function loadFrontiers(
+export async function loadFrontiers(
   addresses: string[]
 ): Promise<Map<string, Frontier> | { [key: string]: Frontier }> {
-  return nanoApi
-    .accountsFrontiers({
-      accountsFrontiersRequest: {
-        action: AccountsFrontiersRequestActionEnum.AccountsFrontiers,
-        accounts: addresses,
-      },
-    })
-    .then((res) => res.frontiers);
+  const response: AccountsFrontiersResponse = await nanoApi.accountsFrontiers({
+    accountsFrontiersRequest: {
+      action: AccountsFrontiersRequestActionEnum.AccountsFrontiers,
+      accounts: addresses,
+    },
+  });
+  return response.frontiers;
 }
 
-export function loadBlocks(
+export async function loadBlocks(
   frontiers: string[]
 ): Promise<{ [key: string]: BlockInfo }> {
-  return nanoApi
-    .blocksInfo({
-      blocksInfoRequest: {
-        action: BlocksInfoRequestActionEnum.BlocksInfo,
-        hashes: frontiers,
-        jsonBlock: ModelBoolean.True,
-      },
-    })
-    .then((res) => res.blocks);
+  const response: BlocksInfoResponse = await nanoApi.blocksInfo({
+    blocksInfoRequest: {
+      action: BlocksInfoRequestActionEnum.BlocksInfo,
+      hashes: frontiers,
+      jsonBlock: ModelBoolean.True,
+    },
+  });
+  return response.blocks;
 }
