@@ -33,9 +33,9 @@
         loading
     {:else}
         <Seperator languageId="wallet-mnemonic"/>
-        <Text body={generatedWallet.mnemonic}/>
+        <Text>{generatedWallet.mnemonic}</Text>
         <Seperator languageId="wallet-seed" />
-        <Text breakAll=true body={generatedWallet.seed}/>
+        <Text breakAll=true>{generatedWallet.seed}</Text>
         <Seperator languageId="wallet-password" />
         <LabelledInput type="number" on:change={inputPassword} />
         <Button languageId="create" on:click={create} />
