@@ -24,7 +24,7 @@
 </script>
 
 <Content titleKey="unlock-wallet">
-    <LabelledInput languageId="unlock-label" placeholderLanguage="unlock-label" on:change={onInputPassword}/>
+    <LabelledInput type="number" languageId="unlock-label" placeholderLanguage="unlock-label" on:change={onInputPassword}/>
     <Button languageId="unlock-wallet" on:click={unlock}/>
     <Button languageId="create-new-wallet" on:click={createNew} />
 </Content>
