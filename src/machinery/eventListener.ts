@@ -1,9 +1,9 @@
 import { loadedComponentStore, navigationStore } from '../stores/stores';
 import { Navigation } from './navigation';
-import type { NavigationState } from './NavigationState';
+import type { MenuSelector, NavigationState } from './NavigationState';
 
 export interface LoadedElements {
-  elements: HTMLElement[];
+  elements: any;
 }
 
 let selection = undefined;
@@ -26,6 +26,7 @@ let stateHistory: NavigationState[] = [
   {
     menu: 'wallet',
     account: undefined,
+    wallet: undefined,
   },
 ];
 
@@ -40,6 +41,15 @@ export function popState(): boolean {
   } else {
     return false;
   }
+}
+
+export function pushMenu(menu: MenuSelector): void {
+  pushState({ ...stateHistory[index], menu });
+}
+
+export function patchState(state: NavigationState): void {
+  stateHistory[index] = state;
+  navigationStore.set(state);
 }
 
 export function pushState(state: NavigationState): void {

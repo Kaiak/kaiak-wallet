@@ -9,6 +9,7 @@ export interface NanoAccount {
 export interface NanoWallet {
   accounts: NanoAccount[];
   seed: Seed;
+  encryptionSecret: string | undefined;
 }
 
 export interface NanoTransaction {
