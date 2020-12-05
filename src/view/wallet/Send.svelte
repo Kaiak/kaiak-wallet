@@ -4,13 +4,13 @@
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
-    import type {NANO, NanoAccount} from "../../machinery/models";
+    import type { NanoAccount, RAW } from "../../machinery/models";
 
     type SendAction = 'qr' | 'input'
     let selectedSend: SendAction | undefined = undefined;
 
     export let account: NanoAccount;
-    export let balance: NANO;
+    export let balance: RAW;
 </script>
 <Seperator languageId="send-select" />
 {#if selectedSend === 'qr'}

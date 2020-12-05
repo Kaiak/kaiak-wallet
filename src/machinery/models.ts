@@ -19,11 +19,15 @@ export interface NanoWallet {
 
 export interface NanoTransaction {
   account: NanoAddress;
-  amount: NANO;
+  amount: RAW;
   type: string;
   localTimestamp: string;
 }
 
 export interface NANO {
   amount: string;
+}
+
+export interface RAW {
+  raw: string;
 }

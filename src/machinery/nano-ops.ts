@@ -2,11 +2,11 @@ import type { BlockInfo, PendingBlock } from 'nano-rpc-fetch';
 import type { SignedBlock } from 'nanocurrency-web/dist/lib/block-signer';
 import type {
   Frontier,
-  NANO,
   NanoAccount,
   NanoAddress,
   PrivateKey,
   PublicKey,
+  RAW,
 } from './models';
 import {
   generateWork,
@@ -15,11 +15,7 @@ import {
   loadFrontiers,
   processSimple,
 } from './nano-rpc-fetch-wrapper';
-import {
-  rawToNano,
-  signReceiveBlock,
-  signSendBlock,
-} from './nanocurrency-web-wrapper';
+import { signReceiveBlock, signSendBlock } from './nanocurrency-web-wrapper';
 
 /** This file combines nanocurrency-web and nano-rpc-fetch */
 
@@ -36,9 +32,9 @@ export async function loadWalletData(account: NanoAccount): Promise<void> {
 
   const frontier: Frontier | undefined = frontiers[account.address];
   const block: BlockInfo | undefined = blocks[frontier];
-  const currentBalance: NANO = block
-    ? rawToNano(block.balance)
-    : { amount: '0' };
+  const currentBalance: RAW = block
+    ? { raw: block.balance.toString() }
+    : { raw: '0' };
   await resolvePendingForAccount(
     account.address,
     account.privateKey,
@@ -55,7 +51,7 @@ async function resolvePendingForAccount(
   publicKey: PublicKey,
   pendingBlock: PendingBlock,
   frontier: Frontier,
-  currentBalance: NANO
+  currentBalance: RAW
 ): Promise<any> {
   /** TODO: Clean up this */
   const frontierOrPublicKey: Frontier | PublicKey =
@@ -79,8 +75,8 @@ async function resolvePendingForAccount(
 export async function sendNano(
   account: NanoAccount,
   toAddress: NanoAddress,
-  amount: NANO,
-  balance: NANO
+  amount: RAW,
+  balance: RAW
 ): Promise<void> {
   try {
     const frontiers:

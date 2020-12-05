@@ -1,12 +1,13 @@
 <script lang="ts">
     import LabelledInput from "../../components/LabelledInput.svelte";
     import Button from "../../components/Button.svelte";
-    import type {NanoAddress, NANO, NanoAccount} from "../../machinery/models";
+    import type {NanoAddress, NANO, NanoAccount, RAW} from "../../machinery/models";
     import {tools} from "nanocurrency-web";
     import {sendNano} from "../../machinery/nano-ops";
+    import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
 
     export let account: NanoAccount;
-    export let balance: NANO;
+    export let balance: RAW;
 
     let toAddress: NanoAddress | undefined
     let sendAmount: NANO | undefined
@@ -28,13 +29,13 @@
     }
 
     const setMax = () => {
-        sendAmount = balance
+        sendAmount = rawToNano(balance, 5)
         balanceValue = sendAmount.amount
     }
 
     const send = async () => {
         if(toAddress && sendAmount) {
-            await sendNano(account, toAddress, sendAmount, balance)
+            await sendNano(account, toAddress, nanoToRaw(sendAmount), balance)
         }
     }
 

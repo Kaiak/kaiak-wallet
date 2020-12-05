@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NANO} from "../../machinery/models";
+    import type {NANO, RAW} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
@@ -13,11 +13,12 @@
     import {pushState} from "../../machinery/eventListener";
     import {resolveBalance} from "../../machinery/nano-rpc-fetch-wrapper";
     import {loadWalletData} from "../../machinery/nano-ops";
+    import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
 
     let state: NavigationState
     let selectedAccount: SelectedAccountState | undefined = undefined
     let separatorText: string | undefined = undefined
-    let balance: NANO | undefined
+    let balance: RAW | undefined
 
     navigationStore.subscribe(value => {
         state = value
@@ -28,7 +29,7 @@
     onMount(async () => {
         try {
             balance = await resolveBalance(selectedAccount.selectedAccount?.address)
-            separatorText = `${selectedAccount.selectedAccount?.alias} ${balance.amount} Nano`
+            separatorText = `${selectedAccount.selectedAccount?.alias} ${rawToNano(balance, 5).amount} Nano`
         } catch (error) {
             console.log('error loading balance')
         }
