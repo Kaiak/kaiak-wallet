@@ -1,6 +1,12 @@
 <script>
-    export let text;
+    export let body;
     export let languageId;
+    export let breakAll;
 </script>
 
-<div class="kui-text" data-l10n-id="{languageId}" on:click>{text}</div>
+{#if breakAll}
+    <div class="kui-body kui-text kui-text-break" data-l10n-id="{languageId}" on:click>{body}</div>
+{:else}
+    <div class="kui-body kui-text" data-l10n-id="{languageId}" on:click>{body}</div>
+{/if}
+
