@@ -46,7 +46,7 @@ export function signReceiveBlock(
 
 export function signSendBlock(
   privateKey: PrivateKey,
-  walletBalanceRaw: NANO,
+  walletBalance: NANO,
   fromAddress: NanoAddress,
   toAddress: NanoAddress,
   frontier: string,
@@ -54,13 +54,13 @@ export function signSendBlock(
   workHash: string
 ): SignedBlock {
   const data: SendBlock = {
-    walletBalanceRaw: nanoToRaw(walletBalanceRaw),
+    walletBalanceRaw: nanoToRaw(walletBalance),
     fromAddress: fromAddress,
     toAddress: toAddress,
     representativeAddress:
       'nano_1hzoje373eapce4ses7xsx539suww5555hi9q8i8j7hpbayzxq4c4nn91hr8', // TODO
     frontier: frontier,
-    amountRaw: nanoToRaw(amount), // TODO: Convert to raw
+    amountRaw: nanoToRaw(amount),
     work: workHash,
   };
 
