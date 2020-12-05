@@ -17,8 +17,9 @@ import {
   ProcessResponse,
   WorkGenerateRequestActionEnum,
   WorkGenerateResponse,
+  BlockInfo,
+  PendingBlock,
 } from 'nano-rpc-fetch';
-import type { BlockInfo, PendingBlock } from 'nano-rpc-fetch/models/index';
 
 const nanoApi = new NodeRPCsApi(
   new Configuration({
