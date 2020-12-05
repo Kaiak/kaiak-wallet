@@ -5,8 +5,8 @@
 </script>
 
 {#if breakAll}
-    <div class="kui-body kui-text kui-text-break" data-l10n-id="{languageId}" on:click>{body}</div>
+    <div class="kui-body kui-text kui-text-break" tabindex="1" data-l10n-id="{languageId}" on:click>{body}</div>
 {:else}
-    <div class="kui-body kui-text" data-l10n-id="{languageId}" on:click>{body}</div>
+    <div class="kui-body kui-text" tabindex="1" data-l10n-id="{languageId}" on:click>{body}</div>
 {/if}
 
