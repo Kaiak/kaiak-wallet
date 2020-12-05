@@ -1,6 +1,7 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
     import Button from "../components/Button.svelte";
+    import Text from "../components/Text.svelte";
     import {onMount} from "svelte";
     import type { WalletResult } from "../machinery/wallet";
     import {createWallet, generateWallet} from "../machinery/wallet";
@@ -32,11 +33,11 @@
         loading
     {:else}
         <Seperator languageId="wallet-mnemonic"/>
-        {generatedWallet.mnemonic}
+        <Text body={generatedWallet.mnemonic}/>
         <Seperator languageId="wallet-seed" />
-        <div style="overflow-wrap: break-word;">{generatedWallet.seed}</div>
+        <Text breakAll=true body={generatedWallet.seed}/>
         <Seperator languageId="wallet-password" />
-        <LabelledInput on:change={inputPassword} />
+        <LabelledInput type="number" on:change={inputPassword} />
         <Button languageId="create" on:click={create} />
     {/if}
 </Content>
