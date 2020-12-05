@@ -1,5 +1,5 @@
 import {block, tools} from "nanocurrency-web";
-import type { NANO, NanoAddress, PrivateKey } from "./models";
+import type {Frontier, NANO, NanoAddress, PrivateKey} from "./models";
 import type {SendBlock, SignedBlock, ReceiveBlock} from "nanocurrency-web/dist/lib/block-signer";
 
 
@@ -11,9 +11,6 @@ export function rawToNano(raw: number, fractions?: number): NANO {
     };
 }
 
-export function nanoToRawString(nano: NANO): number {
-    return Number.parseFloat(nanoToRaw(nano))
-}
 export function nanoToRaw(nano: NANO): string {
     return tools.convert(nano.amount, 'NANO', 'RAW')
 }
@@ -23,7 +20,7 @@ export function signReceiveBlock(
     privateKey: PrivateKey,
     workHash: string,
     pendingBlock: any,
-    frontier: any,
+    frontier: Frontier,
     walletBalance: NANO
 ): SignedBlock {
     const blockHash = Object.keys(pendingBlock)[0];
@@ -31,7 +28,7 @@ export function signReceiveBlock(
     const amount = pendingBlock[blockHash].amount;
 
     const data: ReceiveBlock = {
-        walletBalanceRaw: nanoToRaw(walletBalance), // TODO
+        walletBalanceRaw: nanoToRaw(walletBalance),
         toAddress: address,
         transactionHash: blockHash,
         frontier: frontier,
@@ -43,9 +40,9 @@ export function signReceiveBlock(
     return block.receive(data, privateKey)
 }
 
-function signSendBlock(
+export function signSendBlock(
     privateKey: PrivateKey,
-    walletBalanceRaw: string,
+    walletBalanceRaw: NANO,
     fromAddress: NanoAddress,
     toAddress: NanoAddress,
     frontier: string,
@@ -53,7 +50,7 @@ function signSendBlock(
     workHash: string
 ): SignedBlock {
     const data: SendBlock = {
-        walletBalanceRaw: walletBalanceRaw,
+        walletBalanceRaw: nanoToRaw(walletBalanceRaw),
         fromAddress: fromAddress,
         toAddress: toAddress,
         representativeAddress: "nano_1hzoje373eapce4ses7xsx539suww5555hi9q8i8j7hpbayzxq4c4nn91hr8", // TODO

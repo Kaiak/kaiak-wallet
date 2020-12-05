@@ -13,10 +13,21 @@
                 return "unknown"
         }
     }
+
+    const direction = () => {
+        switch (transaction.type) {
+            case 'receive':
+                return 'transaction-from';
+            case 'send':
+                return 'transaction-to';
+            default:
+                return 'unknown'
+        }
+    }
 </script>
 <div>
     <span data-l10n-id={transactionType()}></span>
     {transaction.amount.amount}
-    <span data-l10n-id="transaction-from"></span>
+    <span data-l10n-id={direction()}></span>
     {transaction.account}
 </div>

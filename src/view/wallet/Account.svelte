@@ -17,6 +17,7 @@
     let state: NavigationState
     let selectedAccount: SelectedAccountState | undefined = undefined
     let separatorText: string | undefined = undefined
+    let balance: NANO | undefined
 
     navigationStore.subscribe(value => {
         state = value
@@ -26,7 +27,7 @@
 
     onMount(async () => {
         try {
-            const balance: NANO = await resolveBalance(selectedAccount.selectedAccount?.address)
+            balance = await resolveBalance(selectedAccount.selectedAccount?.address)
             separatorText = `${selectedAccount.selectedAccount?.alias} ${balance.amount} Nano`
         } catch (error) {
             console.log('error loading balance')
@@ -38,7 +39,7 @@
     }
 
     const triggerRefresh = async () => {
-        const log = await loadWalletData(selectedAccount.selectedAccount)
+        await loadWalletData(selectedAccount.selectedAccount)
     }
 
 </script>
@@ -55,7 +56,7 @@
     <Seperator languageId="transactions" primaryText={selectedAccount?.selectedAccount.alias}/>
     <Transactions address={selectedAccount?.selectedAccount.address}/>
 {:else if selectedAccount?.view === 'send'}
-    <Send />
+    <Send account={selectedAccount?.selectedAccount} balance={balance}/>
 {:else if selectedAccount?.view === 'receive'}
     <Receive account={selectedAccount?.selectedAccount} />
 {/if}

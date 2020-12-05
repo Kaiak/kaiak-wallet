@@ -1,4 +1,4 @@
-import type {NANO, NanoAddress, NanoTransaction} from "./models";
+import type {NANO, NanoAddress, NanoTransaction, Frontier} from "./models";
 import {
     AccountBalanceRequestActionEnum,
     AccountBalanceResponse,
@@ -29,7 +29,7 @@ export async function resolveBalance(address: NanoAddress): Promise<NANO> {
             account: address,
         },
     });
-    return rawToNano(balance.balance, 2)
+    return rawToNano(balance.balance, 5)
 }
 
 export function processSimple(
@@ -88,7 +88,7 @@ export function getPendingBlocksSimple(
 
 export function loadFrontiers(
     addresses: string[]
-): Promise<Map<string, string> | { [key: string]: string; }> {
+): Promise<Map<string, Frontier> | { [key: string]: Frontier; }> {
     return nanoApi.accountsFrontiers({
         accountsFrontiersRequest: {
             action: AccountsFrontiersRequestActionEnum.AccountsFrontiers,
