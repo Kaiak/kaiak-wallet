@@ -53,7 +53,6 @@ export function popState(): boolean {
     return false;
   }
 }
-
 export function pushMenu(menu: MenuSelector): void {
   pushState({ ...stateHistory[index], menu });
 }
@@ -68,6 +67,9 @@ export function pushState(state: NavigationState): void {
   if (state.menu === 'menu' && stateHistory[index].menu === 'menu') {
     popState();
     return;
+  } else if (state.menu === 'unlock') {
+    stateHistory = [];
+    index = 0;
   }
 
   index++;

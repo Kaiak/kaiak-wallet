@@ -87,5 +87,5 @@ function storage(SECRET_KEY: string): SecureStorage {
 }
 
 export function walletDataExists(): boolean {
-  return localStorage.getItem(WALLET_STORE) !== undefined;
+  return localStorage.getItem(WALLET_STORE) !== null;
 }
