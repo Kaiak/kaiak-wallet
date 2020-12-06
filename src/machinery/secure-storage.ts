@@ -1,9 +1,9 @@
-import CryptoJS from 'crypto-js';
-import SecureStorage from 'secure-web-storage';
 import type { NanoWallet } from './models';
 import { wallet } from 'nanocurrency-web';
+import { Store } from 'secure-webstore/dist/secure-webstore';
 
-const WALLET_STORE = 'wallet_store';
+const APP_STORE = 'kaios_nano';
+const WALLET_KEY = 'wallet';
 
 interface WalletData {
   seed: string;
@@ -40,17 +40,20 @@ function walletToWalletData(wallet: NanoWallet): WalletData {
   };
 }
 
-export function setWallet(wallet: NanoWallet): NanoWallet {
-  storage(wallet.encryptionSecret).setItem(
-    WALLET_STORE,
-    walletToWalletData(wallet)
-  );
+export async function setWallet(wallet: NanoWallet): Promise<NanoWallet> {
+  const store: Store = new Store(APP_STORE, wallet.encryptionSecret);
+  await store.init();
+  await store.set(WALLET_KEY, walletToWalletData(wallet));
   return wallet;
 }
 
-export function unlockWallet(encryptionSecret: string): NanoWallet | undefined {
+export async function unlockWallet(
+  encryptionSecret: string
+): Promise<NanoWallet | undefined> {
   try {
-    const data: WalletData = storage(encryptionSecret).getItem(WALLET_STORE);
+    const store = new Store(APP_STORE, encryptionSecret);
+    await store.init();
+    const data: WalletData = await store.get(WALLET_KEY);
     if (data.seed && data.aliases) {
       return walletDataToWallet(data, encryptionSecret);
     } else {
@@ -60,32 +63,4 @@ export function unlockWallet(encryptionSecret: string): NanoWallet | undefined {
     console.log(e);
     return undefined;
   }
-}
-
-function storage(SECRET_KEY: string): SecureStorage {
-  return new SecureStorage(localStorage, {
-    hash: function hash(key) {
-      key = CryptoJS.SHA256(key, SECRET_KEY);
-
-      return key.toString();
-    },
-    encrypt: function encrypt(data) {
-      data = CryptoJS.AES.encrypt(data, SECRET_KEY);
-
-      data = data.toString();
-
-      return data;
-    },
-    decrypt: function decrypt(data) {
-      data = CryptoJS.AES.decrypt(data, SECRET_KEY);
-
-      data = data.toString(CryptoJS.enc.Utf8);
-
-      return data;
-    },
-  });
-}
-
-export function walletDataExists(): boolean {
-  return localStorage.getItem(WALLET_STORE) !== null;
 }

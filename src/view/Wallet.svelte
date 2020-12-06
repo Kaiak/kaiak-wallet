@@ -21,8 +21,8 @@
         pushState({...navigationState, account: {selectedAccount: account, view: undefined, selectedTransaction: undefined}})
     }
 
-    const addAccount = () => {
-        const updatedNanoWallet = addNanoAccount(wallet)
+    const addAccount = async () => {
+        const updatedNanoWallet = await addNanoAccount(wallet)
         patchState({...navigationState, wallet: updatedNanoWallet})
     }
 

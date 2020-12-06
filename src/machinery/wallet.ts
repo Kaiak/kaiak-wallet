@@ -15,10 +15,10 @@ export function generateWallet(): WalletResult {
   };
 }
 
-export function createWallet(
+export async function createWallet(
   walletData: WalletResult,
   encryptionSecret: string
-): NanoWallet {
+): Promise<NanoWallet> {
   const nanoWallet: NanoWallet = {
     seed: walletData.seed,
     encryptionSecret: encryptionSecret,
@@ -34,7 +34,9 @@ export function createWallet(
   return setWallet(nanoWallet);
 }
 
-export function addNanoAccount(walletData: NanoWallet): NanoWallet {
+export async function addNanoAccount(
+  walletData: NanoWallet
+): Promise<NanoWallet> {
   const next = walletData.accounts.length;
   const nextAccount = wallet.accounts(walletData.seed, 0, next)[next];
   let updatedNanoWallet: NanoWallet = {

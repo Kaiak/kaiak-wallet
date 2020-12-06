@@ -16,9 +16,9 @@
         inputPhrase = event.target.value;
     }
 
-    const create = () => {
+    const create = async () => {
         if(generatedWallet) {
-            createWallet(generatedWallet, inputPhrase)
+            await createWallet(generatedWallet, inputPhrase)
             pushMenu('unlock')
         }
     }

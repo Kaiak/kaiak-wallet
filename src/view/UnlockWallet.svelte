@@ -12,8 +12,8 @@
         inputPhrase = event.target.value;
     }
 
-    const unlock = () => {
-        const data: NanoWallet | undefined = unlockWallet(inputPhrase)
+    const unlock = async () => {
+        const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
         if(data) {
             pushState({menu: 'wallet', wallet: data, account: undefined})
         }
