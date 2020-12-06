@@ -1,6 +1,11 @@
-import { loadedComponentStore, navigationStore } from '../stores/stores';
+import {
+  loadedComponentStore,
+  navigationStore,
+  softwareKeysStore,
+} from '../stores/stores';
 import { Navigation } from './navigation';
 import type { MenuSelector, NavigationState } from './NavigationState';
+import type { SoftwareKeysState } from './SoftwareKeysState';
 
 export interface LoadedElements {
   elements: any;
@@ -20,6 +25,12 @@ loadedComponentStore.subscribe((value) => {
     document.addEventListener('keydown', handleKeydown);
     navigation.focus();
   }
+});
+
+let middleKey: (() => void) | undefined = undefined;
+
+softwareKeysStore.subscribe((value: SoftwareKeysState) => {
+  middleKey = value.middleKey?.onClick;
 });
 
 let stateHistory: NavigationState[] = [
@@ -42,7 +53,6 @@ export function popState(): boolean {
     return false;
   }
 }
-
 export function pushMenu(menu: MenuSelector): void {
   pushState({ ...stateHistory[index], menu });
 }
@@ -57,6 +67,9 @@ export function pushState(state: NavigationState): void {
   if (state.menu === 'menu' && stateHistory[index].menu === 'menu') {
     popState();
     return;
+  } else if (state.menu === 'unlock') {
+    stateHistory = [];
+    index = 0;
   }
 
   index++;
@@ -98,7 +111,10 @@ export function handleKeydown(e) {
       }
       break;
     case 'Enter':
-      if (selection) {
+      if (middleKey) {
+        middleKey();
+        e.preventDefault();
+      } else if (selection) {
         selection.click();
         e.preventDefault();
       } else {

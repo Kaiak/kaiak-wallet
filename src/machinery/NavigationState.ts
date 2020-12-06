@@ -9,6 +9,8 @@ export type MenuSelector =
   | 'create';
 export type AccountAction = 'send' | 'transactions' | 'receive';
 
+export type SendAction = 'qr' | 'address';
+
 export interface SelectedAccountState {
   selectedAccount: NanoAccount;
   view: AccountAction | undefined;
