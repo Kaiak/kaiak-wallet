@@ -8,13 +8,8 @@
     let middleOnClick: (() => void) | undefined = undefined
 
     softwareKeysStore.subscribe(value => {
-        if(value.middleKey) {
-            middleKeyLanguageId = "softkey-capture-camera"
-            middleOnClick = value.middleKey
-        } else if(value.middleKey === undefined) {
-            middleKeyLanguageId = undefined;
-            middleOnClick = undefined
-        }
+        middleKeyLanguageId = value.middleKey?.languageId
+        middleOnClick = value.middleKey?.onClick
     })
 
 </script>

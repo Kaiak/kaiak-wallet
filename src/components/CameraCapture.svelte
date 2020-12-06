@@ -19,7 +19,10 @@
         video.srcObject = videoPreview
         await video.play()
         softwareKeysStore.set({
-            middleKey: () => captureCameraImage()
+            middleKey: {
+                onClick: () => captureCameraImage(),
+                languageId: "softkey-capture-camera"
+            },
         })
     }
 

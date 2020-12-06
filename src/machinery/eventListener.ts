@@ -30,7 +30,7 @@ loadedComponentStore.subscribe((value) => {
 let middleKey: (() => void) | undefined = undefined;
 
 softwareKeysStore.subscribe((value: SoftwareKeysState) => {
-  middleKey = value.middleKey;
+  middleKey = value.middleKey?.onClick;
 });
 
 let stateHistory: NavigationState[] = [
