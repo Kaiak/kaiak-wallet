@@ -1,9 +1,14 @@
 export type NanoAddress = string;
 export type Seed = string;
+export type PrivateKey = string;
+export type PublicKey = string;
+export type Frontier = string;
 
 export interface NanoAccount {
   alias: string;
   address: NanoAddress;
+  publicKey: PrivateKey;
+  privateKey: PrivateKey;
 }
 
 export interface NanoWallet {
@@ -14,11 +19,15 @@ export interface NanoWallet {
 
 export interface NanoTransaction {
   account: NanoAddress;
-  amount: string;
+  amount: RAW;
   type: string;
   localTimestamp: string;
 }
 
-export interface Balance {
+export interface NANO {
   amount: string;
+}
+
+export interface RAW {
+  raw: string;
 }

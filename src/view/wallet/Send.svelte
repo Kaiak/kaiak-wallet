@@ -1,18 +1,22 @@
 <script lang="ts">
     import QRcode from "../send/QRcode.svelte";
-    import Input from "../send/Input.svelte";
+    import SendByAddress from "../send/SendByAddress.svelte";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
+    import type { NanoAccount, RAW } from "../../machinery/models";
 
     type SendAction = 'qr' | 'input'
     let selectedSend: SendAction | undefined = undefined;
+
+    export let account: NanoAccount;
+    export let balance: RAW;
 </script>
 <Seperator languageId="send-select" />
 {#if selectedSend === 'qr'}
     <QRcode />
 {:else if selectedSend === 'input'}
-    <Input />
+    <SendByAddress account={account} balance={balance}/>
 {:else}
     <List>
         <Primary primaryText="Send by QR code" on:click={() => selectedSend = "qr"}/>

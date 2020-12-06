@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NanoAccount} from "../../machinery/models";
+    import type { NanoAccount } from "../../machinery/models";
     import {onMount} from "svelte";
     import {generate} from "../../machinery/qr-code-generator";
 
