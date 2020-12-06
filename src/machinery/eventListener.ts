@@ -1,6 +1,11 @@
-import { loadedComponentStore, navigationStore } from '../stores/stores';
+import {
+  loadedComponentStore,
+  navigationStore,
+  softwareKeysStore,
+} from '../stores/stores';
 import { Navigation } from './navigation';
 import type { MenuSelector, NavigationState } from './NavigationState';
+import type { SoftwareKeysState } from './SoftwareKeysState';
 
 export interface LoadedElements {
   elements: any;
@@ -20,6 +25,12 @@ loadedComponentStore.subscribe((value) => {
     document.addEventListener('keydown', handleKeydown);
     navigation.focus();
   }
+});
+
+let middleKey: (() => void) | undefined = undefined;
+
+softwareKeysStore.subscribe((value: SoftwareKeysState) => {
+  middleKey = value.middleKey;
 });
 
 let stateHistory: NavigationState[] = [
@@ -98,7 +109,10 @@ export function handleKeydown(e) {
       }
       break;
     case 'Enter':
-      if (selection) {
+      if (middleKey) {
+        middleKey();
+        e.preventDefault();
+      } else if (selection) {
         selection.click();
         e.preventDefault();
       } else {
