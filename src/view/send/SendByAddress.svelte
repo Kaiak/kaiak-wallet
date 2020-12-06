@@ -2,10 +2,12 @@
     import LabelledInput from "../../components/LabelledInput.svelte";
     import Button from "../../components/Button.svelte";
     import type {NanoAddress, NANO, NanoAccount, RAW} from "../../machinery/models";
+    import type {SendAction} from "../../machinery/NavigationState";
     import {tools} from "nanocurrency-web";
     import {sendNano} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
 
+    export let sendType: SendAction;
     export let account: NanoAccount;
     export let balance: RAW;
 
@@ -39,9 +41,17 @@
         }
     }
 
+    const scanQRCode = () => {
+
+    }
+
 </script>
 
-<LabelledInput languageId="send-address" type="text" on:change={setAddress}/>
+{#if sendType === 'address'}
+    <LabelledInput languageId="send-address" type="text" on:change={setAddress}/>
+{:else}
+    <Button languageId="send-scan-qr" on:click={scanQRCode} />
+{/if}
 <LabelledInput languageId="send-amount" type="text" on:change={setAmount} bind:value={balanceValue}/>
 <Button languageId="send-max-button" on:click={setMax}/>
 <Button languageId="send-button" on:click={send}/>
