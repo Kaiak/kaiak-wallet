@@ -6,6 +6,7 @@
     import {tools} from "nanocurrency-web";
     import {sendNano} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
+    import CameraCapture from "../../components/CameraCapture.svelte";
 
     export let sendType: SendAction;
     export let account: NanoAccount;
@@ -14,10 +15,11 @@
     let toAddress: NanoAddress | undefined
     let sendAmount: NANO | undefined
     let balanceValue: string | undefined = undefined
+    let showCamera: boolean = false
 
     const setAddress = (event) => {
         const address = event.target.value;
-        if(tools.validateAddress(address)) {
+        if (tools.validateAddress(address)) {
             toAddress = address
         }
     }
@@ -25,8 +27,8 @@
     const setAmount = (event) => {
         let strAmount: string = event.target.value;
         const amount: number = Number.parseFloat(strAmount);
-        if(!isNaN(amount)) {
-            sendAmount = { amount: strAmount }
+        if (!isNaN(amount)) {
+            sendAmount = {amount: strAmount}
         }
     }
 
@@ -36,21 +38,29 @@
     }
 
     const send = async () => {
-        if(toAddress && sendAmount) {
+        if (toAddress && sendAmount) {
             await sendNano(account, toAddress, nanoToRaw(sendAmount), balance)
         }
     }
 
-    const scanQRCode = () => {
+    const scanQRCode = () => showCamera = true
 
+    const scannedAddress = (address: NanoAddress) => {
+        toAddress = address;
+        showCamera = false;
+        sendType = 'address'
     }
 
 </script>
 
 {#if sendType === 'address'}
-    <LabelledInput languageId="send-address" type="text" on:change={setAddress}/>
+    <LabelledInput languageId="send-address" type="text" on:change={setAddress} value={toAddress}/>
 {:else}
-    <Button languageId="send-scan-qr" on:click={scanQRCode} />
+    {#if showCamera}
+        <CameraCapture scannedAddress={scannedAddress}/>
+    {:else}
+        <Button languageId="send-scan-qr" on:click={scanQRCode} />
+    {/if}
 {/if}
 <LabelledInput languageId="send-amount" type="text" on:change={setAmount} bind:value={balanceValue}/>
 <Button languageId="send-max-button" on:click={setMax}/>
