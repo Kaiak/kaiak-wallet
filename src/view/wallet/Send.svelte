@@ -6,7 +6,6 @@
     import type { NanoAccount, RAW } from "../../machinery/models";
     import type {SendAction } from "../../machinery/NavigationState";
 
-
     let selectedSend: SendAction | undefined = undefined;
 
     export let account: NanoAccount;
