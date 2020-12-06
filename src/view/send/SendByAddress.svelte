@@ -7,6 +7,7 @@
     import {sendNano} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import CameraCapture from "../../components/CameraCapture.svelte";
+    import {onMount} from "svelte";
 
     export let sendType: SendAction;
     export let account: NanoAccount;
@@ -15,7 +16,7 @@
     let toAddress: NanoAddress | undefined
     let sendAmount: NANO | undefined
     let balanceValue: string | undefined = undefined
-    let showCamera: boolean = false
+    let showCamera: boolean = sendType === 'qr'
 
     const setAddress = (event) => {
         const address = event.target.value;
@@ -43,8 +44,6 @@
         }
     }
 
-    const scanQRCode = () => showCamera = true
-
     const scannedAddress = (address: NanoAddress) => {
         toAddress = address;
         showCamera = false;
@@ -53,15 +52,11 @@
 
 </script>
 
-{#if sendType === 'address'}
-    <LabelledInput languageId="send-address" type="text" on:change={setAddress} value={toAddress}/>
+{#if sendType === 'qr' && showCamera}
+    <CameraCapture scannedAddress={scannedAddress}/>
 {:else}
-    {#if showCamera}
-        <CameraCapture scannedAddress={scannedAddress}/>
-    {:else}
-        <Button languageId="send-scan-qr" on:click={scanQRCode} />
-    {/if}
+    <LabelledInput languageId="send-address" type="text" on:change={setAddress} value={toAddress}/>
+    <LabelledInput languageId="send-amount" type="text" on:change={setAmount} bind:value={balanceValue}/>
+    <Button languageId="send-max-button" on:click={setMax}/>
+    <Button languageId="send-button" on:click={send}/>
 {/if}
-<LabelledInput languageId="send-amount" type="text" on:change={setAmount} bind:value={balanceValue}/>
-<Button languageId="send-max-button" on:click={setMax}/>
-<Button languageId="send-button" on:click={send}/>
