@@ -22,8 +22,10 @@
     }
 
     const addAccount = async () => {
-        const updatedNanoWallet = await addNanoAccount(wallet)
-        patchState({...navigationState, wallet: updatedNanoWallet})
+        const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
+        if(updatedNanoWallet) {
+            patchState({...navigationState, wallet: updatedNanoWallet})
+        } // TODO: Display error
     }
 
 </script>

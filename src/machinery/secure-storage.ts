@@ -40,11 +40,23 @@ function walletToWalletData(wallet: NanoWallet): WalletData {
   };
 }
 
-export async function setWallet(wallet: NanoWallet): Promise<NanoWallet> {
-  const store: Store = new Store(APP_STORE, wallet.encryptionSecret);
-  await store.init();
-  await store.set(WALLET_KEY, walletToWalletData(wallet));
-  return wallet;
+export async function destroyWallet(): Promise<void> {
+  const store: Store = new Store(APP_STORE, APP_STORE);
+  await store.destroy();
+}
+
+export async function setWallet(
+  wallet: NanoWallet
+): Promise<NanoWallet | undefined> {
+  try {
+    const store: Store = new Store(APP_STORE, wallet.encryptionSecret);
+    await store.init();
+    await store.set(WALLET_KEY, walletToWalletData(wallet));
+    return wallet;
+  } catch (e) {
+    console.log(e);
+    return undefined;
+  }
 }
 
 export async function unlockWallet(
