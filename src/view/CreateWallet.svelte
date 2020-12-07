@@ -13,6 +13,7 @@
 
     let generatedWallet: WalletResult | undefined
     let inputPhrase: string | undefined;
+    let storeWallet: boolean = false;
 
     const inputPassword = (event) => {
         inputPhrase = event.target.value;
@@ -20,6 +21,7 @@
 
     const create = async () => {
         if (generatedWallet) {
+            storeWallet = true;
             const storedWallet: NanoWallet | undefined = await createWallet(generatedWallet, inputPhrase)
             if (storedWallet) {
                 pushMenu('unlock')
@@ -32,7 +34,7 @@
     })
 </script>
 <Content titleKey="create-wallet">
-    {#if generatedWallet}
+    {#if generatedWallet && !storeWallet}
         <Seperator languageId="wallet-mnemonic"/>
         <Text>{generatedWallet.mnemonic}</Text>
         <Seperator languageId="wallet-seed" />
@@ -40,7 +42,10 @@
         <Seperator languageId="wallet-password" />
         <LabelledInput type="number" on:change={inputPassword} />
         <Button languageId="create" on:click={create} />
-    {:else}
+    {/if}
+    {#if generatedWallet === undefined}
         <LabelledLoader languageId="creating-wallet" />
+    {:else if storeWallet}
+        <LabelledLoader languageId="storing-wallet" />
     {/if}
 </Content>
