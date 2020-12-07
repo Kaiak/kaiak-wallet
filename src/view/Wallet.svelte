@@ -21,9 +21,11 @@
         pushState({...navigationState, account: {selectedAccount: account, view: undefined, selectedTransaction: undefined}})
     }
 
-    const addAccount = () => {
-        const updatedNanoWallet = addNanoAccount(wallet)
-        patchState({...navigationState, wallet: updatedNanoWallet})
+    const addAccount = async () => {
+        const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
+        if(updatedNanoWallet) {
+            patchState({...navigationState, wallet: updatedNanoWallet})
+        } // TODO: Display error
     }
 
 </script>

@@ -4,6 +4,7 @@
     import Text from "../components/Text.svelte";
     import {onMount} from "svelte";
     import type { WalletResult } from "../machinery/wallet";
+    import type {NanoWallet} from "../machinery/models";
     import {createWallet, generateWallet} from "../machinery/wallet";
     import Seperator from "../components/Seperator.svelte";
     import LabelledInput from "../components/LabelledInput.svelte";
@@ -16,10 +17,12 @@
         inputPhrase = event.target.value;
     }
 
-    const create = () => {
+    const create = async () => {
         if(generatedWallet) {
-            createWallet(generatedWallet, inputPhrase)
-            pushMenu('unlock')
+            const storedWallet: NanoWallet | undefined = await createWallet(generatedWallet, inputPhrase)
+            if(storedWallet) {
+                pushMenu('unlock')
+            } // TODO: Display error
         }
     }
 

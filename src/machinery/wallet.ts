@@ -1,6 +1,6 @@
 import { wallet } from 'nanocurrency-web';
 import type { NanoWallet } from './models';
-import { setWallet } from './secure-storage';
+import { destroyWallet, setWallet } from './secure-storage';
 
 export interface WalletResult {
   seed: string;
@@ -15,10 +15,10 @@ export function generateWallet(): WalletResult {
   };
 }
 
-export function createWallet(
+export async function createWallet(
   walletData: WalletResult,
   encryptionSecret: string
-): NanoWallet {
+): Promise<NanoWallet | undefined> {
   const nanoWallet: NanoWallet = {
     seed: walletData.seed,
     encryptionSecret: encryptionSecret,
@@ -31,10 +31,12 @@ export function createWallet(
       },
     ],
   };
-  return setWallet(nanoWallet);
+  return destroyWallet().then(() => setWallet(nanoWallet));
 }
 
-export function addNanoAccount(walletData: NanoWallet): NanoWallet {
+export async function addNanoAccount(
+  walletData: NanoWallet
+): Promise<NanoWallet | undefined> {
   const next = walletData.accounts.length;
   const nextAccount = wallet.accounts(walletData.seed, 0, next)[next];
   let updatedNanoWallet: NanoWallet = {
