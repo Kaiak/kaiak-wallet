@@ -69,7 +69,7 @@ export function pushState(state: NavigationState): void {
     return;
   } else if (state.menu === 'unlock') {
     stateHistory = [];
-    index = 0;
+    index = -1;
   }
 
   index++;
