@@ -1,7 +1,8 @@
 <script lang="ts">
-    import type { NanoAccount } from "../../machinery/models";
+    import type {NanoAccount} from "../../machinery/models";
     import {onMount} from "svelte";
     import {generate} from "../../machinery/qr-code-generator";
+    import LabelledLoader from "../../components/LabelledLoader.svelte";
 
     export let account: NanoAccount;
     let dataUrl: string | undefined = undefined
@@ -11,15 +12,10 @@
     })
 </script>
 
-<div id="receive__view">
-
-    {#if dataUrl}
+{#if dataUrl}
+    <div id="receive__view">
         <img src={dataUrl} alt={account.address} />
-    {:else}
-        <span data-l10n-id="receive-loading-qr"></span>
-    {/if}
-
-    <span>{account.alias}</span>
-    <span>{account.address}</span>
-</div>
-
+    </div>
+{:else}
+    <LabelledLoader languageId="aasdf" />
+{/if}

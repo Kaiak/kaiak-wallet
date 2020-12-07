@@ -53,6 +53,7 @@
     "qrcode": "^1.4.4",
     "redux": "^4.0.5",
     "secure-webstore": "^1.3.1",
-    "sirv-cli": "^1.0.0"
+    "sirv-cli": "^1.0.0",
+    "svelte-spinner": "^2.0.2"
   }
 }
