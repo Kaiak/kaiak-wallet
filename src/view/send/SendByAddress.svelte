@@ -8,10 +8,14 @@
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import CameraCapture from "../../components/CameraCapture.svelte";
     import {onMount} from "svelte";
+    import LabelledLoader from "../../components/LabelledLoader.svelte";
+    import {patchState, popState} from "../../machinery/eventListener";
 
     export let sendType: SendAction;
     export let account: NanoAccount;
     export let balance: RAW;
+
+    let sending: boolean = false;
 
     let toAddress: NanoAddress | undefined
     // let sendAmount: NANO | undefined
@@ -43,7 +47,14 @@
 
     const send = async () => {
         if (toAddress && sendValue > 0) {
-            await sendNano(account, toAddress, nanoToRaw({ amount: sendValue.toString() }), balance)
+            sending = true;
+            try {
+                await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}), balance)
+                popState();
+            } catch (e) {
+                console.log(e)
+            }
+            sending = false;
         }
     }
 
@@ -55,11 +66,15 @@
 
 </script>
 
-{#if sendType === 'qr' && showCamera}
-    <CameraCapture scannedAddress={scannedAddress}/>
+{#if sending}
+    <LabelledLoader languageId="sending-funds"/>
 {:else}
-    <LabelledInput languageId="send-address" type="text" on:change={setAddress} value={toAddress}/>
-    <LabelledInput languageId="send-amount" type="text" on:change={setAmount} value={sendValue}/>
-    <Button languageId="send-max-button" on:click={setMax}/>
-    <Button languageId="send-button" on:click={send}/>
+    {#if sendType === 'qr' && showCamera}
+        <CameraCapture scannedAddress={scannedAddress}/>
+    {:else}
+        <LabelledInput languageId="send-address" type="text" on:change={setAddress} value={toAddress}/>
+        <LabelledInput languageId="send-amount" type="text" on:change={setAmount} value={sendValue}/>
+        <Button languageId="send-max-button" on:click={setMax}/>
+        <Button languageId="send-button" on:click={send}/>
+    {/if}
 {/if}
