@@ -14,9 +14,11 @@
     export let balance: RAW;
 
     let toAddress: NanoAddress | undefined
-    let sendAmount: NANO | undefined
-    let balanceValue: string | undefined = undefined
+    // let sendAmount: NANO | undefined
     let showCamera: boolean = sendType === 'qr'
+
+    let balanceValue: number | undefined = undefined
+    let sendValue: number | undefined = undefined
 
     const setAddress = (event) => {
         const address = event.target.value;
@@ -29,18 +31,19 @@
         let strAmount: string = event.target.value;
         const amount: number = Number.parseFloat(strAmount);
         if (!isNaN(amount)) {
-            sendAmount = {amount: strAmount}
+            sendValue = amount;
+            balanceValue = Number.parseFloat(rawToNano(balance, 10).amount) - sendValue;
         }
     }
 
     const setMax = () => {
-        sendAmount = rawToNano(balance, 5)
-        balanceValue = sendAmount.amount
+        sendValue = Number.parseFloat(rawToNano(balance, 10).amount)
+        // balanceValue = Number.parseFloat(rawToNano(balance, 10).amount) - sendValue;
     }
 
     const send = async () => {
-        if (toAddress && sendAmount) {
-            await sendNano(account, toAddress, nanoToRaw(sendAmount), balance)
+        if (toAddress && sendValue > 0) {
+            await sendNano(account, toAddress, nanoToRaw({ amount: sendValue.toString() }), balance)
         }
     }
 
@@ -56,7 +59,7 @@
     <CameraCapture scannedAddress={scannedAddress}/>
 {:else}
     <LabelledInput languageId="send-address" type="text" on:change={setAddress} value={toAddress}/>
-    <LabelledInput languageId="send-amount" type="text" on:change={setAmount} bind:value={balanceValue}/>
+    <LabelledInput languageId="send-amount" type="text" on:change={setAmount} value={sendValue}/>
     <Button languageId="send-max-button" on:click={setMax}/>
     <Button languageId="send-button" on:click={send}/>
 {/if}

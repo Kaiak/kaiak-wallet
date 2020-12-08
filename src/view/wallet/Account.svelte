@@ -14,6 +14,7 @@
     import {resolveBalance} from "../../machinery/nano-rpc-fetch-wrapper";
     import {loadWalletData} from "../../machinery/nano-ops";
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
+    import LabelledLoader from "../../components/LabelledLoader.svelte";
     import Settings from "./Settings.svelte";
     import {setWallet} from "../../machinery/secure-storage";
 
@@ -22,6 +23,8 @@
     let account: NanoAccount | undefined = undefined;
     let separatorText: string | undefined = undefined
     let balance: RAW | undefined
+
+    let loading: boolean = false;
 
     navigationStore.subscribe(value => {
         state = value
@@ -44,7 +47,13 @@
     }
 
     const triggerRefresh = async () => {
-        await loadWalletData(selectedAccount.selectedAccount)
+        loading = true;
+        try {
+            await loadWalletData(selectedAccount.selectedAccount)
+        } catch (e) {
+            console.log(e)
+        }
+        loading = false
     }
 
     const updateAccount = async () => {
@@ -58,23 +67,27 @@
 
 </script>
 
-{#if selectedAccount?.view === undefined}
-    <Seperator languageId="actions" primaryText={separatorText}/>
-    <List>
-        <Primary primaryLanguageId="transactions" on:click={() => setAccountAction('transactions') }/>
-        <Primary primaryLanguageId="send" on:click={() => setAccountAction('send') }/>
-        <Primary primaryLanguageId="receive" on:click={() => setAccountAction('receive') }/>
-        <Primary primaryLanguageId="settings" on:click={() => setAccountAction('settings') }/>
-        <Button languageId="update-button" on:click={triggerRefresh}/>
-    </List>
-{:else if selectedAccount.view === 'transactions'}
-    <Seperator languageId="transactions" primaryText={selectedAccount?.selectedAccount.alias}/>
-    <Transactions address={selectedAccount?.selectedAccount.address}/>
-{:else if selectedAccount?.view === 'send'}
-    <Send account={selectedAccount?.selectedAccount} balance={balance}/>
-{:else if selectedAccount?.view === 'receive'}
-    <Receive account={selectedAccount?.selectedAccount} />
-{:else if selectedAccount?.view === 'settings'}
-    <Settings bind:account storeFunction={updateAccount}/>
+{#if loading}
+    <LabelledLoader languageId="loading-refresh"/>
+{:else}
+    {#if selectedAccount?.view === undefined}
+        <Seperator languageId="actions" primaryText={separatorText}/>
+        <List>
+            <Primary primaryLanguageId="transactions" on:click={() => setAccountAction('transactions') }/>
+            <Primary primaryLanguageId="send" on:click={() => setAccountAction('send') }/>
+            <Primary primaryLanguageId="receive" on:click={() => setAccountAction('receive') }/>
+            <Primary primaryLanguageId="settings" on:click={() => setAccountAction('settings') }/>
+            <Button languageId="update-button" on:click={triggerRefresh}/>
+        </List>
+    {:else if selectedAccount.view === 'transactions'}
+        <Seperator languageId="transactions" primaryText={selectedAccount?.selectedAccount.alias}/>
+        <Transactions address={selectedAccount?.selectedAccount.address}/>
+    {:else if selectedAccount?.view === 'send'}
+        <Send account={selectedAccount?.selectedAccount} balance={balance}/>
+    {:else if selectedAccount?.view === 'receive'}
+        <Receive account={selectedAccount?.selectedAccount} />
+    {:else if selectedAccount?.view === 'settings'}
+        <Settings bind:account storeFunction={updateAccount}/>
+    {/if}
 {/if}
 
