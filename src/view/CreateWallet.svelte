@@ -3,38 +3,38 @@
     import Button from "../components/Button.svelte";
     import Text from "../components/Text.svelte";
     import {onMount} from "svelte";
-    import type { WalletResult } from "../machinery/wallet";
+    import type {WalletResult} from "../machinery/wallet";
     import type {NanoWallet} from "../machinery/models";
     import {createWallet, generateWallet} from "../machinery/wallet";
     import Seperator from "../components/Seperator.svelte";
     import LabelledInput from "../components/LabelledInput.svelte";
     import {pushMenu} from "../machinery/eventListener";
+    import LabelledLoader from "../components/LabelledLoader.svelte";
 
     let generatedWallet: WalletResult | undefined
     let inputPhrase: string | undefined;
+    let storeWallet: boolean = false;
 
     const inputPassword = (event) => {
         inputPhrase = event.target.value;
     }
 
     const create = async () => {
-        if(generatedWallet) {
+        if (generatedWallet) {
+            storeWallet = true;
             const storedWallet: NanoWallet | undefined = await createWallet(generatedWallet, inputPhrase)
-            if(storedWallet) {
+            if (storedWallet) {
                 pushMenu('unlock')
             } // TODO: Display error
         }
     }
 
     onMount(async () => {
-        generatedWallet = generateWallet()
+        setTimeout(() => generatedWallet = generateWallet(), 10)
     })
 </script>
 <Content titleKey="create-wallet">
-
-    {#if generatedWallet === undefined}
-        loading
-    {:else}
+    {#if generatedWallet && !storeWallet}
         <Seperator languageId="wallet-mnemonic"/>
         <Text>{generatedWallet.mnemonic}</Text>
         <Seperator languageId="wallet-seed" />
@@ -42,5 +42,10 @@
         <Seperator languageId="wallet-password" />
         <LabelledInput type="number" on:change={inputPassword} />
         <Button languageId="create" on:click={create} />
+    {/if}
+    {#if generatedWallet === undefined}
+        <LabelledLoader languageId="creating-wallet" />
+    {:else if storeWallet}
+        <LabelledLoader languageId="storing-wallet" />
     {/if}
 </Content>

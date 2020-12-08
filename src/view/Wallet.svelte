@@ -9,6 +9,7 @@
     import type {NavigationState} from "../machinery/NavigationState";
     import {patchState, pushState} from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
+    import LabelledLoader from "../components/LabelledLoader.svelte";
 
     let navigationState: NavigationState
     let wallet: NanoWallet | undefined
@@ -18,14 +19,20 @@
         wallet = value.wallet
     });
     const selectAccount = (account: NanoAccount) => {
-        pushState({...navigationState, account: {selectedAccount: account, view: undefined, selectedTransaction: undefined}})
+        pushState({
+            ...navigationState,
+            account: {selectedAccount: account, view: undefined, selectedTransaction: undefined}
+        })
     }
 
+    let addingAccount: boolean = false;
     const addAccount = async () => {
+        addingAccount = true;
         const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
-        if(updatedNanoWallet) {
+        if (updatedNanoWallet) {
             patchState({...navigationState, wallet: updatedNanoWallet})
         } // TODO: Display error
+        addingAccount = false;
     }
 
 </script>
@@ -35,12 +42,16 @@
         {#if navigationState.account}
             <Account account={navigationState.account} />
         {:else}
-            <List>
-                {#each wallet.accounts as account}
-                    <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
-                {/each}
-            </List>
-            <Button languageId="add-account" on:click={addAccount}/>
+            {#if addingAccount}
+                <LabelledLoader languageId="adding-account" />
+            {:else}
+                <List>
+                    {#each wallet.accounts as account}
+                        <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
+                    {/each}
+                </List>
+                <Button languageId="add-account" on:click={addAccount}/>
+            {/if}
         {/if}
     </Content>
 {/if}
