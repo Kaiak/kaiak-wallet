@@ -7,9 +7,8 @@
     import {sendNano} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import CameraCapture from "../../components/CameraCapture.svelte";
-    import {onMount} from "svelte";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
-    import {patchState, popState} from "../../machinery/eventListener";
+    import {popState} from "../../machinery/eventListener";
 
     export let sendType: SendAction;
     export let account: NanoAccount;
@@ -18,10 +17,8 @@
     let sending: boolean = false;
 
     let toAddress: NanoAddress | undefined
-    // let sendAmount: NANO | undefined
     let showCamera: boolean = sendType === 'qr'
 
-    let balanceValue: number | undefined = undefined
     let sendValue: number | undefined = undefined
 
     const setAddress = (event) => {
@@ -36,13 +33,11 @@
         const amount: number = Number.parseFloat(strAmount);
         if (!isNaN(amount)) {
             sendValue = amount;
-            balanceValue = Number.parseFloat(rawToNano(balance, 10).amount) - sendValue;
         }
     }
 
     const setMax = () => {
         sendValue = Number.parseFloat(rawToNano(balance, 10).amount)
-        // balanceValue = Number.parseFloat(rawToNano(balance, 10).amount) - sendValue;
     }
 
     const send = async () => {
