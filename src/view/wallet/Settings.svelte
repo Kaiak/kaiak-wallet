@@ -10,7 +10,6 @@
     let aliasValue: string = account?.alias
 
     const setAlias = (event) => {
-        console.log(account)
         aliasValue = event.target.value;
     }
 
