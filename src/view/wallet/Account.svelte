@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NANO, RAW} from "../../machinery/models";
+    import type {NANO, NanoAccount, NanoWallet, RAW} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
@@ -14,15 +14,19 @@
     import {resolveBalance} from "../../machinery/nano-rpc-fetch-wrapper";
     import {loadWalletData} from "../../machinery/nano-ops";
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
+    import Settings from "./Settings.svelte";
+    import {setWallet} from "../../machinery/secure-storage";
 
     let state: NavigationState
     let selectedAccount: SelectedAccountState | undefined = undefined
+    let account: NanoAccount | undefined = undefined;
     let separatorText: string | undefined = undefined
     let balance: RAW | undefined
 
     navigationStore.subscribe(value => {
         state = value
         selectedAccount = state?.account
+        account = selectedAccount?.selectedAccount;
         separatorText = selectedAccount?.selectedAccount.alias
     })
 
@@ -43,6 +47,15 @@
         await loadWalletData(selectedAccount.selectedAccount)
     }
 
+    const updateAccount = async () => {
+        if(state?.wallet) {
+            const updated: NanoWallet | undefined = await setWallet(state.wallet)
+            if(updated) {
+                setAccountAction(undefined)
+            } // TODO: Toast
+        }
+    }
+
 </script>
 
 {#if selectedAccount?.view === undefined}
@@ -51,6 +64,7 @@
         <Primary primaryLanguageId="transactions" on:click={() => setAccountAction('transactions') }/>
         <Primary primaryLanguageId="send" on:click={() => setAccountAction('send') }/>
         <Primary primaryLanguageId="receive" on:click={() => setAccountAction('receive') }/>
+        <Primary primaryLanguageId="settings" on:click={() => setAccountAction('settings') }/>
         <Button languageId="update-button" on:click={triggerRefresh}/>
     </List>
 {:else if selectedAccount.view === 'transactions'}
@@ -60,5 +74,7 @@
     <Send account={selectedAccount?.selectedAccount} balance={balance}/>
 {:else if selectedAccount?.view === 'receive'}
     <Receive account={selectedAccount?.selectedAccount} />
+{:else if selectedAccount?.view === 'settings'}
+    <Settings bind:account storeFunction={updateAccount}/>
 {/if}
 
