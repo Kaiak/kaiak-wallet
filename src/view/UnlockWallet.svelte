@@ -15,7 +15,6 @@
     }
 
     const unlock = async () => {
-        console.log('herer')
         showLoader = true;
         const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
         if (data) {

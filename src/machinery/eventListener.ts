@@ -74,7 +74,6 @@ export function pushState(state: NavigationState): void {
   } else {
     stateHistory.push(state);
   }
-  console.log(stateHistory);
   navigationStore.set(state);
 }
 

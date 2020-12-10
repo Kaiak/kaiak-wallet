@@ -27,7 +27,7 @@
         state = value
         selectedAccount = state?.account
         account = selectedAccount?.selectedAccount;
-        separatorText = account ? `${account.alias} ${rawToNano(account.balance, 5).amount} Nano` : 'foo'
+        separatorText = account ? `${account.alias} ${rawToNano(account.balance, 5).amount} Nano` : ''
     })
 
     const setAccountAction = (a: AccountAction) => {
