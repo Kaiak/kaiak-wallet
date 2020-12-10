@@ -1,15 +1,18 @@
 <script lang="ts">
-    import type {NanoAccount, NanoWallet} from "../machinery/models";
+    import type {NanoAccount, NanoWallet, RAW} from "../machinery/models";
     import Button from "../components/Button.svelte";
     import List from "../components/List.svelte";
     import Account from "./wallet/Account.svelte";
-    import {navigationStore,} from "../stores/stores";
+    import {navigationStore} from "../stores/stores";
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
     import type {NavigationState} from "../machinery/NavigationState";
     import {patchState, pushState} from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
     import LabelledLoader from "../components/LabelledLoader.svelte";
+    import {onMount} from "svelte";
+    import {resolveBalances} from "../machinery/nano-rpc-fetch-wrapper";
+    import {updateWalletAccounts} from "../machinery/nano-ops";
 
     let navigationState: NavigationState
     let wallet: NanoWallet | undefined
@@ -24,26 +27,35 @@
             account: {selectedAccount: account, view: undefined, selectedTransaction: undefined}
         })
     }
-
+    let loaderText: string | undefined = undefined
     let addingAccount: boolean = false;
     const addAccount = async () => {
-        addingAccount = true;
+        loaderText = "adding-account";
         const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
         if (updatedNanoWallet) {
             patchState({...navigationState, wallet: updatedNanoWallet})
         } // TODO: Display error
-        addingAccount = false;
+        addingAccount = undefined;
     }
+
+    onMount(async () => {
+        loaderText = "loading-accounts";
+        const updatedNanoWallet: NanoWallet | undefined = await updateWalletAccounts(wallet)
+        if(updatedNanoWallet) {
+            patchState({...navigationState, wallet: updatedNanoWallet})
+        }
+        loaderText = undefined
+    })
 
 </script>
 
 {#if wallet}
     <Content titleKey="wallet">
-        {#if navigationState.account}
-            <Account account={navigationState.account} />
+        {#if navigationState.account?.selectedAccount}
+            <Account/>
         {:else}
-            {#if addingAccount}
-                <LabelledLoader languageId="adding-account" />
+            {#if loaderText}
+                <LabelledLoader languageId={loaderText} />
             {:else}
                 <List>
                     {#each wallet.accounts as account}

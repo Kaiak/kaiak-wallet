@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NANO, NanoAccount, NanoWallet, RAW} from "../../machinery/models";
+    import type {NanoAccount, NanoWallet} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
@@ -7,11 +7,9 @@
     import Send from "./Send.svelte";
     import Receive from "./Receive.svelte";
     import {navigationStore} from "../../stores/stores";
-    import {onMount} from "svelte";
     import Button from "../../components/Button.svelte";
     import type {AccountAction, NavigationState, SelectedAccountState} from "../../machinery/NavigationState";
     import {pushState} from "../../machinery/eventListener";
-    import {resolveBalance} from "../../machinery/nano-rpc-fetch-wrapper";
     import {loadWalletData} from "../../machinery/nano-ops";
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
@@ -22,7 +20,6 @@
     let selectedAccount: SelectedAccountState | undefined = undefined
     let account: NanoAccount | undefined = undefined;
     let separatorText: string | undefined = undefined
-    let balance: RAW | undefined
 
     let loading: boolean = false;
 
@@ -30,16 +27,7 @@
         state = value
         selectedAccount = state?.account
         account = selectedAccount?.selectedAccount;
-        separatorText = selectedAccount?.selectedAccount.alias
-    })
-
-    onMount(async () => {
-        try {
-            balance = await resolveBalance(selectedAccount.selectedAccount?.address)
-            separatorText = `${selectedAccount.selectedAccount?.alias} ${rawToNano(balance, 5).amount} Nano`
-        } catch (error) {
-            console.log('error loading balance')
-        }
+        separatorText = account ? `${account.alias} ${rawToNano(account.balance, 5).amount} Nano` : 'foo'
     })
 
     const setAccountAction = (a: AccountAction) => {
@@ -83,7 +71,7 @@
         <Seperator languageId="transactions" primaryText={selectedAccount?.selectedAccount.alias}/>
         <Transactions address={selectedAccount?.selectedAccount.address}/>
     {:else if selectedAccount?.view === 'send'}
-        <Send account={selectedAccount?.selectedAccount} balance={balance}/>
+        <Send account={selectedAccount?.selectedAccount} balance={selectedAccount?.selectedAccount.balance}/>
     {:else if selectedAccount?.view === 'receive'}
         <Receive account={selectedAccount?.selectedAccount} />
     {:else if selectedAccount?.view === 'settings'}

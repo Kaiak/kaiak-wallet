@@ -2,7 +2,7 @@
     import Content from "../components/Content.svelte";
     import LabelledInput from "../components/LabelledInput.svelte";
     import Button from "../components/Button.svelte";
-    import {pushMenu, pushState} from "../machinery/eventListener";
+    import {clearState, pushMenu, pushState} from "../machinery/eventListener";
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
     import LabelledLoader from "../components/LabelledLoader.svelte";
@@ -15,9 +15,11 @@
     }
 
     const unlock = async () => {
+        console.log('herer')
         showLoader = true;
         const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
         if (data) {
+            clearState()
             pushState({menu: 'wallet', wallet: data, account: undefined})
         }
         showLoader = false;

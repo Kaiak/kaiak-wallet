@@ -1,12 +1,10 @@
 <script lang="ts">
-	import {loadedComponentStore, navigationStore} from "./stores/stores";
+	import { navigationStore } from "./stores/stores";
+	import type {NavigationState} from "./machinery/NavigationState";
 	import Menu from "./view/Menu.svelte";
-	import {onMount} from "svelte";
-	import {pushMenu} from "./machinery/eventListener";
 	import Setup from "./view/Setup.svelte";
 	import About from "./view/About.svelte";
 	import Wallet from "./view/Wallet.svelte";
-	import type {NavigationState} from "./machinery/NavigationState";
 	import UnlockWallet from "./view/UnlockWallet.svelte";
 	import CreateWallet from "./view/CreateWallet.svelte";
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
@@ -19,10 +17,6 @@
 	const unsubscribe = navigationStore.subscribe<NavigationState>(value => {
 		state = value
 	});
-
-	onMount(() => {
-		pushMenu('unlock')
-	})
 </script>
 
 <main>
