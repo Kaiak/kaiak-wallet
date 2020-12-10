@@ -47,11 +47,15 @@ export async function processSimple(block: any): Promise<ProcessResponse> {
   });
 }
 
-export async function generateWork(frontier: string): Promise<string> {
+export async function generateWork(
+  frontier: string,
+  work: string
+): Promise<string> {
   const response: WorkGenerateResponse = await nanoApi.workGenerate({
     workGenerateRequest: {
       action: WorkGenerateRequestActionEnum.WorkGenerate,
       hash: frontier,
+      difficulty: work,
     },
   });
   return response.work;

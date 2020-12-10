@@ -19,6 +19,9 @@ import { signReceiveBlock, signSendBlock } from './nanocurrency-web-wrapper';
 
 /** This file combines nanocurrency-web and nano-rpc-fetch */
 
+const SEND_WORK = 'fffffff800000000';
+const RECEIVE_WORK = 'fffffe0000000000';
+
 export async function loadWalletData(account: NanoAccount): Promise<void> {
   const pending: {
     [key: string]: PendingBlock;
@@ -60,7 +63,7 @@ async function resolvePendingForAccount(
     frontier && frontier !== ''
       ? frontier
       : '0000000000000000000000000000000000000000000000000000000000000000';
-  const work: string = await generateWork(frontierOrPublicKey);
+  const work: string = await generateWork(frontierOrPublicKey, RECEIVE_WORK);
   const block: SignedBlock = signReceiveBlock(
     address,
     privateKey,
@@ -83,7 +86,7 @@ export async function sendNano(
       | Map<string, Frontier>
       | { [key: string]: Frontier } = await loadFrontiers([account.address]);
     const frontier: Frontier | undefined = frontiers[account.address];
-    const workHash: string = await generateWork(frontier);
+    const workHash: string = await generateWork(frontier, SEND_WORK);
     const signed: SignedBlock = signSendBlock(
       account.privateKey,
       balance,

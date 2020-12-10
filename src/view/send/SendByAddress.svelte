@@ -7,16 +7,19 @@
     import {sendNano} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import CameraCapture from "../../components/CameraCapture.svelte";
-    import {onMount} from "svelte";
+    import LabelledLoader from "../../components/LabelledLoader.svelte";
+    import {popState} from "../../machinery/eventListener";
 
     export let sendType: SendAction;
     export let account: NanoAccount;
     export let balance: RAW;
 
+    let sending: boolean = false;
+
     let toAddress: NanoAddress | undefined
-    let sendAmount: NANO | undefined
-    let balanceValue: string | undefined = undefined
     let showCamera: boolean = sendType === 'qr'
+
+    let sendValue: number | undefined = undefined
 
     const setAddress = (event) => {
         const address = event.target.value;
@@ -29,18 +32,24 @@
         let strAmount: string = event.target.value;
         const amount: number = Number.parseFloat(strAmount);
         if (!isNaN(amount)) {
-            sendAmount = {amount: strAmount}
+            sendValue = amount;
         }
     }
 
     const setMax = () => {
-        sendAmount = rawToNano(balance, 5)
-        balanceValue = sendAmount.amount
+        sendValue = Number.parseFloat(rawToNano(balance, 10).amount)
     }
 
     const send = async () => {
-        if (toAddress && sendAmount) {
-            await sendNano(account, toAddress, nanoToRaw(sendAmount), balance)
+        if (toAddress && sendValue > 0) {
+            sending = true;
+            try {
+                await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}), balance)
+                popState();
+            } catch (e) {
+                console.log(e)
+            }
+            sending = false;
         }
     }
 
@@ -52,11 +61,15 @@
 
 </script>
 
-{#if sendType === 'qr' && showCamera}
-    <CameraCapture scannedAddress={scannedAddress}/>
+{#if sending}
+    <LabelledLoader languageId="sending-funds"/>
 {:else}
-    <LabelledInput languageId="send-address" type="text" on:change={setAddress} value={toAddress}/>
-    <LabelledInput languageId="send-amount" type="text" on:change={setAmount} bind:value={balanceValue}/>
-    <Button languageId="send-max-button" on:click={setMax}/>
-    <Button languageId="send-button" on:click={send}/>
+    {#if sendType === 'qr' && showCamera}
+        <CameraCapture scannedAddress={scannedAddress}/>
+    {:else}
+        <LabelledInput languageId="send-address" type="text" on:change={setAddress} value={toAddress}/>
+        <LabelledInput languageId="send-amount" type="text" on:change={setAmount} value={sendValue}/>
+        <Button languageId="send-max-button" on:click={setMax}/>
+        <Button languageId="send-button" on:click={send}/>
+    {/if}
 {/if}
