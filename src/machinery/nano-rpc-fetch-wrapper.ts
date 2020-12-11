@@ -1,24 +1,26 @@
-import type { Frontier, RAW, NanoAddress, NanoTransaction } from './models';
+import type { Frontier, NanoAddress, NanoTransaction, RAW } from './models';
 import {
   AccountBalanceRequestActionEnum,
   AccountBalanceResponse,
   AccountHistoryRequestActionEnum,
   AccountHistoryResponse,
+  AccountsBalancesRequestActionEnum,
+  AccountsBalancesResponse,
   AccountsFrontiersRequestActionEnum,
   AccountsFrontiersResponse,
   AccountsPendingRequestActionEnum,
   AccountsPendingResponse,
+  BlockInfo,
   BlocksInfoRequestActionEnum,
   BlocksInfoResponse,
   Configuration,
   ModelBoolean,
   NodeRPCsApi,
+  PendingBlock,
   ProcessRequestActionEnum,
   ProcessResponse,
   WorkGenerateRequestActionEnum,
   WorkGenerateResponse,
-  BlockInfo,
-  PendingBlock,
 } from 'nano-rpc-fetch';
 
 const nanoApi = new NodeRPCsApi(
@@ -35,6 +37,18 @@ export async function resolveBalance(address: NanoAddress): Promise<RAW> {
     },
   });
   return { raw: balance.balance.toString() };
+}
+
+export async function resolveBalances(
+  addresses: NanoAddress[]
+): Promise<{ [address: string]: AccountBalanceResponse }> {
+  let response: AccountsBalancesResponse = await nanoApi.accountsBalances({
+    accountsBalancesRequest: {
+      action: AccountsBalancesRequestActionEnum.AccountsBalances,
+      accounts: addresses.map((a) => a),
+    },
+  });
+  return response.balances;
 }
 
 export async function processSimple(block: any): Promise<ProcessResponse> {

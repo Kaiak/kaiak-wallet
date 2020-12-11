@@ -1,9 +1,14 @@
-import type { BlockInfo, PendingBlock } from 'nano-rpc-fetch';
+import type {
+  BlockInfo,
+  PendingBlock,
+  AccountBalanceResponse,
+} from 'nano-rpc-fetch';
 import type { SignedBlock } from 'nanocurrency-web/dist/lib/block-signer';
 import type {
   Frontier,
   NanoAccount,
   NanoAddress,
+  NanoWallet,
   PrivateKey,
   PublicKey,
   RAW,
@@ -14,6 +19,7 @@ import {
   loadBlocks,
   loadFrontiers,
   processSimple,
+  resolveBalances,
 } from './nano-rpc-fetch-wrapper';
 import { signReceiveBlock, signSendBlock } from './nanocurrency-web-wrapper';
 
@@ -100,4 +106,20 @@ export async function sendNano(
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function updateWalletAccounts(
+  wallet: NanoWallet
+): Promise<NanoWallet> {
+  const addresses = wallet.accounts.map((a) => a.address);
+  const balances: {
+    [address: string]: AccountBalanceResponse;
+  } = await resolveBalances(addresses);
+  wallet.accounts = wallet.accounts.map((a) => {
+    return {
+      ...a,
+      balance: { raw: balances[a.address].balance.toString() },
+    };
+  });
+  return wallet;
 }
