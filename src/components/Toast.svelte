@@ -6,9 +6,9 @@
     let visible = false;
 
     toastStore.subscribe(value => {
-        visible = true
-        body = value.body
         if(!!body){
+            visible = true
+            body = value.body
             let timeout = body.length *300
             setTimeout(() => {
                 visible = false;
