@@ -1,9 +1,11 @@
 import type { NanoWallet } from './models';
 import { wallet } from 'nanocurrency-web';
-import { Store } from 'secure-webstore/dist/secure-webstore';
+import { Store, _idb } from 'secure-webstore/dist/secure-webstore';
 
 const APP_STORE = 'kaios_nano';
 const WALLET_KEY = 'wallet';
+
+export type WalletError = 'wrong_pass' | 'wallet_error';
 
 interface WalletData {
   seed: string;
@@ -62,7 +64,7 @@ export async function setWallet(
 
 export async function unlockWallet(
   encryptionSecret: string
-): Promise<NanoWallet | undefined> {
+): Promise<NanoWallet | WalletError> {
   try {
     const store = new Store(APP_STORE, encryptionSecret);
     await store.init();
@@ -73,7 +75,11 @@ export async function unlockWallet(
       return undefined;
     }
   } catch (e) {
-    console.log(e);
-    return undefined;
+    console.log(e.message);
+    if (e.message === 'Wrong passphrase') {
+      return 'wrong_pass';
+    } else {
+      return 'wallet_error';
+    }
   }
 }

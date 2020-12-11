@@ -37,7 +37,11 @@ export async function createWallet(
       },
     ],
   };
-  return destroyWallet().then(() => setWallet(nanoWallet));
+  try {
+    await destroyWallet();
+  } finally {
+    return await setWallet(nanoWallet);
+  }
 }
 
 export async function addNanoAccount(
