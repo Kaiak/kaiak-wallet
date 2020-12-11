@@ -28,6 +28,7 @@ export async function createWallet(
         address: undefined,
         privateKey: undefined,
         publicKey: undefined,
+        balance: undefined,
       },
     ],
   };
@@ -49,6 +50,7 @@ export async function addNanoAccount(
         alias: undefined,
         privateKey: nextAccount.privateKey,
         publicKey: nextAccount.publicKey,
+        balance: undefined, // TODO: Fetch balance?
       },
     ],
   };

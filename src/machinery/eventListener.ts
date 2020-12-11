@@ -6,6 +6,7 @@ import {
 import { Navigation } from './navigation';
 import type { MenuSelector, NavigationState } from './NavigationState';
 import type { SoftwareKeysState } from './SoftwareKeysState';
+import { START_STATE } from './NavigationState';
 
 export interface LoadedElements {
   elements: any;
@@ -33,13 +34,7 @@ softwareKeysStore.subscribe((value: SoftwareKeysState) => {
   middleKey = value.middleKey?.onClick;
 });
 
-let stateHistory: NavigationState[] = [
-  {
-    menu: 'wallet',
-    account: undefined,
-    wallet: undefined,
-  },
-];
+let stateHistory: NavigationState[] = [START_STATE];
 
 let index = 0;
 
@@ -62,16 +57,17 @@ export function patchState(state: NavigationState): void {
   navigationStore.set(state);
 }
 
+export function clearState(): void {
+  stateHistory = [];
+  index = 0;
+}
+
 export function pushState(state: NavigationState): void {
   /** Ignore if previous state was menu and we are pushing menu */
   if (state.menu === 'menu' && stateHistory[index].menu === 'menu') {
     popState();
     return;
-  } else if (state.menu === 'unlock') {
-    stateHistory = [];
-    index = -1;
   }
-
   index++;
   if (stateHistory.length > index) {
     stateHistory[index] = state;

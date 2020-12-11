@@ -22,3 +22,9 @@ export interface NavigationState {
   account: SelectedAccountState | undefined;
   wallet: NanoWallet | undefined;
 }
+
+export const START_STATE: NavigationState = {
+  menu: 'unlock',
+  account: undefined,
+  wallet: undefined,
+};
