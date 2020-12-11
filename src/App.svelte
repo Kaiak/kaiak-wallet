@@ -2,7 +2,7 @@
 	import {loadedComponentStore, navigationStore} from "./stores/stores";
 	import Menu from "./view/Menu.svelte";
 	import {onMount} from "svelte";
-	import {pushMenu} from "./machinery/eventListener";
+	import {pushMenu, pushToast} from "./machinery/eventListener";
 	import Setup from "./view/Setup.svelte";
 	import About from "./view/About.svelte";
 	import Wallet from "./view/Wallet.svelte";
@@ -10,6 +10,7 @@
 	import UnlockWallet from "./view/UnlockWallet.svelte";
 	import CreateWallet from "./view/CreateWallet.svelte";
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
+	import Toast from "./components/Toast.svelte"
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -26,6 +27,7 @@
 </script>
 
 <main>
+	<Toast/>
 	<div id="kui-app">
 		{#if state.menu === 'wallet'}
 			<Wallet />

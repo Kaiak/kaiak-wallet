@@ -2,10 +2,12 @@ import {
   loadedComponentStore,
   navigationStore,
   softwareKeysStore,
+  toastStore,
 } from '../stores/stores';
 import { Navigation } from './navigation';
 import type { MenuSelector, NavigationState } from './NavigationState';
 import type { SoftwareKeysState } from './SoftwareKeysState';
+import type { ToastState } from './ToastState';
 
 export interface LoadedElements {
   elements: any;
@@ -55,6 +57,10 @@ export function popState(): boolean {
 }
 export function pushMenu(menu: MenuSelector): void {
   pushState({ ...stateHistory[index], menu });
+}
+
+export function pushToast(state: ToastState): void {
+  toastStore.set(state);
 }
 
 export function patchState(state: NavigationState): void {

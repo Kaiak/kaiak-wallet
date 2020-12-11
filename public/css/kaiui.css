@@ -200,12 +200,19 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 /* ============== Toast ============== */
+
 .kui-toast {
-    height: 42px;
-    line-height: 42px;
+    line-height: 33px;
     color: #fff;
     text-align: center;
     background-color: #212529;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+    box-shadow: -1px -1px 5px 3px rgba(0,0,0,0.43);
+    -webkit-box-shadow: -1px -1px 5px 3px rgba(0,0,0,0.43);
+    -moz-box-shadow: -1px -1px 5px 3px rgba(0,0,0,0.43);
 }
 
 .kui-toast .kui-pri {
