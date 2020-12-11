@@ -1,4 +1,5 @@
 import type { NanoAccount, NanoTransaction, NanoWallet } from './models';
+import type { WalletResult } from './wallet';
 
 export type MenuSelector =
   | 'wallet'
@@ -18,10 +19,12 @@ export interface SelectedAccountState {
   selectedTransaction: NanoTransaction | undefined;
 }
 
-export type OnboardView = 'start' | 'disclaimer' | 'seed' | 'account';
+export type OnboardView = 'start' | 'disclaimer' | 'seed' | 'account' | 'pin';
 
 export interface OnboardState {
   view: OnboardView;
+  walletResult: WalletResult;
+  alias: string;
 }
 
 export interface NavigationState {

@@ -1,20 +1,25 @@
 <script lang="ts">
     import Text from "../../components/Text.svelte";
-    import {onMount} from "svelte";
+    import {beforeUpdate} from "svelte";
     import {softwareKeysStore} from "../../stores/stores";
-    import {pushState2} from "../../machinery/eventListener";
+    import {popState, pushOnboardState} from "../../machinery/eventListener";
+    import Seperator from "../../components/Seperator.svelte";
 
-    onMount(() => {
+    beforeUpdate(() => {
         softwareKeysStore.set({
             middleKey: {
                 languageId: 'onboard-disclaimer-ok',
                 onClick: () => {
-                    pushState2({ onboardState: { view: 'seed' }})
+                    pushOnboardState({ view: 'seed', walletResult: undefined, alias: undefined})
                 }
             },
-            leftKey: undefined
+            leftKey: {
+                languageId: 'onboard-button-back',
+                onClick: () => popState()
+            }
         })
     })
 </script>
 
-<Text languageId="onboard-disclaimer-text"></Text>
+<Seperator languageId="onboard-seed-title" />
+<Text languageId="onboard-disclaimer-text"/>

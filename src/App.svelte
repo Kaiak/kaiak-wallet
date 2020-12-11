@@ -6,7 +6,6 @@
 	import About from "./view/About.svelte";
 	import Wallet from "./view/Wallet.svelte";
 	import UnlockWallet from "./view/UnlockWallet.svelte";
-	import CreateWallet from "./view/CreateWallet.svelte";
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
 	import Toast from "./components/Toast.svelte";
 	import Onboard from "./view/Onboard.svelte";
@@ -36,8 +35,6 @@
 			<About />
 		{:else if state.menu === 'unlock'}
 			<UnlockWallet />
-		{:else if state.menu === 'create'}
-			<CreateWallet />
 		{/if}
 	</div>
 	<SoftwareKeys/>

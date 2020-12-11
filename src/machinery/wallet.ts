@@ -7,24 +7,29 @@ export interface WalletResult {
   mnemonic: string;
 }
 
-export function generateWallet(): WalletResult {
-  const w = wallet.generate();
-  return {
-    seed: w.seed,
-    mnemonic: w.mnemonic,
-  };
+export function generateWallet(): Promise<WalletResult> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const w = wallet.generate();
+      resolve({
+        seed: w.seed,
+        mnemonic: w.mnemonic,
+      });
+    }, 0);
+  });
 }
 
 export async function createWallet(
   walletData: WalletResult,
-  encryptionSecret: string
+  encryptionSecret: string,
+  alias: string
 ): Promise<NanoWallet | undefined> {
   const nanoWallet: NanoWallet = {
     seed: walletData.seed,
     encryptionSecret: encryptionSecret,
     accounts: [
       {
-        alias: 'main',
+        alias: alias,
         address: undefined,
         privateKey: undefined,
         publicKey: undefined,

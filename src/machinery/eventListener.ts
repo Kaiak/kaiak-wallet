@@ -5,7 +5,11 @@ import {
   toastStore,
 } from '../stores/stores';
 import { Navigation } from './navigation';
-import type { MenuSelector, NavigationState } from './NavigationState';
+import type {
+  MenuSelector,
+  NavigationState,
+  OnboardState,
+} from './NavigationState';
 import type { SoftwareKeysState } from './SoftwareKeysState';
 import { START_STATE } from './NavigationState';
 import type { ToastState } from './ToastState';
@@ -51,7 +55,7 @@ export function popState(): boolean {
   }
 }
 export function pushMenu(menu: MenuSelector): void {
-  pushState({ ...stateHistory[index], menu });
+  pushState({ ...stateHistory[index], menu, onboardState: undefined });
 }
 
 export function pushToast(state: ToastState): void {
@@ -68,9 +72,9 @@ export function clearState(): void {
   index = 0;
 }
 
-export function pushState2(updated: any): void {
+export function pushOnboardState(updated: OnboardState): void {
   let state: NavigationState = stateHistory[index];
-  pushState({ ...state, ...updated });
+  pushState({ ...state, onboardState: updated });
 }
 
 export function pushState(state: NavigationState): void {
