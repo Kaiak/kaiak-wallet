@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { navigationStore } from "./stores/stores";
+	import {navigationStore} from "./stores/stores";
 	import type {NavigationState} from "./machinery/NavigationState";
 	import Menu from "./view/Menu.svelte";
 	import Setup from "./view/Setup.svelte";
@@ -9,6 +9,7 @@
 	import CreateWallet from "./view/CreateWallet.svelte";
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
 	import Toast from "./components/Toast.svelte";
+	import Onboard from "./view/Onboard.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -25,6 +26,8 @@
 	<div id="kui-app">
 		{#if state.menu === 'wallet'}
 			<Wallet />
+		{:else if state.menu === 'onboard'}
+			<Onboard />
 		{:else if state.menu === 'setup'}
 			<Setup />
 		{:else if state.menu === 'menu'}

@@ -6,7 +6,8 @@ export type MenuSelector =
   | 'menu'
   | 'about'
   | 'unlock'
-  | 'create';
+  | 'create'
+  | 'onboard';
 export type AccountAction = 'send' | 'transactions' | 'receive';
 
 export type SendAction = 'qr' | 'address';
@@ -17,14 +18,22 @@ export interface SelectedAccountState {
   selectedTransaction: NanoTransaction | undefined;
 }
 
+export type OnboardView = 'start' | 'disclaimer' | 'seed' | 'account';
+
+export interface OnboardState {
+  view: OnboardView;
+}
+
 export interface NavigationState {
   menu: MenuSelector;
   account: SelectedAccountState | undefined;
   wallet: NanoWallet | undefined;
+  onboardState: OnboardState | undefined;
 }
 
 export const START_STATE: NavigationState = {
-  menu: 'unlock',
+  menu: 'onboard',
   account: undefined,
   wallet: undefined,
+  onboardState: undefined,
 };

@@ -4,5 +4,6 @@ export interface SoftKey {
 }
 
 export interface SoftwareKeysState {
+  leftKey: SoftKey | undefined;
   middleKey: SoftKey | undefined;
 }

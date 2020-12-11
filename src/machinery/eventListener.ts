@@ -68,6 +68,11 @@ export function clearState(): void {
   index = 0;
 }
 
+export function pushState2(updated: any): void {
+  let state: NavigationState = stateHistory[index];
+  pushState({ ...state, ...updated });
+}
+
 export function pushState(state: NavigationState): void {
   /** Ignore if previous state was menu and we are pushing menu */
   if (state.menu === 'menu' && stateHistory[index].menu === 'menu') {
