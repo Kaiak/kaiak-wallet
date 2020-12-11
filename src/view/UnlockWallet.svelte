@@ -19,7 +19,7 @@
         const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
         if (data) {
             clearState()
-            pushState({menu: 'wallet', wallet: data, account: undefined})
+            pushState({menu: 'wallet', wallet: data, account: undefined, onboardState: undefined})
         }
         showLoader = false;
     }

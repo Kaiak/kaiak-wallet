@@ -3,11 +3,11 @@
     import Button from "../components/Button.svelte";
     import List from "../components/List.svelte";
     import Account from "./wallet/Account.svelte";
-    import {navigationStore} from "../stores/stores";
+    import {navigationStore, softwareKeysStore} from "../stores/stores";
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
     import type {NavigationState} from "../machinery/NavigationState";
-    import {patchState, pushState} from "../machinery/eventListener";
+    import {patchState, pushMenu, pushState} from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
     import LabelledLoader from "../components/LabelledLoader.svelte";
     import {onMount} from "svelte";
@@ -44,6 +44,14 @@
         if(updatedNanoWallet) {
             patchState({...navigationState, wallet: updatedNanoWallet})
         }
+        softwareKeysStore.set({
+            leftKey: undefined,
+            middleKey: undefined,
+            rightKey: {
+                onClick: () => pushMenu('menu'),
+                languageId: 'rightNavButton'
+            }
+        })
         loaderText = undefined
     })
 

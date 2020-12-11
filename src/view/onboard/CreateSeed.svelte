@@ -23,7 +23,8 @@
             leftKey: {
                 languageId: 'onboard-button-back',
                 onClick: () => popState()
-            }
+            },
+            rightKey: undefined
         })
     })
 </script>

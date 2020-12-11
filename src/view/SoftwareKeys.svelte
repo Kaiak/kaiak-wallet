@@ -3,14 +3,16 @@
     import {softwareKeysStore} from "../stores/stores";
     import type {SoftKey} from "../machinery/SoftwareKeysState";
 
-    const toggleMenu = () => pushMenu('menu')
-
     let leftKey: SoftKey | undefined = undefined
     let middleKey: SoftKey | undefined = undefined
+    let rightKey: SoftKey | undefined = undefined
+
+    let keys: SoftKey[] = []
 
     softwareKeysStore.subscribe(value => {
         leftKey = value.leftKey
         middleKey = value.middleKey
+        rightKey = value.rightKey
     })
 
 </script>
@@ -27,5 +29,10 @@
     {:else}
         <h5 role="button" class="kui-h5 kui-text-center kui-text-upcase"></h5>
     {/if}
-    <h5 role="button" class="kui-h5 kui-text-right" on:click={toggleMenu} data-l10n-id="rightNavButton"></h5>
+    {#if rightKey}
+        <h5 role="button" class="kui-h5 kui-text-right" on:click={rightKey.onClick} data-l10n-id={rightKey.languageId}></h5>
+    {:else}
+        <h5 role="button" class="kui-h5 kui-text-right"></h5>
+    {/if}
+
 </div>

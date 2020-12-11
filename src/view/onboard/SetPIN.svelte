@@ -4,7 +4,7 @@
     import type {NanoWallet} from "../../machinery/models";
     import type {WalletResult} from "../../machinery/wallet";
     import {createWallet } from "../../machinery/wallet";
-    import {clearState, popState, pushMenu} from "../../machinery/eventListener";
+    import {clearState, popState, pushMenu, pushToast} from "../../machinery/eventListener";
     import { softwareKeysStore } from "../../stores/stores";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
     import {beforeUpdate, onMount} from "svelte";
@@ -21,15 +21,22 @@
 
     const tryToStore = async () => {
         storing = true;
-        const storedWallet: NanoWallet | undefined = await createWallet(walletResult, inputPhrase, alias)
-        if (storedWallet) {
-            clearState()
-            softwareKeysStore.set({
-                middleKey: undefined,
-                leftKey: undefined
-            })
-            pushMenu('unlock')
-        } // TODO: Toast
+        if(inputPhrase === undefined || inputPhrase.length < 4) {
+            pushToast({ languageId: 'onboard-validation-short-input'})
+        } else {
+            const storedWallet: NanoWallet | undefined = await createWallet(walletResult, inputPhrase, alias)
+            if (storedWallet) {
+                clearState()
+                softwareKeysStore.set({
+                    middleKey: undefined,
+                    leftKey: undefined,
+                    rightKey: undefined,
+                })
+                pushMenu('unlock')
+            } else {
+                pushToast({ languageId: 'onboard-store-wallet-failed' })
+            }
+        }
         storing = false;
     }
 
@@ -42,7 +49,8 @@
             leftKey: {
                 languageId: 'onboard-button-back',
                 onClick: () => popState()
-            }
+            },
+            rightKey: undefined
         })
     })
 

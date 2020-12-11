@@ -32,7 +32,8 @@
                     pushOnboardState({view: 'disclaimer', walletResult: undefined, alias: undefined })
                 }
             },
-            leftKey: undefined
+            leftKey: undefined,
+            rightKey: undefined,
         })
     })
 </script>
@@ -49,7 +50,7 @@
         <SetPIN walletResult={walletResult} alias={accountAlias} />
     {:else}
         <Text languageId="onboard-title" />
-        <Text breakAll={true} languageId="onboard-description"></Text>
+        <Text breakAll={true} languageId="onboard-description"/>
     {/if}
 </Content>
 
