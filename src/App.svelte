@@ -8,7 +8,7 @@
 	import UnlockWallet from "./view/UnlockWallet.svelte";
 	import CreateWallet from "./view/CreateWallet.svelte";
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
-	import Toast from "./components/Toast.svelte"
+	import Toast from "./components/Toast.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined

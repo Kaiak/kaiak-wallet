@@ -1,3 +1,3 @@
 export interface ToastState {
-  body: string | null;
+  languageId: string | null;
 }

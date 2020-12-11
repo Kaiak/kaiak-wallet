@@ -18,5 +18,5 @@ export const softwareKeysStore: Writable<SoftwareKeysState> = writable({
 });
 
 export const toastStore: Writable<ToastState> = writable({
-  body: null,
+  languageId: null,
 });
