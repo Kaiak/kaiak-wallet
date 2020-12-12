@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {navigationStore} from "./stores/stores";
+	import {loadedComponentStore, navigationStore} from "./stores/stores";
 	import type {NavigationState} from "./machinery/NavigationState";
 	import Menu from "./view/Menu.svelte";
 	import Setup from "./view/Setup.svelte";
@@ -9,10 +9,9 @@
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
 	import Toast from "./components/Toast.svelte";
 	import Onboard from "./view/Onboard.svelte";
-	import {onMount} from "svelte";
+	import {afterUpdate, onMount} from "svelte";
 	import { walletExists } from "./machinery/secure-storage";
 	import {pushMenu} from "./machinery/eventListener";
-	import LabelledLoader from "./components/LabelledLoader.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -30,6 +29,10 @@
 		} else {
 			pushMenu('onboard')
 		}
+	})
+	afterUpdate(() => {
+		const elements = document.activeElement.getElementsByClassName('navigation');
+		loadedComponentStore.set({ elements: elements });
 	})
 </script>
 

@@ -24,9 +24,6 @@
         if(inputPhrase === undefined || inputPhrase.length < 4) {
             pushToast({ languageId: 'onboard-validation-short-input'})
         } else {
-            console.log(walletResult)
-            console.log(inputPhrase)
-            console.log(alias)
             const storedWallet: NanoWallet | undefined = await createWallet(walletResult, inputPhrase, alias)
             if (storedWallet) {
                 clearState()

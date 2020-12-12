@@ -11,7 +11,6 @@
     import {addNanoAccount} from "../machinery/wallet";
     import LabelledLoader from "../components/LabelledLoader.svelte";
     import {onMount} from "svelte";
-    import {resolveBalances} from "../machinery/nano-rpc-fetch-wrapper";
     import {updateWalletAccounts} from "../machinery/nano-ops";
 
     let navigationState: NavigationState

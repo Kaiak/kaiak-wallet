@@ -6,7 +6,4 @@ const app = new App({
   props: {},
 });
 
-const elements = document.activeElement.getElementsByClassName('navigation');
-loadedComponentStore.set({ elements: elements });
-
 export default app;

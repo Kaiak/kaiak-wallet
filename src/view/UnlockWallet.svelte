@@ -1,13 +1,12 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
     import LabelledInput from "../components/LabelledInput.svelte";
-    import Button from "../components/Button.svelte";
     import {clearState, pushMenu, pushState, pushToast} from "../machinery/eventListener";
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
     import LabelledLoader from "../components/LabelledLoader.svelte";
     import {onMount} from "svelte";
-    import {softwareKeysStore} from "../stores/stores";
+    import {loadedComponentStore, softwareKeysStore} from "../stores/stores";
 
     let inputPhrase: string | undefined;
     let showLoader: boolean = false;
@@ -26,7 +25,6 @@
             pushToast({ languageId: 'wrong-pass' })
         }
         showLoader = false;
-
     }
 
     onMount(() => {
