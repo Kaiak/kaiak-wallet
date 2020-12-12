@@ -36,6 +36,7 @@
             patchState({...navigationState, wallet: updatedNanoWallet})
         } // TODO: Display error
         addingAccount = undefined;
+        loaderText = undefined;
     }
 
     onMount(async () => {
