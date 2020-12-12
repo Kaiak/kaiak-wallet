@@ -10,13 +10,10 @@
 	import Toast from "./components/Toast.svelte";
 	import Onboard from "./view/Onboard.svelte";
 	import {onMount} from "svelte";
-	import {unlockWallet} from "./machinery/secure-storage";
-	import type {WalletError} from "./machinery/secure-storage";
-	import type {NanoWallet} from "./machinery/models";
+	import { walletExists } from "./machinery/secure-storage";
 	import {pushMenu} from "./machinery/eventListener";
 	import LabelledLoader from "./components/LabelledLoader.svelte";
 
-	let loadedState: boolean = false;
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
 
@@ -27,37 +24,31 @@
 	});
 
 	onMount(async () => {
-		let w: NanoWallet | WalletError = await unlockWallet('*')
-		console.log(w)
-		if (w === 'wrong_pass') {
+		const exists = await walletExists()
+		if(exists) {
 			pushMenu('unlock')
 		} else {
-			console.log(w)
+			pushMenu('onboard')
 		}
-		loadedState = true;
 	})
 </script>
 
 <main>
 	<Toast/>
 		<div id="kui-app">
-			{#if loadedState}
-				{#if state.menu === 'wallet'}
-					<Wallet />
-				{:else if state.menu === 'onboard'}
-					<Onboard />
-				{:else if state.menu === 'setup'}
-					<Setup />
-				{:else if state.menu === 'menu'}
-					<Menu />
-				{:else if state.menu === 'about'}
-					<About />
-				{:else if state.menu === 'unlock'}
-					<UnlockWallet />
-				{/if}
-			{:else}
-				<LabelledLoader/>
-			{/if}
+		{#if state.menu === 'wallet'}
+			<Wallet />
+		{:else if state.menu === 'onboard'}
+			<Onboard />
+		{:else if state.menu === 'setup'}
+			<Setup />
+		{:else if state.menu === 'menu'}
+			<Menu />
+		{:else if state.menu === 'about'}
+			<About />
+		{:else if state.menu === 'unlock'}
+			<UnlockWallet />
+		{/if}
 		</div>
 	<SoftwareKeys/>
 </main>

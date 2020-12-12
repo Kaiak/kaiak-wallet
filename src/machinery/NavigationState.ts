@@ -7,7 +7,6 @@ export type MenuSelector =
   | 'menu'
   | 'about'
   | 'unlock'
-  | 'create'
   | 'onboard';
 export type AccountAction = 'send' | 'transactions' | 'receive';
 
