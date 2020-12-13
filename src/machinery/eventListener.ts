@@ -103,7 +103,7 @@ export function handleKeydown(e) {
       }
       break;
     case 'ArrowRight':
-      if (navigation.selectionSupportsButtons()) {
+      if (navigation.navigatesInInputField()) {
         break;
       } else if (navigation.selection()) {
         navigation.selection().click();
@@ -111,7 +111,7 @@ export function handleKeydown(e) {
       e.preventDefault();
       break;
     case 'ArrowLeft':
-      if (navigation.selectionSupportsButtons()) {
+      if (navigation.navigatesInInputField()) {
         break;
       } else {
         popState();
@@ -119,9 +119,7 @@ export function handleKeydown(e) {
       }
       break;
     case 'Backspace':
-      if (navigation.selectionSupportsButtons()) {
-        break;
-      } else if (popState()) {
+      if (navigation.canBackspaceInInputField() && popState()) {
         e.preventDefault();
       }
       break;

@@ -62,9 +62,13 @@ export class Navigation {
       : null;
   }
 
-  selectionSupportsButtons(): boolean {
+  navigatesInInputField(): boolean {
+    return this.inputSelection() !== null;
+  }
+
+  canBackspaceInInputField(): boolean {
     return this.inputSelection()
-      ? this.inputSelection().value.length > 0
+      ? this.inputSelection().selectionStart === 0
       : false;
   }
 }
