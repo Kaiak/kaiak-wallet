@@ -1,5 +1,4 @@
 import {
-  loadedComponentStore,
   navigationStore,
   softwareKeysStore,
   toastStore,
@@ -18,18 +17,19 @@ export interface LoadedElements {
   elements: any;
 }
 
-let selection = undefined;
+let navigation = new Navigation([]);
 
-const elementSelector = (selectedElement) => {
-  selection = selectedElement;
-};
-let navigation = new Navigation([], elementSelector);
-
-loadedComponentStore.subscribe((value) => {
-  document.removeEventListener('keydown', handleKeydown);
-  navigation = new Navigation(value.elements, elementSelector);
-  document.addEventListener('keydown', handleKeydown);
-  navigation.focus();
+/** setTimeout hack needed to wire up navigation after DOM is loaded, there's probably a better way */
+navigationStore.subscribe(() => {
+  setTimeout(() => {
+    const elements: Element[] = Array.from(
+      document.getElementsByClassName('navigation')
+    );
+    document.removeEventListener('keydown', handleKeydown);
+    navigation = new Navigation(elements);
+    document.addEventListener('keydown', handleKeydown);
+    navigation.focus();
+  }, 100);
 });
 
 let middleKey: (() => void) | undefined = undefined;
@@ -107,32 +107,29 @@ export function handleKeydown(e) {
       }
       break;
     case 'ArrowRight':
-      if (selection) {
-        selection.click();
-        e.preventDefault();
-      } else {
-        e.preventDefault();
+      if (navigation.selection()) {
+        navigation.selection().click();
       }
+      e.preventDefault();
       break;
     case 'ArrowLeft':
       popState();
       e.preventDefault();
       break;
     case 'Backspace':
-      if (popState()) {
+      if (navigation.selectionSupportsBackspace()) {
+        break;
+      } else if (popState()) {
         e.preventDefault();
       }
       break;
     case 'Enter':
       if (middleKey) {
         middleKey();
-        e.preventDefault();
-      } else if (selection) {
-        selection.click();
-        e.preventDefault();
-      } else {
-        e.preventDefault();
+      } else if (navigation.selection()) {
+        navigation.selection().click();
       }
+      e.preventDefault();
       break;
     case 'SoftLeft':
       if (leftKey) {
