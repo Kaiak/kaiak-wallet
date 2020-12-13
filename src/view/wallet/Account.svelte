@@ -15,6 +15,8 @@
     import Settings from "./Settings.svelte";
     import {setWallet} from "../../machinery/secure-storage";
     import SendByAddress from "./Send.svelte";
+    import {afterUpdate, beforeUpdate, onMount} from "svelte";
+    import {setSoftwareKeys, setSoftwareKeysToMenu} from "../../machinery/SoftwareKeysState";
 
     let state: NavigationState
     let selectedAccount: SelectedAccountState | undefined = undefined
@@ -62,6 +64,10 @@
             } // TODO: Toast
         }
     }
+
+    onMount(() => {
+        setSoftwareKeysToMenu()
+    })
 
 </script>
 

@@ -37,6 +37,7 @@ navigationStore.subscribe(() => {
 });
 
 softwareKeysStore.subscribe((value: SoftwareKeysState) => {
+  console.log(value);
   leftKey = value.leftKey?.onClick;
   middleKey = value.middleKey?.onClick;
   rightKey = value.rightKey?.onClick;

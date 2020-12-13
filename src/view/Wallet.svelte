@@ -1,6 +1,5 @@
 <script lang="ts">
     import type {NanoAccount, NanoWallet, RAW} from "../machinery/models";
-    import Button from "../components/Button.svelte";
     import List from "../components/List.svelte";
     import Account from "./wallet/Account.svelte";
     import {navigationStore, softwareKeysStore} from "../stores/stores";
@@ -10,15 +9,18 @@
     import {patchState, pushMenu, pushState} from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
     import LabelledLoader from "../components/LabelledLoader.svelte";
-    import {onMount} from "svelte";
+    import {afterUpdate, beforeUpdate, onMount} from "svelte";
     import {updateWalletAccounts} from "../machinery/nano-ops";
+    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
     let navigationState: NavigationState
     let wallet: NanoWallet | undefined
+    let selectedAccount: NanoAccount | undefined
 
     const unsubscribe = navigationStore.subscribe<NavigationState>(value => {
         navigationState = value
         wallet = value.wallet
+        selectedAccount = navigationState.account?.selectedAccount
     });
     const selectAccount = (account: NanoAccount) => {
         pushState({
@@ -44,22 +46,29 @@
         if(updatedNanoWallet) {
             patchState({...navigationState, wallet: updatedNanoWallet})
         }
-        softwareKeysStore.set({
-            leftKey: undefined,
-            middleKey: undefined,
-            rightKey: {
-                onClick: () => pushMenu('menu'),
-                languageId: 'rightNavButton'
-            }
-        })
         loaderText = undefined
+    })
+    beforeUpdate(() => {
+        if(selectedAccount === undefined) {
+            setSoftwareKeys({
+                middleKey: undefined,
+                leftKey: {
+                    languageId: 'add-account',
+                    onClick: addAccount
+                },
+                rightKey: {
+                    languageId: 'rightNavButton',
+                    onClick: () => pushMenu('menu')
+                }
+            })
+        }
     })
 
 </script>
 
 {#if wallet}
     <Content titleKey="wallet">
-        {#if navigationState.account?.selectedAccount}
+        {#if selectedAccount}
             <Account/>
         {:else}
             {#if loaderText}
@@ -70,7 +79,6 @@
                         <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
                     {/each}
                 </List>
-                <Button languageId="add-account" on:click={addAccount}/>
             {/if}
         {/if}
     </Content>
