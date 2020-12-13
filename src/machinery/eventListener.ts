@@ -13,11 +13,15 @@ import type { SoftwareKeysState } from './SoftwareKeysState';
 import { START_STATE } from './NavigationState';
 import type { ToastState } from './ToastState';
 
-export interface LoadedElements {
-  elements: any;
-}
+let navigation: Navigation = new Navigation([]);
 
-let navigation = new Navigation([]);
+let middleKey: (() => void) | undefined = undefined;
+let leftKey: (() => void) | undefined = undefined;
+let rightKey: (() => void) | undefined = undefined;
+
+let stateHistory: NavigationState[] = [START_STATE];
+
+let index = 0;
 
 /** setTimeout hack needed to wire up navigation after DOM is loaded, there's probably a better way */
 navigationStore.subscribe(() => {
@@ -32,19 +36,11 @@ navigationStore.subscribe(() => {
   }, 100);
 });
 
-let middleKey: (() => void) | undefined = undefined;
-let leftKey: (() => void) | undefined = undefined;
-let rightKey: (() => void) | undefined = undefined;
-
 softwareKeysStore.subscribe((value: SoftwareKeysState) => {
   leftKey = value.leftKey?.onClick;
   middleKey = value.middleKey?.onClick;
   rightKey = value.rightKey?.onClick;
 });
-
-let stateHistory: NavigationState[] = [START_STATE];
-
-let index = 0;
 
 export function popState(): boolean {
   if (index > 0) {
