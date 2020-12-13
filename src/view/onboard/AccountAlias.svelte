@@ -2,10 +2,10 @@
     import Seperator from "../../components/Seperator.svelte";
     import Text from "../../components/Text.svelte";
     import LabelledInput from "../../components/LabelledInput.svelte";
-    import {navigationStore, softwareKeysStore, toastStore} from "../../stores/stores";
     import {popState, pushOnboardState, pushToast} from "../../machinery/eventListener";
     import {onMount} from "svelte";
     import type {WalletResult} from "../../machinery/wallet";
+    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
     export let walletResult: WalletResult
 
@@ -24,7 +24,7 @@
     }
 
     onMount(() => {
-        softwareKeysStore.set({
+        setSoftwareKeys({
             middleKey: {
                 languageId: 'onboard-set-alias-button',
                 onClick: setAlias
@@ -40,4 +40,4 @@
 </script>
 <Seperator languageId="onboard-set-alias"/>
 <Text languageId="onboard-set-alias-text"/>
-<LabelledInput languageId="account-alias" on:change={changeAlias}/>
+<LabelledInput languageId="account-alias" on:input={changeAlias}/>

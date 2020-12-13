@@ -67,8 +67,8 @@
     {#if sendType === 'qr' && showCamera}
         <CameraCapture scannedAddress={scannedAddress}/>
     {:else}
-        <LabelledInput languageId="send-address" type="text" on:change={setAddress} value={toAddress}/>
-        <LabelledInput languageId="send-amount" type="text" on:change={setAmount} value={sendValue}/>
+        <LabelledInput languageId="send-address" type="text" on:input={setAddress} value={toAddress}/>
+        <LabelledInput languageId="send-amount" type="text" on:input={setAmount} value={sendValue}/>
         <Button languageId="send-max-button" on:click={setMax}/>
         <Button languageId="send-button" on:click={send}/>
     {/if}

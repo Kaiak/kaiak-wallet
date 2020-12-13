@@ -28,6 +28,8 @@
     }
 
     onMount(() => {
+        const elements = document.activeElement.getElementsByClassName('navigation');
+        loadedComponentStore.set({ elements: elements });
         softwareKeysStore.set({
             leftKey: {
                 onClick: () => pushMenu('onboard'),
@@ -45,7 +47,7 @@
 
 <Content titleKey="unlock-wallet">
     {#if !showLoader}
-        <LabelledInput type="number" languageId="unlock-label" placeholderLanguage="unlock-label" on:change={onInputPassword}/>
+        <LabelledInput type="number" languageId="unlock-label" placeholderLanguage="unlock-label" on:input={onInputPassword}/>
     {:else}
         <LabelledLoader languageId="unlocking-wallet"/>
     {/if}

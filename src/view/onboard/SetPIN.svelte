@@ -60,5 +60,5 @@
     <LabelledLoader languageId="storing-wallet" />
 {:else}
     <Seperator languageId="wallet-password" />
-    <LabelledInput type="number" on:change={inputPassword} languageId="onboard-wallet-pin"/>
+    <LabelledInput type="number" on:input={inputPassword} languageId="onboard-wallet-pin"/>
 {/if}
