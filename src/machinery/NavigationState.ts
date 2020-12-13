@@ -34,7 +34,7 @@ export interface NavigationState {
 }
 
 export const START_STATE: NavigationState = {
-  menu: 'onboard',
+  menu: 'unlock',
   account: undefined,
   wallet: undefined,
   onboardState: undefined,
