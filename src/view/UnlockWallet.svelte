@@ -6,7 +6,7 @@
     import {unlockWallet} from "../machinery/secure-storage";
     import LabelledLoader from "../components/LabelledLoader.svelte";
     import {onMount} from "svelte";
-    import { softwareKeysStore } from "../stores/stores";
+    import {softwareKeysStore} from "../stores/stores";
 
     let inputPhrase: string | undefined;
     let showLoader: boolean = false;
