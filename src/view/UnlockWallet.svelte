@@ -28,8 +28,6 @@
     }
 
     onMount(() => {
-        const elements = document.activeElement.getElementsByClassName('navigation');
-        loadedComponentStore.set({ elements: elements });
         softwareKeysStore.set({
             leftKey: {
                 onClick: () => pushMenu('onboard'),
