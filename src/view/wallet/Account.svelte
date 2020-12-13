@@ -14,7 +14,7 @@
     import LabelledLoader from "../../components/LabelledLoader.svelte";
     import Settings from "./Settings.svelte";
     import {setWallet} from "../../machinery/secure-storage";
-    import SendByAddress from "../send/SendByAddress.svelte";
+    import SendByAddress from "./Send.svelte";
 
     let state: NavigationState
     let selectedAccount: SelectedAccountState | undefined = undefined
@@ -80,7 +80,7 @@
     {:else if selectedAccount.view === 'transactions'}
         <Seperator languageId="transactions" primaryText={selectedAccount?.selectedAccount.alias}/>
         <Transactions address={selectedAccount?.selectedAccount.address}/>
-    {:else if selectedAccount?.view.startsWith('send') }
+    {:else if selectedAccount?.view.startsWith('send')}
         {#if selectedAccount.view === 'send_qr' || selectedAccount.view === 'send_address'}
             <SendByAddress account={account} balance={account.balance} sendType={selectedAccount.view}/>
         {:else}
