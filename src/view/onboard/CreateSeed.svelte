@@ -6,14 +6,15 @@
     import Seperator from "../../components/Seperator.svelte";
     import {popState, pushOnboardState} from "../../machinery/eventListener";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
-    import {softwareKeysStore} from "../../stores/stores";
+    import {clearSoftwareKeys, setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
     let createWallet: boolean = true;
     let walletResult: WalletResult | undefined
 
     onMount(async () => {
+        clearSoftwareKeys()
         walletResult = await generateWallet()
-        softwareKeysStore.set({
+        setSoftwareKeys({
             middleKey: {
                 languageId: 'onboard-seed-stored',
                 onClick: () => {
