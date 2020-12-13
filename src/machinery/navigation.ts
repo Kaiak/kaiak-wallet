@@ -8,7 +8,6 @@ export class Navigation {
     if (elements.length > 0) {
       this.elements = elements;
     }
-    this.focus();
   }
 
   focus() {
