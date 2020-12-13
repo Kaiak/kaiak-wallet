@@ -111,7 +111,10 @@ export function handleKeydown(e) {
       e.preventDefault();
       break;
     case 'ArrowLeft':
-      if (navigation.navigatesInInputField()) {
+      if (
+        navigation.navigatesInInputField() &&
+        navigation.preventBackspaceInInputField()
+      ) {
         break;
       } else {
         popState();
@@ -119,7 +122,9 @@ export function handleKeydown(e) {
       }
       break;
     case 'Backspace':
-      if (navigation.canBackspaceInInputField() && popState()) {
+      if (navigation.preventBackspaceInInputField()) {
+        break;
+      } else if (popState()) {
         e.preventDefault();
       }
       break;

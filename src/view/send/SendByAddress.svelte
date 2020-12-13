@@ -1,23 +1,23 @@
 <script lang="ts">
     import LabelledInput from "../../components/LabelledInput.svelte";
     import Button from "../../components/Button.svelte";
-    import type {NanoAddress, NANO, NanoAccount, RAW} from "../../machinery/models";
-    import type {SendAction} from "../../machinery/NavigationState";
+    import type {NanoAddress, NanoAccount, RAW} from "../../machinery/models";
     import {tools} from "nanocurrency-web";
     import {sendNano} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import CameraCapture from "../../components/CameraCapture.svelte";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
     import {popState} from "../../machinery/eventListener";
+    import type {AccountAction} from "../../machinery/NavigationState";
 
-    export let sendType: SendAction;
+    export let sendType: AccountAction;
     export let account: NanoAccount;
     export let balance: RAW;
 
     let sending: boolean = false;
 
     let toAddress: NanoAddress | undefined
-    let showCamera: boolean = sendType === 'qr'
+    let showCamera: boolean = sendType === 'send_qr'
 
     let sendValue: number | undefined = undefined
 
@@ -56,7 +56,7 @@
     const scannedAddress = (address: NanoAddress) => {
         toAddress = address;
         showCamera = false;
-        sendType = 'address'
+        sendType = 'send_address'
     }
 
 </script>
@@ -64,7 +64,7 @@
 {#if sending}
     <LabelledLoader languageId="sending-funds"/>
 {:else}
-    {#if sendType === 'qr' && showCamera}
+    {#if sendType === 'send_qr' && showCamera}
         <CameraCapture scannedAddress={scannedAddress}/>
     {:else}
         <LabelledInput languageId="send-address" type="text" on:input={setAddress} value={toAddress}/>

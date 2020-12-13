@@ -66,9 +66,9 @@ export class Navigation {
     return this.inputSelection() !== null;
   }
 
-  canBackspaceInInputField(): boolean {
+  preventBackspaceInInputField(): boolean {
     return this.inputSelection()
-      ? this.inputSelection().selectionStart === 0
+      ? this.inputSelection().selectionStart !== 0
       : false;
   }
 }

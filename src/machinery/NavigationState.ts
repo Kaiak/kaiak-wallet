@@ -8,9 +8,12 @@ export type MenuSelector =
   | 'about'
   | 'unlock'
   | 'onboard';
-export type AccountAction = 'send' | 'transactions' | 'receive';
-
-export type SendAction = 'qr' | 'address';
+export type AccountAction =
+  | 'send'
+  | 'transactions'
+  | 'receive'
+  | 'send_qr'
+  | 'send_address';
 
 export interface SelectedAccountState {
   selectedAccount: NanoAccount;
