@@ -30,10 +30,6 @@
 			pushMenu('onboard')
 		}
 	})
-	afterUpdate(() => {
-		const elements = document.activeElement.getElementsByClassName('navigation');
-		loadedComponentStore.set({ elements: elements });
-	})
 </script>
 
 <main>

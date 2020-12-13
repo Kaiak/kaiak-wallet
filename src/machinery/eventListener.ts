@@ -26,18 +26,20 @@ const elementSelector = (selectedElement) => {
 let navigation = new Navigation([], elementSelector);
 
 loadedComponentStore.subscribe((value) => {
-  if (value.elements.length > 0) {
-    document.removeEventListener('keydown', handleKeydown);
-    navigation = new Navigation(value.elements, elementSelector);
-    document.addEventListener('keydown', handleKeydown);
-    navigation.focus();
-  }
+  document.removeEventListener('keydown', handleKeydown);
+  navigation = new Navigation(value.elements, elementSelector);
+  document.addEventListener('keydown', handleKeydown);
+  navigation.focus();
 });
 
 let middleKey: (() => void) | undefined = undefined;
+let leftKey: (() => void) | undefined = undefined;
+let rightKey: (() => void) | undefined = undefined;
 
 softwareKeysStore.subscribe((value: SoftwareKeysState) => {
+  leftKey = value.leftKey?.onClick;
   middleKey = value.middleKey?.onClick;
+  rightKey = value.rightKey?.onClick;
 });
 
 let stateHistory: NavigationState[] = [START_STATE];
@@ -133,10 +135,16 @@ export function handleKeydown(e) {
       }
       break;
     case 'SoftLeft':
-      console.log('Soft left');
+      if (leftKey) {
+        leftKey();
+        e.preventDefault();
+      }
       break;
     case 'SoftRight':
-      pushState({ ...stateHistory[index], menu: 'menu' });
+      if (rightKey) {
+        rightKey();
+        e.preventDefault();
+      }
       break;
   }
 }
