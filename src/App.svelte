@@ -10,7 +10,7 @@
 	import Toast from "./components/Toast.svelte";
 	import Onboard from "./view/Onboard.svelte";
 	import {afterUpdate, onMount} from "svelte";
-	import { walletExists } from "./machinery/secure-storage";
+	import {walletExists} from "./machinery/secure-storage";
 	import {pushMenu} from "./machinery/eventListener";
 
 	let header: string | undefined = undefined
