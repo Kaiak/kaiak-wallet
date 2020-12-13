@@ -13,6 +13,7 @@
     export let sendType: AccountAction;
     export let account: NanoAccount;
     export let balance: RAW;
+    export let setType: (a: AccountAction) => void
 
     let sending: boolean = false;
 
@@ -56,7 +57,7 @@
     const scannedAddress = (address: NanoAddress) => {
         toAddress = address;
         showCamera = false;
-        sendType = 'send_address'
+        setType('send_address');
     }
 
 </script>

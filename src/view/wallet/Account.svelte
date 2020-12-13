@@ -6,17 +6,16 @@
     import Transactions from "./Transactions.svelte";
     import Receive from "./Receive.svelte";
     import {navigationStore} from "../../stores/stores";
-    import Button from "../../components/Button.svelte";
     import type {AccountAction, NavigationState, SelectedAccountState} from "../../machinery/NavigationState";
-    import {pushState} from "../../machinery/eventListener";
+    import {patchState, pushState} from "../../machinery/eventListener";
     import {loadWalletData} from "../../machinery/nano-ops";
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
     import Settings from "./Settings.svelte";
     import {setWallet} from "../../machinery/secure-storage";
     import SendByAddress from "./Send.svelte";
-    import {afterUpdate, beforeUpdate, onMount} from "svelte";
-    import {setSoftwareKeys, setSoftwareKeysToMenu} from "../../machinery/SoftwareKeysState";
+    import {onMount} from "svelte";
+    import {setSoftwareKeys, SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
 
     let state: NavigationState
     let selectedAccount: SelectedAccountState | undefined = undefined
@@ -65,9 +64,14 @@
         }
     }
 
-    onMount(() => {
-        setSoftwareKeysToMenu()
-    })
+    onMount(() => setSoftwareKeys({
+        leftKey: {
+            languageId: 'update-button',
+            onClick: triggerRefresh
+        },
+        middleKey: undefined,
+        rightKey: SOFT_KEY_MENU,
+    }));
 
 </script>
 
@@ -81,14 +85,13 @@
             <Primary primaryLanguageId="send" on:click={() => setAccountAction('send') }/>
             <Primary primaryLanguageId="receive" on:click={() => setAccountAction('receive') }/>
             <Primary primaryLanguageId="settings" on:click={() => setAccountAction('settings') }/>
-            <Button languageId="update-button" on:click={triggerRefresh}/>
         </List>
     {:else if selectedAccount.view === 'transactions'}
         <Seperator languageId="transactions" primaryText={selectedAccount?.selectedAccount.alias}/>
         <Transactions address={selectedAccount?.selectedAccount.address}/>
     {:else if selectedAccount?.view.startsWith('send')}
         {#if selectedAccount.view === 'send_qr' || selectedAccount.view === 'send_address'}
-            <SendByAddress account={account} balance={account.balance} sendType={selectedAccount.view}/>
+            <SendByAddress account={account} balance={account.balance} sendType={selectedAccount.view} setType={(action) => setAccountAction(action)} />
         {:else}
             <List>
                 <Primary primaryText="Send by QR code" on:click={() => setAccountAction('send_qr')}/>
