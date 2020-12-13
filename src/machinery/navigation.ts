@@ -52,15 +52,20 @@ export class Navigation {
   }
 
   selection(): HTMLElement | null {
+    return this.selectedElement instanceof HTMLElement
+      ? this.selectedElement
+      : null;
+  }
+
+  inputSelection(): HTMLInputElement | null {
     return this.selectedElement instanceof HTMLInputElement
       ? this.selectedElement
       : null;
   }
 
-  selectionSupportsBackspace(): boolean {
-    return (
-      this.selectedElement instanceof HTMLInputElement &&
-      this.selectedElement.value.length > 0
-    );
+  selectionSupportsButtons(): boolean {
+    return this.inputSelection()
+      ? this.inputSelection().value.length > 0
+      : false;
   }
 }

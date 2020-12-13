@@ -107,17 +107,23 @@ export function handleKeydown(e) {
       }
       break;
     case 'ArrowRight':
-      if (navigation.selection()) {
+      if (navigation.selectionSupportsButtons()) {
+        break;
+      } else if (navigation.selection()) {
         navigation.selection().click();
       }
       e.preventDefault();
       break;
     case 'ArrowLeft':
-      popState();
-      e.preventDefault();
+      if (navigation.selectionSupportsButtons()) {
+        break;
+      } else {
+        popState();
+        e.preventDefault();
+      }
       break;
     case 'Backspace':
-      if (navigation.selectionSupportsBackspace()) {
+      if (navigation.selectionSupportsButtons()) {
         break;
       } else if (popState()) {
         e.preventDefault();
