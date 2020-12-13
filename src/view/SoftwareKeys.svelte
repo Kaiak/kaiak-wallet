@@ -1,25 +1,38 @@
 <script lang="ts">
     import {pushMenu} from "../machinery/eventListener";
     import {softwareKeysStore} from "../stores/stores";
+    import type {SoftKey} from "../machinery/SoftwareKeysState";
 
-    const toggleMenu = () => pushMenu('menu')
+    let leftKey: SoftKey | undefined = undefined
+    let middleKey: SoftKey | undefined = undefined
+    let rightKey: SoftKey | undefined = undefined
 
-    let middleKeyLanguageId: string | undefined = undefined
-    let middleOnClick: (() => void) | undefined = undefined
+    let keys: SoftKey[] = []
 
     softwareKeysStore.subscribe(value => {
-        middleKeyLanguageId = value.middleKey?.languageId
-        middleOnClick = value.middleKey?.onClick
+        leftKey = value.leftKey
+        middleKey = value.middleKey
+        rightKey = value.rightKey
     })
 
 </script>
 
 <div class="kui-software-key">
-    <h5 role="button" class="kui-h5 kui-text-left" id="kui-left-soft-key"></h5>
-    {#if middleKeyLanguageId}
-        <h5 role="button" class="kui-h5 kui-text-center kui-text-upcase" on:click={middleOnClick} data-l10n-id={middleKeyLanguageId}></h5>
+
+    {#if leftKey}
+        <h5 role="button" class="kui-h5 kui-text-center kui-text-upcase" on:click={leftKey.onClick} data-l10n-id={leftKey.languageId}></h5>
+    {:else}
+        <h5 role="button" class="kui-h5 kui-text-left" id="kui-left-soft-key"></h5>
+    {/if}
+    {#if middleKey}
+        <h5 role="button" class="kui-h5 kui-text-center kui-text-upcase" on:click={middleKey.onClick} data-l10n-id={middleKey.languageId}></h5>
     {:else}
         <h5 role="button" class="kui-h5 kui-text-center kui-text-upcase"></h5>
     {/if}
-    <h5 role="button" class="kui-h5 kui-text-right" on:click={toggleMenu} data-l10n-id="rightNavButton"></h5>
+    {#if rightKey}
+        <h5 role="button" class="kui-h5 kui-text-right" on:click={rightKey.onClick} data-l10n-id={rightKey.languageId}></h5>
+    {:else}
+        <h5 role="button" class="kui-h5 kui-text-right"></h5>
+    {/if}
+
 </div>

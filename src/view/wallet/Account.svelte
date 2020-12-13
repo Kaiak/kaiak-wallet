@@ -23,11 +23,21 @@
 
     let loading: boolean = false;
 
+    const accountTitle = (account: NanoAccount) => {
+        if(account === undefined) {
+            return ''
+        } else if(account && account.balance) {
+            return `${account.alias} ${rawToNano(account.balance, 5).amount} Nano`
+        } else {
+            return `${account.alias}`
+        }
+    }
+
     navigationStore.subscribe(value => {
         state = value
         selectedAccount = state?.account
         account = selectedAccount?.selectedAccount;
-        separatorText = account ? `${account.alias} ${rawToNano(account.balance, 5).amount} Nano` : ''
+        separatorText = accountTitle(account)
     })
 
     const setAccountAction = (a: AccountAction) => {

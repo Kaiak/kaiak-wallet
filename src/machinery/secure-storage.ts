@@ -1,6 +1,6 @@
 import type { NanoWallet } from './models';
 import { wallet } from 'nanocurrency-web';
-import { Store } from 'secure-webstore/dist/secure-webstore';
+import { Store, _idb } from 'secure-webstore/dist/secure-webstore';
 
 const APP_STORE = 'kaios_nano';
 const WALLET_KEY = 'wallet';
@@ -28,6 +28,7 @@ function walletDataToWallet(
         address: address.address,
         privateKey: address.privateKey,
         publicKey: address.publicKey,
+        balance: undefined,
       };
     }),
   };
@@ -40,15 +41,11 @@ function walletToWalletData(wallet: NanoWallet): WalletData {
   };
 }
 
-export async function destroyWallet(): Promise<void> {
-  const store: Store = new Store(APP_STORE, APP_STORE);
-  await store.destroy();
-}
-
 export async function setWallet(
   wallet: NanoWallet
 ): Promise<NanoWallet | undefined> {
   try {
+    await deleteStore();
     const store: Store = new Store(APP_STORE, wallet.encryptionSecret);
     await store.init();
     await store.set(WALLET_KEY, walletToWalletData(wallet));
@@ -57,6 +54,17 @@ export async function setWallet(
     console.log(e);
     return undefined;
   }
+}
+
+async function deleteStore() {
+  const store = new _idb.Store(APP_STORE, APP_STORE);
+  await _idb.clear(store);
+}
+
+export async function walletExists() {
+  const store = new _idb.Store(APP_STORE, APP_STORE);
+  const keys = await _idb.keys(store);
+  return keys.length > 0;
 }
 
 export async function unlockWallet(
@@ -72,7 +80,6 @@ export async function unlockWallet(
       return undefined;
     }
   } catch (e) {
-    console.log(e);
     return undefined;
   }
 }

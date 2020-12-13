@@ -21,5 +21,5 @@
 </script>
 
 <Seperator languageId="account-settings" />
-<LabelledInput languageId="account-alias" on:change={setAlias} bind:value={aliasValue}></LabelledInput>
-<Button languageId="save-button" on:click={save}></Button>
+<LabelledInput languageId="account-alias" on:input={setAlias} bind:value={aliasValue}/>
+<Button languageId="save-button" on:click={save}/>

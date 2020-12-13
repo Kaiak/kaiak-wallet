@@ -14,7 +14,9 @@ export const loadedComponentStore: Writable<LoadedElements> = writable<LoadedEle
 export const navigationStore: Writable<NavigationState> = writable(START_STATE);
 
 export const softwareKeysStore: Writable<SoftwareKeysState> = writable({
+  leftKey: undefined,
   middleKey: undefined,
+  rightKey: undefined,
 });
 
 export const toastStore: Writable<ToastState> = writable({

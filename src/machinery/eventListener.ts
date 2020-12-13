@@ -5,7 +5,11 @@ import {
   toastStore,
 } from '../stores/stores';
 import { Navigation } from './navigation';
-import type { MenuSelector, NavigationState } from './NavigationState';
+import type {
+  MenuSelector,
+  NavigationState,
+  OnboardState,
+} from './NavigationState';
 import type { SoftwareKeysState } from './SoftwareKeysState';
 import { START_STATE } from './NavigationState';
 import type { ToastState } from './ToastState';
@@ -22,18 +26,20 @@ const elementSelector = (selectedElement) => {
 let navigation = new Navigation([], elementSelector);
 
 loadedComponentStore.subscribe((value) => {
-  if (value.elements.length > 0) {
-    document.removeEventListener('keydown', handleKeydown);
-    navigation = new Navigation(value.elements, elementSelector);
-    document.addEventListener('keydown', handleKeydown);
-    navigation.focus();
-  }
+  document.removeEventListener('keydown', handleKeydown);
+  navigation = new Navigation(value.elements, elementSelector);
+  document.addEventListener('keydown', handleKeydown);
+  navigation.focus();
 });
 
 let middleKey: (() => void) | undefined = undefined;
+let leftKey: (() => void) | undefined = undefined;
+let rightKey: (() => void) | undefined = undefined;
 
 softwareKeysStore.subscribe((value: SoftwareKeysState) => {
+  leftKey = value.leftKey?.onClick;
   middleKey = value.middleKey?.onClick;
+  rightKey = value.rightKey?.onClick;
 });
 
 let stateHistory: NavigationState[] = [START_STATE];
@@ -51,7 +57,7 @@ export function popState(): boolean {
   }
 }
 export function pushMenu(menu: MenuSelector): void {
-  pushState({ ...stateHistory[index], menu });
+  pushState({ ...stateHistory[index], menu, onboardState: undefined });
 }
 
 export function pushToast(state: ToastState): void {
@@ -66,6 +72,11 @@ export function patchState(state: NavigationState): void {
 export function clearState(): void {
   stateHistory = [];
   index = 0;
+}
+
+export function pushOnboardState(updated: OnboardState): void {
+  let state: NavigationState = stateHistory[index];
+  pushState({ ...state, onboardState: updated });
 }
 
 export function pushState(state: NavigationState): void {
@@ -124,10 +135,16 @@ export function handleKeydown(e) {
       }
       break;
     case 'SoftLeft':
-      console.log('Soft left');
+      if (leftKey) {
+        leftKey();
+        e.preventDefault();
+      }
       break;
     case 'SoftRight':
-      pushState({ ...stateHistory[index], menu: 'menu' });
+      if (rightKey) {
+        rightKey();
+        e.preventDefault();
+      }
       break;
   }
 }

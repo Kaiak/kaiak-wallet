@@ -10,5 +10,5 @@
     {#if languageId || text}
         <label class="kui-input-label kui-h3" data-l10n-id={languageId}>{text}</label>
     {/if}
-    <input type={type} class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} on:change value={value}>
+    <input type={type} class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} on:input value={value}>
 </div>

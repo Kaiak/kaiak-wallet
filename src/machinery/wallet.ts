@@ -1,30 +1,35 @@
 import { wallet } from 'nanocurrency-web';
 import type { NanoWallet } from './models';
-import { destroyWallet, setWallet } from './secure-storage';
+import { setWallet } from './secure-storage';
 
 export interface WalletResult {
   seed: string;
   mnemonic: string;
 }
 
-export function generateWallet(): WalletResult {
-  const w = wallet.generate();
-  return {
-    seed: w.seed,
-    mnemonic: w.mnemonic,
-  };
+export function generateWallet(): Promise<WalletResult> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const w = wallet.generate();
+      resolve({
+        seed: w.seed,
+        mnemonic: w.mnemonic,
+      });
+    }, 0);
+  });
 }
 
 export async function createWallet(
   walletData: WalletResult,
-  encryptionSecret: string
+  encryptionSecret: string,
+  alias: string
 ): Promise<NanoWallet | undefined> {
   const nanoWallet: NanoWallet = {
     seed: walletData.seed,
     encryptionSecret: encryptionSecret,
     accounts: [
       {
-        alias: 'main',
+        alias: alias,
         address: undefined,
         privateKey: undefined,
         publicKey: undefined,
@@ -32,7 +37,7 @@ export async function createWallet(
       },
     ],
   };
-  return destroyWallet().then(() => setWallet(nanoWallet));
+  return setWallet(nanoWallet);
 }
 
 export async function addNanoAccount(

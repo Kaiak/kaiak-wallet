@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Seperator from "../components/Seperator.svelte";
     import List from "../components/List.svelte";
     import Button from "../components/Button.svelte";
