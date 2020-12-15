@@ -7,7 +7,7 @@
     import {clearState, popState, pushMenu, pushToast} from "../../machinery/eventListener";
     import { softwareKeysStore } from "../../stores/stores";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
-    import {beforeUpdate, onMount} from "svelte";
+    import {beforeUpdate} from "svelte";
 
     export let walletResult: WalletResult
     export let alias: string
@@ -27,11 +27,6 @@
             const storedWallet: NanoWallet | undefined = await createWallet(walletResult, inputPhrase, alias)
             if (storedWallet) {
                 clearState()
-                softwareKeysStore.set({
-                    middleKey: undefined,
-                    leftKey: undefined,
-                    rightKey: undefined,
-                })
                 pushMenu('unlock')
             } else {
                 pushToast({ languageId: 'onboard-store-wallet-failed' })

@@ -6,10 +6,10 @@
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
     import type {AccountAction, NavigationState} from "../machinery/NavigationState";
-    import {patchState, pushAccountAction, pushMenu, pushState} from "../machinery/eventListener";
+    import {pushAccountAction, pushMenu, pushToast} from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
     import LabelledLoader from "../components/LabelledLoader.svelte";
-    import {afterUpdate, beforeUpdate, onMount} from "svelte";
+    import {beforeUpdate, onMount} from "svelte";
     import {updateWalletAccounts} from "../machinery/nano-ops";
     import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
@@ -21,15 +21,29 @@
 
     let wallet: NanoWallet | undefined = undefined;
 
+    let loaderText: string | undefined = undefined
+
     walletStore.subscribe<WalletState>(value => {
         wallet = value.wallet;
         selectedAccount = wallet && value.selectedAccount ? wallet.accounts.filter(a => a.address === value.selectedAccount)[0] : undefined
-        console.log(value)
     })
 
     navigationStore.subscribe<NavigationState>(value => {
         navigationState = value
         accountAction = value.accountAction
+        if(accountAction === undefined) {
+            setSoftwareKeys({
+                middleKey: undefined,
+                leftKey: {
+                    languageId: 'add-account',
+                    onClick: () => addAccount()
+                },
+                rightKey: {
+                    languageId: 'rightNavButton',
+                    onClick: () => pushMenu('menu')
+                }
+            })
+        }
     });
     const selectAccount = (account: NanoAccount) => {
         setWalletState({
@@ -38,13 +52,15 @@
         })
         pushAccountAction('overview')
     }
-    let loaderText: string | undefined = undefined
+
     const addAccount = async () => {
         loaderText = "adding-account";
         const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
         if (updatedNanoWallet) {
-            setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount.address})
-        } // TODO: Display error
+            setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount?.address})
+        } else {
+            pushToast({languageId: 'unable-to-store'})
+        }
         loaderText = undefined;
     }
 
@@ -56,22 +72,6 @@
         }
         loaderText = undefined
     })
-    beforeUpdate(() => {accountAction
-        if(selectedAccount === undefined) {
-            setSoftwareKeys({
-                middleKey: undefined,
-                leftKey: {
-                    languageId: 'add-account',
-                    onClick: addAccount
-                },
-                rightKey: {
-                    languageId: 'rightNavButton',
-                    onClick: () => pushMenu('menu')
-                }
-            })
-        }
-    })
-
 </script>
 
 {#if wallet}

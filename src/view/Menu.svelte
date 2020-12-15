@@ -29,7 +29,7 @@
 <Content titleKey="menu">
     <List>
         <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => setAppView('wallet')}/>
-        {#if selectedAccount}
+        {#if selectedAccount && state.accountAction}
             <WithSecondary primaryLanguageId="send" secondaryText={selectedAccount.alias} on:click={() => setWalletView('send')}/>
             <WithSecondary primaryLanguageId="transactions" secondaryText={selectedAccount.alias} on:click={() =>  setWalletView('transactions')}/>
             <WithSecondary primaryLanguageId="receive" secondaryText={selectedAccount.alias} on:click={() =>  setWalletView('receive')}/>

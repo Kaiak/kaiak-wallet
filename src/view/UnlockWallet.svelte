@@ -18,11 +18,10 @@
     }
 
     const unlock = async () => {
-        clearSoftwareKeys();
+        clearSoftwareKeys()
         showLoader = true;
         const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
         if(data) {
-            // clearState()
             pushState({menu: 'wallet', accountAction: undefined, onboardState: undefined})
             setWalletState({ wallet: data, selectedAccount: undefined })
         } else {

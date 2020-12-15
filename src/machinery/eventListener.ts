@@ -65,11 +65,6 @@ export function pushToast(state: ToastState): void {
   toastStore.set(state);
 }
 
-export function patchState(state: NavigationState): void {
-  stateHistory[index] = state;
-  navigationStore.set(state);
-}
-
 export function clearState(): void {
   stateHistory = [];
   index = 0;
