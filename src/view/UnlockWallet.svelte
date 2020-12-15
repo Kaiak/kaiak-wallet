@@ -6,9 +6,9 @@
     import {unlockWallet} from "../machinery/secure-storage";
     import LabelledLoader from "../components/LabelledLoader.svelte";
     import {onMount} from "svelte";
-    import {softwareKeysStore} from "../stores/stores";
     import {clearSoftwareKeys, setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import type {SoftwareKeysState} from "../machinery/SoftwareKeysState";
+    import {setWalletState} from "../machinery/WalletState";
 
     let inputPhrase: string | undefined;
     let showLoader: boolean = false;
@@ -22,8 +22,9 @@
         showLoader = true;
         const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
         if(data) {
-            clearState()
-            pushState({menu: 'wallet', wallet: data, account: undefined, onboardState: undefined})
+            // clearState()
+            pushState({menu: 'wallet', accountAction: undefined, onboardState: undefined})
+            setWalletState({ wallet: data, selectedAccount: undefined })
         } else {
             pushToast({ languageId: 'wrong-pass' })
             setSoftwareKeys(softwareKeys)

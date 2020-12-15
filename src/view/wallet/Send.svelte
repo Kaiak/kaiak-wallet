@@ -7,7 +7,7 @@
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import CameraCapture from "../../components/CameraCapture.svelte";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
-    import {popState} from "../../machinery/eventListener";
+    import {popState, pushAccountAction} from "../../machinery/eventListener";
     import type {AccountAction} from "../../machinery/NavigationState";
 
     export let sendType: AccountAction;
@@ -46,7 +46,7 @@
             sending = true;
             try {
                 await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}), balance)
-                popState();
+                pushAccountAction('overview')
             } catch (e) {
                 console.log(e)
             }

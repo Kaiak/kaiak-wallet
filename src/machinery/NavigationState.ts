@@ -1,4 +1,3 @@
-import type { NanoAccount, NanoTransaction, NanoWallet } from './models';
 import type { WalletResult } from './wallet';
 
 export type MenuSelector =
@@ -9,17 +8,12 @@ export type MenuSelector =
   | 'unlock'
   | 'onboard';
 export type AccountAction =
+  | 'overview'
   | 'send'
   | 'transactions'
   | 'receive'
   | 'send_qr'
   | 'send_address';
-
-export interface SelectedAccountState {
-  selectedAccount: NanoAccount;
-  view: AccountAction | undefined;
-  selectedTransaction: NanoTransaction | undefined;
-}
 
 export type OnboardView = 'start' | 'disclaimer' | 'seed' | 'account' | 'pin';
 
@@ -31,14 +25,12 @@ export interface OnboardState {
 
 export interface NavigationState {
   menu: MenuSelector;
-  account: SelectedAccountState | undefined;
-  wallet: NanoWallet | undefined;
+  accountAction: AccountAction;
   onboardState: OnboardState | undefined;
 }
 
 export const START_STATE: NavigationState = {
   menu: 'unlock',
-  account: undefined,
-  wallet: undefined,
+  accountAction: undefined,
   onboardState: undefined,
 };

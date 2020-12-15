@@ -1,21 +1,28 @@
 <script lang="ts">
-    import type {NanoAccount} from "../../machinery/models";
+    import type {NanoAccount, NanoWallet} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import LabelledInput from "../../components/LabelledInput.svelte";
     import Button from "../../components/Button.svelte";
+    import {setWallet} from "../../machinery/secure-storage";
+    import {setWalletState} from "../../machinery/WalletState";
+    import {pushAccountAction} from "../../machinery/eventListener";
 
-    export let account: NanoAccount;
-    export let storeFunction: () => void
+    export let wallet: NanoWallet;
+    export let selectedAccount: NanoAccount;
 
-    let aliasValue: string = account?.alias
+    let aliasValue: string = selectedAccount?.alias
 
     const setAlias = (event) => {
         aliasValue = event.target.value;
     }
 
     const save = async () => {
-        account.alias = aliasValue
-        storeFunction()
+        selectedAccount.alias = aliasValue
+        const updated: NanoWallet | undefined = await setWallet(wallet)
+        if (updated) {
+            setWalletState({wallet: updated, selectedAccount: selectedAccount?.address})
+            pushAccountAction('overview')
+        } // TODO: Toast
     }
 
 </script>

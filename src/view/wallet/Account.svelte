@@ -5,22 +5,19 @@
     import Primary from "../../components/list/Primary.svelte";
     import Transactions from "./Transactions.svelte";
     import Receive from "./Receive.svelte";
-    import {navigationStore} from "../../stores/stores";
-    import type {AccountAction, NavigationState, SelectedAccountState} from "../../machinery/NavigationState";
-    import {patchState, pushState} from "../../machinery/eventListener";
+    import type {AccountAction } from "../../machinery/NavigationState";
+    import {pushAccountAction} from "../../machinery/eventListener";
     import {loadWalletData} from "../../machinery/nano-ops";
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
     import Settings from "./Settings.svelte";
-    import {setWallet} from "../../machinery/secure-storage";
     import SendByAddress from "./Send.svelte";
     import {onMount} from "svelte";
     import {setSoftwareKeys, SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
 
-    let state: NavigationState
-    let selectedAccount: SelectedAccountState | undefined = undefined
-    let account: NanoAccount | undefined = undefined;
-    let separatorText: string | undefined = undefined
+    export let wallet: NanoWallet
+    export let selectedAccount: NanoAccount
+    export let action: AccountAction;
 
     let loading: boolean = false;
 
@@ -34,34 +31,14 @@
         }
     }
 
-    navigationStore.subscribe(value => {
-        state = value
-        selectedAccount = state?.account
-        account = selectedAccount?.selectedAccount;
-        separatorText = accountTitle(account)
-    })
-
-    const setAccountAction = (a: AccountAction) => {
-        pushState({...state, account: {...selectedAccount, view: a}})
-    }
-
     const triggerRefresh = async () => {
         loading = true;
         try {
-            await loadWalletData(selectedAccount.selectedAccount)
+            await loadWalletData(selectedAccount)
         } catch (e) {
             console.log(e)
         }
         loading = false
-    }
-
-    const updateAccount = async () => {
-        if (state?.wallet) {
-            const updated: NanoWallet | undefined = await setWallet(state.wallet)
-            if (updated) {
-                setAccountAction(undefined)
-            } // TODO: Toast
-        }
     }
 
     onMount(() => setSoftwareKeys({
@@ -78,30 +55,30 @@
 {#if loading}
     <LabelledLoader languageId="loading-refresh"/>
 {:else}
-    {#if selectedAccount?.view === undefined}
-        <Seperator languageId="actions" primaryText={separatorText}/>
+    {#if action === 'overview'}
+        <Seperator languageId="actions" primaryText={accountTitle(selectedAccount)}/>
         <List>
-            <Primary primaryLanguageId="transactions" on:click={() => setAccountAction('transactions') }/>
-            <Primary primaryLanguageId="send" on:click={() => setAccountAction('send') }/>
-            <Primary primaryLanguageId="receive" on:click={() => setAccountAction('receive') }/>
-            <Primary primaryLanguageId="settings" on:click={() => setAccountAction('settings') }/>
+            <Primary primaryLanguageId="transactions" on:click={() => pushAccountAction('transactions') }/>
+            <Primary primaryLanguageId="send" on:click={() => pushAccountAction('send') }/>
+            <Primary primaryLanguageId="receive" on:click={() => pushAccountAction('receive') }/>
+            <Primary primaryLanguageId="settings" on:click={() => pushAccountAction('settings') }/>
         </List>
-    {:else if selectedAccount.view === 'transactions'}
-        <Seperator languageId="transactions" primaryText={selectedAccount?.selectedAccount.alias}/>
-        <Transactions address={selectedAccount?.selectedAccount.address}/>
-    {:else if selectedAccount?.view.startsWith('send')}
-        {#if selectedAccount.view === 'send_qr' || selectedAccount.view === 'send_address'}
-            <SendByAddress account={account} balance={account.balance} sendType={selectedAccount.view} setType={(action) => setAccountAction(action)} />
+    {:else if action === 'transactions'}
+        <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
+        <Transactions address={selectedAccount.address}/>
+    {:else if action.startsWith('send')}
+        {#if action === 'send_qr' || action === 'send_address'}
+            <SendByAddress account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />
         {:else}
             <List>
-                <Primary primaryText="Send by QR code" on:click={() => setAccountAction('send_qr')}/>
-                <Primary primaryText="Send by address" on:click={() => setAccountAction('send_address')}/>
+                <Primary primaryText="Send by QR code" on:click={() => pushAccountAction('send_qr')}/>
+                <Primary primaryText="Send by address" on:click={() => pushAccountAction('send_address')}/>
             </List>
         {/if}
-    {:else if selectedAccount?.view === 'receive'}
-        <Receive account={selectedAccount?.selectedAccount} />
-    {:else if selectedAccount?.view === 'settings'}
-        <Settings bind:account storeFunction={updateAccount}/>
+    {:else if action === 'receive'}
+        <Receive account={selectedAccount} />
+    {:else if action === 'settings'}
+        <Settings wallet={wallet} selectedAccount={selectedAccount}/>
     {/if}
 {/if}
 

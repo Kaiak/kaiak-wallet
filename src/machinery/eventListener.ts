@@ -5,6 +5,7 @@ import {
 } from '../stores/stores';
 import { Navigation } from './navigation';
 import type {
+  AccountAction,
   MenuSelector,
   NavigationState,
   OnboardState,
@@ -54,6 +55,10 @@ export function popState(): boolean {
 }
 export function pushMenu(menu: MenuSelector): void {
   pushState({ ...stateHistory[index], menu, onboardState: undefined });
+}
+
+export function pushAccountAction(action: AccountAction): void {
+  pushState({ ...stateHistory[index], accountAction: action });
 }
 
 export function pushToast(state: ToastState): void {
