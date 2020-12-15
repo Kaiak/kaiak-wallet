@@ -56,7 +56,7 @@
     <LabelledLoader languageId="loading-refresh"/>
 {:else}
     {#if action === 'overview'}
-        <Seperator languageId="actions" primaryText={accountTitle(selectedAccount)}/>
+        <Seperator primaryText={accountTitle(selectedAccount)}/>
         <List>
             <Primary primaryLanguageId="transactions" on:click={() => pushAccountAction('transactions') }/>
             <Primary primaryLanguageId="send" on:click={() => pushAccountAction('send') }/>
