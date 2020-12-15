@@ -24,18 +24,15 @@ let stateHistory: NavigationState[] = [START_STATE];
 
 let index = 0;
 
-/** setTimeout hack needed to wire up navigation after DOM is loaded, there's probably a better way */
-navigationStore.subscribe(() => {
-  setTimeout(() => {
-    const elements: Element[] = Array.from(
-      document.getElementsByClassName('navigation')
-    );
-    document.removeEventListener('keydown', handleKeydown);
-    navigation = new Navigation(elements);
-    document.addEventListener('keydown', handleKeydown);
-    navigation.focus();
-  }, 100);
-});
+export const navigationReload = () => {
+  const elements: Element[] = Array.from(
+    document.getElementsByClassName('navigation')
+  );
+  document.removeEventListener('keydown', handleKeydown);
+  navigation = new Navigation(elements);
+  document.addEventListener('keydown', handleKeydown);
+  navigation.focus();
+};
 
 softwareKeysStore.subscribe((value: SoftwareKeysState) => {
   leftKey = value.leftKey?.onClick;

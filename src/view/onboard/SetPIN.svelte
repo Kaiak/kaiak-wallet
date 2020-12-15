@@ -7,7 +7,7 @@
     import {clearState, popState, pushMenu, pushToast} from "../../machinery/eventListener";
     import { softwareKeysStore } from "../../stores/stores";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
-    import {beforeUpdate} from "svelte";
+    import {onMount} from "svelte";
 
     export let walletResult: WalletResult
     export let alias: string
@@ -35,7 +35,7 @@
         storing = false;
     }
 
-    beforeUpdate(() => {
+    onMount(() => {
         softwareKeysStore.set({
             middleKey: {
                 languageId: 'onboard-finish-button',

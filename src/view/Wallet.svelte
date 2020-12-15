@@ -1,15 +1,15 @@
 <script lang="ts">
-    import type {NanoAccount, NanoWallet, RAW} from "../machinery/models";
+    import type {NanoAccount, NanoWallet} from "../machinery/models";
     import List from "../components/List.svelte";
     import Account from "./wallet/Account.svelte";
-    import {navigationStore, softwareKeysStore, walletStore} from "../stores/stores";
+    import {navigationStore, walletStore} from "../stores/stores";
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
     import type {AccountAction, NavigationState} from "../machinery/NavigationState";
-    import {pushAccountAction, pushMenu, pushToast} from "../machinery/eventListener";
+    import {navigationReload, pushAccountAction, pushMenu, pushToast} from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
     import LabelledLoader from "../components/LabelledLoader.svelte";
-    import {beforeUpdate, onMount} from "svelte";
+    import {afterUpdate, onMount} from "svelte";
     import {updateWalletAccounts} from "../machinery/nano-ops";
     import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
@@ -72,6 +72,7 @@
         }
         loaderText = undefined
     })
+    afterUpdate(navigationReload)
 </script>
 
 {#if wallet}

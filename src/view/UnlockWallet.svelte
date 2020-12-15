@@ -1,11 +1,11 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
     import LabelledInput from "../components/LabelledInput.svelte";
-    import {clearState, pushMenu, pushState, pushToast} from "../machinery/eventListener";
+    import {clearState, navigationReload, pushMenu, pushState, pushToast} from "../machinery/eventListener";
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
     import LabelledLoader from "../components/LabelledLoader.svelte";
-    import {onMount} from "svelte";
+    import {afterUpdate, onMount} from "svelte";
     import {clearSoftwareKeys, setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import type {SoftwareKeysState} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
@@ -43,8 +43,11 @@
         rightKey: undefined
     }
 
-    onMount(() => setSoftwareKeys(softwareKeys))
 
+    afterUpdate(() => {
+        setSoftwareKeys(softwareKeys)
+        navigationReload();
+    })
 </script>
 
 <Content titleKey="unlock-wallet">
