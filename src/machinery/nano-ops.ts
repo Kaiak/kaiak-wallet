@@ -70,15 +70,21 @@ async function resolvePendingForAccount(
       ? frontier
       : '0000000000000000000000000000000000000000000000000000000000000000';
   const work: string = await generateWork(frontierOrPublicKey, RECEIVE_WORK);
-  const block: SignedBlock = signReceiveBlock(
-    address,
-    privateKey,
-    work,
-    pendingBlock,
-    frontierOrInitial,
-    currentBalance
-  );
-  await processSimple(block);
+
+  const pendingBlocks: any[] = Object.keys(pendingBlock);
+  if (pendingBlocks.length > 0) {
+    const block: SignedBlock = signReceiveBlock(
+      address,
+      privateKey,
+      work,
+      pendingBlock,
+      frontierOrInitial,
+      currentBalance
+    );
+    await processSimple(block);
+  } else {
+    return;
+  }
 }
 
 export async function sendNano(

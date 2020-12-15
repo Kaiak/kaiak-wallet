@@ -6,13 +6,13 @@
     import Transactions from "./Transactions.svelte";
     import Receive from "./Receive.svelte";
     import type {AccountAction } from "../../machinery/NavigationState";
-    import {pushAccountAction} from "../../machinery/eventListener";
+    import {navigationReload, pushAccountAction} from "../../machinery/eventListener";
     import {loadWalletData} from "../../machinery/nano-ops";
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
-    import {onMount} from "svelte";
+    import {afterUpdate, onMount} from "svelte";
     import {setSoftwareKeys, SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
 
     export let wallet: NanoWallet
@@ -49,6 +49,8 @@
         middleKey: undefined,
         rightKey: SOFT_KEY_MENU,
     }));
+
+    afterUpdate(navigationReload)
 
 </script>
 
