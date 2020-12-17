@@ -1,15 +1,16 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
     import Text from "../components/Text.svelte";
-    import {beforeUpdate, onMount} from "svelte";
+    import {afterUpdate, beforeUpdate, onMount} from "svelte";
     import {navigationStore, softwareKeysStore} from "../stores/stores";
-    import {pushOnboardState} from "../machinery/eventListener";
+    import {navigationReload, pushOnboardState} from "../machinery/eventListener";
     import type {NavigationState, OnboardState, OnboardView} from "../machinery/NavigationState";
     import Disclaimer from "./onboard/Disclaimer.svelte";
     import CreateSeed from "./onboard/CreateSeed.svelte";
     import AccountAlias from "./onboard/AccountAlias.svelte";
     import SetPIN from "./onboard/SetPIN.svelte";
     import type {WalletResult} from "../machinery/wallet";
+    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
     let onboardState: OnboardState | undefined = undefined
     let state: NavigationState | undefined = undefined
@@ -24,8 +25,8 @@
         walletResult = onboardState?.walletResult
         accountAlias = onboardState?.alias
     })
-    beforeUpdate(() => {
-        softwareKeysStore.set({
+    onMount(() => {
+        setSoftwareKeys({
             middleKey: {
                 languageId: 'onboard-start',
                 onClick: () => {
@@ -36,6 +37,7 @@
             rightKey: undefined,
         })
     })
+    afterUpdate(navigationReload)
 </script>
 
 

@@ -45,7 +45,6 @@ export async function setWallet(
   wallet: NanoWallet
 ): Promise<NanoWallet | undefined> {
   try {
-    await deleteStore();
     const store: Store = new Store(APP_STORE, wallet.encryptionSecret);
     await store.init();
     await store.set(WALLET_KEY, walletToWalletData(wallet));
@@ -56,7 +55,7 @@ export async function setWallet(
   }
 }
 
-async function deleteStore() {
+export async function deleteStore() {
   const store = new _idb.Store(APP_STORE, APP_STORE);
   await _idb.clear(store);
 }

@@ -1,6 +1,6 @@
 import { wallet } from 'nanocurrency-web';
 import type { NanoWallet } from './models';
-import { setWallet } from './secure-storage';
+import { deleteStore, setWallet } from './secure-storage';
 
 export interface WalletResult {
   seed: string;
@@ -37,6 +37,7 @@ export async function createWallet(
       },
     ],
   };
+  await deleteStore();
   return setWallet(nanoWallet);
 }
 

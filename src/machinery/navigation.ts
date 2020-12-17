@@ -1,13 +1,12 @@
 export class Navigation {
-  current = 0;
-  targetElement = null;
-  elements = [];
-  selectedElement = null;
+  private current = 0;
+  private targetElement = null;
+  readonly elements = [];
+  private selectedElement: Element | null = null;
 
-  constructor(elements: HTMLElement[], selectedElement) {
+  constructor(elements: Element[]) {
     if (elements.length > 0) {
       this.elements = elements;
-      this.selectedElement = selectedElement;
     }
   }
 
@@ -15,7 +14,7 @@ export class Navigation {
     if (this.elements.length > 0) {
       this.targetElement = this.elements[this.current];
       this.targetElement.focus();
-      this.selectedElement(this.targetElement);
+      this.selectedElement = this.targetElement;
     }
   }
 
@@ -49,5 +48,27 @@ export class Navigation {
     } else {
       return false;
     }
+  }
+
+  selection(): HTMLElement | null {
+    return this.selectedElement instanceof HTMLElement
+      ? this.selectedElement
+      : null;
+  }
+
+  inputSelection(): HTMLInputElement | null {
+    return this.selectedElement instanceof HTMLInputElement
+      ? this.selectedElement
+      : null;
+  }
+
+  navigatesInInputField(): boolean {
+    return this.inputSelection() !== null;
+  }
+
+  preventBackspaceInInputField(): boolean {
+    return this.inputSelection()
+      ? this.inputSelection().selectionStart !== 0
+      : false;
   }
 }

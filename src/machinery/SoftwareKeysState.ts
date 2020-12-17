@@ -1,4 +1,5 @@
 import { softwareKeysStore } from '../stores/stores';
+import { pushMenu } from './eventListener';
 
 export interface SoftKey {
   onClick: () => void;
@@ -22,3 +23,8 @@ export function clearSoftwareKeys() {
 export function setSoftwareKeys(state: SoftwareKeysState) {
   softwareKeysStore.set(state);
 }
+
+export const SOFT_KEY_MENU: SoftKey = {
+  languageId: 'rightNavButton',
+  onClick: () => pushMenu('menu'),
+};

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {loadedComponentStore, navigationStore} from "./stores/stores";
+	import {navigationStore} from "./stores/stores";
 	import type {NavigationState} from "./machinery/NavigationState";
 	import Menu from "./view/Menu.svelte";
 	import Setup from "./view/Setup.svelte";
@@ -29,10 +29,6 @@
 		} else {
 			pushMenu('onboard')
 		}
-	})
-	afterUpdate(() => {
-		const elements = document.activeElement.getElementsByClassName('navigation');
-		loadedComponentStore.set({ elements: elements });
 	})
 </script>
 
