@@ -1,15 +1,17 @@
 <script lang="ts">
     import LabelledInput from "../../components/LabelledInput.svelte";
     import Button from "../../components/Button.svelte";
-    import type {NanoAddress, NanoAccount, RAW} from "../../machinery/models";
+    import type {NanoAddress, NanoAccount, RAW, NanoWallet} from "../../machinery/models";
     import {tools} from "nanocurrency-web";
     import {sendNano} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import CameraCapture from "../../components/CameraCapture.svelte";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
-    import {popState, pushAccountAction} from "../../machinery/eventListener";
+    import {popState, pushAccountAction, pushToast} from "../../machinery/eventListener";
     import type {AccountAction} from "../../machinery/NavigationState";
+    import {walletStore} from "../../stores/stores";
 
+    export let wallet: NanoWallet;
     export let sendType: AccountAction;
     export let account: NanoAccount;
     export let balance: RAW;
@@ -45,8 +47,19 @@
         if (toAddress && sendValue > 0) {
             sending = true;
             try {
-                await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}), balance)
-                pushAccountAction('overview')
+                const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}), balance)
+                if(updatedAccount) {
+                    wallet.accounts = wallet.accounts.map(account => {
+                        return account.address === updatedAccount.address ? updatedAccount : account
+                    })
+                    walletStore.set({
+                        wallet: wallet,
+                        selectedAccount: updatedAccount.address
+                    })
+                    pushAccountAction('overview')
+                } else {
+                    pushToast({ languageId: 'unable-to-send' })
+                }
             } catch (e) {
                 console.log(e)
             }

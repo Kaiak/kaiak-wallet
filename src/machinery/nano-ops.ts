@@ -19,6 +19,7 @@ import {
   loadBlocks,
   loadFrontiers,
   processSimple,
+  resolveBalance,
   resolveBalances,
 } from './nano-rpc-fetch-wrapper';
 import { signReceiveBlock, signSendBlock } from './nanocurrency-web-wrapper';
@@ -28,7 +29,9 @@ import { signReceiveBlock, signSendBlock } from './nanocurrency-web-wrapper';
 const SEND_WORK = 'fffffff800000000';
 const RECEIVE_WORK = 'fffffe0000000000';
 
-export async function loadWalletData(account: NanoAccount): Promise<void> {
+export async function loadWalletData(
+  account: NanoAccount
+): Promise<NanoAccount> {
   const pending: {
     [key: string]: PendingBlock;
   } = await getPendingBlocksSimple([account.address]);
@@ -52,6 +55,7 @@ export async function loadWalletData(account: NanoAccount): Promise<void> {
     frontier,
     currentBalance
   );
+  return await updateWalletAccount(account);
 }
 
 async function resolvePendingForAccount(
@@ -92,7 +96,7 @@ export async function sendNano(
   toAddress: NanoAddress,
   amount: RAW,
   balance: RAW
-): Promise<void> {
+): Promise<NanoAccount | undefined> {
   try {
     const frontiers:
       | Map<string, Frontier>
@@ -109,6 +113,7 @@ export async function sendNano(
       workHash
     );
     await processSimple(signed);
+    return updateWalletAccount(account);
   } catch (error) {
     console.log(error);
   }
@@ -128,4 +133,14 @@ export async function updateWalletAccounts(
     };
   });
   return wallet;
+}
+
+export async function updateWalletAccount(
+  account: NanoAccount
+): Promise<NanoAccount> {
+  const balance = await resolveBalance(account.address);
+  return {
+    ...account,
+    balance: balance,
+  };
 }

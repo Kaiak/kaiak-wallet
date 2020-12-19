@@ -5,7 +5,7 @@
     import Primary from "../../components/list/Primary.svelte";
     import Transactions from "./Transactions.svelte";
     import Receive from "./Receive.svelte";
-    import type {AccountAction } from "../../machinery/NavigationState";
+    import type {AccountAction} from "../../machinery/NavigationState";
     import {navigationReload, pushAccountAction} from "../../machinery/eventListener";
     import {loadWalletData} from "../../machinery/nano-ops";
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
@@ -14,6 +14,7 @@
     import SendByAddress from "./Send.svelte";
     import {afterUpdate, onMount} from "svelte";
     import {setSoftwareKeys, SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
+    import {walletStore} from "../../stores/stores";
 
     export let wallet: NanoWallet
     export let selectedAccount: NanoAccount
@@ -34,7 +35,14 @@
     const triggerRefresh = async () => {
         loading = true;
         try {
-            await loadWalletData(selectedAccount)
+            const updatedAccount = await loadWalletData(selectedAccount)
+            wallet.accounts = wallet.accounts.map(account => {
+                return account.address === updatedAccount.address ? updatedAccount : account
+            })
+            walletStore.set({
+                wallet: wallet,
+                selectedAccount: updatedAccount.address
+            })
         } catch (e) {
             console.log(e)
         }
@@ -70,7 +78,7 @@
         <Transactions address={selectedAccount.address}/>
     {:else if action.startsWith('send')}
         {#if action === 'send_qr' || action === 'send_address'}
-            <SendByAddress account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />
+            <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />
         {:else}
             <List>
                 <Primary primaryText="Send by QR code" on:click={() => pushAccountAction('send_qr')}/>
