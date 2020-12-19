@@ -96,7 +96,7 @@ export async function sendNano(
   toAddress: NanoAddress,
   amount: RAW,
   balance: RAW
-): Promise<void> {
+): Promise<NanoAccount | undefined> {
   try {
     const frontiers:
       | Map<string, Frontier>
@@ -113,6 +113,7 @@ export async function sendNano(
       workHash
     );
     await processSimple(signed);
+    return updateWalletAccount(account);
   } catch (error) {
     console.log(error);
   }

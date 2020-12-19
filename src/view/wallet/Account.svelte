@@ -78,7 +78,7 @@
         <Transactions address={selectedAccount.address}/>
     {:else if action.startsWith('send')}
         {#if action === 'send_qr' || action === 'send_address'}
-            <SendByAddress account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />
+            <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />
         {:else}
             <List>
                 <Primary primaryText="Send by QR code" on:click={() => pushAccountAction('send_qr')}/>
