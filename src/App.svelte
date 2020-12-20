@@ -15,6 +15,7 @@
 	import {loaderStore} from "./machinery/loader-store";
 	import type {Loader} from "./machinery/loader-store";
 	import LabelledLoader from "./components/LabelledLoader.svelte";
+	import Content from "./components/Content.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -50,7 +51,9 @@
 	<Toast/>
 	<div id="kui-app">
 		{#if loader}
-			<LabelledLoader languageId={loader.languageId}/>
+			<Content titleKey="loading">
+				<LabelledLoader languageId={loader.languageId}/>
+			</Content>
 		{:else}
 			{#if state.menu === 'wallet'}
 				<Wallet />

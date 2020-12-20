@@ -9,6 +9,7 @@
     import type {SoftwareKeysState} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
+    import {updateWalletAccounts} from "../machinery/nano-ops";
 
     let inputPhrase: string | undefined;
     let showLoader: boolean = false;
@@ -22,13 +23,12 @@
             languageId: 'unlocking-wallet',
             load: async () => {
                 const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
-                if(data) {
-                    clearSoftwareKeys()
+                const updatedNanoWallet: NanoWallet | undefined = await updateWalletAccounts(data)
+                if(updatedNanoWallet) {
                     pushState({menu: 'wallet', accountAction: undefined, onboardState: undefined})
-                    setWalletState({ wallet: data, selectedAccount: undefined })
+                    setWalletState({ wallet: updatedNanoWallet, selectedAccount: undefined })
                 } else {
                     pushToast({ languageId: 'wrong-pass' })
-                    // setSoftwareKeys(softwareKeys)
                 }
             }
         })
@@ -36,7 +36,7 @@
 
     const softwareKeys: SoftwareKeysState = {
         leftKey: {
-            onClick: () => pushMenu('onboard'),
+            onClick: async () => pushMenu('onboard'),
             languageId: 'create-new-wallet'
         },
         middleKey: {

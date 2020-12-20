@@ -8,8 +8,6 @@
     import {load} from "../../machinery/loader-store";
     import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
-    let walletResult: WalletResult | undefined
-
     onMount(() => {
         setSoftwareKeys({
             middleKey: {
@@ -18,7 +16,7 @@
                     await load({
                        languageId: 'creating-wallet',
                        load: async () => {
-                           walletResult = await generateWallet()
+                           const walletResult: WalletResult = await generateWallet()
                            pushOnboardState({ view: 'seed', walletResult: walletResult, alias: undefined})
                        }
                     })

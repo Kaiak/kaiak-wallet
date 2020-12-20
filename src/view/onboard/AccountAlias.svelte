@@ -15,7 +15,7 @@
         accountAlias = event.target.value
     }
 
-    const setAlias = () => {
+    const setAlias = async () => {
         if(accountAlias === undefined || accountAlias.length < 3) {
             pushToast({ languageId: "onboard-validation-short-alias" })
         } else {
@@ -31,7 +31,7 @@
             },
             leftKey: {
                 languageId: 'onboard-button-back',
-                onClick: () => popState()
+                onClick: async () => { popState() }
             },
             rightKey: undefined
         })

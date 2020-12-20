@@ -37,11 +37,11 @@
                 middleKey: undefined,
                 leftKey: {
                     languageId: 'add-account',
-                    onClick: () => addAccount()
+                    onClick: async () => addAccount()
                 },
                 rightKey: {
                     languageId: 'rightNavButton',
-                    onClick: () => pushMenu('menu')
+                    onClick: async () => pushMenu('menu')
                 }
             })
         }
@@ -65,16 +65,6 @@
         loaderText = undefined;
     }
 
-    onMount(async () => await load({
-            languageId: "loading-accounts",
-            load: async () => {
-                const updatedNanoWallet: NanoWallet | undefined = await updateWalletAccounts(wallet)
-                if(updatedNanoWallet) {
-                    setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount?.address})
-                }
-            }
-        })
-    )
     afterUpdate(navigationReload)
 </script>
 
