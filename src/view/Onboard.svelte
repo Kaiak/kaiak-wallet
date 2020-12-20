@@ -1,7 +1,7 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
     import Text from "../components/Text.svelte";
-    import {afterUpdate, onMount} from "svelte";
+    import {afterUpdate, onDestroy} from "svelte";
     import {navigationStore} from "../stores/stores";
     import {navigationReload, pushOnboardState} from "../machinery/eventListener";
     import type {NavigationState, OnboardState, OnboardView} from "../machinery/NavigationState";
@@ -18,25 +18,25 @@
     let walletResult: WalletResult | undefined = undefined;
     let accountAlias: string | undefined = undefined;
 
-    navigationStore.subscribe((value) => {
+    const naviStore = navigationStore.subscribe((value) => {
         state = value;
         onboardState = state?.onboardState
         view = onboardState?.view;
         walletResult = onboardState?.walletResult
         accountAlias = onboardState?.alias
     })
-    onMount(() => {
-        setSoftwareKeys({
-            middleKey: {
-                languageId: 'onboard-start',
-                onClick: () => {
-                    pushOnboardState({view: 'disclaimer', walletResult: undefined, alias: undefined })
-                }
-            },
-            leftKey: undefined,
-            rightKey: undefined,
-        })
+    setSoftwareKeys({
+        middleKey: {
+            languageId: 'onboard-start',
+            onClick: async () => {
+                pushOnboardState({view: 'disclaimer', walletResult: undefined, alias: undefined })
+            }
+        },
+        leftKey: undefined,
+        rightKey: undefined,
     })
+
+    onDestroy(() => naviStore())
     afterUpdate(navigationReload)
 </script>
 
@@ -45,7 +45,7 @@
     {#if view === 'disclaimer'}
         <Disclaimer />
     {:else if view === 'seed'}
-        <CreateSeed />
+        <CreateSeed walletResult={walletResult} />
     {:else if view === 'account'}
         <AccountAlias walletResult={walletResult} />
     {:else if view === 'pin'}

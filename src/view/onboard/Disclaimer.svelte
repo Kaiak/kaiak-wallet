@@ -3,19 +3,32 @@
     import {onMount} from "svelte";
     import {popState, pushOnboardState} from "../../machinery/eventListener";
     import Seperator from "../../components/Seperator.svelte";
+    import {generateWallet} from "../../machinery/wallet";
+    import type {WalletResult} from "../../machinery/wallet";
+    import {load} from "../../machinery/loader-store";
     import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
+
+    let walletResult: WalletResult | undefined
 
     onMount(() => {
         setSoftwareKeys({
             middleKey: {
                 languageId: 'onboard-disclaimer-ok',
-                onClick: () => {
-                    pushOnboardState({ view: 'seed', walletResult: undefined, alias: undefined})
+                onClick: async () => {
+                    await load({
+                       languageId: 'creating-wallet',
+                       load: async () => {
+                           walletResult = await generateWallet()
+                           pushOnboardState({ view: 'seed', walletResult: walletResult, alias: undefined})
+                       }
+                    })
                 }
             },
             leftKey: {
                 languageId: 'onboard-button-back',
-                onClick: () => popState()
+                onClick: async () => {
+                    popState()
+                }
             },
             rightKey: undefined
         })

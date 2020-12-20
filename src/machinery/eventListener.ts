@@ -13,9 +13,9 @@ import { softwareKeysStore } from './SoftwareKeysState';
 
 let navigation: Navigation = new Navigation([]);
 
-let middleKey: (() => void) | undefined = undefined;
-let leftKey: (() => void) | undefined = undefined;
-let rightKey: (() => void) | undefined = undefined;
+let middleKey: (() => Promise<void>) | undefined = undefined;
+let leftKey: (() => Promise<void>) | undefined = undefined;
+let rightKey: (() => Promise<void>) | undefined = undefined;
 
 let stateHistory: NavigationState[] = [START_STATE];
 
@@ -84,7 +84,7 @@ export function pushState(state: NavigationState): void {
   navigationStore.set(state);
 }
 
-export function handleKeydown(e) {
+export async function handleKeydown(e) {
   switch (e.key) {
     case 'ArrowUp':
       if (navigation.up()) {

@@ -1,14 +1,14 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
     import LabelledInput from "../components/LabelledInput.svelte";
-    import {clearState, navigationReload, pushMenu, pushState, pushToast} from "../machinery/eventListener";
+    import {navigationReload, pushMenu, pushState, pushToast} from "../machinery/eventListener";
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
-    import LabelledLoader from "../components/LabelledLoader.svelte";
-    import {afterUpdate, onMount} from "svelte";
+    import {afterUpdate} from "svelte";
     import {clearSoftwareKeys, setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import type {SoftwareKeysState} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
+    import {load} from "../machinery/loader-store";
 
     let inputPhrase: string | undefined;
     let showLoader: boolean = false;
@@ -18,17 +18,20 @@
     }
 
     const unlock = async () => {
-        clearSoftwareKeys()
-        showLoader = true;
-        const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
-        if(data) {
-            pushState({menu: 'wallet', accountAction: undefined, onboardState: undefined})
-            setWalletState({ wallet: data, selectedAccount: undefined })
-        } else {
-            pushToast({ languageId: 'wrong-pass' })
-            setSoftwareKeys(softwareKeys)
-        }
-        showLoader = false;
+        await load({
+            languageId: 'unlocking-wallet',
+            load: async () => {
+                const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
+                if(data) {
+                    clearSoftwareKeys()
+                    pushState({menu: 'wallet', accountAction: undefined, onboardState: undefined})
+                    setWalletState({ wallet: data, selectedAccount: undefined })
+                } else {
+                    pushToast({ languageId: 'wrong-pass' })
+                    // setSoftwareKeys(softwareKeys)
+                }
+            }
+        })
     }
 
     const softwareKeys: SoftwareKeysState = {
@@ -43,7 +46,6 @@
         rightKey: undefined
     }
 
-
     afterUpdate(() => {
         setSoftwareKeys(softwareKeys)
         navigationReload();
@@ -51,9 +53,5 @@
 </script>
 
 <Content titleKey="unlock-wallet">
-    {#if !showLoader}
-        <LabelledInput type="number" languageId="unlock-label" placeholderLanguage="unlock-label" on:input={onInputPassword}/>
-    {:else}
-        <LabelledLoader languageId="unlocking-wallet"/>
-    {/if}
+    <LabelledInput type="number" languageId="unlock-label" placeholderLanguage="unlock-label" on:input={onInputPassword}/>
 </Content>

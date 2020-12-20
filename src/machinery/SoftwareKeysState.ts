@@ -2,7 +2,7 @@ import { pushMenu } from './eventListener';
 import { writable, Writable } from 'svelte/store';
 
 export interface SoftKey {
-  onClick: () => void;
+  onClick: () => Promise<void>;
   languageId: string;
 }
 
@@ -26,7 +26,7 @@ export function setSoftwareKeys(state: SoftwareKeysState) {
 
 export const SOFT_KEY_MENU: SoftKey = {
   languageId: 'rightNavButton',
-  onClick: () => pushMenu('menu'),
+  onClick: async () => pushMenu('menu'),
 };
 
 /** Sets software / menu keys */

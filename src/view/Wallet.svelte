@@ -14,6 +14,7 @@
     import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
     import type {WalletState} from "../machinery/WalletState";
+    import {load} from "../machinery/loader-store";
 
     let navigationState: NavigationState
     let selectedAccount: NanoAccount | undefined
@@ -64,14 +65,16 @@
         loaderText = undefined;
     }
 
-    onMount(async () => {
-        loaderText = "loading-accounts";
-        const updatedNanoWallet: NanoWallet | undefined = await updateWalletAccounts(wallet)
-        if(updatedNanoWallet) {
-            setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount?.address})
-        }
-        loaderText = undefined
-    })
+    onMount(async () => await load({
+            languageId: "loading-accounts",
+            load: async () => {
+                const updatedNanoWallet: NanoWallet | undefined = await updateWalletAccounts(wallet)
+                if(updatedNanoWallet) {
+                    setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount?.address})
+                }
+            }
+        })
+    )
     afterUpdate(navigationReload)
 </script>
 
