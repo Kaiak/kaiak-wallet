@@ -8,9 +8,7 @@
     import type {AccountAction, NavigationState} from "../machinery/NavigationState";
     import {navigationReload, pushAccountAction, pushMenu, pushToast} from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
-    import LabelledLoader from "../components/LabelledLoader.svelte";
-    import {afterUpdate, onMount} from "svelte";
-    import {updateWalletAccounts} from "../machinery/nano-ops";
+    import {afterUpdate} from "svelte";
     import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
     import type {WalletState} from "../machinery/WalletState";
@@ -55,14 +53,18 @@
     }
 
     const addAccount = async () => {
-        loaderText = "adding-account";
-        const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
-        if (updatedNanoWallet) {
-            setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount?.address})
-        } else {
-            pushToast({languageId: 'unable-to-store'})
-        }
-        loaderText = undefined;
+        await load({
+                languageId: 'adding-account',
+                load: async () => {
+                    const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
+                    if (updatedNanoWallet) {
+                        setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount?.address})
+                    } else {
+                        pushToast({languageId: 'unable-to-store'})
+                    }
+                }
+            }
+        )
     }
 
     afterUpdate(navigationReload)
@@ -73,15 +75,11 @@
         {#if selectedAccount && accountAction}
             <Account wallet={wallet} selectedAccount={selectedAccount} action={accountAction}/>
         {:else}
-            {#if loaderText}
-                <LabelledLoader languageId={loaderText} />
-            {:else}
-                <List>
-                    {#each wallet.accounts as account}
-                        <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
-                    {/each}
-                </List>
-            {/if}
+            <List>
+                {#each wallet.accounts as account}
+                    <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
+                {/each}
+            </List>
         {/if}
     </Content>
 {/if}
