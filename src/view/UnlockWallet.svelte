@@ -18,12 +18,20 @@
         inputPhrase = event.target.value;
     }
 
+    const tryGetTransactions = async (data: NanoWallet) => {
+        try {
+            return await updateWalletAccounts(data)
+        } catch (e) {
+            return data;
+        }
+    }
+
     const unlock = async () => {
         await load({
             languageId: 'unlocking-wallet',
             load: async () => {
                 const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
-                const updatedNanoWallet: NanoWallet | undefined = await updateWalletAccounts(data)
+                const updatedNanoWallet: NanoWallet = await tryGetTransactions(data)
                 if(updatedNanoWallet) {
                     pushState({menu: 'wallet', accountAction: undefined, onboardState: undefined})
                     setWalletState({ wallet: updatedNanoWallet, selectedAccount: undefined })
