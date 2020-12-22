@@ -9,7 +9,7 @@
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
 	import Toast from "./components/Toast.svelte";
 	import Onboard from "./view/Onboard.svelte";
-	import {afterUpdate, onDestroy, onMount} from "svelte";
+	import {onDestroy, onMount} from "svelte";
 	import {walletExists} from "./machinery/secure-storage";
 	import {pushMenu} from "./machinery/eventListener";
 	import {loaderStore} from "./machinery/loader-store";

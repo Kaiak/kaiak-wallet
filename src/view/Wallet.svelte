@@ -53,7 +53,8 @@
     }
 
     const addAccount = async () => {
-        await load({
+        await load(
+            {
                 languageId: 'adding-account',
                 load: async () => {
                     const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
@@ -62,7 +63,7 @@
                     } else {
                         pushToast({languageId: 'unable-to-store'})
                     }
-                }
+                },
             }
         )
     }
