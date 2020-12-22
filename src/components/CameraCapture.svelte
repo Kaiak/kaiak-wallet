@@ -1,11 +1,9 @@
 <script lang="ts">
     import {ImageCapture} from 'image-capture'
     import {onDestroy, onMount} from "svelte";
-    import Button from "./Button.svelte";
     import jsQR, {QRCode} from "jsqr";
     import type {NanoAddress} from "../machinery/models";
     import {tools} from "nanocurrency-web";
-    import {softwareKeysStore} from "../stores/stores";
     import {clearSoftwareKeys, setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
     export let scannedAddress: (address: NanoAddress) => void

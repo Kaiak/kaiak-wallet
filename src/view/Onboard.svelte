@@ -1,8 +1,8 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
     import Text from "../components/Text.svelte";
-    import {afterUpdate, beforeUpdate, onMount} from "svelte";
-    import {navigationStore, softwareKeysStore} from "../stores/stores";
+    import {afterUpdate, onMount} from "svelte";
+    import {navigationStore} from "../stores/stores";
     import {navigationReload, pushOnboardState} from "../machinery/eventListener";
     import type {NavigationState, OnboardState, OnboardView} from "../machinery/NavigationState";
     import Disclaimer from "./onboard/Disclaimer.svelte";

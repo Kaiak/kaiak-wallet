@@ -5,9 +5,9 @@
     import type {WalletResult} from "../../machinery/wallet";
     import {createWallet } from "../../machinery/wallet";
     import {clearState, popState, pushMenu, pushToast} from "../../machinery/eventListener";
-    import { softwareKeysStore } from "../../stores/stores";
     import LabelledLoader from "../../components/LabelledLoader.svelte";
     import {onMount} from "svelte";
+    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
     export let walletResult: WalletResult
     export let alias: string
@@ -36,7 +36,7 @@
     }
 
     onMount(() => {
-        softwareKeysStore.set({
+        setSoftwareKeys({
             middleKey: {
                 languageId: 'onboard-finish-button',
                 onClick: tryToStore

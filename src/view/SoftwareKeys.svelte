@@ -1,7 +1,7 @@
 <script lang="ts">
     import {pushMenu} from "../machinery/eventListener";
-    import {softwareKeysStore} from "../stores/stores";
     import type {SoftKey} from "../machinery/SoftwareKeysState";
+    import {softwareKeysStore} from "../machinery/SoftwareKeysState";
 
     let leftKey: SoftKey | undefined = undefined
     let middleKey: SoftKey | undefined = undefined

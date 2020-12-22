@@ -1,5 +1,5 @@
-import { softwareKeysStore } from '../stores/stores';
 import { pushMenu } from './eventListener';
+import { writable, Writable } from 'svelte/store';
 
 export interface SoftKey {
   onClick: () => void;
@@ -28,3 +28,6 @@ export const SOFT_KEY_MENU: SoftKey = {
   languageId: 'rightNavButton',
   onClick: () => pushMenu('menu'),
 };
+
+/** Sets software / menu keys */
+export const softwareKeysStore: Writable<SoftwareKeysState> = writable({});

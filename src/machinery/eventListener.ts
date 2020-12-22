@@ -1,8 +1,4 @@
-import {
-  navigationStore,
-  softwareKeysStore,
-  toastStore,
-} from '../stores/stores';
+import { navigationStore, toastStore } from '../stores/stores';
 import { Navigation } from './navigation';
 import type {
   AccountAction,
@@ -13,6 +9,7 @@ import type {
 import type { SoftwareKeysState } from './SoftwareKeysState';
 import { START_STATE } from './NavigationState';
 import type { ToastState } from './ToastState';
+import { softwareKeysStore } from './SoftwareKeysState';
 
 let navigation: Navigation = new Navigation([]);
 
