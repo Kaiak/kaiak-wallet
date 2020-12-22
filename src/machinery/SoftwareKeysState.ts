@@ -7,9 +7,9 @@ export interface SoftKey {
 }
 
 export interface SoftwareKeysState {
-  leftKey: SoftKey | undefined;
-  middleKey: SoftKey | undefined;
-  rightKey: SoftKey | undefined;
+  leftKey?: SoftKey;
+  middleKey?: SoftKey;
+  rightKey?: SoftKey;
 }
 
 export function clearSoftwareKeys() {
