@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NanoAccount, NanoWallet} from "../../machinery/models";
+    import type {NanoAccount, NanoTransaction, NanoWallet} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
@@ -15,10 +15,13 @@
     import {setSoftwareKeys, SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
+    import {resolveHistory} from "../../machinery/nano-rpc-fetch-wrapper";
+    import {setWalletState} from "../../machinery/WalletState";
 
     export let wallet: NanoWallet
     export let selectedAccount: NanoAccount
     export let action: AccountAction;
+    export let transactions: NanoTransaction[]
 
     const accountTitle = (account: NanoAccount) => {
         if (account === undefined) {
@@ -28,6 +31,17 @@
         } else {
             return `${account.alias}`
         }
+    }
+
+    const showTransactions = async () => {
+        await load({
+            languageId: 'loading-transactions',
+            load: async () => {
+                const resolvedTransactions = await resolveHistory(selectedAccount.address)
+                setWalletState({wallet: wallet, selectedAccount: selectedAccount.address, transactions: resolvedTransactions})
+                pushAccountAction('transactions')
+            }
+        })
     }
 
     const triggerRefresh = async () => {
@@ -62,14 +76,14 @@
 {#if action === 'overview'}
     <Seperator primaryText={accountTitle(selectedAccount)}/>
     <List>
-        <Primary primaryLanguageId="transactions" on:click={() => pushAccountAction('transactions') }/>
+        <Primary primaryLanguageId="transactions" on:click={showTransactions}/>
         <Primary primaryLanguageId="send" on:click={() => pushAccountAction('send') }/>
         <Primary primaryLanguageId="receive" on:click={() => pushAccountAction('receive') }/>
         <Primary primaryLanguageId="settings" on:click={() => pushAccountAction('settings') }/>
     </List>
 {:else if action === 'transactions'}
     <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
-    <Transactions address={selectedAccount.address}/>
+    <Transactions transactions={transactions}/>
 {:else if action.startsWith('send')}
     {#if action === 'send_qr' || action === 'send_address'}
         <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />

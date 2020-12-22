@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NanoAccount, NanoWallet} from "../machinery/models";
+    import type {NanoAccount, NanoTransaction, NanoWallet} from "../machinery/models";
     import List from "../components/List.svelte";
     import Account from "./wallet/Account.svelte";
     import {navigationStore, walletStore} from "../stores/stores";
@@ -14,8 +14,8 @@
     import type {WalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
 
-    let navigationState: NavigationState
     let selectedAccount: NanoAccount | undefined
+    let transactions: NanoTransaction[] | undefined
     let accountAction: AccountAction | undefined
 
     let wallet: NanoWallet | undefined = undefined;
@@ -25,10 +25,10 @@
     walletStore.subscribe<WalletState>(value => {
         wallet = value.wallet;
         selectedAccount = wallet && value.selectedAccount ? wallet.accounts.filter(a => a.address === value.selectedAccount)[0] : undefined
+        transactions = value.transactions;
     })
 
     navigationStore.subscribe<NavigationState>(value => {
-        navigationState = value
         accountAction = value.accountAction
         if(accountAction === undefined) {
             setSoftwareKeys({
@@ -74,7 +74,7 @@
 {#if wallet}
     <Content titleKey="wallet">
         {#if selectedAccount && accountAction}
-            <Account wallet={wallet} selectedAccount={selectedAccount} action={accountAction}/>
+            <Account wallet={wallet} selectedAccount={selectedAccount} action={accountAction} transactions={transactions}/>
         {:else}
             <List>
                 {#each wallet.accounts as account}
