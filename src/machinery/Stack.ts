@@ -11,17 +11,14 @@ export class NavigationStack {
   }
 
   push(state: NavigationState): void {
-    console.log(state);
     this.data[this.top] = state;
     this.top = this.top + 1;
     navigationStore.set(state);
   }
 
-  patch(patcher: (n: NavigationState) => NavigationState): void {
+  patch(patcher: (n: NavigationState | undefined) => NavigationState): void {
     const current = this.peek();
-    if (current) {
-      this.push(patcher(current));
-    }
+    this.push(patcher(current));
   }
 
   length(): number {

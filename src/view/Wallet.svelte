@@ -59,8 +59,8 @@
         )
     }
 
-    afterUpdate(navigationReload)
-    onMount(() => {
+    afterUpdate(() => {
+        navigationReload()
         setSoftwareKeys({
             middleKey: undefined,
             leftKey: {
@@ -73,6 +73,7 @@
             }
         })
     })
+
     onDestroy(() => {
         usubNavi()
         usubWallet()

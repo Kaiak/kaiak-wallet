@@ -48,7 +48,7 @@ export function pushMenu(menu: MenuSelector): void {
 }
 
 export function pushAccountAction(action: AccountAction): void {
-  stack.patch((current: NavigationState) => {
+  stack.patch((current: NavigationState | undefined) => {
     return { ...current, accountAction: action };
   });
 }
