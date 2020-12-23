@@ -3,6 +3,7 @@
     import List from "../../components/List.svelte";
     import ListItem from "../../components/list/ListItem.svelte";
     import type {NanoTransaction} from "../../machinery/models";
+    import {navigationReload} from "../../machinery/eventListener";
 
     export let transactions: NanoTransaction[]
     let selected: NanoTransaction | undefined = undefined
@@ -11,6 +12,13 @@
         // const selectedTransaction: NanoTransaction | undefined = history.filter(h => h.localTimestamp === time)[0]
         // pushState({...state, account: {...state.account, selectedTransaction: selectedTransaction}})
     }
+
+    navigationReload({
+        middleKey: {
+            onClick: async () => { console.log ('foo')},
+            languageId: 'loading'
+        }
+    })
 </script>
 
 {#if selected}

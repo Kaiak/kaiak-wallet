@@ -13,10 +13,11 @@
         pushToast,
     } from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
-    import {beforeUpdate, onDestroy} from "svelte";
+    import {afterUpdate, beforeUpdate, onDestroy, onMount} from "svelte";
     import {setWalletState} from "../machinery/WalletState";
     import type {WalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
+    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
     let selectedAccount: NanoAccount | undefined
     let transactions: NanoTransaction[] | undefined
@@ -58,18 +59,18 @@
         )
     }
 
-    beforeUpdate(() => navigationReload({
-            middleKey: undefined,
-            leftKey: {
-                languageId: 'add-account',
-                onClick: async () => addAccount()
-            },
-            rightKey: {
-                languageId: 'rightNavButton',
-                onClick: async () => pushMenu('menu')
-            }
-        })
-    )
+    beforeUpdate(() => setSoftwareKeys({
+        middleKey: undefined,
+        leftKey: {
+            languageId: 'add-account',
+            onClick: async () => addAccount()
+        },
+        rightKey: {
+            languageId: 'rightNavButton',
+            onClick: async () => pushMenu('menu')
+        }
+    }))
+    afterUpdate(navigationReload)
 
     onDestroy(() => {
         usubNavi()
