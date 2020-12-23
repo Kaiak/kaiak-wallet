@@ -2,7 +2,7 @@
     import Seperator from "../../components/Seperator.svelte";
     import Text from "../../components/Text.svelte";
     import LabelledInput from "../../components/LabelledInput.svelte";
-    import {popState, pushOnboardState, pushToast} from "../../machinery/eventListener";
+    import {back, pushOnboardState, pushToast} from "../../machinery/eventListener";
     import {onMount} from "svelte";
     import type {WalletResult} from "../../machinery/wallet";
     import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
@@ -31,7 +31,7 @@
             },
             leftKey: {
                 languageId: 'onboard-button-back',
-                onClick: async () => { popState() }
+                onClick: async () => { back() }
             },
             rightKey: undefined
         })

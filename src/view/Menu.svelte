@@ -6,7 +6,7 @@
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import type {NavigationState, AccountAction, MenuSelector} from "../machinery/NavigationState";
     import type {NanoAccount} from "../machinery/models";
-    import {popState, pushState} from "../machinery/eventListener";
+    import {back, pushState} from "../machinery/eventListener";
     import {onMount} from "svelte";
     import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
@@ -30,7 +30,7 @@
     onMount(() => {
         setSoftwareKeys({
             rightKey: {
-                onClick: async () => { popState() },
+                onClick: async () => { back() },
                 languageId: 'close-menu'
             }
         })

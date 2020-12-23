@@ -3,7 +3,7 @@
     import {onMount} from "svelte";
     import type {WalletResult} from "../../machinery/wallet";
     import Seperator from "../../components/Seperator.svelte";
-    import {popState, pushOnboardState} from "../../machinery/eventListener";
+    import {back, pushOnboardState} from "../../machinery/eventListener";
     import {clearSoftwareKeys, setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
     export let walletResult: WalletResult;
@@ -19,7 +19,7 @@
             leftKey: {
                 languageId: 'onboard-button-back',
                 onClick: async () => {
-                    popState()
+                    back()
                 }
             },
             rightKey: undefined

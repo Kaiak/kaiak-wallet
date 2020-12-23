@@ -10,17 +10,13 @@ import type { SoftwareKeysState } from './SoftwareKeysState';
 import { START_STATE } from './NavigationState';
 import type { ToastState } from './ToastState';
 import { softwareKeysStore } from './SoftwareKeysState';
-import { NavigationStack } from './Stack';
+import { NavigationStack } from './NavigationStack';
 
 let navigation: Navigation = new Navigation([]);
 
 let middleKey: (() => Promise<void>) | undefined = undefined;
 let leftKey: (() => Promise<void>) | undefined = undefined;
 let rightKey: (() => Promise<void>) | undefined = undefined;
-
-let stateHistory: NavigationState[] = [START_STATE];
-
-let index = 0;
 
 export const navigationReload = () => {
   const elements: Element[] = Array.from(
@@ -40,35 +36,33 @@ softwareKeysStore.subscribe((value: SoftwareKeysState) => {
 
 const stack = new NavigationStack();
 
-export function popState(): boolean {
+export function back(): boolean {
   return stack.pop() !== undefined;
 }
 export function pushMenu(menu: MenuSelector): void {
-  pushState({ ...stateHistory[index], menu, onboardState: undefined });
+  stack.pushOn((current: NavigationState | undefined) => {
+    return { ...current, menu, onboardState: undefined };
+  });
 }
 
 export function pushAccountAction(action: AccountAction): void {
-  stack.patch((current: NavigationState | undefined) => {
+  stack.pushOn((current: NavigationState | undefined) => {
     return { ...current, accountAction: action };
   });
 }
 
-export function pushToast(state: ToastState): void {
-  toastStore.set(state);
-}
-
-export function clearState(): void {
-  stateHistory = [];
-  index = -1;
-}
-
 export function pushOnboardState(updated: OnboardState): void {
-  let state: NavigationState = stateHistory[index];
-  pushState({ ...state, onboardState: updated });
+  stack.pushOn((current: NavigationState | undefined) => {
+    return { ...current, onboardState: updated };
+  });
 }
 
 export function pushState(state: NavigationState): void {
   stack.push(state);
+}
+
+export function pushToast(state: ToastState): void {
+  toastStore.set(state);
 }
 
 export async function handleKeydown(e) {
@@ -98,14 +92,14 @@ export async function handleKeydown(e) {
       ) {
         break;
       } else {
-        popState();
+        back();
         e.preventDefault();
       }
       break;
     case 'Backspace':
       if (navigation.preventBackspaceInInputField()) {
         break;
-      } else if (popState()) {
+      } else if (back()) {
         e.preventDefault();
       }
       break;

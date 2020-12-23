@@ -4,7 +4,7 @@
     import type {NanoWallet} from "../../machinery/models";
     import type {WalletResult} from "../../machinery/wallet";
     import {createWallet } from "../../machinery/wallet";
-    import {clearState, popState, pushMenu, pushToast} from "../../machinery/eventListener";
+    import {back, pushMenu, pushToast} from "../../machinery/eventListener";
     import {onMount} from "svelte";
     import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
     import {load} from "../../machinery/loader-store";
@@ -26,7 +26,6 @@
                 } else {
                     const storedWallet: NanoWallet | undefined = await createWallet(walletResult, inputPhrase, alias)
                     if (storedWallet) {
-                        clearState()
                         pushMenu('unlock')
                     } else {
                         pushToast({ languageId: 'onboard-store-wallet-failed' })
@@ -44,7 +43,7 @@
             },
             leftKey: {
                 languageId: 'onboard-button-back',
-                onClick: async () => { popState() }
+                onClick: async () => { back() }
             },
             rightKey: undefined
         })

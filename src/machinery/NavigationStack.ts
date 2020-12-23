@@ -16,7 +16,7 @@ export class NavigationStack {
     navigationStore.set(state);
   }
 
-  patch(patcher: (n: NavigationState | undefined) => NavigationState): void {
+  pushOn(patcher: (n: NavigationState | undefined) => NavigationState): void {
     const current = this.peek();
     this.push(patcher(current));
   }

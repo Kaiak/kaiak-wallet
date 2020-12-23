@@ -1,7 +1,7 @@
 <script lang="ts">
     import Text from "../../components/Text.svelte";
     import {onMount} from "svelte";
-    import {popState, pushOnboardState} from "../../machinery/eventListener";
+    import {back, pushOnboardState} from "../../machinery/eventListener";
     import Seperator from "../../components/Seperator.svelte";
     import {generateWallet} from "../../machinery/wallet";
     import type {WalletResult} from "../../machinery/wallet";
@@ -25,7 +25,7 @@
             leftKey: {
                 languageId: 'onboard-button-back',
                 onClick: async () => {
-                    popState()
+                    back()
                 }
             },
             rightKey: undefined
