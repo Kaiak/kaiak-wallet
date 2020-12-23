@@ -6,9 +6,14 @@
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
     import type {AccountAction, NavigationState} from "../machinery/NavigationState";
-    import {navigationReload, pushAccountAction, pushMenu, pushToast} from "../machinery/eventListener";
+    import {
+        navigationReload,
+        pushAccountAction,
+        pushMenu,
+        pushToast,
+    } from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
-    import {afterUpdate} from "svelte";
+    import {afterUpdate, onDestroy, onMount} from "svelte";
     import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
     import type {WalletState} from "../machinery/WalletState";
@@ -20,33 +25,21 @@
 
     let wallet: NanoWallet | undefined = undefined;
 
-    walletStore.subscribe<WalletState>(value => {
+    const usubWallet = walletStore.subscribe<WalletState>(value => {
         wallet = value.wallet;
         selectedAccount = wallet && value.selectedAccount ? wallet.accounts.filter(a => a.address === value.selectedAccount)[0] : undefined
         transactions = value.transactions;
     })
 
-    navigationStore.subscribe<NavigationState>(value => {
+    const usubNavi = navigationStore.subscribe<NavigationState>(value => {
         accountAction = value.accountAction
-        if(accountAction === undefined) {
-            setSoftwareKeys({
-                middleKey: undefined,
-                leftKey: {
-                    languageId: 'add-account',
-                    onClick: async () => addAccount()
-                },
-                rightKey: {
-                    languageId: 'rightNavButton',
-                    onClick: async () => pushMenu('menu')
-                }
-            })
-        }
     });
     const selectAccount = (account: NanoAccount) => {
         setWalletState({
             wallet: wallet,
             selectedAccount: account.address
         })
+
         pushAccountAction('overview')
     }
 
@@ -67,6 +60,23 @@
     }
 
     afterUpdate(navigationReload)
+    onMount(() => {
+        setSoftwareKeys({
+            middleKey: undefined,
+            leftKey: {
+                languageId: 'add-account',
+                onClick: async () => addAccount()
+            },
+            rightKey: {
+                languageId: 'rightNavButton',
+                onClick: async () => pushMenu('menu')
+            }
+        })
+    })
+    onDestroy(() => {
+        usubNavi()
+        usubWallet()
+    })
 </script>
 
 {#if wallet}

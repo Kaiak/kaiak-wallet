@@ -1,4 +1,4 @@
-import { navigationStore, toastStore } from '../stores/stores';
+import { toastStore } from '../stores/stores';
 import { Navigation } from './navigation';
 import type {
   AccountAction,
@@ -10,6 +10,7 @@ import type { SoftwareKeysState } from './SoftwareKeysState';
 import { START_STATE } from './NavigationState';
 import type { ToastState } from './ToastState';
 import { softwareKeysStore } from './SoftwareKeysState';
+import { NavigationStack } from './Stack';
 
 let navigation: Navigation = new Navigation([]);
 
@@ -37,22 +38,19 @@ softwareKeysStore.subscribe((value: SoftwareKeysState) => {
   rightKey = value.rightKey?.onClick;
 });
 
+const stack = new NavigationStack();
+
 export function popState(): boolean {
-  if (index > 0) {
-    index--;
-    const nextState = stateHistory[index];
-    navigationStore.set(nextState);
-    return true;
-  } else {
-    return false;
-  }
+  return stack.pop() !== undefined;
 }
 export function pushMenu(menu: MenuSelector): void {
   pushState({ ...stateHistory[index], menu, onboardState: undefined });
 }
 
 export function pushAccountAction(action: AccountAction): void {
-  pushState({ ...stateHistory[index], accountAction: action });
+  stack.patch((current: NavigationState) => {
+    return { ...current, accountAction: action };
+  });
 }
 
 export function pushToast(state: ToastState): void {
@@ -61,7 +59,7 @@ export function pushToast(state: ToastState): void {
 
 export function clearState(): void {
   stateHistory = [];
-  index = 0;
+  index = -1;
 }
 
 export function pushOnboardState(updated: OnboardState): void {
@@ -70,18 +68,7 @@ export function pushOnboardState(updated: OnboardState): void {
 }
 
 export function pushState(state: NavigationState): void {
-  /** Ignore if previous state was menu and we are pushing menu */
-  if (state.menu === 'menu' && stateHistory[index].menu === 'menu') {
-    popState();
-    return;
-  }
-  index++;
-  if (stateHistory.length > index) {
-    stateHistory[index] = state;
-  } else {
-    stateHistory.push(state);
-  }
-  navigationStore.set(state);
+  stack.push(state);
 }
 
 export async function handleKeydown(e) {
