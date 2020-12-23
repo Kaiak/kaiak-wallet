@@ -6,9 +6,8 @@
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import type {NavigationState, AccountAction, MenuSelector} from "../machinery/NavigationState";
     import type {NanoAccount} from "../machinery/models";
-    import {back, pushState} from "../machinery/eventListener";
-    import {onMount} from "svelte";
-    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
+    import {back, navigationReload, pushState} from "../machinery/eventListener";
+    import {afterUpdate} from "svelte";
 
     let state: NavigationState
     let selectedAccount: NanoAccount | undefined
@@ -27,14 +26,14 @@
         pushState({...state, menu: 'wallet', accountAction: a})
     }
 
-    onMount(() => {
-        setSoftwareKeys({
+    afterUpdate(() => navigationReload(
+        {
             rightKey: {
                 onClick: async () => { back() },
                 languageId: 'close-menu'
             }
-        })
-    })
+        }
+    ))
 </script>
 
 <Content titleKey="menu">

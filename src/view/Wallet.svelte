@@ -13,8 +13,7 @@
         pushToast,
     } from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
-    import {afterUpdate, onDestroy, onMount} from "svelte";
-    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
+    import {beforeUpdate, onDestroy} from "svelte";
     import {setWalletState} from "../machinery/WalletState";
     import type {WalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
@@ -59,9 +58,7 @@
         )
     }
 
-    afterUpdate(() => {
-        navigationReload()
-        setSoftwareKeys({
+    beforeUpdate(() => navigationReload({
             middleKey: undefined,
             leftKey: {
                 languageId: 'add-account',
@@ -72,7 +69,7 @@
                 onClick: async () => pushMenu('menu')
             }
         })
-    })
+    )
 
     onDestroy(() => {
         usubNavi()

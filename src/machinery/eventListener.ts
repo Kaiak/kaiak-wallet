@@ -7,7 +7,6 @@ import type {
   OnboardState,
 } from './NavigationState';
 import type { SoftwareKeysState } from './SoftwareKeysState';
-import { START_STATE } from './NavigationState';
 import type { ToastState } from './ToastState';
 import { setSoftwareKeys, softwareKeysStore } from './SoftwareKeysState';
 import { NavigationStack } from './NavigationStack';
