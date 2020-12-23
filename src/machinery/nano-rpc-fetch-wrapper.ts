@@ -78,21 +78,25 @@ export async function generateWork(
 export async function resolveHistory(
   address: NanoAddress
 ): Promise<NanoTransaction[]> {
-  let history: AccountHistoryResponse = await nanoApi.accountHistory({
-    accountHistoryRequest: {
-      action: AccountHistoryRequestActionEnum.AccountHistory,
-      account: address,
-      count: '10',
-    },
-  });
-  return history.history.map((block) => {
-    return {
-      account: block.account,
-      amount: { raw: block.amount.toString() },
-      type: block.type,
-      localTimestamp: block.localTimestamp,
-    };
-  });
+  try {
+    const history: AccountHistoryResponse = await nanoApi.accountHistory({
+      accountHistoryRequest: {
+        action: AccountHistoryRequestActionEnum.AccountHistory,
+        account: address,
+        count: '10',
+      },
+    });
+    return history.history.map((block) => {
+      return {
+        account: block.account,
+        amount: { raw: block.amount.toString() },
+        type: block.type,
+        localTimestamp: block.localTimestamp,
+      };
+    });
+  } catch (e) {
+    return [];
+  }
 }
 
 export async function getPendingBlocksSimple(

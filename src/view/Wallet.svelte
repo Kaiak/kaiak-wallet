@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NanoAccount, NanoWallet} from "../machinery/models";
+    import type {NanoAccount, NanoTransaction, NanoWallet} from "../machinery/models";
     import List from "../components/List.svelte";
     import Account from "./wallet/Account.svelte";
     import {navigationStore, walletStore} from "../stores/stores";
@@ -8,39 +8,36 @@
     import type {AccountAction, NavigationState} from "../machinery/NavigationState";
     import {navigationReload, pushAccountAction, pushMenu, pushToast} from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
-    import LabelledLoader from "../components/LabelledLoader.svelte";
-    import {afterUpdate, onMount} from "svelte";
-    import {updateWalletAccounts} from "../machinery/nano-ops";
+    import {afterUpdate} from "svelte";
     import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
     import type {WalletState} from "../machinery/WalletState";
+    import {load} from "../machinery/loader-store";
 
-    let navigationState: NavigationState
     let selectedAccount: NanoAccount | undefined
+    let transactions: NanoTransaction[] | undefined
     let accountAction: AccountAction | undefined
 
     let wallet: NanoWallet | undefined = undefined;
 
-    let loaderText: string | undefined = undefined
-
     walletStore.subscribe<WalletState>(value => {
         wallet = value.wallet;
         selectedAccount = wallet && value.selectedAccount ? wallet.accounts.filter(a => a.address === value.selectedAccount)[0] : undefined
+        transactions = value.transactions;
     })
 
     navigationStore.subscribe<NavigationState>(value => {
-        navigationState = value
         accountAction = value.accountAction
         if(accountAction === undefined) {
             setSoftwareKeys({
                 middleKey: undefined,
                 leftKey: {
                     languageId: 'add-account',
-                    onClick: () => addAccount()
+                    onClick: async () => addAccount()
                 },
                 rightKey: {
                     languageId: 'rightNavButton',
-                    onClick: () => pushMenu('menu')
+                    onClick: async () => pushMenu('menu')
                 }
             })
         }
@@ -54,41 +51,34 @@
     }
 
     const addAccount = async () => {
-        loaderText = "adding-account";
-        const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
-        if (updatedNanoWallet) {
-            setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount?.address})
-        } else {
-            pushToast({languageId: 'unable-to-store'})
-        }
-        loaderText = undefined;
+        await load(
+            {
+                languageId: 'adding-account',
+                load: async () => {
+                    const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
+                    if (updatedNanoWallet) {
+                        setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount?.address})
+                    } else {
+                        pushToast({languageId: 'unable-to-store'})
+                    }
+                },
+            }
+        )
     }
 
-    onMount(async () => {
-        loaderText = "loading-accounts";
-        const updatedNanoWallet: NanoWallet | undefined = await updateWalletAccounts(wallet)
-        if(updatedNanoWallet) {
-            setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount?.address})
-        }
-        loaderText = undefined
-    })
     afterUpdate(navigationReload)
 </script>
 
 {#if wallet}
     <Content titleKey="wallet">
         {#if selectedAccount && accountAction}
-            <Account wallet={wallet} selectedAccount={selectedAccount} action={accountAction}/>
+            <Account wallet={wallet} selectedAccount={selectedAccount} action={accountAction} transactions={transactions}/>
         {:else}
-            {#if loaderText}
-                <LabelledLoader languageId={loaderText} />
-            {:else}
-                <List>
-                    {#each wallet.accounts as account}
-                        <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
-                    {/each}
-                </List>
-            {/if}
+            <List>
+                {#each wallet.accounts as account}
+                    <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
+                {/each}
+            </List>
         {/if}
     </Content>
 {/if}

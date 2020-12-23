@@ -6,10 +6,10 @@
     import {sendNano} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import CameraCapture from "../../components/CameraCapture.svelte";
-    import LabelledLoader from "../../components/LabelledLoader.svelte";
-    import {popState, pushAccountAction, pushToast} from "../../machinery/eventListener";
+    import {pushAccountAction, pushToast} from "../../machinery/eventListener";
     import type {AccountAction} from "../../machinery/NavigationState";
     import {walletStore} from "../../stores/stores";
+    import {load} from "../../machinery/loader-store";
 
     export let wallet: NanoWallet;
     export let sendType: AccountAction;
@@ -45,25 +45,24 @@
 
     const send = async () => {
         if (toAddress && sendValue > 0) {
-            sending = true;
-            try {
-                const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}), balance)
-                if(updatedAccount) {
-                    wallet.accounts = wallet.accounts.map(account => {
-                        return account.address === updatedAccount.address ? updatedAccount : account
-                    })
-                    walletStore.set({
-                        wallet: wallet,
-                        selectedAccount: updatedAccount.address
-                    })
-                    pushAccountAction('overview')
-                } else {
-                    pushToast({ languageId: 'unable-to-send' })
-                }
-            } catch (e) {
-                console.log(e)
-            }
-            sending = false;
+            await load({
+                languageId: 'sending-funds',
+                load: async () => {
+                    const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}), balance)
+                    if(updatedAccount) {
+                        wallet.accounts = wallet.accounts.map(account => {
+                            return account.address === updatedAccount.address ? updatedAccount : account
+                        })
+                        walletStore.set({
+                            wallet: wallet,
+                            selectedAccount: updatedAccount.address
+                        })
+                        pushAccountAction('overview')
+                    } else {
+                        pushToast({ languageId: 'unable-to-send' })
+                    }
+                },
+            })
         }
     }
 
@@ -75,15 +74,11 @@
 
 </script>
 
-{#if sending}
-    <LabelledLoader languageId="sending-funds"/>
+{#if sendType === 'send_qr' && showCamera}
+    <CameraCapture scannedAddress={scannedAddress}/>
 {:else}
-    {#if sendType === 'send_qr' && showCamera}
-        <CameraCapture scannedAddress={scannedAddress}/>
-    {:else}
-        <LabelledInput languageId="send-address" type="text" on:input={setAddress} value={toAddress}/>
-        <LabelledInput languageId="send-amount" type="text" on:input={setAmount} value={sendValue}/>
-        <Button languageId="send-max-button" on:click={setMax}/>
-        <Button languageId="send-button" on:click={send}/>
-    {/if}
+    <LabelledInput languageId="send-address" type="text" on:input={setAddress} value={toAddress}/>
+    <LabelledInput languageId="send-amount" type="text" on:input={setAmount} value={sendValue}/>
+    <Button languageId="send-max-button" on:click={setMax}/>
+    <Button languageId="send-button" on:click={send}/>
 {/if}

@@ -9,45 +9,66 @@
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
 	import Toast from "./components/Toast.svelte";
 	import Onboard from "./view/Onboard.svelte";
-	import {afterUpdate, onMount} from "svelte";
+	import {onDestroy, onMount} from "svelte";
 	import {walletExists} from "./machinery/secure-storage";
 	import {pushMenu} from "./machinery/eventListener";
+	import {loaderStore} from "./machinery/loader-store";
+	import type {Loader} from "./machinery/loader-store";
+	import LabelledLoader from "./components/LabelledLoader.svelte";
+	import Content from "./components/Content.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
 
-	let state: NavigationState
 
-	const unsubscribe = navigationStore.subscribe<NavigationState>(value => {
+	let state: NavigationState
+	let loader: Loader | undefined
+
+	const usubLoader = loaderStore.subscribe((value) => {
+		loader = value
+	})
+
+	const usubNavigation = navigationStore.subscribe<NavigationState>(value => {
 		state = value
 	});
 
 	onMount(async () => {
 		const exists = await walletExists()
-		if(exists) {
+		if (exists) {
 			pushMenu('unlock')
 		} else {
 			pushMenu('onboard')
 		}
 	})
+
+	onDestroy(() => {
+		usubLoader()
+		usubNavigation()
+	})
 </script>
 
 <main>
 	<Toast/>
-		<div id="kui-app">
-		{#if state.menu === 'wallet'}
-			<Wallet />
-		{:else if state.menu === 'onboard'}
-			<Onboard />
-		{:else if state.menu === 'setup'}
-			<Setup />
-		{:else if state.menu === 'menu'}
-			<Menu />
-		{:else if state.menu === 'about'}
-			<About />
-		{:else if state.menu === 'unlock'}
-			<UnlockWallet />
+	<div id="kui-app">
+		{#if loader}
+			<Content titleKey="loading">
+				<LabelledLoader languageId={loader.languageId}/>
+			</Content>
+		{:else}
+			{#if state.menu === 'wallet'}
+				<Wallet />
+			{:else if state.menu === 'onboard'}
+				<Onboard />
+			{:else if state.menu === 'setup'}
+				<Setup />
+			{:else if state.menu === 'menu'}
+				<Menu />
+			{:else if state.menu === 'about'}
+				<About />
+			{:else if state.menu === 'unlock'}
+				<UnlockWallet />
+			{/if}
+			<SoftwareKeys/>
 		{/if}
-		</div>
-	<SoftwareKeys/>
+	</div>
 </main>

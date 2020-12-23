@@ -1,9 +1,10 @@
-import type { NanoAddress, NanoWallet } from './models';
+import type { NanoAddress, NanoTransaction, NanoWallet } from './models';
 import { walletStore } from '../stores/stores';
 
 export interface WalletState {
   wallet: NanoWallet | undefined;
   selectedAccount: NanoAddress | undefined;
+  transactions?: NanoTransaction[];
 }
 
 export function setWalletState(walletState: WalletState) {
