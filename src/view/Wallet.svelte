@@ -11,9 +11,10 @@
         pushAccountAction,
         pushMenu,
         pushToast,
+        reset,
     } from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
-    import {afterUpdate, beforeUpdate, onDestroy, onMount} from "svelte";
+    import {afterUpdate, beforeUpdate, onDestroy} from "svelte";
     import {setWalletState} from "../machinery/WalletState";
     import type {WalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
@@ -33,6 +34,9 @@
 
     const usubNavi = navigationStore.subscribe<NavigationState>(value => {
         accountAction = value.accountAction
+        if(value.menu === 'unlock') {
+            reset();
+        }
     });
     const selectAccount = (account: NanoAccount) => {
         setWalletState({

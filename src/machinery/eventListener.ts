@@ -36,7 +36,11 @@ softwareKeysStore.subscribe((value: SoftwareKeysState) => {
   rightKey = value.rightKey?.onClick;
 });
 
-const stack = new NavigationStack();
+let stack = new NavigationStack();
+
+export function reset(): void {
+  stack = new NavigationStack();
+}
 
 export function back(): boolean {
   return stack.pop() !== undefined;
@@ -46,13 +50,11 @@ export function pushMenu(menu: MenuSelector): void {
     return { ...current, menu, onboardState: undefined };
   });
 }
-
 export function pushAccountAction(action: AccountAction): void {
   stack.pushOn((current: NavigationState | undefined) => {
     return { ...current, accountAction: action };
   });
 }
-
 export function pushOnboardState(updated: OnboardState): void {
   stack.pushOn((current: NavigationState | undefined) => {
     return { ...current, onboardState: updated };
