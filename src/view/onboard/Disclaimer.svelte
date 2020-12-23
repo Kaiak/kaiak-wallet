@@ -1,12 +1,12 @@
 <script lang="ts">
     import Text from "../../components/Text.svelte";
     import {onMount} from "svelte";
-    import {softwareKeysStore} from "../../stores/stores";
     import {popState, pushOnboardState} from "../../machinery/eventListener";
     import Seperator from "../../components/Seperator.svelte";
+    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
     onMount(() => {
-        softwareKeysStore.set({
+        setSoftwareKeys({
             middleKey: {
                 languageId: 'onboard-disclaimer-ok',
                 onClick: () => {

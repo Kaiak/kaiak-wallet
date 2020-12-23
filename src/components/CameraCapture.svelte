@@ -1,11 +1,10 @@
 <script lang="ts">
     import {ImageCapture} from 'image-capture'
     import {onDestroy, onMount} from "svelte";
-    import Button from "./Button.svelte";
     import jsQR, {QRCode} from "jsqr";
     import type {NanoAddress} from "../machinery/models";
     import {tools} from "nanocurrency-web";
-    import {softwareKeysStore} from "../stores/stores";
+    import {clearSoftwareKeys, setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
     export let scannedAddress: (address: NanoAddress) => void
 
@@ -18,7 +17,7 @@
         const video: HTMLVideoElement = document.querySelector('#video');
         video.srcObject = videoPreview
         await video.play()
-        softwareKeysStore.set({
+        setSoftwareKeys({
             middleKey: {
                 onClick: () => captureCameraImage(),
                 languageId: "softkey-capture-camera"
@@ -31,9 +30,7 @@
         tracks.forEach(track => {
             track.stop()
         })
-        softwareKeysStore.set({
-            middleKey: undefined
-        })
+        clearSoftwareKeys();
     }
 
     const captureCameraImage = async () => {
@@ -88,5 +85,5 @@
         height: auto;
     }
 </style>
-<canvas id="canvas" height={0} width={0} hidden={showVideo} class="video-el"/>
-<video id="video" autoplay hidden={!showVideo} class="video-el"/>
+<canvas id="canvas" height={0} width={0} hidden={showVideo} class="video-el"></canvas>
+<video id="video" autoplay hidden={!showVideo} class="video-el"></video>
