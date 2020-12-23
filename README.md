@@ -4,6 +4,10 @@ A community driven [Nano](https://nano.org/) Wallet for [KaiOS](https://develope
 
 This is an app built with  [Svelte](https://svelte.dev)
 
+## Want to contribute?
+
+Reach out to @citrullin or @mehl on the [Nano Discord server](https://chat.nano.org/).
+
 ## To run
 
 First install [yarn](prerequisite), then.
