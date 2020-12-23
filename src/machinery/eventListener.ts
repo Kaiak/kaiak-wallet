@@ -9,7 +9,7 @@ import type {
 import type { SoftwareKeysState } from './SoftwareKeysState';
 import { START_STATE } from './NavigationState';
 import type { ToastState } from './ToastState';
-import { softwareKeysStore } from './SoftwareKeysState';
+import { setSoftwareKeys, softwareKeysStore } from './SoftwareKeysState';
 import { NavigationStack } from './NavigationStack';
 
 let navigation: Navigation = new Navigation([]);
@@ -18,7 +18,7 @@ let middleKey: (() => Promise<void>) | undefined = undefined;
 let leftKey: (() => Promise<void>) | undefined = undefined;
 let rightKey: (() => Promise<void>) | undefined = undefined;
 
-export const navigationReload = () => {
+export const navigationReload = (value: SoftwareKeysState = undefined) => {
   const elements: Element[] = Array.from(
     document.getElementsByClassName('navigation')
   );
@@ -26,6 +26,9 @@ export const navigationReload = () => {
   navigation = new Navigation(elements);
   document.addEventListener('keydown', handleKeydown);
   navigation.focus();
+  if (value) {
+    setSoftwareKeys(value);
+  }
 };
 
 softwareKeysStore.subscribe((value: SoftwareKeysState) => {

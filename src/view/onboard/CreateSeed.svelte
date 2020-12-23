@@ -1,15 +1,13 @@
 <script lang="ts">
     import Text from "../../components/Text.svelte";
-    import {onMount} from "svelte";
+    import {afterUpdate} from "svelte";
     import type {WalletResult} from "../../machinery/wallet";
     import Seperator from "../../components/Seperator.svelte";
-    import {back, pushOnboardState} from "../../machinery/eventListener";
-    import {clearSoftwareKeys, setSoftwareKeys} from "../../machinery/SoftwareKeysState";
+    import {back, navigationReload, pushOnboardState} from "../../machinery/eventListener";
 
     export let walletResult: WalletResult;
 
-    onMount(() => {
-        setSoftwareKeys({
+    afterUpdate(() => navigationReload({
             middleKey: {
                 languageId: 'onboard-seed-stored',
                 onClick: async () => {
@@ -22,9 +20,8 @@
                     back()
                 }
             },
-            rightKey: undefined
         })
-    })
+    )
 </script>
 
 <Seperator languageId="wallet-mnemonic"/>
