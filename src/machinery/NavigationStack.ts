@@ -16,6 +16,7 @@ export class NavigationStack {
     navigationStore.set(state);
   }
 
+  // eslint-disable-next-line no-unused-vars
   pushOn(patcher: (n: NavigationState | undefined) => NavigationState): void {
     const current = this.peek();
     this.push(patcher(current));
