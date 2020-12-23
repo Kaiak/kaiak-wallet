@@ -5,14 +5,13 @@
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
     import {afterUpdate} from "svelte";
-    import {clearSoftwareKeys, setSoftwareKeys} from "../machinery/SoftwareKeysState";
+    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import type {SoftwareKeysState} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
     import {updateWalletAccounts} from "../machinery/nano-ops";
 
     let inputPhrase: string | undefined;
-    let showLoader: boolean = false;
 
     const onInputPassword = (event) => {
         inputPhrase = event.target.value;

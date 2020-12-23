@@ -20,8 +20,6 @@
 
     let wallet: NanoWallet | undefined = undefined;
 
-    let loaderText: string | undefined = undefined
-
     walletStore.subscribe<WalletState>(value => {
         wallet = value.wallet;
         selectedAccount = wallet && value.selectedAccount ? wallet.accounts.filter(a => a.address === value.selectedAccount)[0] : undefined
