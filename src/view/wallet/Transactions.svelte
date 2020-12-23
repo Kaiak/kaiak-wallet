@@ -15,7 +15,7 @@
 
 {#if selected}
     <div>{selected.localTimestamp}</div>
-{:else if transactions.length > 0}
+{:else if transactions && transactions.length > 0}
     <List>
         {#each transactions as transaction}
             <ListItem on:click={() => setSelected(transaction.localTimestamp)}><Transaction transaction={transaction}/></ListItem>
