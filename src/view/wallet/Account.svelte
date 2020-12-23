@@ -48,13 +48,15 @@
         await load({
             languageId: 'loading-refresh',
             load: async () => {
+                // TODO: Refresh transactions as well?
                 const updatedAccount = await loadWalletData(selectedAccount)
                 wallet.accounts = wallet.accounts.map(account => {
                     return account.address === updatedAccount.address ? updatedAccount : account
                 })
                 walletStore.set({
                     wallet: wallet,
-                    selectedAccount: updatedAccount.address
+                    selectedAccount: updatedAccount.address,
+                    transactions: transactions,
                 })
             }
         })

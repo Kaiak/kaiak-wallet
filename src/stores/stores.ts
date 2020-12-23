@@ -16,5 +16,5 @@ export const toastStore: Writable<ToastState> = writable({
 export const walletStore: Writable<WalletState> = writable({
   wallet: undefined,
   selectedAccount: undefined,
-  accountHistory: undefined,
+  transactions: undefined,
 });
