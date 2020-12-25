@@ -11,8 +11,8 @@
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
-    import {afterUpdate, onMount} from "svelte";
-    import {setSoftwareKeys, SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
+    import {afterUpdate} from "svelte";
+    import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
     import {resolveHistory} from "../../machinery/nano-rpc-fetch-wrapper";
@@ -61,17 +61,13 @@
             }
         })
     }
-
-    onMount(() => setSoftwareKeys({
+    afterUpdate(() => navigationReload({
         leftKey: {
             languageId: 'update-button',
             onClick: triggerRefresh
         },
-        middleKey: undefined,
         rightKey: SOFT_KEY_MENU,
-    }));
-
-    afterUpdate(navigationReload)
+    }))
 
 </script>
 

@@ -6,13 +6,19 @@
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
     import type {AccountAction, NavigationState} from "../machinery/NavigationState";
-    import {navigationReload, pushAccountAction, pushMenu, pushToast} from "../machinery/eventListener";
+    import {
+        navigationReload,
+        pushAccountAction,
+        pushMenu,
+        pushToast,
+        reset,
+    } from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
-    import {afterUpdate} from "svelte";
-    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
+    import {afterUpdate, beforeUpdate, onDestroy} from "svelte";
     import {setWalletState} from "../machinery/WalletState";
     import type {WalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
+    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
     let selectedAccount: NanoAccount | undefined
     let transactions: NanoTransaction[] | undefined
@@ -20,26 +26,16 @@
 
     let wallet: NanoWallet | undefined = undefined;
 
-    walletStore.subscribe<WalletState>(value => {
+    const usubWallet = walletStore.subscribe<WalletState>(value => {
         wallet = value.wallet;
         selectedAccount = wallet && value.selectedAccount ? wallet.accounts.filter(a => a.address === value.selectedAccount)[0] : undefined
         transactions = value.transactions;
     })
 
-    navigationStore.subscribe<NavigationState>(value => {
+    const usubNavi = navigationStore.subscribe<NavigationState>(value => {
         accountAction = value.accountAction
-        if(accountAction === undefined) {
-            setSoftwareKeys({
-                middleKey: undefined,
-                leftKey: {
-                    languageId: 'add-account',
-                    onClick: async () => addAccount()
-                },
-                rightKey: {
-                    languageId: 'rightNavButton',
-                    onClick: async () => pushMenu('menu')
-                }
-            })
+        if(value.menu === 'unlock') {
+            reset();
         }
     });
     const selectAccount = (account: NanoAccount) => {
@@ -47,6 +43,7 @@
             wallet: wallet,
             selectedAccount: account.address
         })
+
         pushAccountAction('overview')
     }
 
@@ -66,7 +63,23 @@
         )
     }
 
+    beforeUpdate(() => setSoftwareKeys({
+        middleKey: undefined,
+        leftKey: {
+            languageId: 'add-account',
+            onClick: async () => addAccount()
+        },
+        rightKey: {
+            languageId: 'rightNavButton',
+            onClick: async () => pushMenu('menu')
+        }
+    }))
     afterUpdate(navigationReload)
+
+    onDestroy(() => {
+        usubNavi()
+        usubWallet()
+    })
 </script>
 
 {#if wallet}

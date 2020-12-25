@@ -2,10 +2,9 @@
     import Seperator from "../../components/Seperator.svelte";
     import Text from "../../components/Text.svelte";
     import LabelledInput from "../../components/LabelledInput.svelte";
-    import {popState, pushOnboardState, pushToast} from "../../machinery/eventListener";
-    import {onMount} from "svelte";
+    import {back, navigationReload, pushOnboardState, pushToast} from "../../machinery/eventListener";
+    import {afterUpdate} from "svelte";
     import type {WalletResult} from "../../machinery/wallet";
-    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
     export let walletResult: WalletResult
 
@@ -23,20 +22,16 @@
         }
     }
 
-    onMount(() => {
-        setSoftwareKeys({
-            middleKey: {
-                languageId: 'onboard-set-alias-button',
-                onClick: setAlias
-            },
-            leftKey: {
-                languageId: 'onboard-button-back',
-                onClick: async () => { popState() }
-            },
-            rightKey: undefined
-        })
-    })
-
+    afterUpdate(() => navigationReload({
+        middleKey: {
+            languageId: 'onboard-set-alias-button',
+            onClick: setAlias
+        },
+        leftKey: {
+            languageId: 'onboard-button-back',
+            onClick: async () => { back() }
+        },
+    }))
 </script>
 <Seperator languageId="onboard-set-alias"/>
 <Text languageId="onboard-set-alias-text"/>

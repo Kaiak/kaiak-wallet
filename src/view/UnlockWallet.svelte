@@ -5,7 +5,6 @@
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
     import {afterUpdate} from "svelte";
-    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
     import type {SoftwareKeysState} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
@@ -53,10 +52,7 @@
         rightKey: undefined
     }
 
-    afterUpdate(() => {
-        setSoftwareKeys(softwareKeys)
-        navigationReload();
-    })
+    afterUpdate(() => navigationReload(softwareKeys))
 </script>
 
 <Content titleKey="unlock-wallet">

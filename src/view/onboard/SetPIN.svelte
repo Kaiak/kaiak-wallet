@@ -4,9 +4,8 @@
     import type {NanoWallet} from "../../machinery/models";
     import type {WalletResult} from "../../machinery/wallet";
     import {createWallet } from "../../machinery/wallet";
-    import {clearState, popState, pushMenu, pushToast} from "../../machinery/eventListener";
-    import {onMount} from "svelte";
-    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
+    import {back, navigationReload, pushMenu, pushToast} from "../../machinery/eventListener";
+    import {afterUpdate} from "svelte";
     import {load} from "../../machinery/loader-store";
 
     export let walletResult: WalletResult
@@ -26,7 +25,6 @@
                 } else {
                     const storedWallet: NanoWallet | undefined = await createWallet(walletResult, inputPhrase, alias)
                     if (storedWallet) {
-                        clearState()
                         pushMenu('unlock')
                     } else {
                         pushToast({ languageId: 'onboard-store-wallet-failed' })
@@ -36,20 +34,16 @@
         })
     }
 
-    onMount(() => {
-        setSoftwareKeys({
-            middleKey: {
-                languageId: 'onboard-finish-button',
-                onClick: tryToStore
-            },
-            leftKey: {
-                languageId: 'onboard-button-back',
-                onClick: async () => { popState() }
-            },
-            rightKey: undefined
-        })
-    })
-
+    afterUpdate(() => navigationReload({
+        middleKey: {
+            languageId: 'onboard-finish-button',
+            onClick: tryToStore
+        },
+        leftKey: {
+            languageId: 'onboard-button-back',
+            onClick: async () => { back() }
+        },
+    }))
 </script>
 
 <Seperator languageId="wallet-password" />

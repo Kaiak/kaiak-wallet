@@ -1,7 +1,7 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
     import Text from "../components/Text.svelte";
-    import {afterUpdate, onDestroy} from "svelte";
+    import {beforeUpdate, onDestroy} from "svelte";
     import {navigationStore} from "../stores/stores";
     import {navigationReload, pushOnboardState} from "../machinery/eventListener";
     import type {NavigationState, OnboardState, OnboardView} from "../machinery/NavigationState";
@@ -10,7 +10,6 @@
     import AccountAlias from "./onboard/AccountAlias.svelte";
     import SetPIN from "./onboard/SetPIN.svelte";
     import type {WalletResult} from "../machinery/wallet";
-    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
     let onboardState: OnboardState | undefined = undefined
     let state: NavigationState | undefined = undefined
@@ -25,19 +24,15 @@
         walletResult = onboardState?.walletResult
         accountAlias = onboardState?.alias
     })
-    setSoftwareKeys({
+    onDestroy(() => naviStore())
+    beforeUpdate(() => navigationReload({
         middleKey: {
             languageId: 'onboard-start',
             onClick: async () => {
                 pushOnboardState({view: 'disclaimer', walletResult: undefined, alias: undefined })
             }
         },
-        leftKey: undefined,
-        rightKey: undefined,
-    })
-
-    onDestroy(() => naviStore())
-    afterUpdate(navigationReload)
+    }))
 </script>
 
 
