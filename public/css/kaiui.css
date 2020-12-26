@@ -30,18 +30,6 @@ h1, h2, h3, h4, h5, ul, p {
     height: 26px;
 }
 
-#kui-app {
-    width: 100%;
-    height: 100%;
-    font-family: 'Open Sans';
-}
-
-.kui-content-area{
-    /*overflow: hidden;*/
-    overflow: scroll;
-    position: relative;
-}
-
 .kui-overlay {
     width: 100%;
     height: 100%;
@@ -101,10 +89,6 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 /* ============== Font ============== */
-.kui-h1 {
-    font-size: 17px;
-    font-weight: 300;
-}
 
 .kui-h2 {
     font-size: 17px;
@@ -150,17 +134,6 @@ h1, h2, h3, h4, h5, ul, p {
 .kui-link {
     font-size: 17px;
     font-weight: 700;
-}
-
-/* ============== Header ============== */
-.kui-header {
-    height: 28px;
-    line-height: 28px;
-    background-color: #529aee;
-    color: #fff;
-    text-align: center;
-    margin-top: -0.7em;
-    margin-bottom: 10px;
 }
 
 /* ============== Separator ============== */
@@ -451,10 +424,6 @@ button.kui-btn:focus {
 
 /* KaiOS portrait devices (240x320) */
 @media only screen and (orientation : portrait) {
-    .kui-content-area {
-        height: 15.8rem;
-    }
-
     .kui-option-menu {
         height: 178px;
     }
@@ -466,10 +435,6 @@ button.kui-btn:focus {
 
 /* KaiOS landscape devices (320x240) */
 @media screen and (orientation: landscape) {
-    .kui-content-area {
-        height: 156px;
-    }
-
     .kui-option-menu {
         height: 128px;
     }

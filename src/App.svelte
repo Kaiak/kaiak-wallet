@@ -36,9 +36,17 @@
 	})
 </script>
 
+<style>
+	.kui-app {
+		width: 100%;
+		height: 100%;
+		font-family: 'Open Sans';
+	}
+</style>
+
 <main>
 	<Toast/>
-	<div id="kui-app">
+	<div class="kui-app">
 		{#if loader}
 			<Content titleKey="loading">
 				<LabelledLoader languageId={loader.languageId}/>
