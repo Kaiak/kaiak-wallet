@@ -9,9 +9,7 @@
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
 	import Toast from "./components/Toast.svelte";
 	import Onboard from "./view/Onboard.svelte";
-	import {onDestroy, onMount} from "svelte";
-	import {walletExists} from "./machinery/secure-storage";
-	import {pushMenu} from "./machinery/eventListener";
+	import {onDestroy} from "svelte";
 	import {loaderStore} from "./machinery/loader-store";
 	import type {Loader} from "./machinery/loader-store";
 	import LabelledLoader from "./components/LabelledLoader.svelte";
@@ -31,15 +29,6 @@
 	const usubNavigation = navigationStore.subscribe<NavigationState>(value => {
 		state = value
 	});
-
-	onMount(async () => {
-		const exists = await walletExists()
-		if (exists) {
-			pushMenu('unlock')
-		} else {
-			pushMenu('onboard')
-		}
-	})
 
 	onDestroy(() => {
 		usubLoader()

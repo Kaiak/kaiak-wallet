@@ -10,12 +10,22 @@ import type { SoftwareKeysState } from './SoftwareKeysState';
 import type { ToastState } from './ToastState';
 import { setSoftwareKeys, softwareKeysStore } from './SoftwareKeysState';
 import { NavigationStack } from './NavigationStack';
+import { walletExists } from './secure-storage';
 
 let navigation: Navigation = new Navigation([]);
 
 let middleKey: (() => Promise<void>) | undefined = undefined;
 let leftKey: (() => Promise<void>) | undefined = undefined;
 let rightKey: (() => Promise<void>) | undefined = undefined;
+
+export const loadStartScreen = async () => {
+  const exists = await walletExists();
+  if (exists) {
+    pushMenu('unlock');
+  } else {
+    pushMenu('onboard');
+  }
+};
 
 export const navigationReload = (value: SoftwareKeysState = undefined) => {
   const elements: Element[] = Array.from(
