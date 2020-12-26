@@ -63,6 +63,10 @@
         )
     }
 
+    const getAccountAlias = (alias) => {
+        return alias ? alias : 'unnamed-account'
+    }
+
     beforeUpdate(() => setSoftwareKeys({
         middleKey: undefined,
         leftKey: {
@@ -89,7 +93,7 @@
         {:else}
             <List>
                 {#each wallet.accounts as account}
-                    <WithSecondary primaryText={account.alias} on:click={() => selectAccount(account)} secondaryText={account.address} />
+                    <WithSecondary primaryText={account.alias} primaryLanguageId={account.alias || 'unnamed-account'} on:click={() => selectAccount(account)} secondaryText={account.address} />
                 {/each}
             </List>
         {/if}

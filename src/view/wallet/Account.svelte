@@ -27,9 +27,9 @@
         if (account === undefined) {
             return ''
         } else if (account && account.balance) {
-            return `${account.alias} ${rawToNano(account.balance, 5).amount} Nano`
+            return `${account.alias || ''} ${rawToNano(account.balance, 5).amount} Nano`
         } else {
-            return `${account.alias}`
+            return `${account.alias || ''}`
         }
     }
 
