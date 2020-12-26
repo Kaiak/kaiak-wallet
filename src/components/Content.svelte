@@ -1,10 +1,10 @@
 <script lang="ts">
     export let titleKey: string
     export let title: string | undefined
+    export let fullscreen: boolean = false
 </script>
 
 <style>
-
     .kui-content-area{
         /*overflow: hidden;*/
         overflow: scroll;
@@ -39,9 +39,11 @@
     }
 </style>
 
-<div class="kui-header">
-    <h1 class="kui-h1" data-l10n-id={titleKey}>{title}</h1>
-</div>
+{#if !fullscreen}
+    <div class="kui-header">
+        <h1 class="kui-h1" data-l10n-id={titleKey}>{title}</h1>
+    </div>
+{/if}
 <div class="kui-content-area">
     <slot />
 </div>
