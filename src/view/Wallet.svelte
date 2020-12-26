@@ -39,7 +39,6 @@
             reset();
         }
         fullscreen = value.menu === 'wallet' && value.accountAction === 'send_qr'
-        console.log(fullscreen)
     });
     const selectAccount = (account: NanoAccount) => {
         setWalletState({
