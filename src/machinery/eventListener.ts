@@ -35,6 +35,7 @@ export const navigationReload = (value: SoftwareKeysState = undefined) => {
   navigation = new Navigation(elements);
   document.addEventListener('keydown', handleKeydown);
   navigation.focus();
+  console.log(value);
   if (value) {
     setSoftwareKeys(value);
   }

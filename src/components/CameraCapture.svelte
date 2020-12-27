@@ -4,7 +4,8 @@
     import jsQR, {QRCode} from "jsqr";
     import type {NanoAddress} from "../machinery/models";
     import {tools} from "nanocurrency-web";
-    import {clearSoftwareKeys, setSoftwareKeys} from "../machinery/SoftwareKeysState";
+    import {clearSoftwareKeys} from "../machinery/SoftwareKeysState";
+    import {navigationReload} from "../machinery/eventListener";
 
     export let scannedAddress: (address: NanoAddress) => void
 
@@ -17,9 +18,9 @@
         const video: HTMLVideoElement = document.querySelector('#video');
         video.srcObject = videoPreview
         await video.play()
-        setSoftwareKeys({
+        navigationReload({
             middleKey: {
-                onClick: () => captureCameraImage(),
+                onClick: captureCameraImage,
                 languageId: "softkey-capture-camera"
             },
         })
@@ -71,7 +72,7 @@
     }
 
     onMount(async () => {
-        await startRecording()
+        setTimeout(async () => await startRecording(), 50);
     })
 
     onDestroy(() => {
