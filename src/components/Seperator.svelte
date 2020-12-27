@@ -16,6 +16,6 @@
     }
 </style>
 
-<div class="kui-separator navigation">
+<div class="kui-separator">
     <p class="kui-thi" data-l10n-id={languageId}>{primaryText}</p>
 </div>
