@@ -34,7 +34,10 @@ export const navigationReload = (value: SoftwareKeysState = undefined) => {
   document.removeEventListener('keydown', handleKeydown);
   navigation = new Navigation(elements);
   document.addEventListener('keydown', handleKeydown);
-  navigation.focus();
+  const inputElement = elements.find((e) => e instanceof HTMLInputElement);
+  if (inputElement) {
+    navigation.focus();
+  }
   if (value) {
     setSoftwareKeys(value);
   }

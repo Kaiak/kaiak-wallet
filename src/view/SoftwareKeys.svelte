@@ -17,6 +17,23 @@
 
 </script>
 
+<style>
+    .kui-software-key {
+        display: flex;
+        background-color: #cccccc;
+        align-items: center;
+        color: #212529;
+        border-top: 2px #cbcbcb solid;
+        white-space: nowrap;
+        font-weight: 700;
+        box-sizing: border-box;
+        padding: 10px 5px;
+    }
+    .kui-software-key h5 {
+        width: 33.3333333333%;
+    }
+</style>
+
 <div class="kui-software-key">
 
     {#if leftKey}
@@ -34,5 +51,4 @@
     {:else}
         <h5 role="button" class="kui-h5 kui-text-right"></h5>
     {/if}
-
 </div>

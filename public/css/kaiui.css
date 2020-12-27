@@ -126,50 +126,9 @@ h1, h2, h3, h4, h5, ul, p {
     font-weight: 400;
 }
 
-.kui-thi {
-    font-size: 12px;
-    font-weight: 400;
-}
-
 .kui-link {
     font-size: 17px;
     font-weight: 700;
-}
-
-/* ============== Separator ============== */
-.kui-separator {
-    color: #6a6a6a;
-    height: 28px;
-    background-color: #e6e6e6;
-    line-height: 28px;
-    padding-left: 10px;
-    margin-bottom: 10px;
-}
-
-/* ============== Software key ============== */
-.kui-software-key {
-    height: 30px;
-    background-color: #cccccc;
-    display: flex;
-    align-items: center;
-    padding: 0 5px;
-    color: #212529;
-    max-height: 30px;
-    width: 100%;
-    max-width: 100%;
-    border-top: 2px #cbcbcb solid;
-    flex-shrink: 0;
-    white-space: nowrap;
-    font-weight: 700;
-    box-sizing: border-box;
-    line-height: 26px;
-    margin-top: auto;
-    position: absolute;
-    bottom: 0;
-}
-
-.kui-software-key h5 {
-    width: 33.3333333333%;
 }
 
 /* ============== Toast ============== */
@@ -314,6 +273,7 @@ button.kui-btn:focus {
     color: #212529;
     display: block;
     padding-bottom: 8px;
+    padding-top: 8px;
 }
 
 .kui-input-holder.kui-focus-within .kui-input-label {
