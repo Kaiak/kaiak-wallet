@@ -6,7 +6,6 @@
     import {tools} from "nanocurrency-web";
     import {clearSoftwareKeys} from "../machinery/SoftwareKeysState";
     import {navigationReload, pushToast} from "../machinery/eventListener";
-    import {load} from "../machinery/loader-store";
 
     export let scannedAddress: (address: NanoAddress) => void
 
@@ -36,31 +35,26 @@
     }
 
     const captureCameraImage = async () => {
-        await load({
-            languageId: 'decoding-qr',
-            load: async () => {
-                try {
-                    showVideo = false;
-                    const track = videoPreview.getVideoTracks()[0];
-                    let imageCapture = new ImageCapture(track);
-                    const frame = await imageCapture.grabFrame();
-                    const canvas: HTMLCanvasElement = document.querySelector('#canvas');
+        try {
+            showVideo = false;
+            const track = videoPreview.getVideoTracks()[0];
+            let imageCapture = new ImageCapture(track);
+            const frame = await imageCapture.grabFrame();
+            const canvas: HTMLCanvasElement = document.querySelector('#canvas');
 
-                    // set canvas dimensions to video ones to not truncate picture
-                    canvas.width = frame.width;
-                    canvas.height = frame.height;
+            // set canvas dimensions to video ones to not truncate picture
+            canvas.width = frame.width;
+            canvas.height = frame.height;
 
-                    // copy full video frame into the canvas
-                    let context = canvas.getContext('2d');
-                    context.drawImage(frame, 0, 0, frame.width, frame.height);
-                    const imageData: ImageData = context.getImageData(0, 0, frame.width, frame.height)
-                    await decodeImage(imageData)
-                    track.stop();
-                } catch (e) {
-                    console.log(e)
-                }
-            }
-        })
+            // copy full video frame into the canvas
+            let context = canvas.getContext('2d');
+            context.drawImage(frame, 0, 0, frame.width, frame.height);
+            const imageData: ImageData = context.getImageData(0, 0, frame.width, frame.height)
+            await decodeImage(imageData)
+            track.stop();
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const decodeImage = async (imageData) => {
