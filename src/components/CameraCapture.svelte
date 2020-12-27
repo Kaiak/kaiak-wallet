@@ -12,18 +12,30 @@
     let videoPreview: MediaStream | undefined
     let showVideo: boolean = true
 
-    const startRecording = async () => {
-        showVideo = true
-        videoPreview = await navigator.mediaDevices.getUserMedia({video: true})
-        const video: HTMLVideoElement = document.querySelector('#video');
-        video.srcObject = videoPreview
-        await video.play()
+    const setCaptureKeys = () => {
         navigationReload({
             middleKey: {
                 onClick: captureCameraImage,
                 languageId: "softkey-capture-camera"
             },
         })
+    }
+    const setLoadingKeys = () => {
+        navigationReload({
+            middleKey: {
+                onClick: async () => {},
+                languageId: "softkey-capture-scanning"
+            },
+        })
+    }
+
+    const startRecording = async () => {
+        showVideo = true
+        videoPreview = await navigator.mediaDevices.getUserMedia({video: true})
+        const video: HTMLVideoElement = document.querySelector('#video');
+        video.srcObject = videoPreview
+        await video.play()
+        setCaptureKeys();
     }
 
     const stopRecording = () => {
@@ -36,6 +48,7 @@
 
     const captureCameraImage = async () => {
         try {
+            setLoadingKeys()
             showVideo = false;
             const track = videoPreview.getVideoTracks()[0];
             let imageCapture = new ImageCapture(track);
@@ -65,6 +78,7 @@
                 scannedAddress(code.data)
             } else {
                 pushToast({languageId: 'unable-to-scan'})
+                setCaptureKeys();
                 await startRecording();
             }
         } catch (e) {
