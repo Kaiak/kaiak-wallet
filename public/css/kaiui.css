@@ -30,18 +30,6 @@ h1, h2, h3, h4, h5, ul, p {
     height: 26px;
 }
 
-#kui-app {
-    width: 100%;
-    height: 100%;
-    font-family: 'Open Sans';
-}
-
-.kui-content-area{
-    /*overflow: hidden;*/
-    overflow: scroll;
-    position: relative;
-}
-
 .kui-overlay {
     width: 100%;
     height: 100%;
@@ -101,10 +89,6 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 /* ============== Font ============== */
-.kui-h1 {
-    font-size: 17px;
-    font-weight: 300;
-}
 
 .kui-h2 {
     font-size: 17px;
@@ -142,61 +126,9 @@ h1, h2, h3, h4, h5, ul, p {
     font-weight: 400;
 }
 
-.kui-thi {
-    font-size: 12px;
-    font-weight: 400;
-}
-
 .kui-link {
     font-size: 17px;
     font-weight: 700;
-}
-
-/* ============== Header ============== */
-.kui-header {
-    height: 28px;
-    line-height: 28px;
-    background-color: #529aee;
-    color: #fff;
-    text-align: center;
-    margin-top: -0.7em;
-    margin-bottom: 10px;
-}
-
-/* ============== Separator ============== */
-.kui-separator {
-    color: #6a6a6a;
-    height: 28px;
-    background-color: #e6e6e6;
-    line-height: 28px;
-    padding-left: 10px;
-    margin-bottom: 10px;
-}
-
-/* ============== Software key ============== */
-.kui-software-key {
-    height: 30px;
-    background-color: #cccccc;
-    display: flex;
-    align-items: center;
-    padding: 0 5px;
-    color: #212529;
-    max-height: 30px;
-    width: 100%;
-    max-width: 100%;
-    border-top: 2px #cbcbcb solid;
-    flex-shrink: 0;
-    white-space: nowrap;
-    font-weight: 700;
-    box-sizing: border-box;
-    line-height: 26px;
-    margin-top: auto;
-    position: absolute;
-    bottom: 0;
-}
-
-.kui-software-key h5 {
-    width: 33.3333333333%;
 }
 
 /* ============== Toast ============== */
@@ -341,6 +273,7 @@ button.kui-btn:focus {
     color: #212529;
     display: block;
     padding-bottom: 8px;
+    padding-top: 8px;
 }
 
 .kui-input-holder.kui-focus-within .kui-input-label {
@@ -451,10 +384,6 @@ button.kui-btn:focus {
 
 /* KaiOS portrait devices (240x320) */
 @media only screen and (orientation : portrait) {
-    .kui-content-area {
-        height: 15.8rem;
-    }
-
     .kui-option-menu {
         height: 178px;
     }
@@ -466,10 +395,6 @@ button.kui-btn:focus {
 
 /* KaiOS landscape devices (320x240) */
 @media screen and (orientation: landscape) {
-    .kui-content-area {
-        height: 156px;
-    }
-
     .kui-option-menu {
         height: 128px;
     }

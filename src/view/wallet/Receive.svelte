@@ -11,6 +11,12 @@
     })
 </script>
 
+<style>
+    img {
+        width: 100%;
+    }
+</style>
+
 {#if dataUrl}
     <img src={dataUrl} alt={account.address} />
 {/if}

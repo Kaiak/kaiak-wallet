@@ -1,8 +1,23 @@
 import App from './App.svelte';
-import { loadStartScreen } from './machinery/eventListener';
+import {
+  ignoreOnCameraBlur,
+  loadStartScreen,
+  reset,
+} from './machinery/eventListener';
 
 window.addEventListener('focus', async () => {
-  await loadStartScreen();
+  if (ignoreOnCameraBlur()) {
+    return;
+  }
+  setTimeout(async () => {
+    await loadStartScreen();
+  }, 300);
+});
+window.addEventListener('blur', () => {
+  if (ignoreOnCameraBlur()) {
+    return;
+  }
+  reset();
 });
 
 const app = new App({

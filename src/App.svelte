@@ -36,9 +36,17 @@
 	})
 </script>
 
+<style>
+	.kui-app {
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+</style>
+
 <main>
 	<Toast/>
-	<div id="kui-app">
+	<div class="kui-app">
 		{#if loader}
 			<Content titleKey="loading">
 				<LabelledLoader languageId={loader.languageId}/>

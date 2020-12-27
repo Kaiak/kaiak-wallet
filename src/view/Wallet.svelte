@@ -25,6 +25,7 @@
     let accountAction: AccountAction | undefined
 
     let wallet: NanoWallet | undefined = undefined;
+    let fullscreen: boolean = false;
 
     const usubWallet = walletStore.subscribe<WalletState>(value => {
         wallet = value.wallet;
@@ -34,9 +35,7 @@
 
     const usubNavi = navigationStore.subscribe<NavigationState>(value => {
         accountAction = value.accountAction
-        if(value.menu === 'unlock') {
-            reset();
-        }
+        fullscreen = value.menu === 'wallet' && value.accountAction === 'send_qr'
     });
     const selectAccount = (account: NanoAccount) => {
         setWalletState({
@@ -87,7 +86,7 @@
 </script>
 
 {#if wallet}
-    <Content titleKey="wallet">
+    <Content titleKey="wallet" fullscreen={fullscreen}>
         {#if selectedAccount && accountAction}
             <Account wallet={wallet} selectedAccount={selectedAccount} action={accountAction} transactions={transactions}/>
         {:else}

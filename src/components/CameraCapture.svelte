@@ -4,12 +4,30 @@
     import jsQR, {QRCode} from "jsqr";
     import type {NanoAddress} from "../machinery/models";
     import {tools} from "nanocurrency-web";
-    import {clearSoftwareKeys, setSoftwareKeys} from "../machinery/SoftwareKeysState";
+    import {clearSoftwareKeys} from "../machinery/SoftwareKeysState";
+    import {navigationReload, pushToast} from "../machinery/eventListener";
 
     export let scannedAddress: (address: NanoAddress) => void
 
     let videoPreview: MediaStream | undefined
     let showVideo: boolean = true
+
+    const setCaptureKeys = () => {
+        navigationReload({
+            middleKey: {
+                onClick: captureCameraImage,
+                languageId: "softkey-capture-camera"
+            },
+        })
+    }
+    const setLoadingKeys = () => {
+        navigationReload({
+            middleKey: {
+                onClick: async () => {},
+                languageId: "softkey-capture-scanning"
+            },
+        })
+    }
 
     const startRecording = async () => {
         showVideo = true
@@ -17,12 +35,7 @@
         const video: HTMLVideoElement = document.querySelector('#video');
         video.srcObject = videoPreview
         await video.play()
-        setSoftwareKeys({
-            middleKey: {
-                onClick: () => captureCameraImage(),
-                languageId: "softkey-capture-camera"
-            },
-        })
+        setCaptureKeys();
     }
 
     const stopRecording = () => {
@@ -35,6 +48,7 @@
 
     const captureCameraImage = async () => {
         try {
+            setLoadingKeys()
             showVideo = false;
             const track = videoPreview.getVideoTracks()[0];
             let imageCapture = new ImageCapture(track);
@@ -63,6 +77,8 @@
                 stopRecording();
                 scannedAddress(code.data)
             } else {
+                pushToast({languageId: 'unable-to-scan'})
+                setCaptureKeys();
                 await startRecording();
             }
         } catch (e) {
@@ -71,7 +87,7 @@
     }
 
     onMount(async () => {
-        await startRecording()
+        setTimeout(async () => await startRecording(), 200);
     })
 
     onDestroy(() => {

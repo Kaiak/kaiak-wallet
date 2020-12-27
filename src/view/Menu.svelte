@@ -7,15 +7,15 @@
     import type {NavigationState, AccountAction, MenuSelector} from "../machinery/NavigationState";
     import type {NanoAccount} from "../machinery/models";
     import {back, navigationReload, pushState} from "../machinery/eventListener";
-    import {afterUpdate} from "svelte";
+    import {afterUpdate, onDestroy} from "svelte";
 
     let state: NavigationState
     let selectedAccount: NanoAccount | undefined
 
-    navigationStore.subscribe(value => {
+    const usubNavi = navigationStore.subscribe(value => {
         state = value
     })
-    walletStore.subscribe(value => {
+    const usubWallet = walletStore.subscribe(value => {
         selectedAccount = value.wallet && value.selectedAccount ? value.wallet.accounts.filter(a => a.address === value.selectedAccount)[0] : undefined
     })
 
@@ -34,6 +34,10 @@
             }
         }
     ))
+    onDestroy(() => {
+        usubNavi()
+        usubWallet()
+    })
 </script>
 
 <Content titleKey="menu">

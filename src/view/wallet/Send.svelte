@@ -40,7 +40,9 @@
     }
 
     const setMax = () => {
-        sendValue = Number.parseFloat(rawToNano(balance, 10).amount)
+        if(balance && balance.raw) {
+            sendValue = Number.parseFloat(rawToNano(balance, 10).amount)
+        }
     }
 
     const send = async () => {

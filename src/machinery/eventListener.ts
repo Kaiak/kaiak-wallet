@@ -18,6 +18,14 @@ let middleKey: (() => Promise<void>) | undefined = undefined;
 let leftKey: (() => Promise<void>) | undefined = undefined;
 let rightKey: (() => Promise<void>) | undefined = undefined;
 
+let stack = new NavigationStack();
+
+/** Asking for permissions blurs / focuses screen, we need to ignore on those events */
+export function ignoreOnCameraBlur(): boolean {
+  let current = stack.peek();
+  return current?.menu === 'wallet' && current?.accountAction === 'send_qr';
+}
+
 export const loadStartScreen = async () => {
   const exists = await walletExists();
   if (exists) {
@@ -45,8 +53,6 @@ softwareKeysStore.subscribe((value: SoftwareKeysState) => {
   middleKey = value.middleKey?.onClick;
   rightKey = value.rightKey?.onClick;
 });
-
-let stack = new NavigationStack();
 
 export function reset(): void {
   stack = new NavigationStack();
