@@ -35,9 +35,6 @@
 
     const usubNavi = navigationStore.subscribe<NavigationState>(value => {
         accountAction = value.accountAction
-        if(value.menu === 'unlock') {
-            reset();
-        }
         fullscreen = value.menu === 'wallet' && value.accountAction === 'send_qr'
     });
     const selectAccount = (account: NanoAccount) => {

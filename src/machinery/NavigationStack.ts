@@ -1,5 +1,6 @@
 import type { NavigationState } from './NavigationState';
 import { navigationStore } from '../stores/stores';
+import { START_STATE } from './NavigationState';
 
 export class NavigationStack {
   private readonly data: NavigationState[] = [];
@@ -8,6 +9,7 @@ export class NavigationStack {
   constructor() {
     this.data = [];
     this.top = 0;
+    navigationStore.set(START_STATE);
   }
 
   push(state: NavigationState): void {
