@@ -48,7 +48,8 @@
 
     const captureCameraImage = async () => {
         try {
-            setLoadingKeys()
+            clearSoftwareKeys();
+            pushToast({languageId: 'softkey-capture-scanning'})
             showVideo = false;
             const track = videoPreview.getVideoTracks()[0];
             let imageCapture = new ImageCapture(track);
@@ -76,6 +77,7 @@
             if (code && tools.validateAddress(code.data)) {
                 stopRecording();
                 scannedAddress(code.data)
+                pushToast({languageId: 'address-scanned', type: 'success'})
             } else {
                 pushToast({languageId: 'unable-to-scan'})
                 setCaptureKeys();

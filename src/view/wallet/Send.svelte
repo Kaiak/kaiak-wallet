@@ -60,9 +60,10 @@
                             wallet: wallet,
                             selectedAccount: updatedAccount.address
                         })
+                        pushToast({ languageId: 'sent-funds-success', type: 'success' })
                         pushAccountAction(undefined)
                     } else {
-                        pushToast({ languageId: 'unable-to-send' })
+                        pushToast({ languageId: 'unable-to-send', type: 'warn' })
                     }
                 },
             })
