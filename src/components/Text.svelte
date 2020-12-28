@@ -11,8 +11,8 @@
 </style>
 
 {#if breakAll}
-    <div class="kui-body kui-text kui-text-break navigation" tabindex="1" data-l10n-id="{languageId}" on:click><slot></slot></div>
+    <div class="kui-body kui-text kui-text-break navigation" tabindex="1" data-l10n-id="{languageId}" on:click on:focus><slot></slot></div>
 {:else}
-    <div class="kui-body kui-text navigation" tabindex="1" data-l10n-id="{languageId}" on:click><slot></slot></div>
+    <div class="kui-body kui-text navigation" tabindex="1" data-l10n-id="{languageId}" on:click on:focus><slot></slot></div>
 {/if}
 

@@ -4,16 +4,28 @@
     import type {WalletResult} from "../../machinery/wallet";
     import Seperator from "../../components/Seperator.svelte";
     import {back, navigationReload, pushOnboardState} from "../../machinery/eventListener";
+    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
     export let walletResult: WalletResult;
 
-    afterUpdate(() => navigationReload({
+    const seedStringGotFocus = () => {
+        setSoftwareKeys({
+            leftKey: {
+                languageId: 'onboard-button-back',
+                onClick: async () => {
+                    back()
+                }
+            },
             middleKey: {
                 languageId: 'onboard-seed-stored',
                 onClick: async () => {
                     pushOnboardState( {view: 'account', walletResult: walletResult, alias: undefined })
                 }
-            },
+            }
+        })
+    }
+
+    afterUpdate(() => navigationReload({
             leftKey: {
                 languageId: 'onboard-button-back',
                 onClick: async () => {
@@ -27,4 +39,4 @@
 <Seperator languageId="wallet-mnemonic"/>
 <Text>{walletResult.mnemonic}</Text>
 <Seperator languageId="wallet-seed" />
-<Text breakAll=true>{walletResult.seed}</Text>
+<Text breakAll={true} on:focus={seedStringGotFocus}>{walletResult.seed}</Text>
