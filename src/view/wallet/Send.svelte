@@ -40,7 +40,7 @@
         }
     }
 
-    const setMax = () => {
+    const setMax = async () => {
         if(balance && balance.raw) {
             sendValue = Number.parseFloat(rawToNano(balance, 10).amount)
         }
@@ -75,7 +75,22 @@
         setType('send_address');
     }
 
-    afterUpdate(() => navigationReload())
+    afterUpdate(() => {
+        if(sendType === 'send_address') {
+            navigationReload({
+                leftKey: {
+                    languageId: 'set-max-button',
+                    onClick: setMax
+                },
+                middleKey: {
+                    languageId: 'send-button',
+                    onClick: send
+                }
+            })
+        } else {
+            navigationReload()
+        }
+    })
 
 </script>
 
@@ -84,6 +99,4 @@
 {:else}
     <LabelledInput languageId="send-address" type="text" on:input={setAddress} value={toAddress}/>
     <LabelledInput languageId="send-amount" type="text" on:input={setAmount} value={sendValue}/>
-    <Button languageId="send-max-button" on:click={setMax}/>
-    <Button languageId="send-button" on:click={send}/>
 {/if}
