@@ -60,7 +60,7 @@
                             wallet: wallet,
                             selectedAccount: updatedAccount.address
                         })
-                        pushAccountAction('overview')
+                        pushAccountAction(undefined)
                     } else {
                         pushToast({ languageId: 'unable-to-send' })
                     }

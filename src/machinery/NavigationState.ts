@@ -9,7 +9,6 @@ export type MenuSelector =
   | 'unlock'
   | 'onboard';
 export type AccountAction =
-  | 'overview'
   | 'send'
   | 'transactions'
   | 'receive'
