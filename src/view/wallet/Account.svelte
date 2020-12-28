@@ -11,7 +11,7 @@
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
-    import {afterUpdate} from "svelte";
+    import {afterUpdate, beforeUpdate} from "svelte";
     import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
@@ -61,13 +61,17 @@
             }
         })
     }
-    afterUpdate(() => navigationReload({
-        leftKey: {
-            languageId: 'update-button',
-            onClick: triggerRefresh
-        },
-        rightKey: SOFT_KEY_MENU,
-    }))
+    afterUpdate(() => {
+        if(action === 'overview') {
+            navigationReload({
+                leftKey: {
+                    languageId: 'update-button',
+                    onClick: triggerRefresh
+                },
+                rightKey: SOFT_KEY_MENU,
+            })
+        }
+    })
 
 </script>
 

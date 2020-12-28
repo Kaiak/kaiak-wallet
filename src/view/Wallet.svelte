@@ -11,14 +11,12 @@
         pushAccountAction,
         pushMenu,
         pushToast,
-        reset,
     } from "../machinery/eventListener";
     import {addNanoAccount} from "../machinery/wallet";
-    import {afterUpdate, beforeUpdate, onDestroy} from "svelte";
+    import {afterUpdate, onDestroy} from "svelte";
     import {setWalletState} from "../machinery/WalletState";
     import type {WalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
-    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
     let selectedAccount: NanoAccount | undefined
     let transactions: NanoTransaction[] | undefined
@@ -66,18 +64,24 @@
         return alias ? alias : 'unnamed-account'
     }
 
-    beforeUpdate(() => setSoftwareKeys({
-        middleKey: undefined,
-        leftKey: {
-            languageId: 'add-account',
-            onClick: async () => addAccount()
-        },
-        rightKey: {
-            languageId: 'rightNavButton',
-            onClick: async () => pushMenu('menu')
-        }
-    }))
-    afterUpdate(navigationReload)
+    $: showAccount = selectedAccount && accountAction
+
+    afterUpdate(() => {
+        if(!showAccount) {
+            navigationReload(
+                {
+                    middleKey: undefined,
+                    leftKey: {
+                        languageId: 'add-account',
+                        onClick: async () => addAccount()
+                    },
+                    rightKey: {
+                        languageId: 'rightNavButton',
+                        onClick: async () => pushMenu('menu')
+                    }
+                }
+            )
+    }})
 
     onDestroy(() => {
         usubNavi()
@@ -87,7 +91,7 @@
 
 {#if wallet}
     <Content titleKey="wallet" fullscreen={fullscreen}>
-        {#if selectedAccount && accountAction}
+        {#if showAccount}
             <Account wallet={wallet} selectedAccount={selectedAccount} action={accountAction} transactions={transactions}/>
         {:else}
             <List>

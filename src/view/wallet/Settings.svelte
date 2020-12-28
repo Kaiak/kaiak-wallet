@@ -2,10 +2,11 @@
     import type {NanoAccount, NanoWallet} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import LabelledInput from "../../components/LabelledInput.svelte";
-    import Button from "../../components/Button.svelte";
     import {setWallet} from "../../machinery/secure-storage";
     import {setWalletState} from "../../machinery/WalletState";
-    import {pushAccountAction} from "../../machinery/eventListener";
+    import {back, navigationReload} from "../../machinery/eventListener";
+    import {afterUpdate} from "svelte";
+    import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
 
     export let wallet: NanoWallet;
     export let selectedAccount: NanoAccount;
@@ -21,12 +22,18 @@
         const updated: NanoWallet | undefined = await setWallet(wallet)
         if (updated) {
             setWalletState({wallet: updated, selectedAccount: selectedAccount?.address})
-            pushAccountAction('overview')
+            back()
         } // TODO: Toast
     }
+
+    afterUpdate(() => navigationReload({
+        middleKey: {
+            languageId: 'button-save',
+            onClick: save
+        }
+    }));
 
 </script>
 
 <Seperator languageId="account-settings" />
 <LabelledInput languageId="account-alias" on:input={setAlias} bind:value={aliasValue}/>
-<Button languageId="save-button" on:click={save}/>
