@@ -6,6 +6,7 @@
     import {generateWallet} from "../../machinery/wallet";
     import type {WalletResult} from "../../machinery/wallet";
     import {load} from "../../machinery/loader-store";
+    import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
 
     afterUpdate(() => navigationReload({
         middleKey: {
@@ -20,12 +21,7 @@
                 })
             }
         },
-        leftKey: {
-            languageId: 'onboard-button-back',
-            onClick: async () => {
-                back()
-            }
-        },
+        leftKey: BACK_BUTTON,
     }))
 </script>
 

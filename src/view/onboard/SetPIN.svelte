@@ -7,6 +7,7 @@
     import {back, navigationReload, pushMenu, pushToast, reset} from "../../machinery/eventListener";
     import {afterUpdate} from "svelte";
     import {load} from "../../machinery/loader-store";
+    import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
 
     export let walletResult: WalletResult
     export let alias: string
@@ -40,10 +41,7 @@
             languageId: 'onboard-finish-button',
             onClick: tryToStore
         },
-        leftKey: {
-            languageId: 'onboard-button-back',
-            onClick: async () => { back() }
-        },
+        leftKey: BACK_BUTTON,
     }))
 </script>
 
