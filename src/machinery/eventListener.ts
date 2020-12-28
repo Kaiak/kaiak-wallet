@@ -125,7 +125,7 @@ export async function handleKeydown(e) {
       break;
     case 'Enter':
       if (middleKey) {
-        middleKey();
+        await middleKey();
       } else if (navigation.selection()) {
         navigation.selection().click();
       }
@@ -133,13 +133,13 @@ export async function handleKeydown(e) {
       break;
     case 'SoftLeft':
       if (leftKey) {
-        leftKey();
+        await leftKey();
         e.preventDefault();
       }
       break;
     case 'SoftRight':
       if (rightKey) {
-        rightKey();
+        await rightKey();
         e.preventDefault();
       }
       break;
