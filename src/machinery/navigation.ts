@@ -15,6 +15,7 @@ export class Navigation {
       this.targetElement = this.elements[this.current];
       this.targetElement.focus();
       this.selectedElement = this.targetElement;
+      this.selectedElement.scrollIntoView(false);
     }
   }
 
