@@ -1,105 +1,23 @@
 <script lang="ts">
-    import type {NanoAccount, NanoTransaction, NanoWallet} from "../machinery/models";
-    import List from "../components/List.svelte";
+    import type {NanoAccount, NanoTransaction} from "../machinery/models";
     import Account from "./wallet/Account.svelte";
-    import {navigationStore, walletStore} from "../stores/stores";
-    import WithSecondary from "../components/list/WithSecondary.svelte";
     import Content from "../components/Content.svelte";
-    import type {AccountAction, NavigationState} from "../machinery/NavigationState";
-    import {
-        navigationReload,
-        pushAccountAction,
-        pushMenu,
-        pushToast,
-    } from "../machinery/eventListener";
-    import {addNanoAccount} from "../machinery/wallet";
-    import {afterUpdate, onDestroy} from "svelte";
-    import {setWalletState} from "../machinery/WalletState";
+    import type {AccountAction} from "../machinery/NavigationState";
     import type {WalletState} from "../machinery/WalletState";
-    import {load} from "../machinery/loader-store";
 
-    let selectedAccount: NanoAccount | undefined
-    let transactions: NanoTransaction[] | undefined
-    let accountAction: AccountAction | undefined
-
-    let wallet: NanoWallet | undefined = undefined;
-    let fullscreen: boolean = false;
-
-    const usubWallet = walletStore.subscribe<WalletState>(value => {
-        wallet = value.wallet;
-        selectedAccount = wallet && value.selectedAccount ? wallet.accounts.filter(a => a.address === value.selectedAccount)[0] : undefined
-        transactions = value.transactions;
-    })
-
-    const usubNavi = navigationStore.subscribe<NavigationState>(value => {
-        accountAction = value.accountAction
-        fullscreen = value.menu === 'wallet' && value.accountAction === 'send_qr'
-    });
-    const selectAccount = (account: NanoAccount) => {
-        setWalletState({
-            wallet: wallet,
-            selectedAccount: account.address
-        })
-
-        pushAccountAction('overview')
+    const getSelectedAccount = (state: WalletState): NanoAccount | undefined => {
+        return state.wallet && state.selectedAccount ? state.wallet.accounts.filter(a => a.address === state.selectedAccount)[0] : undefined
     }
 
-    const addAccount = async () => {
-        await load(
-            {
-                languageId: 'adding-account',
-                load: async () => {
-                    const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
-                    if (updatedNanoWallet) {
-                        setWalletState({wallet: updatedNanoWallet, selectedAccount: selectedAccount?.address})
-                    } else {
-                        pushToast({languageId: 'unable-to-store'})
-                    }
-                },
-            }
-        )
-    }
+    export let walletState: WalletState
+    export let accountAction: AccountAction | undefined
+    export let fullscreen: boolean = false;
+    $: selectedAccount = getSelectedAccount(walletState)
 
-    const getAccountAlias = (alias) => {
-        return alias ? alias : 'unnamed-account'
-    }
-
-    $: showAccount = selectedAccount && accountAction
-
-    afterUpdate(() => {
-        if(!showAccount) {
-            navigationReload(
-                {
-                    middleKey: undefined,
-                    leftKey: {
-                        languageId: 'add-account',
-                        onClick: async () => addAccount()
-                    },
-                    rightKey: {
-                        languageId: 'rightNavButton',
-                        onClick: async () => pushMenu('menu')
-                    }
-                }
-            )
-    }})
-
-    onDestroy(() => {
-        usubNavi()
-        usubWallet()
-    })
+    let transactions: NanoTransaction[] | undefined = walletState?.transactions;
 </script>
 
-{#if wallet}
-    <Content titleKey="wallet" fullscreen={fullscreen}>
-        {#if showAccount}
-            <Account wallet={wallet} selectedAccount={selectedAccount} action={accountAction} transactions={transactions}/>
-        {:else}
-            <List>
-                {#each wallet.accounts as account}
-                    <WithSecondary primaryText={account.alias} primaryLanguageId={account.alias || 'unnamed-account'} on:click={() => selectAccount(account)} secondaryText={account.address} />
-                {/each}
-            </List>
-        {/if}
-    </Content>
-{/if}
+<Content titleKey="account" fullscreen={fullscreen}>
+    <Account wallet={walletState.wallet} selectedAccount={selectedAccount} action={accountAction} transactions={transactions}/>
+</Content>
 

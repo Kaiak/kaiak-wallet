@@ -6,10 +6,11 @@
     import {sendNano} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import CameraCapture from "../../components/CameraCapture.svelte";
-    import {pushAccountAction, pushToast} from "../../machinery/eventListener";
+    import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
     import type {AccountAction} from "../../machinery/NavigationState";
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
+    import {afterUpdate} from "svelte";
 
     export let wallet: NanoWallet;
     export let sendType: AccountAction;
@@ -73,6 +74,8 @@
         showCamera = false;
         setType('send_address');
     }
+
+    afterUpdate(() => navigationReload())
 
 </script>
 

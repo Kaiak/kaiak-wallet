@@ -1,7 +1,8 @@
 import type { WalletResult } from './wallet';
 
 export type MenuSelector =
-  | 'wallet'
+  | 'accounts'
+  | 'account'
   | 'setup'
   | 'menu'
   | 'about'

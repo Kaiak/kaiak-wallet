@@ -31,7 +31,7 @@
                 const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
                 const updatedNanoWallet: NanoWallet = await tryGetTransactions(data)
                 if(updatedNanoWallet) {
-                    pushState({menu: 'wallet', accountAction: undefined, onboardState: undefined})
+                    pushState({menu: 'accounts', accountAction: undefined, onboardState: undefined})
                     setWalletState({ wallet: updatedNanoWallet, selectedAccount: undefined })
                 } else {
                     pushToast({ languageId: 'wrong-pass' })

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {navigationStore} from "./stores/stores";
+	import {navigationStore, walletStore} from "./stores/stores";
 	import type {NavigationState} from "./machinery/NavigationState";
 	import Menu from "./view/Menu.svelte";
 	import Setup from "./view/Setup.svelte";
@@ -14,6 +14,8 @@
 	import type {Loader} from "./machinery/loader-store";
 	import LabelledLoader from "./components/LabelledLoader.svelte";
 	import Content from "./components/Content.svelte";
+	import type {WalletState} from "./machinery/WalletState";
+	import AccountList from "./view/AccountList.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -21,18 +23,17 @@
 
 	let state: NavigationState
 	let loader: Loader | undefined
+	let walletState: WalletState | undefined
+	$: fullscreen = state?.menu === 'account' && state?.accountAction === 'send_qr'
 
-	const usubLoader = loaderStore.subscribe((value) => {
-		loader = value
-	})
-
-	const usubNavigation = navigationStore.subscribe<NavigationState>(value => {
-		state = value
-	});
+	const unsubscribeLoader = loaderStore.subscribe((value) => loader = value)
+	const unsubscribeNavigation = navigationStore.subscribe<NavigationState>(value => state = value);
+	const unsubscribeWalletStore = walletStore.subscribe<WalletState>(value => walletState = value)
 
 	onDestroy(() => {
-		usubLoader()
-		usubNavigation()
+		unsubscribeLoader()
+		unsubscribeNavigation()
+		unsubscribeWalletStore()
 	})
 </script>
 
@@ -52,8 +53,10 @@
 				<LabelledLoader languageId={loader.languageId}/>
 			</Content>
 		{:else}
-			{#if state.menu === 'wallet'}
-				<Wallet />
+			{#if state.menu === 'accounts' && walletState?.wallet}
+				<AccountList wallet={walletState.wallet} />
+			{:else if state.menu === 'account' && walletState?.wallet && walletState?.selectedAccount}
+				<Wallet walletState={walletState} accountAction={state.accountAction} fullscreen={fullscreen} />
 			{:else if state.menu === 'onboard'}
 				<Onboard />
 			{:else if state.menu === 'setup'}

@@ -11,7 +11,7 @@
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
-    import {afterUpdate, beforeUpdate} from "svelte";
+    import {afterUpdate} from "svelte";
     import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
@@ -62,7 +62,7 @@
         })
     }
     afterUpdate(() => {
-        if(action === 'overview') {
+        if(!action) {
             navigationReload({
                 leftKey: {
                     languageId: 'update-button',
@@ -70,12 +70,14 @@
                 },
                 rightKey: SOFT_KEY_MENU,
             })
+        } else {
+            navigationReload()
         }
     })
 
 </script>
 
-{#if action === 'overview'}
+{#if !action}
     <Seperator primaryText={accountTitle(selectedAccount)}/>
     <List>
         <Primary primaryLanguageId="transactions" on:click={showTransactions}/>

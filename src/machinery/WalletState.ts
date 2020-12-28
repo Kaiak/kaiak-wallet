@@ -3,7 +3,7 @@ import { walletStore } from '../stores/stores';
 
 export interface WalletState {
   wallet: NanoWallet | undefined;
-  selectedAccount: NanoAddress | undefined;
+  selectedAccount?: NanoAddress;
   transactions?: NanoTransaction[];
 }
 
