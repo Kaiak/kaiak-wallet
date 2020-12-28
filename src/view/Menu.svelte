@@ -22,8 +22,8 @@
     const setAppView = (menu: MenuSelector) => {
         pushState({...state, menu: menu, accountAction: undefined })
     }
-    const setWalletView = (a: AccountAction) => {
-        pushState({...state, menu: 'wallet', accountAction: a})
+    const setAccountView = (a: AccountAction) => {
+        pushState({...state, menu: 'account', accountAction: a})
     }
 
     afterUpdate(() => navigationReload(
@@ -44,9 +44,9 @@
     <List>
         <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => setAppView('wallet')}/>
         {#if selectedAccount && state.accountAction}
-            <WithSecondary primaryLanguageId="send" secondaryText={selectedAccount.alias} on:click={() => setWalletView('send')}/>
-            <WithSecondary primaryLanguageId="transactions" secondaryText={selectedAccount.alias} on:click={() =>  setWalletView('transactions')}/>
-            <WithSecondary primaryLanguageId="receive" secondaryText={selectedAccount.alias} on:click={() =>  setWalletView('receive')}/>
+            <WithSecondary primaryLanguageId="send" secondaryText={selectedAccount.alias} on:click={() => setAccountView('send')}/>
+            <WithSecondary primaryLanguageId="transactions" secondaryText={selectedAccount.alias} on:click={() =>  setAccountView('transactions')}/>
+            <WithSecondary primaryLanguageId="receive" secondaryText={selectedAccount.alias} on:click={() =>  setAccountView('receive')}/>
         {/if}
         <Primary primaryLanguageId="about" primaryText="about" on:click={() => setAppView('about')}/>
         <Primary primaryLanguageId="setup" primaryText="setup" on:click={() => setAppView('setup')}/>
