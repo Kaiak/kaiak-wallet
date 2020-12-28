@@ -20,14 +20,15 @@
     .kui-content-area {
         flex: 1 1 auto;
         align-self: stretch;
-        overflow: hidden;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 </style>
+{#if !fullscreen}
+    <div class="kui-header">
+        <h1 class="kui-h1" data-l10n-id={titleKey}>{title}</h1>
+    </div>
+{/if}
 <div class="kui-content-area">
-    {#if !fullscreen}
-        <div class="kui-header">
-            <h1 class="kui-h1" data-l10n-id={titleKey}>{title}</h1>
-        </div>
-    {/if}
     <slot />
 </div>
