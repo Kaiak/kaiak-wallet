@@ -1,4 +1,4 @@
-import { pushMenu } from './eventListener';
+import { back, pushMenu } from './eventListener';
 import { writable, Writable } from 'svelte/store';
 
 export interface SoftKey {
@@ -27,6 +27,13 @@ export function setSoftwareKeys(state: SoftwareKeysState) {
 export const SOFT_KEY_MENU: SoftKey = {
   languageId: 'rightNavButton',
   onClick: async () => pushMenu('menu'),
+};
+
+export const BACK_BUTTON: SoftKey = {
+  languageId: 'button-back',
+  onClick: async () => {
+    back();
+  },
 };
 
 /** Sets software / menu keys */

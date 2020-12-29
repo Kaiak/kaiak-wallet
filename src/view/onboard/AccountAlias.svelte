@@ -5,6 +5,7 @@
     import {back, navigationReload, pushOnboardState, pushToast} from "../../machinery/eventListener";
     import {afterUpdate} from "svelte";
     import type {WalletResult} from "../../machinery/wallet";
+    import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
 
     export let walletResult: WalletResult
 
@@ -27,10 +28,7 @@
             languageId: 'onboard-set-alias-button',
             onClick: setAlias
         },
-        leftKey: {
-            languageId: 'onboard-button-back',
-            onClick: async () => { back() }
-        },
+        leftKey: BACK_BUTTON,
     }))
 </script>
 <Seperator languageId="onboard-set-alias"/>

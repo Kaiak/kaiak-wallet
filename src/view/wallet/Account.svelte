@@ -50,28 +50,35 @@
             load: async () => {
                 // TODO: Refresh transactions as well?
                 const updatedAccount = await loadWalletData(selectedAccount)
+                const resolvedTransactions = await resolveHistory(selectedAccount.address)
                 wallet.accounts = wallet.accounts.map(account => {
                     return account.address === updatedAccount.address ? updatedAccount : account
                 })
                 walletStore.set({
                     wallet: wallet,
                     selectedAccount: updatedAccount.address,
-                    transactions: transactions,
+                    transactions: resolvedTransactions,
                 })
             }
         })
     }
-    afterUpdate(() => navigationReload({
-        leftKey: {
-            languageId: 'update-button',
-            onClick: triggerRefresh
-        },
-        rightKey: SOFT_KEY_MENU,
-    }))
+    afterUpdate(() => {
+        if(!action) {
+            navigationReload({
+                leftKey: {
+                    languageId: 'update-button',
+                    onClick: triggerRefresh
+                },
+                rightKey: SOFT_KEY_MENU,
+            })
+        } else {
+            navigationReload()
+        }
+    })
 
 </script>
 
-{#if action === 'overview'}
+{#if !action}
     <Seperator primaryText={accountTitle(selectedAccount)}/>
     <List>
         <Primary primaryLanguageId="transactions" on:click={showTransactions}/>

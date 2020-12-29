@@ -4,18 +4,13 @@
     import type {WalletResult} from "../../machinery/wallet";
     import Seperator from "../../components/Seperator.svelte";
     import {back, navigationReload, pushOnboardState} from "../../machinery/eventListener";
-    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
+    import {BACK_BUTTON, setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
     export let walletResult: WalletResult;
 
     const seedStringGotFocus = () => {
         setSoftwareKeys({
-            leftKey: {
-                languageId: 'onboard-button-back',
-                onClick: async () => {
-                    back()
-                }
-            },
+            leftKey: BACK_BUTTON,
             middleKey: {
                 languageId: 'onboard-seed-stored',
                 onClick: async () => {
@@ -26,12 +21,7 @@
     }
 
     afterUpdate(() => navigationReload({
-            leftKey: {
-                languageId: 'onboard-button-back',
-                onClick: async () => {
-                    back()
-                }
-            },
+            leftKey: BACK_BUTTON,
         })
     )
 </script>

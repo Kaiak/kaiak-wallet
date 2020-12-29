@@ -1,14 +1,14 @@
 import type { WalletResult } from './wallet';
 
 export type MenuSelector =
-  | 'wallet'
+  | 'accounts'
+  | 'account'
   | 'setup'
   | 'menu'
   | 'about'
   | 'unlock'
   | 'onboard';
 export type AccountAction =
-  | 'overview'
   | 'send'
   | 'transactions'
   | 'receive'
