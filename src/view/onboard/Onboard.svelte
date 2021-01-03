@@ -27,7 +27,6 @@
         walletResult = onboardState?.walletResult
         accountAlias = onboardState?.alias
         attemptedSeedInput = onboardState?.attemptedSeedImport
-        console.log(attemptedSeedInput)
     })
     onDestroy(() => naviStore())
     beforeUpdate(() => navigationReload({
