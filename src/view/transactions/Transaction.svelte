@@ -28,7 +28,7 @@
 </script>
 <div>
     <span data-l10n-id={transactionType()}></span>
-    {rawToNano(transaction.amount, 5).amount}
+    {rawToNano(transaction.amount, 6).amount}
     <span data-l10n-id={direction()}></span>
     {transaction.account}
 </div>
