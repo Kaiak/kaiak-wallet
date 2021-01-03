@@ -1,7 +1,6 @@
 <script lang="ts">
     import {afterUpdate} from "svelte";
     import {navigationReload, pushOnboardState} from "../../machinery/eventListener";
-    import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
     import Seperator from "../../components/Seperator.svelte";
     import Text from "../../components/Text.svelte";
 
@@ -10,7 +9,6 @@
             languageId: 'onboard-disclaimer-ok',
             onClick: async () => { pushOnboardState({view: 'input-import'}) }
         },
-        leftKey: BACK_BUTTON,
     }))
 </script>
 

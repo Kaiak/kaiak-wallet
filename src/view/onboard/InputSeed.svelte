@@ -1,7 +1,6 @@
 <script lang="ts">
     import {afterUpdate} from "svelte";
     import {navigationReload, pushOnboardState, pushToast} from "../../machinery/eventListener";
-    import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
     import {load} from "../../machinery/loader-store";
     import {importWalletFromSeed} from "../../machinery/wallet";
     import type {WalletResult} from "../../machinery/wallet";
@@ -39,7 +38,6 @@
                 })
             }
         },
-        leftKey: BACK_BUTTON,
     }))
 
     const onInput = (event) => {
