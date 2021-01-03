@@ -6,12 +6,14 @@
     import {importWalletFromSeed} from "../../machinery/wallet";
     import type {WalletResult} from "../../machinery/wallet";
     import TextInput from "../../components/input/TextInput.svelte";
+    import Text from "../../components/Text.svelte";
 
-    let seedInputValue = undefined;
+    let seedInputValue = "";
 
     const isValidInput = () => {
         return seedInputValue.length === 64
     }
+    $: characterCount = (seedInputValue ? seedInputValue.length : "0") + "/64"
 
     afterUpdate(() => navigationReload({
         middleKey: {
@@ -41,3 +43,4 @@
 </script>
 
 <TextInput languageId="import-from-seed" on:input={onInput}/>
+<Text>{characterCount}</Text>
