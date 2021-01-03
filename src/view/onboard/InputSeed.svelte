@@ -2,10 +2,10 @@
     import {afterUpdate} from "svelte";
     import {navigationReload, pushOnboardState, pushToast} from "../../machinery/eventListener";
     import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
-    import LabelledInput from "../../components/LabelledInput.svelte";
     import {load} from "../../machinery/loader-store";
     import {importWalletFromSeed} from "../../machinery/wallet";
     import type {WalletResult} from "../../machinery/wallet";
+    import TextInput from "../../components/input/TextInput.svelte";
 
     let seedInputValue = undefined;
 
@@ -17,7 +17,7 @@
         middleKey: {
             languageId: 'import-wallet',
             onClick: async () => {
-                if(!isValidInput()) {
+                if (!isValidInput()) {
                     pushToast({languageId: 'invalid-seed-length', type: 'info'})
                     return;
                 }
@@ -26,7 +26,7 @@
                     load: async () => {
                         const walletResult: WalletResult = await importWalletFromSeed(seedInputValue)
                         pushToast({languageId: 'import-success', type: 'success'})
-                        pushOnboardState({ view: 'account', walletResult: walletResult, alias: undefined})
+                        pushOnboardState({view: 'account', walletResult: walletResult, alias: undefined})
                     },
                     onError: () => pushToast({languageId: 'invalid-seed', type: 'warn'})
                 })
@@ -40,4 +40,4 @@
     }
 </script>
 
-<LabelledInput languageId="import-from-seed" on:input={onInput}/>
+<TextInput languageId="import-from-seed" on:input={onInput}/>
