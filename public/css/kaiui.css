@@ -188,11 +188,11 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 .kui-list-cont .kui-sec {
-    color: #6a6a6a;
+    color: white;
 }
 
 .kui-list li:focus {
-    background-color: #676686;
+    background-color: #000034;
     outline: 0;
 }
 
