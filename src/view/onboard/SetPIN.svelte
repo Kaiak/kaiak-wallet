@@ -1,13 +1,13 @@
 <script lang="ts">
     import Seperator from "../../components/Seperator.svelte";
-    import LabelledInput from "../../components/LabelledInput.svelte";
     import type {NanoWallet} from "../../machinery/models";
     import type {WalletResult} from "../../machinery/wallet";
-    import {createWallet } from "../../machinery/wallet";
-    import {back, navigationReload, pushMenu, pushToast, reset} from "../../machinery/eventListener";
+    import {createWallet} from "../../machinery/wallet";
+    import {navigationReload, pushMenu, pushToast, reset} from "../../machinery/eventListener";
     import {afterUpdate} from "svelte";
     import {load} from "../../machinery/loader-store";
     import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
+    import NumberInput from "../../components/input/NumberInput.svelte";
 
     export let walletResult: WalletResult
     export let alias: string
@@ -21,15 +21,15 @@
         await load({
             languageId: 'storing-wallet',
             load: async () => {
-                if(inputPhrase === undefined || inputPhrase.length < 4) {
-                    pushToast({ languageId: 'onboard-validation-short-input'})
+                if (inputPhrase === undefined || inputPhrase.length < 4) {
+                    pushToast({languageId: 'onboard-validation-short-input'})
                 } else {
                     const storedWallet: NanoWallet | undefined = await createWallet(walletResult, inputPhrase, alias)
                     if (storedWallet) {
                         reset();
                         pushMenu('unlock')
                     } else {
-                        pushToast({ languageId: 'onboard-store-wallet-failed' })
+                        pushToast({languageId: 'onboard-store-wallet-failed'})
                     }
                 }
             }
@@ -46,4 +46,4 @@
 </script>
 
 <Seperator languageId="wallet-password" />
-<LabelledInput type="number" on:input={inputPassword} languageId="onboard-wallet-pin"/>
+<NumberInput on:input={inputPassword} languageId="onboard-wallet-pin"/>
