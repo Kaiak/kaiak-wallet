@@ -18,6 +18,9 @@
  * 14. Progress
  * ===========================
  */
+body {
+    font-family: 'Open Sans', sans-serif;
+}
 
 /* ============== Basic ============== */
 h1, h2, h3, h4, h5, ul, p {
@@ -173,7 +176,7 @@ h1, h2, h3, h4, h5, ul, p {
     width: 32px;
     height: 32px;
     border-radius: 10px;
-    background-color: #2f3235;
+    background-color: #F4FAFF;
     margin-right: 10px;
 }
 
@@ -182,7 +185,7 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 .kui-list-cont .kui-pri {
-    color: #212529;
+    color: #000034;
 }
 
 .kui-list-cont .kui-sec {
@@ -190,7 +193,7 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 .kui-list li:focus {
-    background-color: #60a5f5;
+    background-color: #676686;
     outline: 0;
 }
 

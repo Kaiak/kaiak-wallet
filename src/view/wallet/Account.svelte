@@ -11,12 +11,13 @@
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
-    import {afterUpdate} from "svelte";
+    import {afterUpdate, beforeUpdate} from "svelte";
     import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
     import {resolveHistory} from "../../machinery/nano-rpc-fetch-wrapper";
     import {setWalletState} from "../../machinery/WalletState";
+    import SendSelector from "./SendSelector.svelte";
 
     export let wallet: NanoWallet
     export let selectedAccount: NanoAccount
@@ -38,7 +39,11 @@
             languageId: 'loading-transactions',
             load: async () => {
                 const resolvedTransactions = await resolveHistory(selectedAccount.address)
-                setWalletState({wallet: wallet, selectedAccount: selectedAccount.address, transactions: resolvedTransactions})
+                setWalletState({
+                    wallet: wallet,
+                    selectedAccount: selectedAccount.address,
+                    transactions: resolvedTransactions
+                })
                 pushAccountAction('transactions')
             }
         })
@@ -51,8 +56,8 @@
                 // TODO: Refresh transactions as well?
                 const updatedAccount = await loadWalletData(selectedAccount)
                 const resolvedTransactions = await resolveHistory(selectedAccount.address)
-                if(resolvedTransactions.length > 0) {
-                    pushToast({ languageId: 'got-new-transactions', type: "success" })
+                if (resolvedTransactions.length > 0) {
+                    pushToast({languageId: 'got-new-transactions', type: "success"})
                 }
                 wallet.accounts = wallet.accounts.map(account => {
                     return account.address === updatedAccount.address ? updatedAccount : account
@@ -66,7 +71,8 @@
         })
     }
     afterUpdate(() => {
-        if(!action) {
+        console.log("upds account")
+        if (!action) {
             navigationReload({
                 leftKey: {
                     languageId: 'update-button',
@@ -92,15 +98,10 @@
 {:else if action === 'transactions'}
     <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
     <Transactions transactions={transactions}/>
-{:else if action.startsWith('send')}
-    {#if action === 'send_qr' || action === 'send_address'}
-        <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />
-    {:else}
-        <List>
-            <Primary primaryText="Send by QR code" on:click={() => pushAccountAction('send_qr')}/>
-            <Primary primaryText="Send by address" on:click={() => pushAccountAction('send_address')}/>
-        </List>
-    {/if}
+{:else if action === 'send'}
+    <SendSelector />
+{:else if action === 'send_qr' || action === 'send_address'}
+    <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />
 {:else if action === 'receive'}
     <Receive account={selectedAccount} />
 {:else if action === 'settings'}
