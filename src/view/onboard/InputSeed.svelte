@@ -5,8 +5,8 @@
     import {load} from "../../machinery/loader-store";
     import {importWalletFromSeed} from "../../machinery/wallet";
     import type {WalletResult} from "../../machinery/wallet";
-    import TextInput from "../../components/input/TextInput.svelte";
     import Text from "../../components/Text.svelte";
+    import TextArea from "../../components/input/TextArea.svelte";
 
     let seedInputValue = "";
 
@@ -42,5 +42,5 @@
     }
 </script>
 
-<TextInput languageId="import-from-seed" on:input={onInput}/>
+<TextArea languageId="import-from-seed" on:input={onInput}/>
 <Text>{characterCount}</Text>
