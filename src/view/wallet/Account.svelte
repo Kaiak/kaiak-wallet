@@ -71,7 +71,6 @@
         })
     }
     afterUpdate(() => {
-        console.log("upds account")
         if (!action) {
             navigationReload({
                 leftKey: {
