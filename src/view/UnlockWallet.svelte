@@ -46,13 +46,13 @@
     }
 
     const softwareKeys: SoftwareKeysState = {
-        leftKey: {
-            onClick: async () => pushOnboardState({ view: undefined }),
-            languageId: 'create-new-wallet'
-        },
         middleKey: {
             onClick: unlock,
             languageId: 'unlock-wallet'
+        },
+        rightKey: {
+            onClick: async () => pushOnboardState({ view: undefined }),
+            languageId: 'create-new-wallet'
         },
     }
 
