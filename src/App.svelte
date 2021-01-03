@@ -16,6 +16,7 @@
 	import Content from "./components/Content.svelte";
 	import type {WalletState} from "./machinery/WalletState";
 	import AccountList from "./view/AccountList.svelte";
+	import Import from "./view/import/Import.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -53,20 +54,22 @@
 				<LabelledLoader languageId={loader.languageId}/>
 			</Content>
 		{:else}
-			{#if state.menu === 'accounts' && walletState?.wallet}
+			{#if state === undefined || state.menu === 'unlock'}
+				<UnlockWallet />
+			{:else if state.menu === 'accounts' && walletState?.wallet}
 				<AccountList wallet={walletState.wallet} />
 			{:else if state.menu === 'account' && walletState?.wallet && walletState?.selectedAccount}
 				<Wallet walletState={walletState} accountAction={state.accountAction} fullscreen={fullscreen} />
 			{:else if state.menu === 'onboard'}
 				<Onboard />
+			{:else if state.menu === 'import'}
+				<Import />
 			{:else if state.menu === 'setup'}
 				<Setup />
 			{:else if state.menu === 'menu'}
 				<Menu />
 			{:else if state.menu === 'about'}
 				<About />
-			{:else if state.menu === 'unlock'}
-				<UnlockWallet />
 			{/if}
 			<SoftwareKeys/>
 		{/if}
