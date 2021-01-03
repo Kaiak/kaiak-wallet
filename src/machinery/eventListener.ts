@@ -2,7 +2,6 @@ import { toastStore } from '../stores/stores';
 import { Navigation } from './navigation';
 import type {
   AccountAction,
-  ImportState,
   MenuSelector,
   NavigationState,
   OnboardState,
@@ -75,11 +74,6 @@ export function pushAccountAction(action: AccountAction): void {
 export function pushOnboardState(updated: OnboardState): void {
   stack.pushOn((current: NavigationState | undefined) => {
     return { ...current, menu: 'onboard', onboardState: updated };
-  });
-}
-export function pushImportState(updated: ImportState): void {
-  stack.pushOn((current: NavigationState | undefined) => {
-    return { ...current, menu: 'import', importState: updated };
   });
 }
 

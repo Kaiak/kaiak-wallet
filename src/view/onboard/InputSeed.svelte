@@ -1,6 +1,6 @@
 <script lang="ts">
     import {afterUpdate} from "svelte";
-    import {navigationReload, pushImportState, pushOnboardState} from "../../machinery/eventListener";
+    import {navigationReload, pushOnboardState} from "../../machinery/eventListener";
     import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
     import LabelledInput from "../../components/LabelledInput.svelte";
     import {load} from "../../machinery/loader-store";
@@ -13,7 +13,6 @@
         middleKey: {
             languageId: 'import-wallet',
             onClick: async () => {
-                pushImportState({view: 'input'})
                 await load({
                     languageId: 'creating-wallet',
                     load: async () => {

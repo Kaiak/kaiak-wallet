@@ -16,7 +16,6 @@
 	import Content from "./components/Content.svelte";
 	import type {WalletState} from "./machinery/WalletState";
 	import AccountList from "./view/AccountList.svelte";
-	import Import from "./view/import/Import.svelte";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -62,8 +61,6 @@
 				<Wallet walletState={walletState} accountAction={state.accountAction} fullscreen={fullscreen} />
 			{:else if state.menu === 'onboard'}
 				<Onboard />
-			{:else if state.menu === 'import'}
-				<Import />
 			{:else if state.menu === 'setup'}
 				<Setup />
 			{:else if state.menu === 'menu'}

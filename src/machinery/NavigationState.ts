@@ -16,25 +16,25 @@ export type AccountAction =
   | 'send_qr'
   | 'send_address';
 
-export type OnboardView = 'start' | 'disclaimer' | 'seed' | 'account' | 'pin';
+export type OnboardView =
+  | 'start'
+  | 'disclaimer'
+  | 'seed'
+  | 'account'
+  | 'pin'
+  | 'disclaimer-import'
+  | 'input-import';
 
 export interface OnboardState {
   view: OnboardView;
-  walletResult: WalletResult;
-  alias: string;
-}
-
-export type ImportView = 'disclaimer' | 'input';
-
-export interface ImportState {
-  view: ImportView;
+  walletResult?: WalletResult;
+  alias?: string;
 }
 
 export interface NavigationState {
   menu: MenuSelector;
   accountAction: AccountAction;
   onboardState?: OnboardState;
-  importState?: ImportState;
 }
 
 export const START_STATE: NavigationState = {

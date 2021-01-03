@@ -10,6 +10,8 @@
     import AccountAlias from "./onboard/AccountAlias.svelte";
     import SetPIN from "./onboard/SetPIN.svelte";
     import type {WalletResult} from "../machinery/wallet";
+    import DisclaimerImport from "./onboard/DisclaimerImport.svelte";
+    import InputSeed from "./onboard/InputSeed.svelte";
 
     let onboardState: OnboardState | undefined = undefined
     let state: NavigationState | undefined = undefined
@@ -29,7 +31,7 @@
         middleKey: {
             languageId: 'onboard-start',
             onClick: async () => {
-                pushOnboardState({view: 'disclaimer', walletResult: undefined, alias: undefined })
+                pushOnboardState({view: 'disclaimer', walletResult: undefined, alias: undefined})
             }
         },
     }))
@@ -45,6 +47,10 @@
         <AccountAlias walletResult={walletResult} />
     {:else if view === 'pin'}
         <SetPIN walletResult={walletResult} alias={accountAlias} />
+    {:else if view === 'disclaimer-import'}
+        <DisclaimerImport />
+    {:else if view === 'input-import'}
+        <InputSeed />
     {:else}
         <Text languageId="onboard-title" />
         <Text breakAll={true} languageId="onboard-description"/>

@@ -49,7 +49,7 @@
         <h5 role="button"></h5>
     {/if}
     {#if rightKey}
-        <h5 role="button" data-l10n-id={rightKey.languageId}></h5>
+        <h5 role="button" on:click={rightKey.onClick} data-l10n-id={rightKey.languageId}></h5>
     {:else}
         <h5 role="button"></h5>
     {/if}
