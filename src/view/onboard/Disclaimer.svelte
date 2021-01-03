@@ -15,7 +15,7 @@
                     languageId: 'creating-wallet',
                     load: async () => {
                         const walletResult: WalletResult = await generateWallet()
-                        pushOnboardState({ view: 'seed', walletResult: walletResult, alias: undefined})
+                        pushOnboardState({ view: 'seed', walletResult: walletResult })
                     }
                 })
             }

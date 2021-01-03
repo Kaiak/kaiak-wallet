@@ -18,6 +18,7 @@
     let view: OnboardView | undefined = undefined
     let walletResult: WalletResult | undefined = undefined;
     let accountAlias: string | undefined = undefined;
+    let attemptedSeedInput: string | undefined = undefined
 
     const naviStore = navigationStore.subscribe((value) => {
         state = value;
@@ -25,6 +26,8 @@
         view = onboardState?.view;
         walletResult = onboardState?.walletResult
         accountAlias = onboardState?.alias
+        attemptedSeedInput = onboardState?.attemptedSeedImport
+        console.log(attemptedSeedInput)
     })
     onDestroy(() => naviStore())
     beforeUpdate(() => navigationReload({
@@ -54,7 +57,7 @@
     {:else if view === 'disclaimer-import'}
         <DisclaimerImport />
     {:else if view === 'input-import'}
-        <InputSeed />
+        <InputSeed seedInputValue={attemptedSeedInput} />
     {:else}
         <Text languageId="onboard-title" />
         <Text breakAll={true} languageId="onboard-description"/>

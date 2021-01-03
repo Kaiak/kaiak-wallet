@@ -8,12 +8,14 @@
     import Text from "../../components/Text.svelte";
     import TextArea from "../../components/input/TextArea.svelte";
 
-    let seedInputValue = "";
+    export let seedInputValue: string;
+
+    const MAX_SEED_LENGTH = 64;
 
     const isValidInput = () => {
         return seedInputValue.length === 64
     }
-    $: characterCount = (seedInputValue ? seedInputValue.length : "0") + "/64"
+    $: characterCount = `${seedInputValue ? seedInputValue.length : "0"}/${MAX_SEED_LENGTH}`
 
     afterUpdate(() => navigationReload({
         middleKey: {
@@ -28,9 +30,12 @@
                     load: async () => {
                         const walletResult: WalletResult = await importWalletFromSeed(seedInputValue)
                         pushToast({languageId: 'import-success', type: 'success'})
-                        pushOnboardState({view: 'account', walletResult: walletResult, alias: undefined})
+                        pushOnboardState({view: 'account', walletResult: walletResult, alias: undefined })
                     },
-                    onError: () => pushToast({languageId: 'invalid-seed', type: 'warn'})
+                    onError: () => {
+                        pushToast({languageId: 'invalid-seed', type: 'warn'})
+                        pushOnboardState({ view: 'input-import', attemptedSeedImport: seedInputValue })
+                    }
                 })
             }
         },
@@ -38,9 +43,14 @@
     }))
 
     const onInput = (event) => {
-        seedInputValue = event.target.value;
+        const nextValue = event.target.value;
+        if(nextValue.length <= MAX_SEED_LENGTH) {
+            seedInputValue = nextValue;
+        } else {
+            pushToast({languageId: 'seed-max-length', type: 'warn'})
+        }
     }
 </script>
 
-<TextArea languageId="import-from-seed" on:input={onInput}/>
+<TextArea languageId="import-from-seed" on:input={onInput} value={seedInputValue}/>
 <Text>{characterCount}</Text>

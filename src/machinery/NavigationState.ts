@@ -29,6 +29,7 @@ export interface OnboardState {
   view: OnboardView;
   walletResult?: WalletResult;
   alias?: string;
+  attemptedSeedImport?: string;
 }
 
 export interface NavigationState {

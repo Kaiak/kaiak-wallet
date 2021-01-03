@@ -57,8 +57,9 @@ export class Navigation {
       : null;
   }
 
-  inputSelection(): HTMLInputElement | null {
-    return this.selectedElement instanceof HTMLInputElement
+  inputSelection(): HTMLInputElement | HTMLTextAreaElement | null {
+    return this.selectedElement instanceof HTMLInputElement ||
+      this.selectedElement instanceof HTMLTextAreaElement
       ? this.selectedElement
       : null;
   }
