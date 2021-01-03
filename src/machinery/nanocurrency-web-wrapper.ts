@@ -6,12 +6,17 @@ import type {
   ReceiveBlock,
 } from 'nanocurrency-web/dist/lib/block-signer';
 
+function round(number: number, places: number): number {
+  return +(Math.round(Number(number + 'e+' + places)) + 'e-' + places);
+}
+
 /** Used for displaying RAW as NANO */
 export function rawToNano(raw: RAW, fractions?: number): NANO {
   return {
-    amount: Number.parseFloat(tools.convert(raw.raw, 'RAW', 'NANO')).toFixed(
+    amount: round(
+      Number(tools.convert(raw.raw, 'RAW', 'NANO')),
       fractions
-    ),
+    ).toString(),
   };
 }
 
