@@ -261,7 +261,6 @@ button.kui-btn:focus {
     padding: 0 10px 10px 10px;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    background-color: #fff;
 }
 
 .kui-input-holder.kui-focus-within {
