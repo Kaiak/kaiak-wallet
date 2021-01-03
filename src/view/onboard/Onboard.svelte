@@ -31,7 +31,7 @@
     onDestroy(() => naviStore())
     beforeUpdate(() => navigationReload({
         leftKey: {
-            languageId: 'create-wallet',
+            languageId: 'create',
             onClick: async () => {
                 pushOnboardState({view: 'disclaimer', walletResult: undefined, alias: undefined})
             }
