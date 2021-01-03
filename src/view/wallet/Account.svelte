@@ -6,7 +6,7 @@
     import Transactions from "./Transactions.svelte";
     import Receive from "./Receive.svelte";
     import type {AccountAction} from "../../machinery/NavigationState";
-    import {navigationReload, pushAccountAction} from "../../machinery/eventListener";
+    import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
     import {loadWalletData} from "../../machinery/nano-ops";
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import Settings from "./Settings.svelte";
@@ -51,6 +51,9 @@
                 // TODO: Refresh transactions as well?
                 const updatedAccount = await loadWalletData(selectedAccount)
                 const resolvedTransactions = await resolveHistory(selectedAccount.address)
+                if(resolvedTransactions.length > 0) {
+                    pushToast({ languageId: 'got-new-transactions', type: "success" })
+                }
                 wallet.accounts = wallet.accounts.map(account => {
                     return account.address === updatedAccount.address ? updatedAccount : account
                 })
