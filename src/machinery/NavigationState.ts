@@ -7,7 +7,8 @@ export type MenuSelector =
   | 'menu'
   | 'about'
   | 'unlock'
-  | 'onboard';
+  | 'onboard'
+  | 'import';
 export type AccountAction =
   | 'send'
   | 'transactions'
@@ -23,10 +24,17 @@ export interface OnboardState {
   alias: string;
 }
 
+export type ImportView = 'disclaimer' | 'input';
+
+export interface ImportState {
+  view: ImportView;
+}
+
 export interface NavigationState {
   menu: MenuSelector;
   accountAction: AccountAction;
-  onboardState: OnboardState | undefined;
+  onboardState?: OnboardState;
+  importState?: ImportState;
 }
 
 export const START_STATE: NavigationState = {
