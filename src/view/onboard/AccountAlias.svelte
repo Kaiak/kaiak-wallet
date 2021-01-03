@@ -4,7 +4,6 @@
     import {navigationReload, pushOnboardState, pushToast} from "../../machinery/eventListener";
     import {afterUpdate} from "svelte";
     import type {WalletResult} from "../../machinery/wallet";
-    import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
     import TextInput from "../../components/input/TextInput.svelte";
 
     export let walletResult: WalletResult
@@ -28,7 +27,6 @@
             languageId: 'onboard-set-alias-button',
             onClick: setAlias
         },
-        leftKey: BACK_BUTTON,
     }))
 </script>
 <Seperator languageId="onboard-set-alias"/>

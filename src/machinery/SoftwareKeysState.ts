@@ -29,12 +29,5 @@ export const SOFT_KEY_MENU: SoftKey = {
   onClick: async () => pushMenu('menu'),
 };
 
-export const BACK_BUTTON: SoftKey = {
-  languageId: 'button-back',
-  onClick: async () => {
-    back();
-  },
-};
-
 /** Sets software / menu keys */
 export const softwareKeysStore: Writable<SoftwareKeysState> = writable({});

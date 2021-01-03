@@ -3,14 +3,13 @@
     import {afterUpdate} from "svelte";
     import type {WalletResult} from "../../machinery/wallet";
     import Seperator from "../../components/Seperator.svelte";
-    import {back, navigationReload, pushOnboardState} from "../../machinery/eventListener";
-    import {BACK_BUTTON, setSoftwareKeys} from "../../machinery/SoftwareKeysState";
+    import {navigationReload, pushOnboardState} from "../../machinery/eventListener";
+    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
     export let walletResult: WalletResult;
 
     const seedStringGotFocus = () => {
         setSoftwareKeys({
-            leftKey: BACK_BUTTON,
             middleKey: {
                 languageId: 'onboard-seed-stored',
                 onClick: async () => {
@@ -20,10 +19,7 @@
         })
     }
 
-    afterUpdate(() => navigationReload({
-            leftKey: BACK_BUTTON,
-        })
-    )
+    afterUpdate(() => navigationReload())
 </script>
 
 <Seperator languageId="wallet-mnemonic"/>
