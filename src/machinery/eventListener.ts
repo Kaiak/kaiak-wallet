@@ -106,13 +106,9 @@ export async function handleKeydown(e) {
       e.preventDefault();
       break;
     case 'ArrowLeft':
-      if (
-        navigation.navigatesInInputField() &&
-        navigation.preventBackspaceInInputField()
-      ) {
+      if (navigation.navigatesInInputField()) {
         break;
-      } else {
-        back();
+      } else if (back()) {
         e.preventDefault();
       }
       break;
