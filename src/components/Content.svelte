@@ -6,8 +6,8 @@
 
 <style>
     .kui-header {
-        background-color: #529aee;
-        color: #fff;
+        background-color: #4A90E2;
+        color: white;
         text-align: center;
     }
     .kui-h1 {
