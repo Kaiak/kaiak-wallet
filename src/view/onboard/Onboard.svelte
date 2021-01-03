@@ -1,17 +1,17 @@
 <script lang="ts">
-    import Content from "../components/Content.svelte";
-    import Text from "../components/Text.svelte";
+    import Content from "../../components/Content.svelte";
+    import Text from "../../components/Text.svelte";
     import {beforeUpdate, onDestroy} from "svelte";
-    import {navigationStore} from "../stores/stores";
-    import {navigationReload, pushOnboardState} from "../machinery/eventListener";
-    import type {NavigationState, OnboardState, OnboardView} from "../machinery/NavigationState";
-    import Disclaimer from "./onboard/Disclaimer.svelte";
-    import CreateSeed from "./onboard/CreateSeed.svelte";
-    import AccountAlias from "./onboard/AccountAlias.svelte";
-    import SetPIN from "./onboard/SetPIN.svelte";
-    import type {WalletResult} from "../machinery/wallet";
-    import DisclaimerImport from "./onboard/DisclaimerImport.svelte";
-    import InputSeed from "./onboard/InputSeed.svelte";
+    import {navigationStore} from "../../stores/stores";
+    import {navigationReload, pushOnboardState} from "../../machinery/eventListener";
+    import type {NavigationState, OnboardState, OnboardView} from "../../machinery/NavigationState";
+    import Disclaimer from "./Disclaimer.svelte";
+    import CreateSeed from "./CreateSeed.svelte";
+    import AccountAlias from "./AccountAlias.svelte";
+    import SetPIN from "./SetPIN.svelte";
+    import type {WalletResult} from "../../machinery/wallet";
+    import DisclaimerImport from "./DisclaimerImport.svelte";
+    import InputSeed from "./InputSeed.svelte";
 
     let onboardState: OnboardState | undefined = undefined
     let state: NavigationState | undefined = undefined

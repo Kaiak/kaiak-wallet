@@ -8,7 +8,7 @@
 	import UnlockWallet from "./view/UnlockWallet.svelte";
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
 	import Toast from "./components/Toast.svelte";
-	import Onboard from "./view/Onboard.svelte";
+	import Onboard from "./view/onboard/Onboard.svelte";
 	import {onDestroy} from "svelte";
 	import {loaderStore} from "./machinery/loader-store";
 	import type {Loader} from "./machinery/loader-store";
