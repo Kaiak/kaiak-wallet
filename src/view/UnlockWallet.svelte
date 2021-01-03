@@ -2,7 +2,6 @@
     import Content from "../components/Content.svelte";
     import {
         navigationReload,
-        pushMenu,
         pushOnboardState,
         pushState,
         pushToast
@@ -55,10 +54,6 @@
             onClick: unlock,
             languageId: 'unlock-wallet'
         },
-        rightKey: {
-            onClick: async () => pushOnboardState({ view: 'disclaimer-import' }),
-            languageId: 'import-wallet'
-        }
     }
 
     afterUpdate(() => navigationReload(softwareKeys))

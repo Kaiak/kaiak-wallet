@@ -34,6 +34,10 @@
                 pushOnboardState({view: 'disclaimer', walletResult: undefined, alias: undefined})
             }
         },
+        rightKey: {
+            onClick: async () => pushOnboardState({ view: 'disclaimer-import' }),
+            languageId: 'import-wallet'
+        }
     }))
 </script>
 
