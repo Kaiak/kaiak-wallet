@@ -38,23 +38,6 @@ h1, h2, h3, h4, h5, ul, p {
     display: none;
 }
 
-.kui-text-upcase {
-    text-transform: uppercase;
-}
-
-/* ============== Alignment ============== */
-.kui-text-left {
-    text-align: left;
-}
-
-.kui-text-center {
-    text-align: center;
-}
-
-.kui-text-right {
-    text-align: right;
-}
-
 /* ============== Color ============== */
 .kui-color-purple {
     color: #8500dc;
@@ -100,11 +83,6 @@ h1, h2, h3, h4, h5, ul, p {
 .kui-sec {
     font-size: 14px;
     font-weight: 400;
-}
-
-.kui-h5 {
-    font-size: 14px;
-    font-weight: 600;
 }
 
 .kui-pri,
