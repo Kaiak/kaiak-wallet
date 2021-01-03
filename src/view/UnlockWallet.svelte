@@ -1,6 +1,5 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
-    import LabelledInput from "../components/LabelledInput.svelte";
     import {navigationReload, pushMenu, pushState, pushToast} from "../machinery/eventListener";
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
@@ -9,6 +8,7 @@
     import {setWalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
     import {updateWalletAccounts} from "../machinery/nano-ops";
+    import NumberInput from "../components/input/NumberInput.svelte";
 
     let inputPhrase: string | undefined;
 
@@ -30,11 +30,11 @@
             load: async () => {
                 const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
                 const updatedNanoWallet: NanoWallet = await tryGetTransactions(data)
-                if(updatedNanoWallet) {
+                if (updatedNanoWallet) {
                     pushState({menu: 'accounts', accountAction: undefined, onboardState: undefined})
-                    setWalletState({ wallet: updatedNanoWallet, selectedAccount: undefined })
+                    setWalletState({wallet: updatedNanoWallet, selectedAccount: undefined})
                 } else {
-                    pushToast({ languageId: 'wrong-pass' })
+                    pushToast({languageId: 'wrong-pass'})
                 }
             }
         })
@@ -56,5 +56,5 @@
 </script>
 
 <Content titleKey="unlock-wallet">
-    <LabelledInput type="number" languageId="unlock-label" placeholderLanguage="unlock-label" on:input={onInputPassword}/>
+    <NumberInput languageId="unlock-label" placeholderLanguage="unlock-label" on:input={onInputPassword}/>
 </Content>

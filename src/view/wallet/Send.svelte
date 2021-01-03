@@ -1,6 +1,4 @@
 <script lang="ts">
-    import LabelledInput from "../../components/LabelledInput.svelte";
-    import Button from "../../components/Button.svelte";
     import type {NanoAddress, NanoAccount, RAW, NanoWallet} from "../../machinery/models";
     import {tools} from "nanocurrency-web";
     import {sendNano} from "../../machinery/nano-ops";
@@ -11,6 +9,7 @@
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
     import {afterUpdate} from "svelte";
+    import TextInput from "../../components/input/TextInput.svelte";
 
     export let wallet: NanoWallet;
     export let sendType: AccountAction;
@@ -41,7 +40,7 @@
     }
 
     const setMax = async () => {
-        if(balance && balance.raw) {
+        if (balance && balance.raw) {
             sendValue = Number.parseFloat(rawToNano(balance, 10).amount)
         }
     }
@@ -52,7 +51,7 @@
                 languageId: 'sending-funds',
                 load: async () => {
                     const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}), balance)
-                    if(updatedAccount) {
+                    if (updatedAccount) {
                         wallet.accounts = wallet.accounts.map(account => {
                             return account.address === updatedAccount.address ? updatedAccount : account
                         })
@@ -60,10 +59,10 @@
                             wallet: wallet,
                             selectedAccount: updatedAccount.address
                         })
-                        pushToast({ languageId: 'sent-funds-success', type: 'success' })
+                        pushToast({languageId: 'sent-funds-success', type: 'success'})
                         pushAccountAction(undefined)
                     } else {
-                        pushToast({ languageId: 'unable-to-send', type: 'warn' })
+                        pushToast({languageId: 'unable-to-send', type: 'warn'})
                     }
                 },
             })
@@ -77,7 +76,7 @@
     }
 
     afterUpdate(() => {
-        if(sendType === 'send_address') {
+        if (sendType === 'send_address') {
             navigationReload({
                 leftKey: {
                     languageId: 'set-max-button',
@@ -98,6 +97,6 @@
 {#if sendType === 'send_qr' && showCamera}
     <CameraCapture scannedAddress={scannedAddress}/>
 {:else}
-    <LabelledInput languageId="send-address" type="text" on:input={setAddress} value={toAddress}/>
-    <LabelledInput languageId="send-amount" type="text" on:input={setAmount} value={sendValue}/>
+    <TextInput languageId="send-address" type="text" on:input={setAddress} value={toAddress}/>
+    <TextInput languageId="send-amount" type="text" on:input={setAmount} value={sendValue}/>
 {/if}

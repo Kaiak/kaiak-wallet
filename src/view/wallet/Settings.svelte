@@ -1,12 +1,11 @@
 <script lang="ts">
     import type {NanoAccount, NanoWallet} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
-    import LabelledInput from "../../components/LabelledInput.svelte";
     import {setWallet} from "../../machinery/secure-storage";
     import {setWalletState} from "../../machinery/WalletState";
     import {back, navigationReload} from "../../machinery/eventListener";
     import {afterUpdate} from "svelte";
-    import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
+    import TextInput from "../../components/input/TextInput.svelte";
 
     export let wallet: NanoWallet;
     export let selectedAccount: NanoAccount;
@@ -36,4 +35,4 @@
 </script>
 
 <Seperator languageId="account-settings" />
-<LabelledInput languageId="account-alias" on:input={setAlias} bind:value={aliasValue}/>
+<TextInput languageId="account-alias" on:input={setAlias} bind:value={aliasValue}/>
