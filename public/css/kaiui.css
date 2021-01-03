@@ -165,7 +165,6 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 .kui-list li {
-    background-color: #fff;
     height: 60px;
     display: flex;
     align-items: center;

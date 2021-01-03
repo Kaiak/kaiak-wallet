@@ -12,7 +12,7 @@
     }
     .kui-thi {
         font-size: 12px;
-        font-weight: 400;
+        font-weight: bold;
     }
 </style>
 
