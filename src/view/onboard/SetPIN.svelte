@@ -6,7 +6,6 @@
     import {navigationReload, pushMenu, pushToast, reset} from "../../machinery/eventListener";
     import {afterUpdate} from "svelte";
     import {load} from "../../machinery/loader-store";
-    import {BACK_BUTTON} from "../../machinery/SoftwareKeysState";
     import NumberInput from "../../components/input/NumberInput.svelte";
 
     export let walletResult: WalletResult
@@ -41,7 +40,6 @@
             languageId: 'onboard-finish-button',
             onClick: tryToStore
         },
-        leftKey: BACK_BUTTON,
     }))
 </script>
 
