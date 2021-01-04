@@ -42,8 +42,8 @@
 
 <Content titleKey="menu">
     <List>
-        <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => setAppView('wallet')}/>
-        {#if selectedAccount && state.accountAction}
+        <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => setAppView('accounts')}/>
+        {#if selectedAccount && state.accountAction === 'menu'}
             <WithSecondary primaryLanguageId="send" secondaryText={selectedAccount.alias} on:click={() => setAccountView('send')}/>
             <WithSecondary primaryLanguageId="transactions" secondaryText={selectedAccount.alias} on:click={() =>  setAccountView('transactions')}/>
             <WithSecondary primaryLanguageId="receive" secondaryText={selectedAccount.alias} on:click={() =>  setAccountView('receive')}/>

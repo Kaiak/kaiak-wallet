@@ -66,7 +66,7 @@ export function pushMenu(menu: MenuSelector): void {
 }
 export function pushAccountAction(action: AccountAction): void {
   stack.pushOn((current: NavigationState | undefined) => {
-    return { ...current, accountAction: action };
+    return { ...current, menu: 'account', accountAction: action };
   });
 }
 export function pushOnboardState(updated: OnboardState): void {

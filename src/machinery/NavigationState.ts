@@ -10,6 +10,7 @@ export type MenuSelector =
   | 'onboard'
   | 'import';
 export type AccountAction =
+  | 'menu'
   | 'send'
   | 'transactions'
   | 'receive'
