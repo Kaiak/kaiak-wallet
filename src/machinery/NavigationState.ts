@@ -7,7 +7,8 @@ export type MenuSelector =
   | 'menu'
   | 'about'
   | 'unlock'
-  | 'onboard';
+  | 'onboard'
+  | 'import';
 export type AccountAction =
   | 'send'
   | 'transactions'
@@ -15,18 +16,26 @@ export type AccountAction =
   | 'send_qr'
   | 'send_address';
 
-export type OnboardView = 'start' | 'disclaimer' | 'seed' | 'account' | 'pin';
+export type OnboardView =
+  | 'start'
+  | 'disclaimer'
+  | 'seed'
+  | 'account'
+  | 'pin'
+  | 'disclaimer-import'
+  | 'input-import';
 
 export interface OnboardState {
   view: OnboardView;
-  walletResult: WalletResult;
-  alias: string;
+  walletResult?: WalletResult;
+  alias?: string;
+  attemptedSeedImport?: string;
 }
 
 export interface NavigationState {
   menu: MenuSelector;
   accountAction: AccountAction;
-  onboardState: OnboardState | undefined;
+  onboardState?: OnboardState;
 }
 
 export const START_STATE: NavigationState = {

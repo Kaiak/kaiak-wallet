@@ -8,7 +8,7 @@
 	import UnlockWallet from "./view/UnlockWallet.svelte";
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
 	import Toast from "./components/Toast.svelte";
-	import Onboard from "./view/Onboard.svelte";
+	import Onboard from "./view/onboard/Onboard.svelte";
 	import {onDestroy} from "svelte";
 	import {loaderStore} from "./machinery/loader-store";
 	import type {Loader} from "./machinery/loader-store";
@@ -53,7 +53,9 @@
 				<LabelledLoader languageId={loader.languageId}/>
 			</Content>
 		{:else}
-			{#if state.menu === 'accounts' && walletState?.wallet}
+			{#if state === undefined || state.menu === 'unlock'}
+				<UnlockWallet />
+			{:else if state.menu === 'accounts' && walletState?.wallet}
 				<AccountList wallet={walletState.wallet} />
 			{:else if state.menu === 'account' && walletState?.wallet && walletState?.selectedAccount}
 				<Wallet walletState={walletState} accountAction={state.accountAction} fullscreen={fullscreen} />
@@ -65,8 +67,6 @@
 				<Menu />
 			{:else if state.menu === 'about'}
 				<About />
-			{:else if state.menu === 'unlock'}
-				<UnlockWallet />
 			{/if}
 			<SoftwareKeys/>
 		{/if}

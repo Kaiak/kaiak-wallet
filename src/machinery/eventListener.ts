@@ -73,7 +73,7 @@ export function pushAccountAction(action: AccountAction): void {
 }
 export function pushOnboardState(updated: OnboardState): void {
   stack.pushOn((current: NavigationState | undefined) => {
-    return { ...current, onboardState: updated };
+    return { ...current, menu: 'onboard', onboardState: updated };
   });
 }
 

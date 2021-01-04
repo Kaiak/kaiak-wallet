@@ -1,4 +1,4 @@
-import { back, pushMenu } from './eventListener';
+import { pushMenu } from './eventListener';
 import { writable, Writable } from 'svelte/store';
 
 export interface SoftKey {

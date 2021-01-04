@@ -1,7 +1,7 @@
 <script lang="ts">
     import Text from "../../components/Text.svelte";
     import {afterUpdate} from "svelte";
-    import {back, navigationReload, pushOnboardState} from "../../machinery/eventListener";
+    import {navigationReload, pushOnboardState} from "../../machinery/eventListener";
     import Seperator from "../../components/Seperator.svelte";
     import {generateWallet} from "../../machinery/wallet";
     import type {WalletResult} from "../../machinery/wallet";
@@ -15,7 +15,7 @@
                     languageId: 'creating-wallet',
                     load: async () => {
                         const walletResult: WalletResult = await generateWallet()
-                        pushOnboardState({ view: 'seed', walletResult: walletResult, alias: undefined})
+                        pushOnboardState({ view: 'seed', walletResult: walletResult })
                     }
                 })
             }

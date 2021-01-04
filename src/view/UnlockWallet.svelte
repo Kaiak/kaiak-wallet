@@ -1,6 +1,11 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
-    import {navigationReload, pushMenu, pushState, pushToast} from "../machinery/eventListener";
+    import {
+        navigationReload,
+        pushOnboardState,
+        pushState,
+        pushToast
+    } from "../machinery/eventListener";
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
     import {afterUpdate} from "svelte";
@@ -41,15 +46,14 @@
     }
 
     const softwareKeys: SoftwareKeysState = {
-        leftKey: {
-            onClick: async () => pushMenu('onboard'),
-            languageId: 'create-new-wallet'
-        },
         middleKey: {
             onClick: unlock,
             languageId: 'unlock-wallet'
         },
-        rightKey: undefined
+        rightKey: {
+            onClick: async () => pushOnboardState({ view: undefined }),
+            languageId: 'create-new-wallet'
+        },
     }
 
     afterUpdate(() => navigationReload(softwareKeys))

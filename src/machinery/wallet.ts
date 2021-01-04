@@ -19,6 +19,22 @@ export function generateWallet(): Promise<WalletResult> {
   });
 }
 
+export function importWalletFromSeed(seed: string): Promise<WalletResult> {
+  return new Promise((resolve, error) => {
+    setTimeout(() => {
+      try {
+        const w = wallet.fromSeed(seed);
+        resolve({
+          seed: w.seed,
+          mnemonic: w.mnemonic,
+        });
+      } catch (e) {
+        error();
+      }
+    }, 0);
+  });
+}
+
 export async function createWallet(
   walletData: WalletResult,
   encryptionSecret: string,
