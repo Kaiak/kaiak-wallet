@@ -9,10 +9,10 @@
 
     export let seedInputValue: string;
 
-    const MAX_SEED_LENGTH = 64;
+    const MAX_SEED_LENGTH = 128;
 
     const isValidInput = () => {
-        return seedInputValue.length === 64
+        return seedInputValue.length === MAX_SEED_LENGTH
     }
     $: characterCount = `${seedInputValue ? seedInputValue.length : "0"}/${MAX_SEED_LENGTH}`
 
