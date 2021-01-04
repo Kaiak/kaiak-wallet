@@ -9,22 +9,27 @@
 
     export let walletResult: WalletResult;
 
-    const accept = (event) => {
-        if(event.target.checked) {
-            setSoftwareKeys({
-                middleKey: {
-                    languageId: 'continue',
+    const createKeyWithEnabledState = (disabled: boolean) => {
+        return {
+            middleKey: {
+                disabled: disabled,
+                languageId: 'continue',
                     onClick: async () => {
-                        pushOnboardState({view: 'account', walletResult: walletResult, alias: undefined})
-                    }
+                    pushOnboardState({view: 'account', walletResult: walletResult, alias: undefined})
                 }
-            })
-        } else {
-            setSoftwareKeys({})
+            }
         }
     }
 
-    afterUpdate(() => navigationReload())
+    const accept = (event) => {
+        if(event.target.checked) {
+            setSoftwareKeys(createKeyWithEnabledState(false))
+        } else {
+            setSoftwareKeys(createKeyWithEnabledState(true))
+        }
+    }
+
+    afterUpdate(() => navigationReload(createKeyWithEnabledState(true)))
 </script>
 
 <Seperator languageId="wallet-mnemonic"/>

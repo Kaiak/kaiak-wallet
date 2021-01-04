@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {pushMenu} from "../machinery/eventListener";
     import type {SoftKey} from "../machinery/SoftwareKeysState";
     import {softwareKeysStore} from "../machinery/SoftwareKeysState";
+    import {onDestroy} from "svelte";
 
     let leftKey: SoftKey | undefined = undefined
     let middleKey: SoftKey | undefined = undefined
@@ -9,11 +9,21 @@
 
     let keys: SoftKey[] = []
 
-    softwareKeysStore.subscribe(value => {
+    const unsubscribe = softwareKeysStore.subscribe(value => {
         leftKey = value.leftKey
         middleKey = value.middleKey
         rightKey = value.rightKey
     })
+
+    const getOnClicker = (key: SoftKey) => {
+        if(key === undefined || key.disabled === true) {
+            return () => {}
+        } else {
+            return key?.onClick
+        }
+    }
+
+    onDestroy(() => unsubscribe())
 
 </script>
 
@@ -37,10 +47,13 @@
     .hidden {
         visibility: hidden;
     }
+    .disabled {
+        opacity: 0.2;
+    }
 </style>
 
 <div class="kui-software-key">
-    <h5 role="button" class:hidden={!leftKey} on:click={leftKey?.onClick} data-l10n-id={leftKey?.languageId}>|</h5>
-    <h5 role="button" class:hidden={!middleKey} on:click={middleKey?.onClick} data-l10n-id={middleKey?.languageId}>|</h5>
-    <h5 role="button" class:hidden={!rightKey} on:click={rightKey?.onClick} data-l10n-id={rightKey?.languageId}>|</h5>
+    <h5 role="button" class:hidden={!leftKey} class:disabled={leftKey?.disabled === true} on:click={getOnClicker(leftKey)} data-l10n-id={leftKey?.languageId}>|</h5>
+    <h5 role="button" class:hidden={!middleKey} class:disabled={middleKey?.disabled === true} on:click={getOnClicker(middleKey)} data-l10n-id={middleKey?.languageId}>|</h5>
+    <h5 role="button" class:hidden={!rightKey} class:disabled={rightKey?.disabled === true} on:click={getOnClicker(rightKey)} data-l10n-id={rightKey?.languageId}>|</h5>
 </div>

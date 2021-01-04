@@ -4,6 +4,7 @@ import { writable, Writable } from 'svelte/store';
 export interface SoftKey {
   onClick: () => Promise<void>;
   languageId: string;
+  disabled?: boolean;
 }
 
 export interface SoftwareKeysState {
