@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { NanoTransaction } from "../../machinery/models";
-    import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
+    import {rawToNano, truncateNanoAddress} from "../../machinery/nanocurrency-web-wrapper";
 
     export let transaction: NanoTransaction
 
@@ -30,5 +30,5 @@
     <span data-l10n-id={transactionType()}></span>
     {rawToNano(transaction.amount, 6).amount}
     <span data-l10n-id={direction()}></span>
-    {transaction.account}
+    {truncateNanoAddress(transaction.account)}
 </div>
