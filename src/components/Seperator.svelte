@@ -5,14 +5,14 @@
 
 <style>
     .kui-separator {
-        color: #6a6a6a;
-        background-color: #e6e6e6;
+        color: white;
+        background-color: #000034;
         line-height: 28px;
         padding-left: 10px;
     }
     .kui-thi {
         font-size: 12px;
-        font-weight: 400;
+        font-weight: bold;
     }
 </style>
 

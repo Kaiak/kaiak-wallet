@@ -20,10 +20,10 @@
 <style>
     .kui-software-key {
         display: flex;
-        background-color: #cccccc;
+        background-color: #4A90E2;
         align-items: center;
-        color: #212529;
-        border-top: 2px #cbcbcb solid;
+        color: white;
+        border-top: 2px #000034 solid;
         white-space: nowrap;
         font-weight: 700;
         box-sizing: border-box;
