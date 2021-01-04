@@ -5,18 +5,23 @@
     import Seperator from "../../components/Seperator.svelte";
     import {navigationReload, pushOnboardState} from "../../machinery/eventListener";
     import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
+    import Checkbox from "../../components/input/Checkbox.svelte";
 
     export let walletResult: WalletResult;
 
-    const seedStringGotFocus = () => {
-        setSoftwareKeys({
-            middleKey: {
-                languageId: 'onboard-seed-stored',
-                onClick: async () => {
-                    pushOnboardState( {view: 'account', walletResult: walletResult, alias: undefined })
+    const accept = (event) => {
+        if(event.target.checked) {
+            setSoftwareKeys({
+                middleKey: {
+                    languageId: 'continue',
+                    onClick: async () => {
+                        pushOnboardState({view: 'account', walletResult: walletResult, alias: undefined})
+                    }
                 }
-            }
-        })
+            })
+        } else {
+            setSoftwareKeys({})
+        }
     }
 
     afterUpdate(() => navigationReload())
@@ -25,4 +30,6 @@
 <Seperator languageId="wallet-mnemonic"/>
 <Text>{walletResult.mnemonic}</Text>
 <Seperator languageId="wallet-seed" />
-<Text breakAll={true} on:focus={seedStringGotFocus}>{walletResult.seed}</Text>
+<Text breakAll={true}>{walletResult.seed}</Text>
+<Seperator languageId="wallet-accept"/>
+<Checkbox languageId="wallet-accept-text" on:change={accept}/>
