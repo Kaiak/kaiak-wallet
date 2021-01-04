@@ -1,7 +1,10 @@
 <script lang="ts">
     import Primary from "../../components/list/Primary.svelte";
     import List from "../../components/List.svelte";
-    import {pushAccountAction} from "../../machinery/eventListener";
+    import {navigationReload, pushAccountAction} from "../../machinery/eventListener";
+    import {afterUpdate} from "svelte";
+
+    afterUpdate(() => navigationReload());
 </script>
 
 <List>

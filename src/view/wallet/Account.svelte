@@ -79,8 +79,6 @@
                 },
                 rightKey: SOFT_KEY_MENU,
             })
-        } else {
-            navigationReload()
         }
     })
 
