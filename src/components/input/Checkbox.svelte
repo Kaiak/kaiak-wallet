@@ -9,6 +9,6 @@
     }
 </style>
 
-<LabelInput languageId={languageId} row={true} >
-    <input type="checkbox" class="navigation" on:change/>
+<LabelInput languageId={languageId} row={true}>
+    <input type="checkbox" class="navigation" on:change id="{languageId}" on:focus bind:checked />
 </LabelInput>

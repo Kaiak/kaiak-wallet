@@ -12,11 +12,17 @@
         align-items: center;
         justify-content: space-between;
     }
+    .kui-input-label {
+        color: #212529;
+        display: block;
+        padding-bottom: 8px;
+        padding-top: 8px;
+    }
 </style>
 
-<div class="kui-input-holder" class:row>
+<div class="kui-input-holder" class:row on:focus>
     {#if languageId || text}
-        <label class="kui-input-label kui-h3" data-l10n-id={languageId}>{text}</label>
+        <label for={languageId || text} class="kui-input-label kui-h3" data-l10n-id={languageId}>{text}</label>
     {/if}
     <slot/>
 </div>

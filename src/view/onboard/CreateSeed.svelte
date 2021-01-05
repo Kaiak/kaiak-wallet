@@ -8,6 +8,7 @@
     import Checkbox from "../../components/input/Checkbox.svelte";
 
     export let walletResult: WalletResult;
+    let checked: boolean = false;
 
     const createKeyWithEnabledState = (disabled: boolean) => {
         return {
@@ -21,15 +22,33 @@
         }
     }
 
-    const accept = (event) => {
-        if(event.target.checked) {
-            setSoftwareKeys(createKeyWithEnabledState(false))
-        } else {
-            setSoftwareKeys(createKeyWithEnabledState(true))
+    const createAcceptKey = (disabled) => {
+        return {
+            middleKey: {
+                disabled: disabled,
+                languageId: 'accept',
+                onClick: async () => {
+                    checked = !checked
+                    setSoftwareKeys(createKeyWithEnabledState(!checked))
+                }
+            }
         }
     }
 
-    afterUpdate(() => navigationReload(createKeyWithEnabledState(true)))
+    const showAccept = (event) => {
+        if(!checked) {
+            setSoftwareKeys(createAcceptKey(false))
+        }
+    }
+
+    const accept = (event) => {
+        checked = event.target.checked;
+        setSoftwareKeys(createKeyWithEnabledState(!checked))
+    }
+
+    afterUpdate(() => {
+        if(!checked) navigationReload(createAcceptKey(true))
+    })
 </script>
 
 <Seperator languageId="wallet-mnemonic"/>
@@ -37,4 +56,4 @@
 <Seperator languageId="wallet-seed" />
 <Text breakAll={true}>{walletResult.seed}</Text>
 <Seperator languageId="wallet-accept"/>
-<Checkbox languageId="wallet-accept-text" on:change={accept}/>
+<Checkbox languageId="wallet-accept-text" on:change={accept} on:focus={showAccept} bind:checked/>

@@ -248,14 +248,7 @@ button.kui-btn:focus {
     outline: 0;
 }
 
-.kui-input-label {
-    color: #212529;
-    display: block;
-    padding-bottom: 8px;
-    padding-top: 8px;
-}
-
-.kui-input-holder.kui-focus-within .kui-input-label {
+.kui-input-holder.kui-focus-within {
     color: #fff;
 }
 
