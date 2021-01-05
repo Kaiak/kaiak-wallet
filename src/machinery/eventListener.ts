@@ -5,6 +5,7 @@ import type {
   MenuSelector,
   NavigationState,
   OnboardState,
+  SetupAction,
 } from './NavigationState';
 import type { SoftwareKeysState } from './SoftwareKeysState';
 import type { ToastState } from './ToastState';
@@ -82,6 +83,12 @@ export function pushAccountAction(action: AccountAction): void {
 export function pushOnboardState(updated: OnboardState): void {
   stack.pushOn((current: NavigationState | undefined) => {
     return { ...current, menu: 'onboard', onboardState: updated };
+  });
+}
+
+export function pushSetupAction(action: SetupAction): void {
+  stack.pushOn((current: NavigationState | undefined) => {
+    return { ...current, menu: 'setup', setupAction: action };
   });
 }
 

@@ -26,6 +26,8 @@ export type OnboardView =
   | 'disclaimer-import'
   | 'input-import';
 
+export type SetupAction = 'menu' | 'export-seed';
+
 export interface OnboardState {
   view: OnboardView;
   walletResult?: WalletResult;
@@ -37,10 +39,12 @@ export interface NavigationState {
   menu: MenuSelector;
   accountAction: AccountAction;
   onboardState?: OnboardState;
+  setupAction?: SetupAction;
 }
 
 export const START_STATE: NavigationState = {
   menu: 'unlock',
   accountAction: undefined,
   onboardState: undefined,
+  setupAction: undefined,
 };
