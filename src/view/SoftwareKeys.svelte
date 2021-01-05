@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {pushMenu} from "../machinery/eventListener";
     import type {SoftKey} from "../machinery/SoftwareKeysState";
     import {softwareKeysStore} from "../machinery/SoftwareKeysState";
+    import {onDestroy} from "svelte";
 
     let leftKey: SoftKey | undefined = undefined
     let middleKey: SoftKey | undefined = undefined
@@ -9,11 +9,21 @@
 
     let keys: SoftKey[] = []
 
-    softwareKeysStore.subscribe(value => {
+    const unsubscribe = softwareKeysStore.subscribe(value => {
         leftKey = value.leftKey
         middleKey = value.middleKey
         rightKey = value.rightKey
     })
+
+    const getOnClicker = (key: SoftKey) => {
+        if(!key || key.disabled === true) {
+            return undefined;
+        } else {
+            return key?.onClick
+        }
+    }
+
+    onDestroy(() => unsubscribe())
 
 </script>
 
@@ -34,23 +44,16 @@
         text-align: center;
         text-transform: uppercase;
     }
+    .hidden {
+        visibility: hidden;
+    }
+    .disabled {
+        opacity: 0.2;
+    }
 </style>
 
 <div class="kui-software-key">
-
-    {#if leftKey}
-        <h5 role="button" on:click={leftKey.onClick} data-l10n-id={leftKey.languageId}></h5>
-    {:else}
-        <h5 role="button" id="kui-left-soft-key"></h5>
-    {/if}
-    {#if middleKey}
-        <h5 role="button" on:click={middleKey.onClick} data-l10n-id={middleKey.languageId}></h5>
-    {:else}
-        <h5 role="button"></h5>
-    {/if}
-    {#if rightKey}
-        <h5 role="button" on:click={rightKey.onClick} data-l10n-id={rightKey.languageId}></h5>
-    {:else}
-        <h5 role="button"></h5>
-    {/if}
+    <h5 class:hidden={!leftKey} class:disabled={leftKey?.disabled === true} on:click={getOnClicker(leftKey)} data-l10n-id={leftKey?.languageId}>|</h5>
+    <h5 class:hidden={!middleKey} class:disabled={middleKey?.disabled === true} on:click={getOnClicker(middleKey)} data-l10n-id={middleKey?.languageId}>|</h5>
+    <h5 class:hidden={!rightKey} class:disabled={rightKey?.disabled === true} on:click={getOnClicker(rightKey)} data-l10n-id={rightKey?.languageId}>|</h5>
 </div>

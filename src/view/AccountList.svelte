@@ -4,7 +4,7 @@
     import type {NanoAccount, NanoWallet} from "../machinery/models";
     import WithSecondary from "../components/list/WithSecondary.svelte";
     import {setWalletState} from "../machinery/WalletState";
-    import {navigationReload, pushMenu, pushToast} from "../machinery/eventListener";
+    import {navigationReload, pushAccountAction, pushMenu, pushToast} from "../machinery/eventListener";
     import {afterUpdate} from "svelte";
     import {load} from "../machinery/loader-store";
     import {addNanoAccount} from "../machinery/wallet";
@@ -16,7 +16,7 @@
             wallet: wallet,
             selectedAccount: account.address
         })
-        pushMenu('account')
+        pushAccountAction('menu')
     }
 
     const addAccount = async () => {

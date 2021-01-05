@@ -71,7 +71,7 @@
         })
     }
     afterUpdate(() => {
-        if (!action) {
+        if (action === 'menu') {
             navigationReload({
                 leftKey: {
                     languageId: 'update-button',
@@ -84,7 +84,7 @@
 
 </script>
 
-{#if !action}
+{#if action === 'menu'}
     <Seperator primaryText={accountTitle(selectedAccount)}/>
     <List>
         <Primary primaryLanguageId="transactions" on:click={showTransactions}/>

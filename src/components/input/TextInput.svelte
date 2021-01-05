@@ -6,5 +6,5 @@
     export let value: string = '';
 </script>
 <LabelInput languageId={languageId} text={text}>
-    <input type="text" class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} on:input value={value}>
+    <input id={languageId} type="text" class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} on:input value={value}>
 </LabelInput>
