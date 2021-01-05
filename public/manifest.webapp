@@ -24,8 +24,11 @@
     "mobiledata":{},
     "wifidata":{}
   },
-  "fullscreen": "false",
-  "orientation": "default",
+  "theme_color": "#4A90E2",
+  "chrome": {
+      "statusbar": "overlap"
+  },
+  "orientation": "portrait-primary",
   "locales": {
     "en-US": {
       "name": "Nano cryptocurrency wallet",

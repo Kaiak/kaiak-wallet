@@ -46,11 +46,18 @@
 		display: flex;
 		flex-direction: column;
 	}
+	h1 {
+		visibility: hidden;
+		font-size: 17px;
+		font-weight: 300;
+		margin: 0 0 5px;
+	}
 </style>
 
 <main>
 	<Toast/>
 	<div class="kui-app">
+		<h1>space</h1>
 		{#if loader}
 			<Content titleKey="loading">
 				<LabelledLoader languageId={loader.languageId}/>
