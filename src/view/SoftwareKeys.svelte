@@ -53,7 +53,7 @@
 </style>
 
 <div class="kui-software-key">
-    <h5 role="button" class:hidden={!leftKey} class:disabled={leftKey?.disabled === true} on:click={getOnClicker(leftKey)} data-l10n-id={leftKey?.languageId}>|</h5>
-    <h5 role="button" class:hidden={!middleKey} class:disabled={middleKey?.disabled === true} on:click={getOnClicker(middleKey)} data-l10n-id={middleKey?.languageId}>|</h5>
-    <h5 role="button" class:hidden={!rightKey} class:disabled={rightKey?.disabled === true} on:click={getOnClicker(rightKey)} data-l10n-id={rightKey?.languageId}>|</h5>
+    <h5 class:hidden={!leftKey} class:disabled={leftKey?.disabled === true} on:click={getOnClicker(leftKey)} data-l10n-id={leftKey?.languageId}>|</h5>
+    <h5 class:hidden={!middleKey} class:disabled={middleKey?.disabled === true} on:click={getOnClicker(middleKey)} data-l10n-id={middleKey?.languageId}>|</h5>
+    <h5 class:hidden={!rightKey} class:disabled={rightKey?.disabled === true} on:click={getOnClicker(rightKey)} data-l10n-id={rightKey?.languageId}>|</h5>
 </div>
