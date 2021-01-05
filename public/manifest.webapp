@@ -20,9 +20,11 @@
     },
     "video-capture": {
       "description": "Required for scanning QR codes"
-    }
+    },
+    "mobiledata":{},
+    "wifidata":{}
   },
-  "fullscreen": "true",
+  "fullscreen": "false",
   "orientation": "default",
   "locales": {
     "en-US": {
