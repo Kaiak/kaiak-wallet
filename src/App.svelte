@@ -2,7 +2,7 @@
 	import {navigationStore, walletStore} from "./stores/stores";
 	import type {NavigationState} from "./machinery/NavigationState";
 	import Menu from "./view/Menu.svelte";
-	import Setup from "./view/Setup.svelte";
+	import Setup from "./view/setup/Setup.svelte";
 	import About from "./view/About.svelte";
 	import Wallet from "./view/Wallet.svelte";
 	import UnlockWallet from "./view/UnlockWallet.svelte";
@@ -28,7 +28,10 @@
 
 	const unsubscribeLoader = loaderStore.subscribe((value) => loader = value)
 	const unsubscribeNavigation = navigationStore.subscribe<NavigationState>(value => state = value);
-	const unsubscribeWalletStore = walletStore.subscribe<WalletState>(value => walletState = value)
+	const unsubscribeWalletStore = walletStore.subscribe<WalletState>(value => {
+		walletState = value
+		console.log(walletState)
+	})
 
 	onDestroy(() => {
 		unsubscribeLoader()
@@ -61,10 +64,10 @@
 				<Wallet walletState={walletState} accountAction={state.accountAction} fullscreen={fullscreen} />
 			{:else if state.menu === 'onboard'}
 				<Onboard />
-			{:else if state.menu === 'setup'}
-				<Setup />
+			{:else if state.menu === 'setup' && state.setupAction}
+				<Setup setupAction={state.setupAction} />
 			{:else if state.menu === 'menu'}
-				<Menu />
+				<Menu wallet={walletState} accountAction={state.accountAction}/>
 			{:else if state.menu === 'about'}
 				<About />
 			{/if}
