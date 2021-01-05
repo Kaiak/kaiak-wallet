@@ -7,41 +7,47 @@
     import {afterUpdate} from "svelte";
     import {load} from "../../machinery/loader-store";
     import NumberInput from "../../components/input/NumberInput.svelte";
+    import Text from "../../components/Text.svelte";
+    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
 
     export let walletResult: WalletResult
     export let alias: string
     let inputPhrase: string | undefined;
 
+    const createFinishKey = (disabled) => {
+        return {
+            middleKey: {
+                disabled: disabled,
+                languageId: 'onboard-finish-button',
+                onClick: tryToStore,
+            },
+        }
+    }
+
     const inputPassword = (event) => {
         inputPhrase = event.target.value;
+        const valid = inputPhrase && inputPhrase.length >= 4
+        setSoftwareKeys(createFinishKey(!valid))
     }
 
     const tryToStore = async () => {
         await load({
             languageId: 'storing-wallet',
             load: async () => {
-                if (inputPhrase === undefined || inputPhrase.length < 4) {
-                    pushToast({languageId: 'onboard-validation-short-input'})
+                const storedWallet: NanoWallet | undefined = await createWallet(walletResult, inputPhrase, alias)
+                if (storedWallet) {
+                    reset();
+                    pushMenu('unlock')
                 } else {
-                    const storedWallet: NanoWallet | undefined = await createWallet(walletResult, inputPhrase, alias)
-                    if (storedWallet) {
-                        reset();
-                        pushMenu('unlock')
-                    } else {
-                        pushToast({languageId: 'onboard-store-wallet-failed'})
-                    }
+                    pushToast({languageId: 'onboard-store-wallet-failed'})
                 }
             }
         })
     }
 
-    afterUpdate(() => navigationReload({
-        middleKey: {
-            languageId: 'onboard-finish-button',
-            onClick: tryToStore
-        },
-    }))
+    afterUpdate(() => navigationReload(createFinishKey(true)));
 </script>
 
 <Seperator languageId="wallet-password" />
+<Text languageId="onboard-set-wallet-pin-text" />
 <NumberInput on:input={inputPassword} languageId="onboard-wallet-pin"/>
