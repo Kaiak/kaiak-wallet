@@ -16,7 +16,7 @@
     })
 
     const getOnClicker = (key: SoftKey) => {
-        if(key === undefined || key.disabled === true) {
+        if(!key || key.disabled === true) {
             return () => {}
         } else {
             return key?.onClick

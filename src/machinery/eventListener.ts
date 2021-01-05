@@ -46,10 +46,20 @@ export const navigationReload = (value: SoftwareKeysState = undefined) => {
   value ? setSoftwareKeys(value) : setSoftwareKeys({});
 };
 
+// TODO: Instead of subscribing, we could click DOM elements
 softwareKeysStore.subscribe((value: SoftwareKeysState) => {
-  leftKey = value.leftKey?.onClick;
-  middleKey = value.middleKey?.onClick;
-  rightKey = value.rightKey?.onClick;
+  leftKey =
+    value.leftKey && value.leftKey.disabled !== true
+      ? value.leftKey?.onClick
+      : async () => {};
+  middleKey =
+    value.middleKey && value.middleKey.disabled !== true
+      ? value.middleKey?.onClick
+      : async () => {};
+  rightKey =
+    value.rightKey && value.rightKey.disabled !== true
+      ? value.rightKey?.onClick
+      : async () => {};
 });
 
 export function reset(): void {
