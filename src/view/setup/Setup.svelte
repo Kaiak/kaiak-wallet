@@ -6,6 +6,7 @@
     import {afterUpdate} from "svelte";
     import {navigationReload, pushSetupAction} from "../../machinery/eventListener";
     import type {SetupAction} from "../../machinery/NavigationState";
+    import SeedExporter from "./SeedExporter.svelte";
 
     export let setupAction: SetupAction;
 
@@ -20,7 +21,7 @@
             <Primary primaryLanguageId="export-seed" on:click={() => pushSetupAction('export-seed')}/>
         </List>
     {:else if setupAction === 'export-seed'}
-        <div>foo</div>
+        <SeedExporter/>
     {/if}
 </Content>
 
