@@ -51,15 +51,15 @@ softwareKeysStore.subscribe((value: SoftwareKeysState) => {
   leftKey =
     value.leftKey && value.leftKey.disabled !== true
       ? value.leftKey?.onClick
-      : async () => {};
+      : undefined;
   middleKey =
     value.middleKey && value.middleKey.disabled !== true
       ? value.middleKey?.onClick
-      : async () => {};
+      : undefined;
   rightKey =
     value.rightKey && value.rightKey.disabled !== true
       ? value.rightKey?.onClick
-      : async () => {};
+      : undefined;
 });
 
 export function reset(): void {
