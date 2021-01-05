@@ -9,16 +9,18 @@
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
     import {afterUpdate} from "svelte";
-    import type {SoftwareKeysState} from "../machinery/SoftwareKeysState";
     import {setWalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
     import {updateWalletAccounts} from "../machinery/nano-ops";
     import NumberInput from "../components/input/NumberInput.svelte";
+    import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
     let inputPhrase: string | undefined;
 
     const onInputPassword = (event) => {
         inputPhrase = event.target.value;
+        const valid = inputPhrase && inputPhrase.length >= 4
+        setSoftwareKeys(softwareKeys(!valid))
     }
 
     const tryGetTransactions = async (data: NanoWallet) => {
@@ -45,18 +47,21 @@
         })
     }
 
-    const softwareKeys: SoftwareKeysState = {
-        middleKey: {
-            onClick: unlock,
-            languageId: 'unlock-wallet'
-        },
-        rightKey: {
-            onClick: async () => pushOnboardState({ view: undefined }),
-            languageId: 'create-new-wallet'
-        },
+    const softwareKeys = (disabledUnlock) => {
+        return {
+            middleKey: {
+                disabled: disabledUnlock,
+                onClick: unlock,
+                languageId: 'unlock-wallet'
+            },
+            rightKey: {
+                onClick: async () => pushOnboardState({ view: undefined }),
+                languageId: 'create-new-wallet'
+            },
+        }
     }
 
-    afterUpdate(() => navigationReload(softwareKeys))
+    afterUpdate(() => navigationReload(softwareKeys(true)))
 </script>
 
 <Content titleKey="unlock-wallet">
