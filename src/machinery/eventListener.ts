@@ -135,10 +135,10 @@ export async function handleKeydown(e) {
       }
       break;
     case 'Enter':
-      if (middleKey) {
-        await middleKey();
-      } else if (navigation.selection()) {
+      if (navigation.isClickableElement()) {
         navigation.selection().click();
+      } else if (middleKey) {
+        await middleKey();
       }
       e.preventDefault();
       break;

@@ -6,6 +6,8 @@
     import {back, navigationReload} from "../../machinery/eventListener";
     import {afterUpdate} from "svelte";
     import TextInput from "../../components/input/TextInput.svelte";
+    import Text from "../../components/Text.svelte";
+    import Button from "../../components/Button.svelte";
 
     export let wallet: NanoWallet;
     export let selectedAccount: NanoAccount;
@@ -25,6 +27,10 @@
         } // TODO: Toast
     }
 
+    const changeRep = () => {
+        console.log('change reps')
+    }
+
     afterUpdate(() => navigationReload({
         middleKey: {
             languageId: 'button-save',
@@ -36,3 +42,6 @@
 
 <Seperator languageId="account-settings" />
 <TextInput languageId="account-alias" on:input={setAlias} bind:value={aliasValue}/>
+<Seperator languageId="set-representative" />
+<Text breakAll="true">{selectedAccount.representative}</Text>
+<Button languageId="change" on:click={changeRep} />

@@ -15,7 +15,8 @@ export type AccountAction =
   | 'transactions'
   | 'receive'
   | 'send_qr'
-  | 'send_address';
+  | 'send_address'
+  | 'settings';
 
 export type OnboardView =
   | 'start'
@@ -26,7 +27,7 @@ export type OnboardView =
   | 'disclaimer-import'
   | 'input-import';
 
-export type SetupAction = 'menu' | 'export-seed';
+export type SetupAction = 'menu' | 'export-seed' | 'representative';
 
 export interface OnboardState {
   view: OnboardView;

@@ -65,7 +65,7 @@
 			{:else if state.menu === 'onboard'}
 				<Onboard />
 			{:else if state.menu === 'setup' && state.setupAction}
-				<Setup setupAction={state.setupAction} />
+				<Setup setupAction={state.setupAction} wallet={walletState} />
 			{:else if state.menu === 'menu'}
 				<Menu wallet={walletState} accountAction={state.accountAction}/>
 			{:else if state.menu === 'about'}

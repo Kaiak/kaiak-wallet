@@ -4,6 +4,7 @@ import type {
   SendBlock,
   SignedBlock,
   ReceiveBlock,
+  RepresentativeBlock,
 } from 'nanocurrency-web/dist/lib/block-signer';
 
 function round(number: number, places: number): number {
@@ -81,4 +82,23 @@ export function signSendBlock(
   };
 
   return block.send(data, privateKey);
+}
+
+export function signRepresentativeBlock(
+  privateKey: PrivateKey,
+  walletBalance: RAW,
+  address: NanoAddress,
+  representativeAddress: NanoAddress,
+  frontier: string,
+  workHash: string
+): SignedBlock {
+  const data: RepresentativeBlock = {
+    walletBalanceRaw: walletBalance.raw,
+    address: address,
+    representativeAddress: representativeAddress,
+    frontier: frontier,
+    work: workHash,
+  };
+
+  return block.representative(data, privateKey);
 }

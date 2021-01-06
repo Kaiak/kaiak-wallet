@@ -16,6 +16,7 @@ import type {
 import {
   generateWork,
   getPendingBlocksSimple,
+  getRepresentatives,
   loadBlocks,
   loadFrontiers,
   processSimple,
@@ -126,10 +127,12 @@ export async function updateWalletAccounts(
   const balances: {
     [address: string]: AccountBalanceResponse;
   } = await resolveBalances(addresses);
-  wallet.accounts = wallet.accounts.map((a) => {
+  const representatives = await getRepresentatives(addresses);
+  wallet.accounts = wallet.accounts.map((a, index) => {
     return {
       ...a,
       balance: { raw: balances[a.address].balance.toString() },
+      representative: representatives[index],
     };
   });
   return wallet;

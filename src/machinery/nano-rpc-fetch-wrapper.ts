@@ -4,6 +4,8 @@ import {
   AccountBalanceResponse,
   AccountHistoryRequestActionEnum,
   AccountHistoryResponse,
+  AccountRepresentativeRequestActionEnum,
+  AccountRepresentativeResponse,
   AccountsBalancesRequestActionEnum,
   AccountsBalancesResponse,
   AccountsFrontiersRequestActionEnum,
@@ -49,6 +51,22 @@ export async function resolveBalances(
     },
   });
   return response.balances;
+}
+
+export async function getRepresentatives(
+  addresses: NanoAddress[]
+): Promise<NanoAddress[]> {
+  const requests = addresses.map((a) => {
+    return nanoApi.accountRepresentative({
+      accountRepresentativeRequest: {
+        action: AccountRepresentativeRequestActionEnum.AccountRepresentative,
+        account: a,
+      },
+    });
+  });
+  return await Promise.all(requests).then((res) =>
+    res.map((a) => a.representative)
+  );
 }
 
 export async function processSimple(block: any): Promise<ProcessResponse> {
