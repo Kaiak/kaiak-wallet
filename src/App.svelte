@@ -57,7 +57,6 @@
 <main>
 	<Toast/>
 	<div class="kui-app">
-		<h1>space</h1>
 		{#if loader}
 			<Content titleKey="loading">
 				<LabelledLoader languageId={loader.languageId}/>
