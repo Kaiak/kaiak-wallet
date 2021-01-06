@@ -15,7 +15,7 @@
     import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
-    import {getRepresentative, resolveHistory} from "../../machinery/nano-rpc-fetch-wrapper";
+    import {resolveHistory} from "../../machinery/nano-rpc-fetch-wrapper";
     import {setWalletState} from "../../machinery/WalletState";
     import SendSelector from "./SendSelector.svelte";
 
@@ -53,7 +53,6 @@
         await load({
             languageId: 'loading-settings',
             load: async () => {
-                selectedAccount.representative = await getRepresentative(selectedAccount.address)
                 pushAccountAction('settings')
             },
             onError: () => {

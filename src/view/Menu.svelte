@@ -12,7 +12,6 @@
 
     export let wallet: WalletState | undefined
     export let accountAction: AccountAction | undefined = undefined
-    let selectedAccount: NanoAccount | undefined = wallet && wallet.selectedAccount ? wallet.wallet.accounts.filter(w => w.address === wallet.selectedAccount)[0] : undefined;
 
     afterUpdate(() => navigationReload(
         {
@@ -27,10 +26,10 @@
 <Content titleKey="menu">
     <List>
         <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => pushMenu('accounts')}/>
-        {#if selectedAccount && accountAction === 'menu'}
-            <WithSecondary primaryLanguageId="send" secondaryText={selectedAccount.alias} on:click={() => pushAccountAction('send')}/>
-            <WithSecondary primaryLanguageId="transactions" secondaryText={selectedAccount.alias} on:click={() =>  pushAccountAction('transactions')}/>
-            <WithSecondary primaryLanguageId="receive" secondaryText={selectedAccount.alias} on:click={() =>  pushAccountAction('receive')}/>
+        {#if wallet.account && accountAction === 'menu'}
+            <WithSecondary primaryLanguageId="send" secondaryText={wallet.account.alias} on:click={() => pushAccountAction('send')}/>
+            <WithSecondary primaryLanguageId="transactions" secondaryText={wallet.account.alias} on:click={() =>  pushAccountAction('transactions')}/>
+            <WithSecondary primaryLanguageId="receive" secondaryText={wallet.account.alias} on:click={() =>  pushAccountAction('receive')}/>
         {/if}
         <Primary primaryLanguageId="about" primaryText="about" on:click={() => pushMenu('about')}/>
         <Primary primaryLanguageId="setup" primaryText="setup" on:click={() => pushSetupAction('menu')}/>

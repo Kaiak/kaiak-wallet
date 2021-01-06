@@ -7,6 +7,9 @@ import type {
   RepresentativeBlock,
 } from 'nanocurrency-web/dist/lib/block-signer';
 
+const DEFAULT_REP: NanoAddress =
+  'nano_3n7ky76t4g57o9skjawm8pprooz1bminkbeegsyt694xn6d31c6s744fjzzz';
+
 function round(number: number, places: number): number {
   return +(Math.round(Number(number + 'e+' + places)) + 'e-' + places);
 }
@@ -41,7 +44,8 @@ export function signReceiveBlock(
   workHash: string,
   pendingBlock: any,
   frontier: Frontier,
-  walletBalance: RAW
+  walletBalance: RAW,
+  representative: NanoAddress | undefined
 ): SignedBlock {
   const blockHash = Object.keys(pendingBlock)[0];
 
@@ -52,8 +56,7 @@ export function signReceiveBlock(
     toAddress: address,
     transactionHash: blockHash,
     frontier: frontier,
-    representativeAddress:
-      'nano_1hzoje373eapce4ses7xsx539suww5555hi9q8i8j7hpbayzxq4c4nn91hr8', // TODO
+    representativeAddress: representative || DEFAULT_REP,
     amountRaw: amount,
     work: workHash,
   };
@@ -68,14 +71,14 @@ export function signSendBlock(
   toAddress: NanoAddress,
   frontier: string,
   amount: RAW,
-  workHash: string
+  workHash: string,
+  representative: NanoAddress
 ): SignedBlock {
   const data: SendBlock = {
     walletBalanceRaw: walletBalance.raw,
     fromAddress: fromAddress,
     toAddress: toAddress,
-    representativeAddress:
-      'nano_1hzoje373eapce4ses7xsx539suww5555hi9q8i8j7hpbayzxq4c4nn91hr8', // TODO
+    representativeAddress: representative,
     frontier: frontier,
     amountRaw: amount.raw,
     work: workHash,
