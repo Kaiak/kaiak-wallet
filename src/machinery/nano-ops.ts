@@ -154,7 +154,6 @@ export async function updateNanoAccount(
 ): Promise<NanoAccount> {
   const balance = await resolveBalance(account.address);
   const representative = await getRepresentative(account.address);
-
   return {
     ...account,
     representative: representative,

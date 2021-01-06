@@ -14,34 +14,34 @@
     export let wallet: NanoWallet;
     export let selectedAccount: NanoAccount;
 
-    let aliasValue: string = selectedAccount?.alias
+    let aliasValue: string = selectedAccount.alias
     let representativeValue: string = selectedAccount.representative
 
-    const setAlias = (event) => {
-        aliasValue = event.target.value;
-    }
+    const setAlias = (event) => aliasValue = event.target.value;
+    const changeRep = (event) => representativeValue = event.target.value
 
     const save = async () => {
         if(aliasValue < 3) {
             pushToast({languageId: 'onboard-alias-rule'})
             return;
         }
-        if(!tools.validateAddress(representativeValue)) {
+        if(representativeValue !== undefined && !tools.validateAddress(representativeValue)) {
             pushToast({languageId: 'invalid-address'})
             return;
         }
         selectedAccount.alias = aliasValue
-        await setRepresentative(selectedAccount, representativeValue)
-        selectedAccount.representative = aliasValue;
+        selectedAccount.representative = representativeValue;
+        await setRepresentative(selectedAccount)
+        wallet.accounts = wallet.accounts.map(a => {
+            if (a.address === selectedAccount.address) {
+                return selectedAccount;
+            } else return a;
+        });
         const updated: NanoWallet | undefined = await setWallet(wallet)
         if (updated) {
-            setWalletState({wallet: updated, selectedAccount: selectedAccount?.address})
+            setWalletState({wallet: updated, account: selectedAccount})
             back()
         } // TODO: Toast
-    }
-
-    const changeRep = (event) => {
-        representativeValue = event.target.value;
     }
 
     afterUpdate(() => navigationReload({
@@ -55,7 +55,7 @@
 
 <Seperator languageId="onboard-set-alias" />
 <Text languageId="onboard-set-alias-text"/>
-<TextInput languageId="account-alias" on:input={setAlias} bind:value={aliasValue}/>
+<TextInput languageId="account-alias" value={selectedAccount.alias} on:input={setAlias}/>
 <Seperator languageId="representative" />
 <Text languageId="representative-text"/>
 <TextArea languageId="set-representative" value={selectedAccount.representative} on:input={changeRep}/>

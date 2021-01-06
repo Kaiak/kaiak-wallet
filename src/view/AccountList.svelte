@@ -19,7 +19,6 @@
                 const updatedAccount = await updateNanoAccount(account)
                 setWalletState({
                     wallet: wallet,
-                    selectedAccount: account.address,
                     account: updatedAccount
                 })
                 pushAccountAction('menu')

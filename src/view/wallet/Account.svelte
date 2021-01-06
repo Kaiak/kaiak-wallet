@@ -41,7 +41,7 @@
                 const resolvedTransactions = await resolveHistory(selectedAccount.address)
                 setWalletState({
                     wallet: wallet,
-                    selectedAccount: selectedAccount.address,
+                    account: selectedAccount,
                     transactions: resolvedTransactions
                 })
                 pushAccountAction('transactions')
@@ -76,7 +76,7 @@
                 })
                 walletStore.set({
                     wallet: wallet,
-                    selectedAccount: updatedAccount.address,
+                    account: updatedAccount,
                     transactions: resolvedTransactions,
                 })
             }

@@ -26,7 +26,7 @@
 <Content titleKey="menu">
     <List>
         <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => pushMenu('accounts')}/>
-        {#if wallet.account && accountAction === 'menu'}
+        {#if wallet.account}
             <WithSecondary primaryLanguageId="send" secondaryText={wallet.account.alias} on:click={() => pushAccountAction('send')}/>
             <WithSecondary primaryLanguageId="transactions" secondaryText={wallet.account.alias} on:click={() =>  pushAccountAction('transactions')}/>
             <WithSecondary primaryLanguageId="receive" secondaryText={wallet.account.alias} on:click={() =>  pushAccountAction('receive')}/>
