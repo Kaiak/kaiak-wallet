@@ -53,20 +53,16 @@ export async function resolveBalances(
   return response.balances;
 }
 
-export async function getRepresentatives(
-  addresses: NanoAddress[]
-): Promise<NanoAddress[]> {
-  const requests = addresses.map((a) => {
-    return nanoApi.accountRepresentative({
-      accountRepresentativeRequest: {
-        action: AccountRepresentativeRequestActionEnum.AccountRepresentative,
-        account: a,
-      },
-    });
+export async function getRepresentative(
+  address: NanoAddress
+): Promise<NanoAddress> {
+  const response = await nanoApi.accountRepresentative({
+    accountRepresentativeRequest: {
+      action: AccountRepresentativeRequestActionEnum.AccountRepresentative,
+      account: address,
+    },
   });
-  return await Promise.all(requests).then((res) =>
-    res.map((a) => a.representative)
-  );
+  return response.representative;
 }
 
 export async function processSimple(block: any): Promise<ProcessResponse> {

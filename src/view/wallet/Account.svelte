@@ -11,11 +11,11 @@
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
-    import {afterUpdate, beforeUpdate} from "svelte";
+    import {afterUpdate} from "svelte";
     import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
-    import {resolveHistory} from "../../machinery/nano-rpc-fetch-wrapper";
+    import {getRepresentative, resolveHistory} from "../../machinery/nano-rpc-fetch-wrapper";
     import {setWalletState} from "../../machinery/WalletState";
     import SendSelector from "./SendSelector.svelte";
 
@@ -45,6 +45,19 @@
                     transactions: resolvedTransactions
                 })
                 pushAccountAction('transactions')
+            }
+        })
+    }
+
+    const showSettings = async () => {
+        await load({
+            languageId: 'loading-settings',
+            load: async () => {
+                selectedAccount.representative = await getRepresentative(selectedAccount.address)
+                pushAccountAction('settings')
+            },
+            onError: () => {
+              pushToast({ languageId: 'unable-to-load-representative' })
             }
         })
     }
@@ -90,7 +103,7 @@
         <Primary primaryLanguageId="transactions" on:click={showTransactions}/>
         <Primary primaryLanguageId="send" on:click={() => pushAccountAction('send') }/>
         <Primary primaryLanguageId="receive" on:click={() => pushAccountAction('receive') }/>
-        <Primary primaryLanguageId="settings" on:click={() => pushAccountAction('settings') }/>
+        <Primary primaryLanguageId="settings" on:click={() => showSettings() }/>
     </List>
 {:else if action === 'transactions'}
     <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
