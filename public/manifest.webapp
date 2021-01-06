@@ -21,11 +21,16 @@
     "video-capture": {
       "description": "Required for scanning QR codes"
     },
-    "mobiledata":{},
-    "wifidata":{}
+    "mobiledata":{
+      "description": "Required for sending/receiving transactions"
+    },
+    "wifidata":{
+      "description": "Required for sending/receiving transactions"
+    }
   },
-  "fullscreen": "false",
-  "orientation": "default",
+  "theme_color": "#4A90E2",
+  "cursor": false,
+  "fullscreen": false,
   "locales": {
     "en-US": {
       "name": "Nano cryptocurrency wallet",
