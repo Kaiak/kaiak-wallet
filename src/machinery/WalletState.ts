@@ -1,9 +1,4 @@
-import type {
-  NanoAccount,
-  NanoAddress,
-  NanoTransaction,
-  NanoWallet,
-} from './models';
+import type { NanoAccount, NanoTransaction, NanoWallet } from './models';
 import { walletStore } from '../stores/stores';
 
 export interface WalletState {

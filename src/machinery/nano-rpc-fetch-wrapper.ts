@@ -5,7 +5,6 @@ import {
   AccountHistoryRequestActionEnum,
   AccountHistoryResponse,
   AccountRepresentativeRequestActionEnum,
-  AccountRepresentativeResponse,
   AccountsBalancesRequestActionEnum,
   AccountsBalancesResponse,
   AccountsFrontiersRequestActionEnum,
