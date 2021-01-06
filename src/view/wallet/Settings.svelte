@@ -13,6 +13,7 @@
     export let selectedAccount: NanoAccount;
 
     let aliasValue: string = selectedAccount?.alias
+    let setRepText: string = selectedAccount.representative ? 'change' : 'set'
 
     const setAlias = (event) => {
         aliasValue = event.target.value;
@@ -43,5 +44,9 @@
 <Seperator languageId="account-settings" />
 <TextInput languageId="account-alias" on:input={setAlias} bind:value={aliasValue}/>
 <Seperator languageId="set-representative" />
-<Text breakAll="true">{selectedAccount.representative}</Text>
-<Button languageId="change" on:click={changeRep} />
+{#if selectedAccount.representative}
+    <Text breakAll="true">{selectedAccount.representative}</Text>
+{:else}
+    <Text languageId="no-representative-set"/>
+{/if}
+<Button languageId={setRepText} on:click={changeRep} />

@@ -27,7 +27,7 @@ export type OnboardView =
   | 'disclaimer-import'
   | 'input-import';
 
-export type SetupAction = 'menu' | 'export-seed' | 'representative';
+export type SetupAction = 'menu' | 'export-seed';
 
 export interface OnboardState {
   view: OnboardView;
