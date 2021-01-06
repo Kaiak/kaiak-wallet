@@ -22,5 +22,5 @@
         {/each}
     </List>
 {:else}
-    no transactions
+    <div data-l10n-id="no-transactions"></div>
 {/if}
