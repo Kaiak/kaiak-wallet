@@ -46,12 +46,6 @@
 		display: flex;
 		flex-direction: column;
 	}
-	h1 {
-		visibility: hidden;
-		font-size: 17px;
-		font-weight: 300;
-		margin: 0 0 5px;
-	}
 </style>
 
 <main>
