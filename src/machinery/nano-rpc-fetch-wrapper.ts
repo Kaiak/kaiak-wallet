@@ -5,8 +5,6 @@ import {
   AccountHistoryRequestActionEnum,
   AccountHistoryResponse,
   AccountRepresentativeRequestActionEnum,
-  AccountsBalancesRequestActionEnum,
-  AccountsBalancesResponse,
   AccountsFrontiersRequestActionEnum,
   AccountsFrontiersResponse,
   AccountsPendingRequestActionEnum,
@@ -39,18 +37,6 @@ export async function resolveBalance(address: NanoAddress): Promise<RAW> {
     },
   });
   return { raw: balance.balance.toString() };
-}
-
-export async function resolveBalances(
-  addresses: NanoAddress[]
-): Promise<{ [address: string]: AccountBalanceResponse }> {
-  let response: AccountsBalancesResponse = await nanoApi.accountsBalances({
-    accountsBalancesRequest: {
-      action: AccountsBalancesRequestActionEnum.AccountsBalances,
-      accounts: addresses.map((a) => a),
-    },
-  });
-  return response.balances;
 }
 
 export async function getRepresentative(

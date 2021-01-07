@@ -9,17 +9,20 @@
     import {load} from "../machinery/loader-store";
     import {addNanoAccount} from "../machinery/wallet";
     import {truncateNanoAddress} from "../machinery/nanocurrency-web-wrapper";
-    import {updateNanoAccount} from "../machinery/nano-ops";
+    import {loadAndResolveAccountData, updateAccountInWallet} from "../machinery/nano-ops";
+    import {resolveHistory} from "../machinery/nano-rpc-fetch-wrapper";
 
     export let wallet: NanoWallet
     const selectAccount = async (account: NanoAccount) => {
         await load({
             languageId: 'loading-account',
             load: async () => {
-                const updatedAccount = await updateNanoAccount(account)
+                const updatedAccount = await loadAndResolveAccountData(account)
+                const transactions = await resolveHistory(updatedAccount.address)
                 setWalletState({
-                    wallet: wallet,
-                    account: updatedAccount
+                    wallet: updateAccountInWallet(updatedAccount, wallet),
+                    account: updatedAccount,
+                    transactions: transactions,
                 })
                 pushAccountAction('menu')
             }

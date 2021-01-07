@@ -7,7 +7,7 @@
     import Receive from "./Receive.svelte";
     import type {AccountAction} from "../../machinery/NavigationState";
     import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
-    import {loadWalletData} from "../../machinery/nano-ops";
+    import {loadAndResolveAccountData, updateAccountInWallet} from "../../machinery/nano-ops";
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
@@ -65,17 +65,13 @@
         await load({
             languageId: 'loading-refresh',
             load: async () => {
-                // TODO: Refresh transactions as well?
-                const updatedAccount = await loadWalletData(selectedAccount)
+                const updatedAccount = await loadAndResolveAccountData(selectedAccount)
                 const resolvedTransactions = await resolveHistory(selectedAccount.address)
                 if (resolvedTransactions.length > 0) {
                     pushToast({languageId: 'got-new-transactions', type: "success"})
                 }
-                wallet.accounts = wallet.accounts.map(account => {
-                    return account.address === updatedAccount.address ? updatedAccount : account
-                })
                 walletStore.set({
-                    wallet: wallet,
+                    wallet: updateAccountInWallet(updatedAccount, wallet),
                     account: updatedAccount,
                     transactions: resolvedTransactions,
                 })
