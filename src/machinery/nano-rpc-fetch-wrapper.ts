@@ -20,6 +20,7 @@ import {
   PendingBlock,
   ProcessRequestActionEnum,
   ProcessResponse,
+  SubType,
   WorkGenerateRequestActionEnum,
   WorkGenerateResponse,
 } from 'nano-rpc-fetch';
@@ -64,12 +65,16 @@ export async function getRepresentative(
   return response.representative;
 }
 
-export async function processSimple(block: any): Promise<ProcessResponse> {
+export async function processSimple(
+  block: any,
+  subtype: SubType
+): Promise<ProcessResponse> {
   return await nanoApi.process({
     processRequest: {
       action: ProcessRequestActionEnum.Process,
       block: block,
       jsonBlock: ModelBoolean.True,
+      subtype: subtype,
     },
   });
 }
