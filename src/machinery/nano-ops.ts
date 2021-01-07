@@ -1,8 +1,9 @@
 import type {
+  AccountBalanceResponse,
   BlockInfo,
   PendingBlock,
-  AccountBalanceResponse,
 } from 'nano-rpc-fetch';
+import { SubType } from 'nano-rpc-fetch';
 import type { SignedBlock } from 'nanocurrency-web/dist/lib/block-signer';
 import type {
   Frontier,
@@ -93,7 +94,7 @@ async function resolvePendingForAccount(
       currentBalance,
       representative
     );
-    await processSimple(block);
+    await processSimple(block, SubType.Receive);
   } else {
     return;
   }
@@ -121,7 +122,7 @@ export async function sendNano(
       workHash,
       account.representative
     );
-    await processSimple(signed);
+    await processSimple(signed, SubType.Send);
     return updateWalletAccount(account);
   } catch (error) {
     console.log(error);
@@ -143,7 +144,7 @@ export async function setRepresentative(account: NanoAccount): Promise<void> {
       frontier,
       workHash
     );
-    await processSimple(signed);
+    await processSimple(signed, SubType.Change);
   } catch (e) {
     console.log(e);
   }

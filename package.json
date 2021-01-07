@@ -43,12 +43,12 @@
     "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.3"
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "image-capture": "^0.4.0",
     "jsqr": "^1.3.1",
-    "nano-rpc-fetch": "^1.0.0",
+    "nano-rpc-fetch": "^1.1.4",
     "nanocurrency-web": "^1.2.2",
     "qrcode": "^1.4.4",
     "redux": "^4.0.5",
