@@ -59,7 +59,7 @@
         <InputSeed seedInputValue={attemptedSeedInput} />
     {:else}
         <Text languageId="onboard-title" />
-        <Text breakAll={true} languageId="onboard-description"/>
+        <Text breakAll={false} languageId="onboard-description"/>
     {/if}
 </Content>
 
