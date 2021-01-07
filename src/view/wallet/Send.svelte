@@ -57,10 +57,10 @@
                         })
                         walletStore.set({
                             wallet: wallet,
-                            selectedAccount: updatedAccount.address
+                            account: updatedAccount,
                         })
                         pushToast({languageId: 'sent-funds-success', type: 'success'})
-                        pushAccountAction(undefined)
+                        pushAccountAction('menu')
                     } else {
                         pushToast({languageId: 'unable-to-send', type: 'warn'})
                     }

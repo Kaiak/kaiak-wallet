@@ -11,7 +11,7 @@
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
-    import {afterUpdate, beforeUpdate} from "svelte";
+    import {afterUpdate} from "svelte";
     import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
@@ -41,10 +41,22 @@
                 const resolvedTransactions = await resolveHistory(selectedAccount.address)
                 setWalletState({
                     wallet: wallet,
-                    selectedAccount: selectedAccount.address,
+                    account: selectedAccount,
                     transactions: resolvedTransactions
                 })
                 pushAccountAction('transactions')
+            }
+        })
+    }
+
+    const showSettings = async () => {
+        await load({
+            languageId: 'loading-settings',
+            load: async () => {
+                pushAccountAction('settings')
+            },
+            onError: () => {
+              pushToast({ languageId: 'unable-to-load-representative' })
             }
         })
     }
@@ -64,7 +76,7 @@
                 })
                 walletStore.set({
                     wallet: wallet,
-                    selectedAccount: updatedAccount.address,
+                    account: updatedAccount,
                     transactions: resolvedTransactions,
                 })
             }
@@ -90,7 +102,7 @@
         <Primary primaryLanguageId="transactions" on:click={showTransactions}/>
         <Primary primaryLanguageId="send" on:click={() => pushAccountAction('send') }/>
         <Primary primaryLanguageId="receive" on:click={() => pushAccountAction('receive') }/>
-        <Primary primaryLanguageId="settings" on:click={() => pushAccountAction('settings') }/>
+        <Primary primaryLanguageId="settings" on:click={() => showSettings() }/>
     </List>
 {:else if action === 'transactions'}
     <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>

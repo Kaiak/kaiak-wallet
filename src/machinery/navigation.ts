@@ -73,4 +73,13 @@ export class Navigation {
       ? this.inputSelection().selectionStart !== 0
       : false;
   }
+
+  isClickableElement(): boolean {
+    return (
+      this.selectedElement &&
+      (this.selectedElement instanceof HTMLButtonElement ||
+        this.selectedElement instanceof HTMLLIElement) &&
+      this.selectedElement.click !== undefined
+    );
+  }
 }

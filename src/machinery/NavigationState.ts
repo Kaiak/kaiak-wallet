@@ -15,7 +15,8 @@ export type AccountAction =
   | 'transactions'
   | 'receive'
   | 'send_qr'
-  | 'send_address';
+  | 'send_address'
+  | 'settings';
 
 export type OnboardView =
   | 'start'
