@@ -1,4 +1,9 @@
-import type { NanoAccount, NanoTransaction, NanoWallet } from './models';
+import type {
+  NanoAccount,
+  NanoAddress,
+  NanoTransaction,
+  NanoWallet,
+} from './models';
 import { loadAndResolveAccountData, updateAccountInWallet } from './nano-ops';
 import { getHistory } from './nano-rpc-fetch-wrapper';
 import { pushToast } from './eventListener';
@@ -9,6 +14,7 @@ export interface WalletState {
   transactions?: NanoTransaction[];
   account?: NanoAccount;
   transaction?: NanoTransaction;
+  sendToAddress?: NanoAddress;
 }
 
 export function setWalletState(walletState: WalletState) {

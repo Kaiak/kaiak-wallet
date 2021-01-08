@@ -16,10 +16,9 @@
     export let account: NanoAccount;
     export let balance: RAW;
     export let setType: (a: AccountAction) => void
+    export let toAddress: NanoAddress | undefined = undefined
 
     let sending: boolean = false;
-
-    let toAddress: NanoAddress | undefined
     let showCamera: boolean = sendType === 'send_qr'
 
     let sendValue: number | undefined = undefined

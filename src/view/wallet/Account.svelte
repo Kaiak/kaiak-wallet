@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NanoAccount, NanoTransaction, NanoWallet} from "../../machinery/models";
+    import type {NanoAccount, NanoAddress, NanoTransaction, NanoWallet} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
@@ -13,7 +13,7 @@
     import {afterUpdate} from "svelte";
     import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {load} from "../../machinery/loader-store";
-    import {updateWalletState} from "../../machinery/WalletState";
+    import {setWalletState, updateWalletState} from "../../machinery/WalletState";
     import type {WalletState} from "../../machinery/WalletState";
     import SendSelector from "./SendSelector.svelte";
     import Content from "../../components/Content.svelte";
@@ -27,6 +27,7 @@
     $: selectedAccount = walletState.account;
     $: transactions = walletState.transactions
     $: transaction = walletState.transaction
+    $: sendToAddress = walletState.sendToAddress
 
     const accountTitle = (account: NanoAccount) => {
         if (account === undefined) {
@@ -66,6 +67,13 @@
             }
         })
     }
+    const sendToAccount = (address: NanoAddress) => {
+        setWalletState({
+            ...walletState,
+            sendToAddress: address
+        })
+        pushAccountAction('send_address')
+    }
 
     afterUpdate(() => {
         console.log(walletState)
@@ -96,11 +104,11 @@
         <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
         <Transactions transactions={transactions}/>
     {:else if action === 'transaction'}
-        <Transaction transaction={transaction} />
+        <Transaction transaction={transaction} sendFunction={sendToAccount} />
     {:else if action === 'send'}
         <SendSelector />
     {:else if action === 'send_qr' || action === 'send_address'}
-        <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />
+        <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} toAddress={sendToAddress} />
     {:else if action === 'receive'}
         <Receive account={selectedAccount} />
     {:else if action === 'settings'}
