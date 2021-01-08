@@ -18,6 +18,7 @@
             languageId: 'loading-account',
             load: async () => {
                 const updatedAccount = await loadAndResolveAccountData(account)
+                console.log(updatedAccount)
                 const transactions = await resolveHistory(updatedAccount.address)
                 setWalletState({
                     wallet: updateAccountInWallet(updatedAccount, wallet),

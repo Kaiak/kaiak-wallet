@@ -4,18 +4,18 @@ import {
   AccountBalanceResponse,
   AccountHistoryRequestActionEnum,
   AccountHistoryResponse,
-  AccountRepresentativeRequestActionEnum,
+  AccountInfoRequestActionEnum,
+  AccountInfoResponse,
   AccountsFrontiersRequestActionEnum,
   AccountsFrontiersResponse,
   AccountsPendingRequestActionEnum,
   AccountsPendingResponse,
-  BlockInfo,
-  BlocksInfoRequestActionEnum,
-  BlocksInfoResponse,
   Configuration,
   ModelBoolean,
   NodeRPCsApi,
   PendingBlock,
+  PendingRequestActionEnum,
+  PendingResponse,
   ProcessRequestActionEnum,
   ProcessResponse,
   SubType,
@@ -37,18 +37,6 @@ export async function resolveBalance(address: NanoAddress): Promise<RAW> {
     },
   });
   return { raw: balance.balance.toString() };
-}
-
-export async function getRepresentative(
-  address: NanoAddress
-): Promise<NanoAddress> {
-  const response = await nanoApi.accountRepresentative({
-    accountRepresentativeRequest: {
-      action: AccountRepresentativeRequestActionEnum.AccountRepresentative,
-      account: address,
-    },
-  });
-  return response.representative;
 }
 
 export async function processSimple(
@@ -116,6 +104,20 @@ export async function getPendingBlocksSimple(
   });
   return response.blocks;
 }
+export async function getPending(address: NanoAddress): Promise<{ any }> {
+  const response: PendingResponse = await nanoApi.pending({
+    pendingRequest: {
+      action: PendingRequestActionEnum.Pending,
+      account: address,
+      includeOnlyConfirmed: ModelBoolean.True,
+      sorting: ModelBoolean.True,
+      source: ModelBoolean.True,
+    },
+  });
+  console.log(response);
+  // @ts-ignore
+  return response.blocks;
+}
 
 export async function loadFrontiers(
   addresses: string[]
@@ -129,15 +131,28 @@ export async function loadFrontiers(
   return response.frontiers;
 }
 
-export async function loadBlocks(
-  frontiers: string[]
-): Promise<{ [key: string]: BlockInfo }> {
-  const response: BlocksInfoResponse = await nanoApi.blocksInfo({
-    blocksInfoRequest: {
-      action: BlocksInfoRequestActionEnum.BlocksInfo,
-      hashes: frontiers,
-      jsonBlock: ModelBoolean.True,
+export async function accountInfo(
+  account: NanoAddress
+): Promise<{
+  frontier: NanoAddress;
+  representative: NanoAddress;
+  balance: RAW;
+}> {
+  const response: AccountInfoResponse = await nanoApi.accountInfo({
+    accountInfoRequest: {
+      action: AccountInfoRequestActionEnum.AccountInfo,
+      account: account,
+      representative: ModelBoolean.True,
     },
   });
-  return response.blocks;
+  if (response.representative === undefined) {
+    throw Error('a first receive');
+  }
+  return {
+    representative: response.representative,
+    balance: {
+      raw: response.balance.toString(),
+    },
+    frontier: response.frontier,
+  };
 }
