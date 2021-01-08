@@ -40,3 +40,8 @@ export interface AccountInfo {
   balance: RAW;
   frontier: Frontier;
 }
+
+export interface PendingTransaction {
+  hash: BlockHash;
+  amount: RAW;
+}

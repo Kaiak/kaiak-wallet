@@ -3,6 +3,7 @@ import type {
   Frontier,
   NanoAddress,
   NanoTransaction,
+  PendingTransaction,
   RAW,
 } from './models';
 import {
@@ -110,7 +111,9 @@ export async function getPendingBlocksSimple(
   });
   return response.blocks;
 }
-export async function getPending(address: NanoAddress): Promise<{ any }> {
+export async function getPending(
+  address: NanoAddress
+): Promise<PendingTransaction | undefined> {
   const response: PendingResponse = await nanoApi.pending({
     pendingRequest: {
       action: PendingRequestActionEnum.Pending,
@@ -120,9 +123,18 @@ export async function getPending(address: NanoAddress): Promise<{ any }> {
       source: ModelBoolean.True,
     },
   });
-  console.log(response);
-  // @ts-ignore
-  return response.blocks;
+  const blocks: [hash: string, block: any][] = Object.entries(response.blocks);
+  if (blocks.length > 0) {
+    const [blockHash, { amount }] = blocks[0];
+    return {
+      hash: blockHash,
+      amount: {
+        raw: amount,
+      },
+    };
+  } else {
+    return undefined;
+  }
 }
 
 export async function loadFrontiers(

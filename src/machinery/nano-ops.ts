@@ -7,6 +7,7 @@ import type {
   NanoAccount,
   NanoAddress,
   NanoWallet,
+  PendingTransaction,
   RAW,
 } from './models';
 import {
@@ -32,6 +33,7 @@ let OPEN_FRONTIER =
 const SEND_WORK = 'fffffff800000000';
 const RECEIVE_WORK = 'fffffe0000000000';
 
+/** Calls itself until transactions are pocketed */
 export async function loadAndResolveAccountData(
   account: NanoAccount
 ): Promise<NanoAccount> {
@@ -41,42 +43,36 @@ export async function loadAndResolveAccountData(
     if (info) {
       account.representative = info.representative;
       account.balance = info.balance;
-      const blocks: [hash: string, block: any][] = Object.entries(
-        await getPending(account.address)
+      const block: PendingTransaction | undefined = await getPending(
+        account.address
       );
-      if (blocks.length > 0) {
-        const [blockHash, { amount }] = blocks[0];
-        await receiveBlock(account, info.frontier, blockHash, {
-          raw: amount,
-        });
+      console.log(block);
+      if (block) {
+        await receiveBlock(account, info.frontier, block);
         return loadAndResolveAccountData(account);
       }
       return account;
     } else {
       account.representative = account.representative || DEFAULT_REP;
-      const blocks: [hash: string, block: any][] = Object.entries(
-        await getPending(account.address)
+      const pendingBlock: PendingTransaction | undefined = await getPending(
+        account.address
       );
-      if (blocks.length > 0) {
-        const [blockHash, { amount }] = blocks[0];
-        await receiveBlock(account, undefined, blockHash, {
-          raw: amount,
-        });
+      if (pendingBlock) {
+        await receiveBlock(account, info.frontier, pendingBlock);
         return loadAndResolveAccountData(account);
       }
       return account;
     }
   } catch (e) {
     // How to handle error?
-    return undefined;
+    return account;
   }
 }
 
 export async function receiveBlock(
   account: NanoAccount,
   frontier: Frontier | undefined,
-  blockHash: BlockHash,
-  amount: RAW | undefined
+  pending: PendingTransaction
 ): Promise<void> {
   const work = await generateWork(frontier || account.publicKey, RECEIVE_WORK);
   const receiveBlock = signReceiveBlock(
@@ -86,8 +82,8 @@ export async function receiveBlock(
     frontier || OPEN_FRONTIER,
     account.balance || { raw: '0' },
     account.representative,
-    blockHash,
-    amount
+    pending.hash,
+    pending.amount
   );
   await processSimple(receiveBlock, SubType.Receive);
 }
