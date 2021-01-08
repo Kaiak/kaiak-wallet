@@ -2,7 +2,6 @@ import { SubType } from 'nano-rpc-fetch';
 import type { SignedBlock } from 'nanocurrency-web/dist/lib/block-signer';
 import type {
   AccountInfo,
-  BlockHash,
   Frontier,
   NanoAccount,
   NanoAddress,
@@ -14,9 +13,7 @@ import {
   accountInfo,
   generateWork,
   getPending,
-  loadFrontiers,
-  processSimple,
-  resolveBalance,
+  process,
 } from './nano-rpc-fetch-wrapper';
 import {
   signReceiveBlock,
@@ -54,7 +51,7 @@ export async function loadAndResolveAccountData(
     }
     return account;
   } catch (e) {
-    // How to handle error?
+    // TODO: Should we handle error?
     return account;
   }
 }
@@ -75,33 +72,33 @@ export async function receiveBlock(
     pending.hash,
     pending.amount
   );
-  await processSimple(receiveBlock, SubType.Receive);
+  await process(receiveBlock, SubType.Receive);
 }
 
 export async function sendNano(
   account: NanoAccount,
   toAddress: NanoAddress,
-  amount: RAW,
-  balance: RAW
+  amount: RAW
 ): Promise<NanoAccount | undefined> {
   try {
-    const frontiers:
-      | Map<string, Frontier>
-      | { [key: string]: Frontier } = await loadFrontiers([account.address]);
-    const frontier: Frontier | undefined = frontiers[account.address];
-    const workHash: string = await generateWork(frontier, SEND_WORK);
-    const signed: SignedBlock = signSendBlock(
-      account.privateKey,
-      balance,
-      account.address,
-      toAddress,
-      frontier,
-      amount,
-      workHash,
-      account.representative
-    );
-    await processSimple(signed, SubType.Send);
-    return updateWalletAccount(account, account.representative);
+    const info: AccountInfo | undefined = await accountInfo(account.address);
+    if (info) {
+      const workHash: string = await generateWork(info.frontier, SEND_WORK);
+      const signed: SignedBlock = signSendBlock(
+        account.privateKey,
+        info.balance,
+        account.address,
+        toAddress,
+        info.frontier,
+        amount,
+        workHash,
+        info.representative
+      );
+      await process(signed, SubType.Send);
+      return updateWalletAccount(account);
+    } else {
+      return account;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -109,34 +106,31 @@ export async function sendNano(
 
 export async function setRepresentative(account: NanoAccount): Promise<void> {
   try {
-    const frontiers:
-      | Map<string, Frontier>
-      | { [key: string]: Frontier } = await loadFrontiers([account.address]);
-    const frontier: Frontier | undefined = frontiers[account.address];
-    const workHash: string = await generateWork(frontier, SEND_WORK);
-    const signed: SignedBlock = signRepresentativeBlock(
-      account.privateKey,
-      account.balance,
-      account.address,
-      account.representative,
-      frontier,
-      workHash
-    );
-    await processSimple(signed, SubType.Change);
+    const info: AccountInfo | undefined = await accountInfo(account.address);
+    if (info) {
+      const workHash: string = await generateWork(info.frontier, SEND_WORK);
+      const signed: SignedBlock = signRepresentativeBlock(
+        account.privateKey,
+        account.balance,
+        account.address,
+        account.representative,
+        info.frontier,
+        workHash
+      );
+      await process(signed, SubType.Change);
+    }
   } catch (e) {
     console.log(e);
+    return undefined;
   }
 }
 
-async function updateWalletAccount(
-  account: NanoAccount,
-  rep: NanoAddress
-): Promise<NanoAccount> {
-  const balance = await resolveBalance(account.address);
+async function updateWalletAccount(account: NanoAccount): Promise<NanoAccount> {
+  const info: AccountInfo | undefined = await accountInfo(account.address);
   return {
     ...account,
-    balance: balance,
-    representative: rep,
+    balance: info.balance,
+    representative: info.representative,
   };
 }
 /** Updates account in account list */

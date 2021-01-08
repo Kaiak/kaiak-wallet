@@ -1,26 +1,17 @@
 import type {
   AccountInfo,
-  Frontier,
   NanoAddress,
   NanoTransaction,
   PendingTransaction,
-  RAW,
 } from './models';
 import {
-  AccountBalanceRequestActionEnum,
-  AccountBalanceResponse,
   AccountHistoryRequestActionEnum,
   AccountHistoryResponse,
   AccountInfoRequestActionEnum,
   AccountInfoResponse,
-  AccountsFrontiersRequestActionEnum,
-  AccountsFrontiersResponse,
-  AccountsPendingRequestActionEnum,
-  AccountsPendingResponse,
   Configuration,
   ModelBoolean,
   NodeRPCsApi,
-  PendingBlock,
   PendingRequestActionEnum,
   PendingResponse,
   ProcessRequestActionEnum,
@@ -36,17 +27,7 @@ const nanoApi = new NodeRPCsApi(
   })
 );
 
-export async function resolveBalance(address: NanoAddress): Promise<RAW> {
-  let balance: AccountBalanceResponse = await nanoApi.accountBalance({
-    accountBalanceRequest: {
-      action: AccountBalanceRequestActionEnum.AccountBalance,
-      account: address,
-    },
-  });
-  return { raw: balance.balance.toString() };
-}
-
-export async function processSimple(
+export async function process(
   block: any,
   subtype: SubType
 ): Promise<ProcessResponse> {
@@ -98,19 +79,6 @@ export async function resolveHistory(
   }
 }
 
-export async function getPendingBlocksSimple(
-  accounts: string[]
-): Promise<{ [key: string]: { [key: string]: PendingBlock } }> {
-  const response: AccountsPendingResponse = await nanoApi.accountsPending({
-    accountsPendingRequest: {
-      action: AccountsPendingRequestActionEnum.AccountsPending,
-      accounts: accounts,
-      count: '1',
-      source: true,
-    },
-  });
-  return response.blocks;
-}
 export async function getPending(
   address: NanoAddress
 ): Promise<PendingTransaction | undefined> {
@@ -135,18 +103,6 @@ export async function getPending(
   } else {
     return undefined;
   }
-}
-
-export async function loadFrontiers(
-  addresses: string[]
-): Promise<Map<string, Frontier> | { [key: string]: Frontier }> {
-  const response: AccountsFrontiersResponse = await nanoApi.accountsFrontiers({
-    accountsFrontiersRequest: {
-      action: AccountsFrontiersRequestActionEnum.AccountsFrontiers,
-      accounts: addresses,
-    },
-  });
-  return response.frontiers;
 }
 
 export async function accountInfo(

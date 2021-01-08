@@ -50,7 +50,7 @@
             await load({
                 languageId: 'sending-funds',
                 load: async () => {
-                    const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}), balance)
+                    const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}))
                     if (updatedAccount) {
                         wallet.accounts = wallet.accounts.map(account => {
                             return account.address === updatedAccount.address ? updatedAccount : account
