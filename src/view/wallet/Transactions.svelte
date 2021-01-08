@@ -1,14 +1,19 @@
 <script lang="ts">
     import List from "../../components/List.svelte";
-    import type {NanoTransaction} from "../../machinery/models";
-    import {afterUpdate} from "svelte";
-    import {navigationReload} from "../../machinery/eventListener";
+    import type {NanoTransaction, NanoWallet} from "../../machinery/models";
+    import {afterUpdate, onDestroy} from "svelte";
+    import {navigationReload, pushAccountAction} from "../../machinery/eventListener";
     import {getLanguage} from "../../machinery/language";
     import Primary from "../../components/list/Primary.svelte";
     import {rawToNano, truncateNanoAddress} from "../../machinery/nanocurrency-web-wrapper";
     import Text from "../../components/Text.svelte";
+    import {setWalletState, walletStore} from "../../machinery/WalletState";
+    import type {WalletState} from "../../machinery/WalletState";
 
     export let transactions: NanoTransaction[]
+    let wallet: WalletState | undefined = undefined;
+
+    const unsubscribe = walletStore.subscribe(value => wallet = value)
 
     const transactionType = (transaction: NanoTransaction) => {
         switch (transaction.type) {
@@ -36,20 +41,19 @@
         return `${getLanguage(transactionType(transaction))} ${rawToNano(transaction.amount, 6).amount} ${getLanguage(direction(transaction))} ${truncateNanoAddress(transaction.account)}`
     }
 
-    const setSelected = (time) => {
-        // const selectedTransaction: NanoTransaction | undefined = history.filter(h => h.localTimestamp === time)[0]
-        // pushState({...state, account: {...state.account, selectedTransaction: selectedTransaction}})
+    const setSelected = (transaction: NanoTransaction) => {
+        setWalletState({...wallet, transaction: transaction})
+        pushAccountAction('transaction')
     }
 
-    afterUpdate(() => {
-        navigationReload()
-    })
+    afterUpdate(() => navigationReload())
+    onDestroy(() => unsubscribe())
 </script>
 
 {#if transactions.length > 0}
     <List>
         {#each transactions as transaction}
-            <Primary primaryText={transactionText(transaction)} />
+            <Primary primaryText={transactionText(transaction)} on:click={() => setSelected(transaction) } />
         {/each}
     </List>
 {:else}

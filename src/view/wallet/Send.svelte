@@ -6,7 +6,6 @@
     import CameraCapture from "../../components/CameraCapture.svelte";
     import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
     import type {AccountAction} from "../../machinery/NavigationState";
-    import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
     import {afterUpdate} from "svelte";
     import TextInput from "../../components/input/TextInput.svelte";

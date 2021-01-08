@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {navigationStore, walletStore} from "./stores/stores";
+	import {navigationStore} from "./stores/stores";
 	import type {NavigationState} from "./machinery/NavigationState";
 	import Menu from "./view/Menu.svelte";
 	import Setup from "./view/setup/Setup.svelte";
@@ -16,6 +16,7 @@
 	import type {WalletState} from "./machinery/WalletState";
 	import AccountList from "./view/AccountList.svelte";
 	import Account from "./view/wallet/Account.svelte";
+	import {walletStore} from "./machinery/WalletState";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined

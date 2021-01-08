@@ -1,13 +1,14 @@
 import type { NanoAccount, NanoTransaction, NanoWallet } from './models';
-import { walletStore } from '../stores/stores';
 import { loadAndResolveAccountData, updateAccountInWallet } from './nano-ops';
 import { getHistory } from './nano-rpc-fetch-wrapper';
 import { pushToast } from './eventListener';
+import { writable, Writable } from 'svelte/store';
 
 export interface WalletState {
   wallet: NanoWallet | undefined;
   transactions?: NanoTransaction[];
   account?: NanoAccount;
+  transaction?: NanoTransaction;
 }
 
 export function setWalletState(walletState: WalletState) {
@@ -29,9 +30,15 @@ export async function updateWalletState(
   } else if (error) {
     pushToast({ languageId: error, type: 'warn' });
   }
-  walletStore.set({
+  setWalletState({
     wallet: updateAccountInWallet(updatedAccount, wallet),
     account: updatedAccount,
     transactions: resolvedTransactions,
   });
 }
+
+/** Handles updates of wallet */
+export const walletStore: Writable<WalletState> = writable({
+  wallet: undefined,
+  transactions: undefined,
+});
