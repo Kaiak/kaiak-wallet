@@ -14,14 +14,19 @@
     import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {load} from "../../machinery/loader-store";
     import {updateWalletState} from "../../machinery/WalletState";
+    import type {WalletState} from "../../machinery/WalletState";
     import SendSelector from "./SendSelector.svelte";
     import Content from "../../components/Content.svelte";
+    import Transaction from "./Transaction.svelte";
 
-    export let wallet: NanoWallet
-    export let selectedAccount: NanoAccount
+    export let walletState: WalletState
     export let action: AccountAction;
-    export let transactions: NanoTransaction[]
     export let fullscreen: boolean = false;
+
+    $: wallet = walletState.wallet;
+    $: selectedAccount = walletState.account;
+    $: transactions = walletState.transactions
+    $: transaction = walletState.transaction
 
     const accountTitle = (account: NanoAccount) => {
         if (account === undefined) {
@@ -63,6 +68,8 @@
     }
 
     afterUpdate(() => {
+        console.log(walletState)
+        console.log(walletState.transaction)
         if (action === 'menu') {
             navigationReload({
                 leftKey: {
@@ -88,6 +95,8 @@
     {:else if action === 'transactions'}
         <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
         <Transactions transactions={transactions}/>
+    {:else if action === 'transaction'}
+        <Transaction transaction={transaction} />
     {:else if action === 'send'}
         <SendSelector />
     {:else if action === 'send_qr' || action === 'send_address'}
