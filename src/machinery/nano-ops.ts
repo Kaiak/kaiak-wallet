@@ -1,6 +1,7 @@
 import { SubType } from 'nano-rpc-fetch';
 import type { SignedBlock } from 'nanocurrency-web/dist/lib/block-signer';
 import type {
+  AccountInfo,
   Frontier,
   NanoAccount,
   NanoAddress,
@@ -34,35 +35,39 @@ export async function loadAndResolveAccountData(
   account: NanoAccount
 ): Promise<NanoAccount> {
   try {
-    const { frontier, representative, balance } = await accountInfo(
-      account.address
-    );
-    account.representative = representative;
-    account.balance = balance;
-    const blocks: [hash: string, block: any][] = Object.entries(
-      await getPending(account.address)
-    );
-    if (blocks.length > 0) {
-      const [blockHash, { amount }] = blocks[0];
-      await receiveBlock(account, frontier, blockHash, {
-        raw: amount,
-      });
-      return loadAndResolveAccountData(account);
+    const info: AccountInfo | undefined = await accountInfo(account.address);
+    // Account is open
+    if (info) {
+      account.representative = info.representative;
+      account.balance = info.balance;
+      const blocks: [hash: string, block: any][] = Object.entries(
+        await getPending(account.address)
+      );
+      if (blocks.length > 0) {
+        const [blockHash, { amount }] = blocks[0];
+        await receiveBlock(account, info.frontier, blockHash, {
+          raw: amount,
+        });
+        return loadAndResolveAccountData(account);
+      }
+      return account;
+    } else {
+      account.representative = account.representative || DEFAULT_REP;
+      const blocks: [hash: string, block: any][] = Object.entries(
+        await getPending(account.address)
+      );
+      if (blocks.length > 0) {
+        const [blockHash, { amount }] = blocks[0];
+        await receiveBlock(account, undefined, blockHash, {
+          raw: amount,
+        });
+        return loadAndResolveAccountData(account);
+      }
+      return account;
     }
-    return account;
   } catch (e) {
-    account.representative = account.representative || DEFAULT_REP;
-    const blocks: [hash: string, block: any][] = Object.entries(
-      await getPending(account.address)
-    );
-    if (blocks.length > 0) {
-      const [blockHash, { amount }] = blocks[0];
-      await receiveBlock(account, undefined, blockHash, {
-        raw: amount,
-      });
-      return loadAndResolveAccountData(account);
-    }
-    return account;
+    // How to handle error?
+    return undefined;
   }
 }
 

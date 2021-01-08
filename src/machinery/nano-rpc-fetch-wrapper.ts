@@ -1,4 +1,10 @@
-import type { Frontier, NanoAddress, NanoTransaction, RAW } from './models';
+import type {
+  AccountInfo,
+  Frontier,
+  NanoAddress,
+  NanoTransaction,
+  RAW,
+} from './models';
 import {
   AccountBalanceRequestActionEnum,
   AccountBalanceResponse,
@@ -133,11 +139,7 @@ export async function loadFrontiers(
 
 export async function accountInfo(
   account: NanoAddress
-): Promise<{
-  frontier: NanoAddress;
-  representative: NanoAddress;
-  balance: RAW;
-}> {
+): Promise<AccountInfo | undefined> {
   const response: AccountInfoResponse = await nanoApi.accountInfo({
     accountInfoRequest: {
       action: AccountInfoRequestActionEnum.AccountInfo,
@@ -145,14 +147,19 @@ export async function accountInfo(
       representative: ModelBoolean.True,
     },
   });
-  if (response.representative === undefined) {
-    throw Error('a first receive');
+  if (
+    response.representative === undefined ||
+    response.balance === undefined ||
+    response.frontier === undefined
+  ) {
+    return undefined;
+  } else {
+    return {
+      representative: response.representative,
+      balance: {
+        raw: response.balance.toString(),
+      },
+      frontier: response.frontier,
+    };
   }
-  return {
-    representative: response.representative,
-    balance: {
-      raw: response.balance.toString(),
-    },
-    frontier: response.frontier,
-  };
 }

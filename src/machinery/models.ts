@@ -33,3 +33,9 @@ export interface NANO {
 export interface RAW {
   raw: string;
 }
+
+export interface AccountInfo {
+  representative: NanoAddress;
+  balance: RAW;
+  frontier: Frontier;
+}
