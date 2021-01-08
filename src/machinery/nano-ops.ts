@@ -39,30 +39,20 @@ export async function loadAndResolveAccountData(
 ): Promise<NanoAccount> {
   try {
     const info: AccountInfo | undefined = await accountInfo(account.address);
-    // Account is open
-    if (info) {
-      account.representative = info.representative;
-      account.balance = info.balance;
-      const block: PendingTransaction | undefined = await getPending(
-        account.address
-      );
-      console.log(block);
-      if (block) {
-        await receiveBlock(account, info.frontier, block);
-        return loadAndResolveAccountData(account);
-      }
-      return account;
-    } else {
-      account.representative = account.representative || DEFAULT_REP;
-      const pendingBlock: PendingTransaction | undefined = await getPending(
-        account.address
-      );
-      if (pendingBlock) {
-        await receiveBlock(account, info.frontier, pendingBlock);
-        return loadAndResolveAccountData(account);
-      }
-      return account;
+    // Set rep from account info, with fallback to cached and default
+    account.representative =
+      info?.representative || account.representative || DEFAULT_REP;
+    // Use balance received
+    account.balance = info?.balance || { raw: '0' };
+
+    const block: PendingTransaction | undefined = await getPending(
+      account.address
+    );
+    if (block) {
+      await receiveBlock(account, info?.frontier, block);
+      return loadAndResolveAccountData(account);
     }
+    return account;
   } catch (e) {
     // How to handle error?
     return account;
@@ -80,7 +70,7 @@ export async function receiveBlock(
     account.privateKey,
     work,
     frontier || OPEN_FRONTIER,
-    account.balance || { raw: '0' },
+    account.balance,
     account.representative,
     pending.hash,
     pending.amount
