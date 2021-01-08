@@ -65,7 +65,6 @@
         await load({
             languageId: 'loading-refresh',
             load: async () => {
-                console.log(selectedAccount)
                 const { account: updatedAccount, resolvedCount } = await loadAndResolveAccountData(selectedAccount, 0)
                 const resolvedTransactions = await getHistory(selectedAccount.address)
                 if (resolvedCount > 0) {
