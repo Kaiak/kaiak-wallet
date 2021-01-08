@@ -11,7 +11,6 @@
     import {afterUpdate} from "svelte";
     import {setWalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
-    import {updateWalletAccounts} from "../machinery/nano-ops";
     import NumberInput from "../components/input/NumberInput.svelte";
     import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
@@ -21,14 +20,6 @@
         inputPhrase = event.target.value;
         const valid = inputPhrase && inputPhrase.length >= 4
         setSoftwareKeys(softwareKeys(!valid))
-    }
-
-    const tryGetTransactions = async (data: NanoWallet) => {
-        try {
-            return await updateWalletAccounts(data)
-        } catch (e) {
-            return data;
-        }
     }
 
     const unlock = async () => {

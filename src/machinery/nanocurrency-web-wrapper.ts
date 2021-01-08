@@ -1,14 +1,18 @@
 import { block, tools } from 'nanocurrency-web';
-import type { Frontier, NANO, NanoAddress, PrivateKey, RAW } from './models';
+import type {
+  BlockHash,
+  Frontier,
+  NANO,
+  NanoAddress,
+  PrivateKey,
+  RAW,
+} from './models';
 import type {
   SendBlock,
   SignedBlock,
   ReceiveBlock,
   RepresentativeBlock,
 } from 'nanocurrency-web/dist/lib/block-signer';
-
-const DEFAULT_REP: NanoAddress =
-  'nano_3n7ky76t4g57o9skjawm8pprooz1bminkbeegsyt694xn6d31c6s744fjzzz';
 
 function round(number: number, places: number): number {
   return +(Math.round(Number(number + 'e+' + places)) + 'e-' + places);
@@ -42,22 +46,19 @@ export function signReceiveBlock(
   address: NanoAddress,
   privateKey: PrivateKey,
   workHash: string,
-  pendingBlock: any,
   frontier: Frontier,
   walletBalance: RAW,
-  representative: NanoAddress | undefined
+  representative: NanoAddress,
+  blockHash: BlockHash,
+  amount: RAW
 ): SignedBlock {
-  const blockHash = Object.keys(pendingBlock)[0];
-
-  const amount = pendingBlock[blockHash].amount;
-
   const data: ReceiveBlock = {
     walletBalanceRaw: walletBalance.raw,
     toAddress: address,
     transactionHash: blockHash,
     frontier: frontier,
-    representativeAddress: representative || DEFAULT_REP,
-    amountRaw: amount,
+    representativeAddress: representative,
+    amountRaw: amount.raw,
     work: workHash,
   };
 

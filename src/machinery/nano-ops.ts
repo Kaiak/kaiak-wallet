@@ -1,28 +1,20 @@
-import type {
-  AccountBalanceResponse,
-  BlockInfo,
-  PendingBlock,
-} from 'nano-rpc-fetch';
 import { SubType } from 'nano-rpc-fetch';
 import type { SignedBlock } from 'nanocurrency-web/dist/lib/block-signer';
 import type {
+  AccountInfo,
   Frontier,
   NanoAccount,
   NanoAddress,
   NanoWallet,
-  PrivateKey,
-  PublicKey,
+  PendingTransaction,
   RAW,
+  ResolvedAccount,
 } from './models';
 import {
+  accountInfo,
   generateWork,
-  getPendingBlocksSimple,
-  getRepresentative,
-  loadBlocks,
-  loadFrontiers,
-  processSimple,
-  resolveBalance,
-  resolveBalances,
+  getPending,
+  process,
 } from './nano-rpc-fetch-wrapper';
 import {
   signReceiveBlock,
@@ -32,98 +24,89 @@ import {
 
 /** This file combines nanocurrency-web and nano-rpc-fetch */
 
+const DEFAULT_REP: NanoAddress =
+  'nano_3n7ky76t4g57o9skjawm8pprooz1bminkbeegsyt694xn6d31c6s744fjzzz';
+let OPEN_FRONTIER =
+  '0000000000000000000000000000000000000000000000000000000000000000';
 const SEND_WORK = 'fffffff800000000';
 const RECEIVE_WORK = 'fffffe0000000000';
 
-export async function loadWalletData(
-  account: NanoAccount
-): Promise<NanoAccount> {
-  const pending: {
-    [key: string]: PendingBlock;
-  } = await getPendingBlocksSimple([account.address]);
-  const frontiers:
-    | Map<string, Frontier>
-    | { [key: string]: Frontier } = await loadFrontiers([account.address]);
-  const blocks: { [key: string]: BlockInfo } = await loadBlocks(
-    Object.values(frontiers)
-  );
+/** Calls itself until transactions are pocketed */
+export async function loadAndResolveAccountData(
+  account: NanoAccount,
+  resolvedCount: number = 0
+): Promise<ResolvedAccount> {
+  try {
+    const info: AccountInfo | undefined = await accountInfo(account.address);
+    // Set rep from account info, with fallback to cached and default
+    account.representative =
+      info?.representative || account.representative || DEFAULT_REP;
+    // Use balance received
+    account.balance = info?.balance || { raw: '0' };
 
-  const frontier: Frontier | undefined = frontiers[account.address];
-  const block: BlockInfo | undefined = blocks[frontier];
-  const currentBalance: RAW = block
-    ? { raw: block.balance.toString() }
-    : { raw: '0' };
-  await resolvePendingForAccount(
-    account.address,
-    account.privateKey,
-    account.publicKey,
-    pending[account.address],
-    frontier,
-    currentBalance,
-    account.representative
-  );
-  return await updateWalletAccount(account);
+    const block: PendingTransaction | undefined = await getPending(
+      account.address
+    );
+    if (block) {
+      await receiveBlock(account, info?.frontier, block);
+      return loadAndResolveAccountData(account, resolvedCount + 1);
+    }
+    return {
+      account,
+      resolvedCount: resolvedCount,
+    };
+  } catch (e) {
+    // TODO: Should we handle error?
+    return {
+      account,
+      resolvedCount: resolvedCount,
+    };
+  }
 }
 
-async function resolvePendingForAccount(
-  address: NanoAddress,
-  privateKey: PrivateKey,
-  publicKey: PublicKey,
-  pendingBlock: PendingBlock,
-  frontier: Frontier,
-  currentBalance: RAW,
-  representative: NanoAddress | undefined
-): Promise<any> {
-  /** TODO: Clean up this */
-  const frontierOrPublicKey: Frontier | PublicKey =
-    frontier && frontier !== '' ? frontier : publicKey;
-  const frontierOrInitial: string =
-    frontier && frontier !== ''
-      ? frontier
-      : '0000000000000000000000000000000000000000000000000000000000000000';
-  const work: string = await generateWork(frontierOrPublicKey, RECEIVE_WORK);
-
-  const pendingBlocks: any[] = Object.keys(pendingBlock);
-  if (pendingBlocks.length > 0) {
-    const block: SignedBlock = signReceiveBlock(
-      address,
-      privateKey,
-      work,
-      pendingBlock,
-      frontierOrInitial,
-      currentBalance,
-      representative
-    );
-    await processSimple(block, SubType.Receive);
-  } else {
-    return;
-  }
+export async function receiveBlock(
+  account: NanoAccount,
+  frontier: Frontier | undefined,
+  pending: PendingTransaction
+): Promise<void> {
+  const work = await generateWork(frontier || account.publicKey, RECEIVE_WORK);
+  const receiveBlock = signReceiveBlock(
+    account.address,
+    account.privateKey,
+    work,
+    frontier || OPEN_FRONTIER,
+    account.balance,
+    account.representative,
+    pending.hash,
+    pending.amount
+  );
+  await process(receiveBlock, SubType.Receive);
 }
 
 export async function sendNano(
   account: NanoAccount,
   toAddress: NanoAddress,
-  amount: RAW,
-  balance: RAW
+  amount: RAW
 ): Promise<NanoAccount | undefined> {
   try {
-    const frontiers:
-      | Map<string, Frontier>
-      | { [key: string]: Frontier } = await loadFrontiers([account.address]);
-    const frontier: Frontier | undefined = frontiers[account.address];
-    const workHash: string = await generateWork(frontier, SEND_WORK);
-    const signed: SignedBlock = signSendBlock(
-      account.privateKey,
-      balance,
-      account.address,
-      toAddress,
-      frontier,
-      amount,
-      workHash,
-      account.representative
-    );
-    await processSimple(signed, SubType.Send);
-    return updateWalletAccount(account);
+    const info: AccountInfo | undefined = await accountInfo(account.address);
+    if (info) {
+      const workHash: string = await generateWork(info.frontier, SEND_WORK);
+      const signed: SignedBlock = signSendBlock(
+        account.privateKey,
+        info.balance,
+        account.address,
+        toAddress,
+        info.frontier,
+        amount,
+        workHash,
+        info.representative
+      );
+      await process(signed, SubType.Send);
+      return updateWalletAccount(account);
+    } else {
+      return account;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -131,59 +114,42 @@ export async function sendNano(
 
 export async function setRepresentative(account: NanoAccount): Promise<void> {
   try {
-    const frontiers:
-      | Map<string, Frontier>
-      | { [key: string]: Frontier } = await loadFrontiers([account.address]);
-    const frontier: Frontier | undefined = frontiers[account.address];
-    const workHash: string = await generateWork(frontier, SEND_WORK);
-    const signed: SignedBlock = signRepresentativeBlock(
-      account.privateKey,
-      account.balance,
-      account.address,
-      account.representative,
-      frontier,
-      workHash
-    );
-    await processSimple(signed, SubType.Change);
+    const info: AccountInfo | undefined = await accountInfo(account.address);
+    if (info) {
+      const workHash: string = await generateWork(info.frontier, SEND_WORK);
+      const signed: SignedBlock = signRepresentativeBlock(
+        account.privateKey,
+        account.balance,
+        account.address,
+        account.representative,
+        info.frontier,
+        workHash
+      );
+      await process(signed, SubType.Change);
+    }
   } catch (e) {
     console.log(e);
+    return undefined;
   }
 }
 
-export async function updateNanoAccount(
-  account: NanoAccount
-): Promise<NanoAccount> {
-  const balance = await resolveBalance(account.address);
-  const representative = await getRepresentative(account.address);
+async function updateWalletAccount(account: NanoAccount): Promise<NanoAccount> {
+  const info: AccountInfo | undefined = await accountInfo(account.address);
   return {
     ...account,
-    representative: representative,
-    balance: balance,
+    balance: info.balance,
+    representative: info.representative,
   };
 }
-
-export async function updateWalletAccounts(
+/** Updates account in account list */
+export function updateAccountInWallet(
+  updatedAccount: NanoAccount,
   wallet: NanoWallet
-): Promise<NanoWallet> {
-  const addresses = wallet.accounts.map((a) => a.address);
-  const balances: {
-    [address: string]: AccountBalanceResponse;
-  } = await resolveBalances(addresses);
-  wallet.accounts = wallet.accounts.map((a) => {
-    return {
-      ...a,
-      balance: { raw: balances[a.address].balance.toString() },
-    };
+): NanoWallet {
+  wallet.accounts = wallet.accounts.map((account) => {
+    return account.address === updatedAccount.address
+      ? updatedAccount
+      : account;
   });
   return wallet;
-}
-
-export async function updateWalletAccount(
-  account: NanoAccount
-): Promise<NanoAccount> {
-  const balance = await resolveBalance(account.address);
-  return {
-    ...account,
-    balance: balance,
-  };
 }

@@ -3,29 +3,22 @@
     import Content from "../components/Content.svelte";
     import type {NanoAccount, NanoWallet} from "../machinery/models";
     import WithSecondary from "../components/list/WithSecondary.svelte";
-    import {setWalletState} from "../machinery/WalletState";
+    import {setWalletState, updateWalletState} from "../machinery/WalletState";
     import {navigationReload, pushAccountAction, pushMenu, pushToast} from "../machinery/eventListener";
     import {afterUpdate} from "svelte";
     import {load} from "../machinery/loader-store";
     import {addNanoAccount} from "../machinery/wallet";
     import {truncateNanoAddress} from "../machinery/nanocurrency-web-wrapper";
-    import {updateNanoAccount} from "../machinery/nano-ops";
 
     export let wallet: NanoWallet
     const selectAccount = async (account: NanoAccount) => {
         await load({
             languageId: 'loading-account',
             load: async () => {
-                const updatedAccount = await updateNanoAccount(account)
-                setWalletState({
-                    wallet: wallet,
-                    account: updatedAccount
-                })
+                await updateWalletState(account, wallet)
                 pushAccountAction('menu')
             }
         })
-
-
     }
 
     const addAccount = async () => {

@@ -48,7 +48,7 @@
   "dependencies": {
     "image-capture": "^0.4.0",
     "jsqr": "^1.3.1",
-    "nano-rpc-fetch": "^1.1.4",
+    "nano-rpc-fetch": "^1.1.8",
     "nanocurrency-web": "^1.2.2",
     "qrcode": "^1.4.4",
     "redux": "^4.0.5",

@@ -3,6 +3,7 @@ export type Seed = string;
 export type PrivateKey = string;
 export type PublicKey = string;
 export type Frontier = string;
+export type BlockHash = string;
 
 export interface NanoAccount {
   alias: string;
@@ -32,4 +33,20 @@ export interface NANO {
 
 export interface RAW {
   raw: string;
+}
+
+export interface AccountInfo {
+  representative: NanoAddress;
+  balance: RAW;
+  frontier: Frontier;
+}
+
+export interface PendingTransaction {
+  hash: BlockHash;
+  amount: RAW;
+}
+
+export interface ResolvedAccount {
+  account: NanoAccount;
+  resolvedCount: number;
 }
