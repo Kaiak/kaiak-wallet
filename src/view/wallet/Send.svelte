@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {NanoAddress, NanoAccount, RAW, NanoWallet} from "../../machinery/models";
     import {tools} from "nanocurrency-web";
-    import {sendNano} from "../../machinery/nano-ops";
+    import {sendNano, updateAccountInWallet} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import CameraCapture from "../../components/CameraCapture.svelte";
     import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
@@ -10,6 +10,7 @@
     import {load} from "../../machinery/loader-store";
     import {afterUpdate} from "svelte";
     import TextInput from "../../components/input/TextInput.svelte";
+    import {setWalletState} from "../../machinery/WalletState";
 
     export let wallet: NanoWallet;
     export let sendType: AccountAction;
@@ -52,11 +53,8 @@
                 load: async () => {
                     const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}))
                     if (updatedAccount) {
-                        wallet.accounts = wallet.accounts.map(account => {
-                            return account.address === updatedAccount.address ? updatedAccount : account
-                        })
-                        walletStore.set({
-                            wallet: wallet,
+                        setWalletState({
+                            wallet: updateAccountInWallet(updatedAccount, wallet),
                             account: updatedAccount,
                         })
                         pushToast({languageId: 'sent-funds-success', type: 'success'})
