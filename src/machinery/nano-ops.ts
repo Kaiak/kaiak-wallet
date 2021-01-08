@@ -60,6 +60,7 @@ export async function loadAndResolveAccountData(
     return {
       account,
       resolvedCount: resolvedCount,
+      error: 'unable-to-fetch',
     };
   }
 }

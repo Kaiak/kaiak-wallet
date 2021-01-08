@@ -3,15 +3,12 @@
     import Primary from "../components/list/Primary.svelte";
     import Content from "../components/Content.svelte";
     import WithSecondary from "../components/list/WithSecondary.svelte";
-    import type {NanoAccount} from "../machinery/models";
     import {back, navigationReload} from "../machinery/eventListener";
     import {afterUpdate} from "svelte";
     import {pushMenu, pushAccountAction, pushSetupAction} from "../machinery/eventListener";
-    import type {AccountAction} from "../machinery/NavigationState";
     import type {WalletState} from "../machinery/WalletState";
 
     export let wallet: WalletState | undefined
-    export let accountAction: AccountAction | undefined = undefined
 
     afterUpdate(() => navigationReload(
         {

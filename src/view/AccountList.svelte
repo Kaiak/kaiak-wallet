@@ -17,7 +17,7 @@
             load: async () => {
                 await updateWalletState(account, wallet)
                 pushAccountAction('menu')
-            }
+            },
         })
     }
 
