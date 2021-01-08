@@ -31,7 +31,7 @@ export async function process(
   block: any,
   subtype: SubType
 ): Promise<ProcessResponse> {
-  return await nanoApi.process({
+  const response = await nanoApi.process({
     processRequest: {
       action: ProcessRequestActionEnum.Process,
       block: block,
@@ -39,6 +39,12 @@ export async function process(
       subtype: subtype,
     },
   });
+
+  if (response.hash) {
+    return response;
+  } else {
+    throw Error('unable to process');
+  }
 }
 
 export async function generateWork(

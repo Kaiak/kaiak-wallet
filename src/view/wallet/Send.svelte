@@ -15,8 +15,8 @@
     export let sendType: AccountAction;
     export let account: NanoAccount;
     export let balance: RAW;
-    export let setType: (a: AccountAction) => void
     export let toAddress: NanoAddress | undefined = undefined
+    export let sendFunction: (address: NanoAddress) => void
 
     let sending: boolean = false;
     let showCamera: boolean = sendType === 'send_qr'
@@ -68,7 +68,7 @@
     const scannedAddress = (address: NanoAddress) => {
         toAddress = address;
         showCamera = false;
-        setType('send_address');
+        sendFunction(toAddress)
     }
 
     afterUpdate(() => {

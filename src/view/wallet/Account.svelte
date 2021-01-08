@@ -76,8 +76,6 @@
     }
 
     afterUpdate(() => {
-        console.log(walletState)
-        console.log(walletState.transaction)
         if (action === 'menu') {
             navigationReload({
                 leftKey: {
@@ -108,7 +106,7 @@
     {:else if action === 'send'}
         <SendSelector />
     {:else if action === 'send_qr' || action === 'send_address'}
-        <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} toAddress={sendToAddress} />
+        <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} toAddress={sendToAddress} sendFunction={sendToAccount} />
     {:else if action === 'receive'}
         <Receive account={selectedAccount} />
     {:else if action === 'settings'}
