@@ -19,6 +19,9 @@
             load: async () => {
                 const { account: updatedAccount, resolvedCount } = await loadAndResolveAccountData(account, 0)
                 const transactions = await getHistory(updatedAccount.address)
+                if (resolvedCount > 0) {
+                    pushToast({languageId: 'got-new-transactions', type: "success"})
+                }
                 setWalletState({
                     wallet: updateAccountInWallet(updatedAccount, wallet),
                     account: updatedAccount,
