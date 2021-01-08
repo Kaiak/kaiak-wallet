@@ -15,11 +15,13 @@
     import {load} from "../../machinery/loader-store";
     import {updateWalletState} from "../../machinery/WalletState";
     import SendSelector from "./SendSelector.svelte";
+    import Content from "../../components/Content.svelte";
 
     export let wallet: NanoWallet
     export let selectedAccount: NanoAccount
     export let action: AccountAction;
     export let transactions: NanoTransaction[]
+    export let fullscreen: boolean = false;
 
     const accountTitle = (account: NanoAccount) => {
         if (account === undefined) {
@@ -55,7 +57,7 @@
                 pushAccountAction('settings')
             },
             onError: () => {
-              pushToast({ languageId: 'unable-to-load-representative' })
+                pushToast({languageId: 'unable-to-load-representative'})
             }
         })
     }
@@ -74,23 +76,25 @@
 
 </script>
 
-{#if action === 'menu'}
-    <Seperator primaryText={accountTitle(selectedAccount)}/>
-    <List>
-        <Primary primaryLanguageId="transactions" on:click={showTransactions}/>
-        <Primary primaryLanguageId="send" on:click={() => pushAccountAction('send') }/>
-        <Primary primaryLanguageId="receive" on:click={() => pushAccountAction('receive') }/>
-        <Primary primaryLanguageId="settings" on:click={() => showSettings() }/>
-    </List>
-{:else if action === 'transactions'}
-    <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
-    <Transactions transactions={transactions}/>
-{:else if action === 'send'}
-    <SendSelector />
-{:else if action === 'send_qr' || action === 'send_address'}
-    <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />
-{:else if action === 'receive'}
-    <Receive account={selectedAccount} />
-{:else if action === 'settings'}
-    <Settings wallet={wallet} selectedAccount={selectedAccount}/>
-{/if}
+<Content titleKey="account" fullscreen={fullscreen}>
+    {#if action === 'menu'}
+        <Seperator primaryText={accountTitle(selectedAccount)}/>
+        <List>
+            <Primary primaryLanguageId="transactions" on:click={showTransactions}/>
+            <Primary primaryLanguageId="send" on:click={() => pushAccountAction('send') }/>
+            <Primary primaryLanguageId="receive" on:click={() => pushAccountAction('receive') }/>
+            <Primary primaryLanguageId="settings" on:click={() => showSettings() }/>
+        </List>
+    {:else if action === 'transactions'}
+        <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
+        <Transactions transactions={transactions}/>
+    {:else if action === 'send'}
+        <SendSelector />
+    {:else if action === 'send_qr' || action === 'send_address'}
+        <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} setType={(action) => pushAccountAction(action)} />
+    {:else if action === 'receive'}
+        <Receive account={selectedAccount} />
+    {:else if action === 'settings'}
+        <Settings wallet={wallet} selectedAccount={selectedAccount}/>
+    {/if}
+</Content>
