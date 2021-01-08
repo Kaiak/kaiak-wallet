@@ -5,6 +5,8 @@ export type PublicKey = string;
 export type Frontier = string;
 export type BlockHash = string;
 
+type KaiakError = 'unable-to-fetch';
+
 export interface NanoAccount {
   alias: string;
   address: NanoAddress;
@@ -49,4 +51,5 @@ export interface PendingTransaction {
 export interface ResolvedAccount {
   account: NanoAccount;
   resolvedCount: number;
+  error?: KaiakError;
 }

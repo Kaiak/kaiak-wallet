@@ -21,10 +21,13 @@ export async function updateWalletState(
   const {
     account: updatedAccount,
     resolvedCount,
+    error,
   } = await loadAndResolveAccountData(nanoAccount, 0);
   const resolvedTransactions = await getHistory(nanoAccount.address);
   if (resolvedCount > 0) {
     pushToast({ languageId: 'got-new-transactions', type: 'success' });
+  } else if (error) {
+    pushToast({ languageId: error, type: 'warn' });
   }
   walletStore.set({
     wallet: updateAccountInWallet(updatedAccount, wallet),
