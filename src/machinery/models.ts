@@ -45,3 +45,8 @@ export interface PendingTransaction {
   hash: BlockHash;
   amount: RAW;
 }
+
+export interface ResolvedAccount {
+  account: NanoAccount;
+  resolvedCount: number;
+}

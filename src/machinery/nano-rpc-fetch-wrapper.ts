@@ -55,7 +55,7 @@ export async function generateWork(
   return response.work;
 }
 
-export async function resolveHistory(
+export async function getHistory(
   address: NanoAddress
 ): Promise<NanoTransaction[]> {
   try {

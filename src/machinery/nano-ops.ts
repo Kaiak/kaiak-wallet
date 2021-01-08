@@ -8,6 +8,7 @@ import type {
   NanoWallet,
   PendingTransaction,
   RAW,
+  ResolvedAccount,
 } from './models';
 import {
   accountInfo,
@@ -32,8 +33,9 @@ const RECEIVE_WORK = 'fffffe0000000000';
 
 /** Calls itself until transactions are pocketed */
 export async function loadAndResolveAccountData(
-  account: NanoAccount
-): Promise<NanoAccount> {
+  account: NanoAccount,
+  resolvedCount: number = 0
+): Promise<ResolvedAccount> {
   try {
     const info: AccountInfo | undefined = await accountInfo(account.address);
     // Set rep from account info, with fallback to cached and default
@@ -47,12 +49,18 @@ export async function loadAndResolveAccountData(
     );
     if (block) {
       await receiveBlock(account, info?.frontier, block);
-      return loadAndResolveAccountData(account);
+      return loadAndResolveAccountData(account, resolvedCount + 1);
     }
-    return account;
+    return {
+      account,
+      resolvedCount: resolvedCount,
+    };
   } catch (e) {
     // TODO: Should we handle error?
-    return account;
+    return {
+      account,
+      resolvedCount: resolvedCount,
+    };
   }
 }
 

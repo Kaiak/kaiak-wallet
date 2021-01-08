@@ -15,7 +15,7 @@
     import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
-    import {resolveHistory} from "../../machinery/nano-rpc-fetch-wrapper";
+    import {getHistory} from "../../machinery/nano-rpc-fetch-wrapper";
     import {setWalletState} from "../../machinery/WalletState";
     import SendSelector from "./SendSelector.svelte";
 
@@ -38,7 +38,7 @@
         await load({
             languageId: 'loading-transactions',
             load: async () => {
-                const resolvedTransactions = await resolveHistory(selectedAccount.address)
+                const resolvedTransactions = await getHistory(selectedAccount.address)
                 setWalletState({
                     wallet: wallet,
                     account: selectedAccount,
@@ -65,9 +65,10 @@
         await load({
             languageId: 'loading-refresh',
             load: async () => {
-                const updatedAccount = await loadAndResolveAccountData(selectedAccount)
-                const resolvedTransactions = await resolveHistory(selectedAccount.address)
-                if (resolvedTransactions.length > 0) {
+                console.log(selectedAccount)
+                const { account: updatedAccount, resolvedCount } = await loadAndResolveAccountData(selectedAccount, 0)
+                const resolvedTransactions = await getHistory(selectedAccount.address)
+                if (resolvedCount > 0) {
                     pushToast({languageId: 'got-new-transactions', type: "success"})
                 }
                 walletStore.set({
