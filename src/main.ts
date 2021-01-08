@@ -1,9 +1,11 @@
 import App from './App.svelte';
+import 'kaios-gaia-l10n';
 import {
   ignoreOnCameraBlur,
   loadStartScreen,
   reset,
 } from './machinery/eventListener';
+import { languageStore } from './machinery/language';
 
 window.addEventListener('focus', async () => {
   if (ignoreOnCameraBlur()) {
@@ -18,6 +20,12 @@ window.addEventListener('blur', () => {
     return;
   }
   reset();
+});
+
+// @ts-ignore
+navigator.mozL10n.ready(() => {
+  // @ts-ignore
+  languageStore.set(navigator.mozL10n.get);
 });
 
 const app = new App({
