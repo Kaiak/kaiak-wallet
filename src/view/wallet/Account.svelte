@@ -7,16 +7,13 @@
     import Receive from "./Receive.svelte";
     import type {AccountAction} from "../../machinery/NavigationState";
     import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
-    import {loadAndResolveAccountData, updateAccountInWallet} from "../../machinery/nano-ops";
     import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
     import {afterUpdate} from "svelte";
     import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
-    import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
-    import {getHistory} from "../../machinery/nano-rpc-fetch-wrapper";
-    import {setWalletState} from "../../machinery/WalletState";
+    import {updateWalletState} from "../../machinery/WalletState";
     import SendSelector from "./SendSelector.svelte";
 
     export let wallet: NanoWallet
@@ -38,14 +35,16 @@
         await load({
             languageId: 'loading-transactions',
             load: async () => {
-                const resolvedTransactions = await getHistory(selectedAccount.address)
-                setWalletState({
-                    wallet: wallet,
-                    account: selectedAccount,
-                    transactions: resolvedTransactions
-                })
+                await updateWalletState(selectedAccount, wallet)
                 pushAccountAction('transactions')
             }
+        })
+    }
+
+    const triggerRefresh = async () => {
+        await load({
+            languageId: 'loading-refresh',
+            load: async () => updateWalletState(selectedAccount, wallet)
         })
     }
 
@@ -61,23 +60,6 @@
         })
     }
 
-    const triggerRefresh = async () => {
-        await load({
-            languageId: 'loading-refresh',
-            load: async () => {
-                const { account: updatedAccount, resolvedCount } = await loadAndResolveAccountData(selectedAccount, 0)
-                const resolvedTransactions = await getHistory(selectedAccount.address)
-                if (resolvedCount > 0) {
-                    pushToast({languageId: 'got-new-transactions', type: "success"})
-                }
-                walletStore.set({
-                    wallet: updateAccountInWallet(updatedAccount, wallet),
-                    account: updatedAccount,
-                    transactions: resolvedTransactions,
-                })
-            }
-        })
-    }
     afterUpdate(() => {
         if (action === 'menu') {
             navigationReload({
