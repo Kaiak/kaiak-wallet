@@ -3,6 +3,7 @@ export type Seed = string;
 export type PrivateKey = string;
 export type PublicKey = string;
 export type Frontier = string;
+export type BlockHash = string;
 
 export interface NanoAccount {
   alias: string;

@@ -1,5 +1,12 @@
 import { block, tools } from 'nanocurrency-web';
-import type { Frontier, NANO, NanoAddress, PrivateKey, RAW } from './models';
+import type {
+  BlockHash,
+  Frontier,
+  NANO,
+  NanoAddress,
+  PrivateKey,
+  RAW,
+} from './models';
 import type {
   SendBlock,
   SignedBlock,
@@ -42,7 +49,7 @@ export function signReceiveBlock(
   frontier: Frontier,
   walletBalance: RAW,
   representative: NanoAddress,
-  blockHash: string,
+  blockHash: BlockHash,
   amount: RAW
 ): SignedBlock {
   const data: ReceiveBlock = {

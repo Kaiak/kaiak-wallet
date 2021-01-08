@@ -2,6 +2,7 @@ import { SubType } from 'nano-rpc-fetch';
 import type { SignedBlock } from 'nanocurrency-web/dist/lib/block-signer';
 import type {
   AccountInfo,
+  BlockHash,
   Frontier,
   NanoAccount,
   NanoAddress,
@@ -74,7 +75,7 @@ export async function loadAndResolveAccountData(
 export async function receiveBlock(
   account: NanoAccount,
   frontier: Frontier | undefined,
-  blockHash: string,
+  blockHash: BlockHash,
   amount: RAW | undefined
 ): Promise<void> {
   const work = await generateWork(frontier || account.publicKey, RECEIVE_WORK);
