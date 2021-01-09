@@ -29,10 +29,7 @@
 
 	const unsubscribeLoader = loaderStore.subscribe((value) => loader = value)
 	const unsubscribeNavigation = navigationStore.subscribe<NavigationState>(value => state = value);
-	const unsubscribeWalletStore = walletStore.subscribe<WalletState>(value => {
-		walletState = value;
-		console.log(walletState)
-	})
+	const unsubscribeWalletStore = walletStore.subscribe<WalletState>(value => walletState = value)
 
 	onDestroy(() => {
 		unsubscribeLoader()
