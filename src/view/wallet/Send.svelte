@@ -10,6 +10,7 @@
     import {afterUpdate} from "svelte";
     import TextInput from "../../components/input/TextInput.svelte";
     import {setWalletState} from "../../machinery/WalletState";
+    import NumberInput from "../../components/input/NumberInput.svelte";
 
     export let wallet: NanoWallet;
     export let sendType: AccountAction;
@@ -94,5 +95,5 @@
     <CameraCapture scannedAddress={scannedAddress}/>
 {:else}
     <TextInput languageId="send-address" type="text" on:input={setAddress} value={toAddress}/>
-    <TextInput languageId="send-amount" type="text" on:input={setAmount} value={sendValue}/>
+    <NumberInput languageId="send-amount" type="text" on:input={setAmount} value={sendValue}/>
 {/if}
