@@ -46,7 +46,7 @@
                     onClick: async () => addAccount()
                 },
                 rightKey: {
-                    languageId: 'rightNavButton',
+                    languageId: 'menu',
                     onClick: async () => pushMenu('menu')
                 }
             }
