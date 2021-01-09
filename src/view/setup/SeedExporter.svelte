@@ -3,7 +3,7 @@
     import NumberInput from "../../components/input/NumberInput.svelte";
     import {clearSoftwareKeys, setSoftwareKeys} from "../../machinery/SoftwareKeysState";
     import {navigationReload, pushToast} from "../../machinery/eventListener";
-    import {afterUpdate, onMount} from "svelte";
+    import {onMount} from "svelte";
     import type {NanoWallet} from "../../machinery/models";
     import {unlockWallet} from "../../machinery/secure-storage";
     import Seperator from "../../components/Seperator.svelte";
