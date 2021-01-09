@@ -6,14 +6,16 @@
     export let account: NanoAccount;
     let dataUrl: string | undefined = undefined
 
-    let lockScreen: any
+    let lockScreen: any | undefined
     onMount(async () => {
-        lockScreen = navigator.requestWakeLock('screen')
+        if(typeof navigator.requestWakeLock === 'function') {
+            lockScreen = navigator.requestWakeLock('screen')
+        }
         dataUrl = await generate(account.address)
     })
 
     onDestroy(() => {
-		lockScreen.unlock()
+		lockScreen?.unlock()
 	});
 </script>
 
