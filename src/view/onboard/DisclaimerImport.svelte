@@ -7,7 +7,7 @@
     afterUpdate(() => navigationReload({
         middleKey: {
             languageId: 'onboard-disclaimer-ok',
-            onClick: async () => { pushOnboardState({view: 'input-import'}) }
+            onClick: async () => { pushOnboardState({view: 'keyboard-change'}) }
         },
     }))
 </script>

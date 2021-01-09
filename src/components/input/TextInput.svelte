@@ -6,5 +6,5 @@
     export let value: string | undefined = ''
 </script>
 <LabelInput languageId={languageId} text={text} >
-    <input id={languageId} type="text" class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} on:input value={value}>
+    <input id={languageId} type="text" class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} lang="en" on:input value={value}>
 </LabelInput>
