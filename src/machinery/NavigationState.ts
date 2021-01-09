@@ -25,6 +25,7 @@ export type OnboardView =
   | 'account'
   | 'pin'
   | 'disclaimer-import'
+  | 'keyboard-change'
   | 'input-import';
 
 export type SetupAction = 'menu' | 'export-seed';

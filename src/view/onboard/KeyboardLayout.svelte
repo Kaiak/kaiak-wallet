@@ -6,12 +6,11 @@
 
     afterUpdate(() => navigationReload({
         middleKey: {
-            languageId: 'onboard-disclaimer-ok',
-            onClick: async () => { pushOnboardState({view: 'keyboard-change'}) }
+            languageId: 'onboard-keyboard-done',
+            onClick: async () => { pushOnboardState({view: 'input-import'}) }
         },
     }))
 </script>
 
-<Seperator languageId="import-seed-title" />
-<Text languageId="import-disclaimer-text"/>
-<Text languageId="import-disclaimer-text-2"/>
+<Seperator languageId="onboard-keyboard-title" />
+<Text languageId="onboard-keyboard-layout"/>

@@ -12,6 +12,7 @@
     import type {WalletResult} from "../../machinery/wallet";
     import DisclaimerImport from "./DisclaimerImport.svelte";
     import InputSeed from "./InputSeed.svelte";
+import KeyboardLayout from "./KeyboardLayout.svelte";
 
     let onboardState: OnboardState | undefined = undefined
     let state: NavigationState | undefined = undefined
@@ -53,8 +54,10 @@
         <AccountAlias walletResult={walletResult} />
     {:else if view === 'pin'}
         <SetPIN walletResult={walletResult} alias={accountAlias} />
-    {:else if view === 'disclaimer-import'}
+    {:else if view === 'keyboard-change'}
         <DisclaimerImport />
+    {:else if view === 'disclaimer-import'}
+        <KeyboardLayout />
     {:else if view === 'input-import'}
         <InputSeed seedInputValue={attemptedSeedInput} />
     {:else}

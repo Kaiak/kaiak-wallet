@@ -50,5 +50,6 @@
     }
 </script>
 
+<Text languageId="import-keyboard-layout"/>
 <TextArea languageId="import-from-seed" on:input={onInput} value={seedInputValue}/>
 <Text>{characterCount}</Text>
