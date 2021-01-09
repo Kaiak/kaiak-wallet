@@ -31,7 +31,7 @@
                     pushState({menu: 'accounts', accountAction: undefined, onboardState: undefined})
                     setWalletState({wallet: data, account: undefined})
                 } else {
-                    pushToast({languageId: 'wrong-pass'})
+                    pushToast({languageId: 'wrong-pin'})
                 }
             }
         })

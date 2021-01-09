@@ -16,7 +16,7 @@
             const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
             seed = data.seed;
         } catch (e) {
-            pushToast({languageId: 'wrong-pass', type: "info"})
+            pushToast({languageId: 'wrong-pin', type: "info"})
         }
     }
 

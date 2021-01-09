@@ -26,7 +26,7 @@ export function setSoftwareKeys(state: SoftwareKeysState) {
 }
 
 export const SOFT_KEY_MENU: SoftKey = {
-  languageId: 'rightNavButton',
+  languageId: 'menu',
   onClick: async () => pushMenu('menu'),
 };
 
