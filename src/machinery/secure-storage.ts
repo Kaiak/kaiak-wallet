@@ -1,38 +1,9 @@
 import type { NanoWallet } from './models';
-import { wallet } from 'nanocurrency-web';
 import { Store, _idb } from 'secure-webstore/dist/secure-webstore';
+import { WalletData, walletDataToWallet } from './wallet';
 
 const APP_STORE = 'kaios_nano';
 const WALLET_KEY = 'wallet';
-
-interface WalletData {
-  seed: string;
-  aliases: string[];
-}
-
-function walletDataToWallet(
-  walletData: WalletData,
-  encryptionSecret: string | undefined
-): NanoWallet {
-  const addresses = wallet.accounts(
-    walletData.seed,
-    0,
-    walletData.aliases.length - 1
-  );
-  return {
-    seed: walletData.seed,
-    encryptionSecret: encryptionSecret,
-    accounts: addresses.map((address, i) => {
-      return {
-        alias: walletData.aliases[i],
-        address: address.address,
-        privateKey: address.privateKey,
-        publicKey: address.publicKey,
-        balance: undefined,
-      };
-    }),
-  };
-}
 
 function walletToWalletData(wallet: NanoWallet): WalletData {
   return {
@@ -79,6 +50,7 @@ export async function unlockWallet(
       return undefined;
     }
   } catch (e) {
+    console.log(e);
     return undefined;
   }
 }
