@@ -13,6 +13,7 @@ export type AccountAction =
   | 'menu'
   | 'send'
   | 'transactions'
+  | 'transaction'
   | 'receive'
   | 'send_qr'
   | 'send_address'

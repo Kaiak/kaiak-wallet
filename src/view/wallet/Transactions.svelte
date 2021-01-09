@@ -1,26 +1,34 @@
 <script lang="ts">
-    import Transaction from "../transactions/Transaction.svelte";
     import List from "../../components/List.svelte";
-    import ListItem from "../../components/list/ListItem.svelte";
     import type {NanoTransaction} from "../../machinery/models";
+    import {afterUpdate, onDestroy} from "svelte";
+    import {navigationReload, pushAccountAction} from "../../machinery/eventListener";
+    import Primary from "../../components/list/Primary.svelte";
+    import Text from "../../components/Text.svelte";
+    import {setWalletState, walletStore} from "../../machinery/WalletState";
+    import type {WalletState} from "../../machinery/WalletState";
+    import {transactionText} from "../../machinery/text-utils";
 
     export let transactions: NanoTransaction[]
-    let selected: NanoTransaction | undefined = undefined
+    let wallet: WalletState | undefined = undefined;
 
-    const setSelected = (time) => {
-        // const selectedTransaction: NanoTransaction | undefined = history.filter(h => h.localTimestamp === time)[0]
-        // pushState({...state, account: {...state.account, selectedTransaction: selectedTransaction}})
+    const unsubscribe = walletStore.subscribe(value => wallet = value)
+
+    const setSelected = (transaction: NanoTransaction) => {
+        setWalletState({...wallet, transaction: transaction})
+        pushAccountAction('transaction')
     }
+
+    afterUpdate(() => navigationReload())
+    onDestroy(() => unsubscribe())
 </script>
 
-{#if selected}
-    <div>{selected.localTimestamp}</div>
-{:else if transactions.length > 0}
+{#if transactions.length > 0}
     <List>
         {#each transactions as transaction}
-            <ListItem on:click={() => setSelected(transaction.localTimestamp)}><Transaction transaction={transaction}/></ListItem>
+            <Primary primaryText={transactionText(transaction)} on:click={() => setSelected(transaction) } />
         {/each}
     </List>
 {:else}
-    no transactions
+    <Text languageId="no-transactions" />
 {/if}
