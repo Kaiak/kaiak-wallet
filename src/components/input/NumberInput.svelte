@@ -7,5 +7,5 @@
 </script>
 <LabelInput languageId={languageId} text={text}>
     <!-- To get number behaviour working https://stackoverflow.com/questions/60890475/backspace-doesnt-work-in-number-input-field-kaios-svelte3 -->
-    <input id="{languageId}" type="tel" class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} on:input value={value} />
+    <input id="{languageId}" type="tel" class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} bind:value={value} />
 </LabelInput>

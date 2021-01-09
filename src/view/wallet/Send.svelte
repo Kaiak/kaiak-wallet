@@ -76,4 +76,4 @@
 
 </script>
 <TextArea languageId="send-address" on:input={setAddress} value={toAddress}/>
-<NumberInput languageId="send-amount" on:input={setAmount} value={sendValue}/>
+<NumberInput languageId="send-amount" bind:value={sendValue}/>

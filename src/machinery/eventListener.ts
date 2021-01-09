@@ -45,6 +45,7 @@ export const navigationReload = (value: SoftwareKeysState = undefined) => {
   document.addEventListener('keydown', handleKeydown);
   navigation.focus();
   value ? setSoftwareKeys(value) : setSoftwareKeys({});
+  console.log(value);
 };
 
 // TODO: Instead of subscribing, we could click DOM elements

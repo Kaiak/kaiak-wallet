@@ -8,19 +8,13 @@
     } from "../machinery/eventListener";
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
-    import {afterUpdate} from "svelte";
+    import {afterUpdate, onMount} from "svelte";
     import {setWalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
     import NumberInput from "../components/input/NumberInput.svelte";
     import {setSoftwareKeys} from "../machinery/SoftwareKeysState";
 
     let inputPhrase: string | undefined;
-
-    const onInputPassword = (event) => {
-        inputPhrase = event.target.value;
-        const valid = inputPhrase && inputPhrase.length >= 4
-        setSoftwareKeys(softwareKeys(!valid))
-    }
 
     const unlock = async () => {
         await load({
@@ -50,10 +44,14 @@
             },
         }
     }
+    $: {
+        const valid = inputPhrase && inputPhrase.length >= 4
+        setSoftwareKeys(softwareKeys(!valid))
+    }
 
-    afterUpdate(() => navigationReload(softwareKeys(true)))
+    onMount(() => navigationReload(softwareKeys(true)))
 </script>
 
 <Content titleKey="unlock-wallet">
-    <NumberInput languageId="unlock-label" placeholderLanguage="unlock-label" on:input={onInputPassword}/>
+    <NumberInput languageId="unlock-label" placeholderLanguage="unlock-label" bind:value={inputPhrase}/>
 </Content>
