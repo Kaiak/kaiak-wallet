@@ -12,5 +12,9 @@
     }))
 </script>
 
-<Seperator languageId="onboard-keyboard-title" />
-<Text languageId="onboard-keyboard-layout"/>
+<Seperator languageId="onboard-keyboard-seed-title" />
+<Text languageId="onboard-keyboard-seed-text"/>
+<Seperator languageId="onboard-keyboard-add-title" />
+<Text languageId="onboard-keyboard-add-text" />
+<Seperator languageId="onboard-keyboard-change-title" />
+<Text languageId="onboard-keyboard-change-text"/>
