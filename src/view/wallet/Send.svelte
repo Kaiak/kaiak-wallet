@@ -6,7 +6,6 @@
     import CameraCapture from "../../components/CameraCapture.svelte";
     import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
     import type {AccountAction} from "../../machinery/NavigationState";
-    import {walletStore} from "../../stores/stores";
     import {load} from "../../machinery/loader-store";
     import {afterUpdate} from "svelte";
     import TextInput from "../../components/input/TextInput.svelte";
@@ -16,11 +15,10 @@
     export let sendType: AccountAction;
     export let account: NanoAccount;
     export let balance: RAW;
-    export let setType: (a: AccountAction) => void
+    export let toAddress: NanoAddress | undefined = undefined
+    export let sendFunction: (address: NanoAddress) => void
 
     let sending: boolean = false;
-
-    let toAddress: NanoAddress | undefined
     let showCamera: boolean = sendType === 'send_qr'
 
     let sendValue: number | undefined = undefined
@@ -70,7 +68,7 @@
     const scannedAddress = (address: NanoAddress) => {
         toAddress = address;
         showCamera = false;
-        setType('send_address');
+        sendFunction(toAddress)
     }
 
     afterUpdate(() => {
@@ -80,7 +78,7 @@
                     languageId: 'set-max-button',
                     onClick: setMax
                 },
-                middleKey: {
+                rightKey: {
                     languageId: 'send-button',
                     onClick: send
                 }

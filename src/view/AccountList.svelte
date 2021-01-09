@@ -8,7 +8,7 @@
     import {afterUpdate} from "svelte";
     import {load} from "../machinery/loader-store";
     import {addNanoAccount} from "../machinery/wallet";
-    import {truncateNanoAddress} from "../machinery/nanocurrency-web-wrapper";
+    import {truncateNanoAddress, accountAliasOrFallback} from "../machinery/text-utils";
 
     export let wallet: NanoWallet
     const selectAccount = async (account: NanoAccount) => {
@@ -46,7 +46,7 @@
                     onClick: async () => addAccount()
                 },
                 rightKey: {
-                    languageId: 'rightNavButton',
+                    languageId: 'menu',
                     onClick: async () => pushMenu('menu')
                 }
             }
@@ -58,7 +58,7 @@
 <Content titleKey="wallet">
     <List>
         {#each wallet.accounts as account}
-            <WithSecondary primaryText={account.alias} primaryLanguageId={account.alias || 'unnamed-account'} on:click={() => selectAccount(account)} secondaryText={truncateNanoAddress(account.address)} />
+            <WithSecondary primaryText={account.alias} primaryLanguageId={accountAliasOrFallback(account)} on:click={() => selectAccount(account)} secondaryText={truncateNanoAddress(account.address)} />
         {/each}
     </List>
 </Content>

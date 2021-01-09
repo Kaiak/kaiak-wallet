@@ -1,10 +1,9 @@
 <script lang="ts">
-	import {navigationStore, walletStore} from "./stores/stores";
+	import {navigationStore} from "./stores/stores";
 	import type {NavigationState} from "./machinery/NavigationState";
 	import Menu from "./view/Menu.svelte";
 	import Setup from "./view/setup/Setup.svelte";
 	import About from "./view/About.svelte";
-	import Wallet from "./view/Wallet.svelte";
 	import UnlockWallet from "./view/UnlockWallet.svelte";
 	import SoftwareKeys from "./view/SoftwareKeys.svelte";
 	import Toast from "./components/Toast.svelte";
@@ -16,6 +15,8 @@
 	import Content from "./components/Content.svelte";
 	import type {WalletState} from "./machinery/WalletState";
 	import AccountList from "./view/AccountList.svelte";
+	import Account from "./view/wallet/Account.svelte";
+	import {walletStore} from "./machinery/WalletState";
 
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
@@ -28,7 +29,10 @@
 
 	const unsubscribeLoader = loaderStore.subscribe((value) => loader = value)
 	const unsubscribeNavigation = navigationStore.subscribe<NavigationState>(value => state = value);
-	const unsubscribeWalletStore = walletStore.subscribe<WalletState>(value => walletState = value);
+	const unsubscribeWalletStore = walletStore.subscribe<WalletState>(value => {
+		walletState = value;
+		console.log(walletState)
+	})
 
 	onDestroy(() => {
 		unsubscribeLoader()
@@ -60,7 +64,7 @@
 			{:else if state.menu === 'accounts' && walletState?.wallet}
 				<AccountList wallet={walletState.wallet} />
 			{:else if state.menu === 'account' && walletState?.wallet && walletState?.account}
-				<Wallet walletState={walletState} accountAction={state.accountAction} fullscreen={fullscreen} />
+				<Account walletState={walletState} action={state.accountAction} fullscreen={fullscreen}/>
 			{:else if state.menu === 'onboard'}
 				<Onboard />
 			{:else if state.menu === 'setup' && state.setupAction}

@@ -7,6 +7,7 @@
     import {afterUpdate} from "svelte";
     import {pushMenu, pushAccountAction, pushSetupAction} from "../machinery/eventListener";
     import type {WalletState} from "../machinery/WalletState";
+    import {accountAliasOrFallback} from "../machinery/text-utils";
 
     export let wallet: WalletState | undefined
 
@@ -24,9 +25,9 @@
     <List>
         <Primary primaryLanguageId="wallet" primaryText="wallet" on:click={() => pushMenu('accounts')}/>
         {#if wallet.account}
-            <WithSecondary primaryLanguageId="send" secondaryText={wallet.account.alias} on:click={() => pushAccountAction('send')}/>
-            <WithSecondary primaryLanguageId="transactions" secondaryText={wallet.account.alias} on:click={() =>  pushAccountAction('transactions')}/>
-            <WithSecondary primaryLanguageId="receive" secondaryText={wallet.account.alias} on:click={() =>  pushAccountAction('receive')}/>
+            <WithSecondary primaryLanguageId="send" secondaryText={wallet.account.alias} secondaryLanguageId={accountAliasOrFallback(wallet.account)} on:click={() => pushAccountAction('send')}/>
+            <WithSecondary primaryLanguageId="transactions" secondaryText={wallet.account.alias} secondaryLanguageId={accountAliasOrFallback(wallet.account)} on:click={() =>  pushAccountAction('transactions')}/>
+            <WithSecondary primaryLanguageId="receive"  secondaryText={wallet.account.alias} secondaryLanguageId={accountAliasOrFallback(wallet.account)} on:click={() =>  pushAccountAction('receive')}/>
         {/if}
         <Primary primaryLanguageId="about" primaryText="about" on:click={() => pushMenu('about')}/>
         <Primary primaryLanguageId="setup" primaryText="setup" on:click={() => pushSetupAction('menu')}/>
