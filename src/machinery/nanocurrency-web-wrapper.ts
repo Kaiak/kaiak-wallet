@@ -34,14 +34,6 @@ export function nanoToRaw(nano: NANO): RAW {
   };
 }
 
-export function truncateNanoAddress(address: NanoAddress): string {
-  return (
-    address.substr(0, 9) +
-    '.....' +
-    address.substr(address.length - 5, address.length)
-  );
-}
-
 export function signReceiveBlock(
   address: NanoAddress,
   privateKey: PrivateKey,
