@@ -4,7 +4,7 @@
     import type {WalletResult} from "../../machinery/wallet";
     import {createWallet} from "../../machinery/wallet";
     import {navigationReload, pushMenu, pushToast, reset} from "../../machinery/eventListener";
-    import {afterUpdate} from "svelte";
+    import {afterUpdate, onMount} from "svelte";
     import {load} from "../../machinery/loader-store";
     import NumberInput from "../../components/input/NumberInput.svelte";
     import Text from "../../components/Text.svelte";
@@ -23,10 +23,8 @@
             },
         }
     }
-
-    const inputPassword = (event) => {
-        inputPhrase = event.target.value;
-        const valid = inputPhrase && inputPhrase.length >= 4
+    $: valid = inputPhrase && inputPhrase.length >= 4
+    $: {
         setSoftwareKeys(createFinishKey(!valid))
     }
 
@@ -45,9 +43,9 @@
         })
     }
 
-    afterUpdate(() => navigationReload(createFinishKey(true)));
+    onMount(() => navigationReload(createFinishKey(!valid)));
 </script>
 
 <Seperator languageId="wallet-password" />
 <Text languageId="onboard-set-wallet-pin-text" />
-<NumberInput on:input={inputPassword} languageId="onboard-wallet-pin"/>
+<NumberInput languageId="onboard-wallet-pin" bind:value={inputPhrase}/>
