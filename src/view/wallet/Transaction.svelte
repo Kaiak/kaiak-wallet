@@ -13,7 +13,7 @@
 
     afterUpdate(() => {
         navigationReload({
-            leftKey: {
+            rightKey: {
                 languageId: 'send-button',
                 onClick: async () => sendFunction(transaction.account)
             }
