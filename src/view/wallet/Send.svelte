@@ -7,10 +7,11 @@
     import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
     import type {AccountAction} from "../../machinery/NavigationState";
     import {load} from "../../machinery/loader-store";
-    import {afterUpdate} from "svelte";
+    import {afterUpdate, onMount} from "svelte";
     import TextInput from "../../components/input/TextInput.svelte";
     import {setWalletState} from "../../machinery/WalletState";
     import NumberInput from "../../components/input/NumberInput.svelte";
+    import TextArea from "../../components/input/TextArea.svelte";
 
     export let wallet: NanoWallet;
     export let sendType: AccountAction;
@@ -72,7 +73,7 @@
         sendFunction(toAddress)
     }
 
-    afterUpdate(() => {
+    onMount(() => {
         if (sendType === 'send_address') {
             navigationReload({
                 leftKey: {
@@ -94,6 +95,6 @@
 {#if sendType === 'send_qr' && showCamera}
     <CameraCapture scannedAddress={scannedAddress}/>
 {:else}
-    <TextInput languageId="send-address" type="text" on:input={setAddress} value={toAddress}/>
+    <TextArea languageId="send-address" type="text" on:input={setAddress} value={toAddress}/>
     <NumberInput languageId="send-amount" type="text" on:input={setAmount} value={sendValue}/>
 {/if}
