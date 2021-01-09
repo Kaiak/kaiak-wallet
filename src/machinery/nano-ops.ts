@@ -56,7 +56,6 @@ export async function loadAndResolveAccountData(
       resolvedCount: resolvedCount,
     };
   } catch (e) {
-    // TODO: Should we handle error?
     return {
       account,
       resolvedCount: resolvedCount,
