@@ -18,6 +18,7 @@
     import SendSelector from "./SendSelector.svelte";
     import Content from "../../components/Content.svelte";
     import Transaction from "./Transaction.svelte";
+    import CameraCapture from "../../components/CameraCapture.svelte";
 
     export let walletState: WalletState
     export let action: AccountAction;
@@ -105,7 +106,9 @@
         <Transaction transaction={transaction} sendFunction={sendToAccount} />
     {:else if action === 'send'}
         <SendSelector />
-    {:else if action === 'send_qr' || action === 'send_address'}
+    {:else if action === 'send_qr'}
+        <CameraCapture scannedAddress={sendToAccount}/>
+    {:else if action === 'send_address'}
         <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} toAddress={sendToAddress} sendFunction={sendToAccount} />
     {:else if action === 'receive'}
         <Receive account={selectedAccount} />
