@@ -98,10 +98,10 @@
             <Primary primaryLanguageId="receive" on:click={() => pushAccountAction('receive') }/>
             <Primary primaryLanguageId="settings" on:click={() => showSettings() }/>
         </List>
-    {:else if action === 'transactions'}
+    {:else if action === 'transactions' && transactions}
         <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
         <Transactions transactions={transactions}/>
-    {:else if action === 'transaction'}
+    {:else if action === 'transaction' && transaction}
         <Transaction transaction={transaction} sendFunction={sendToAccount} />
     {:else if action === 'send'}
         <SendSelector />
