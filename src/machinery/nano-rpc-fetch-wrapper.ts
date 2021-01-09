@@ -23,7 +23,7 @@ import {
 
 const nanoApi = new NodeRPCsApi(
   new Configuration({
-    basePath: 'https://nano.mehl.no/node',
+    basePath: 'https://kaiak.cc/node',
   })
 );
 
