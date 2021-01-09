@@ -78,7 +78,7 @@
                     languageId: 'set-max-button',
                     onClick: setMax
                 },
-                middleKey: {
+                rightKey: {
                     languageId: 'send-button',
                     onClick: send
                 }
