@@ -4,7 +4,7 @@
     import {setWallet} from "../../machinery/secure-storage";
     import {setWalletState} from "../../machinery/WalletState";
     import {back, navigationReload, pushToast} from "../../machinery/eventListener";
-    import {afterUpdate} from "svelte";
+    import {onMount} from "svelte";
     import TextInput from "../../components/input/TextInput.svelte";
     import Text from "../../components/Text.svelte";
     import TextArea from "../../components/input/TextArea.svelte";
@@ -18,7 +18,6 @@
     let representativeValue: string = selectedAccount.representative
 
     const setAlias = (event) => aliasValue = event.target.value;
-    const changeRep = (event) => representativeValue = event.target.value
 
     const save = async () => {
         if(aliasValue < 3) {
@@ -44,7 +43,7 @@
         } // TODO: Toast
     }
 
-    afterUpdate(() => navigationReload({
+    onMount(() => navigationReload({
         middleKey: {
             languageId: 'button-save',
             onClick: save
@@ -58,4 +57,4 @@
 <TextInput languageId="account-alias" value={selectedAccount.alias} on:input={setAlias}/>
 <Seperator languageId="representative" />
 <Text languageId="representative-text"/>
-<TextArea languageId="set-representative" value={selectedAccount.representative} on:input={changeRep}/>
+<TextArea languageId="set-representative" bind:value={representativeValue}/>

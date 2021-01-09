@@ -16,15 +16,7 @@
     export let toAddress: NanoAddress | undefined = undefined
 
     let sending: boolean = false;
-
     let sendValue: number | undefined = undefined
-
-    const setAddress = (event) => {
-        const address = event.target.value;
-        if (tools.validateAddress(address)) {
-            toAddress = address
-        }
-    }
 
     const setAmount = (event) => {
         let strAmount: string = event.target.value;
@@ -41,24 +33,25 @@
     }
 
     const send = async () => {
-        if (toAddress && sendValue > 0) {
-            await load({
-                languageId: 'sending-funds',
-                load: async () => {
-                    const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}))
-                    if (updatedAccount) {
-                        setWalletState({
-                            wallet: updateAccountInWallet(updatedAccount, wallet),
-                            account: updatedAccount,
-                        })
-                        pushToast({languageId: 'sent-funds-success', type: 'success'})
-                        pushAccountAction('menu')
-                    } else {
-                        pushToast({languageId: 'unable-to-send', type: 'warn'})
-                    }
-                },
-            })
+        if(!tools.validateAddress(toAddress) || sendValue <= 0) {
+            return; // TODO: Toast
         }
+        await load({
+            languageId: 'sending-funds',
+            load: async () => {
+                const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}))
+                if (updatedAccount) {
+                    setWalletState({
+                        wallet: updateAccountInWallet(updatedAccount, wallet),
+                        account: updatedAccount,
+                    })
+                    pushToast({languageId: 'sent-funds-success', type: 'success'})
+                    pushAccountAction('menu')
+                } else {
+                    pushToast({languageId: 'unable-to-send', type: 'warn'})
+                }
+            },
+        })
     }
 
     onMount(() => {
@@ -75,5 +68,5 @@
     })
 
 </script>
-<TextArea languageId="send-address" on:input={setAddress} value={toAddress}/>
+<TextArea languageId="send-address" bind:value={toAddress}/>
 <NumberInput languageId="send-amount" bind:value={sendValue}/>

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {afterUpdate} from "svelte";
+    import { onMount } from "svelte";
     import {navigationReload, pushOnboardState, pushToast} from "../../machinery/eventListener";
     import {load} from "../../machinery/loader-store";
     import {BIP39_SEED_LENGTH, importWalletFromSeed, NANO_SEED_LENGTH} from "../../machinery/wallet";
@@ -14,9 +14,8 @@
         const seedLength = seedInputValue.length;
         return seedLength === BIP39_SEED_LENGTH || seedLength === NANO_SEED_LENGTH
     }
-    // $: characterCount = `${seedInputValue ? seedInputValue.length : "0"}/${MAX_SEED_LENGTH}`
 
-    afterUpdate(() => navigationReload({
+    onMount(() => navigationReload({
         middleKey: {
             languageId: 'import-wallet',
             onClick: async () => {
@@ -39,13 +38,8 @@
             }
         },
     }))
-
-    const onInput = (event) => {
-        const nextValue = event.target.value;
-        seedInputValue = nextValue;
-    }
 </script>
 
 <Seperator languageId="onboard-keyboard-seed-title"/>
 <Text languageId="import-from-seed-text"/>
-<TextArea languageId="import-from-seed" on:input={onInput} value={seedInputValue}/>
+<TextArea languageId="import-from-seed" bind:value={seedInputValue}/>
