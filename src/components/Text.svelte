@@ -5,7 +5,7 @@
 
 <style>
     span {
-        box-decoration-break: clone;
+        display: inline-block;
     }
     span:focus {
         outline: none;
