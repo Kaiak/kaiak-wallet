@@ -1,13 +1,12 @@
 {
   "version": "1.0.0",
-  "name": "Nano cryptocurrency wallet",
+  "name": "Kaiak",
   "description": "Nano is a feeless cryptocurrency. A secure and fast way to transfer money across borders.",
   "type": "privileged",
   "launch_path": "/index.html",
   "icons": {
-    "56": "/assets/icons/kaios_56.png",
-    "112": "/assets/icons/kaios_112.png",
-    "128": "/assets/icons/kaios_128.png"
+    "56": "/assets/icons/kaiak_56.png",
+    "112": "/assets/icons/kaiak_112.png"
   },
   "developer": {
     "name": "Philipp Blum",
@@ -28,12 +27,12 @@
       "description": "Required for sending/receiving transactions"
     }
   },
-  "theme_color": "#4A90E2",
+  "theme_color": "#F4FAFF",
   "cursor": false,
   "fullscreen": false,
   "locales": {
     "en-US": {
-      "name": "Nano cryptocurrency wallet",
+      "name": "Kaiak",
       "subtitle": "A secure and fast wallet for the nano cryptocurrency",
       "description": "Nano is a feeless cryptocurrency. A secure and fast way to transfer money across borders."
     }
