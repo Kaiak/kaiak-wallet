@@ -1,21 +1,18 @@
 <script lang="ts">
     export let languageId;
     export let breakAll;
-    export let bold: boolean = false;
 </script>
 
 <style>
-    div:focus {
+    span {
+        display: inline-block;
+    }
+    span:focus {
         outline: none;
     }
-    .bold {
-        font-weight: bold;
+    .text-break {
+        word-break: break-all;
     }
 </style>
 
-{#if breakAll}
-    <div class="kui-body kui-text kui-text-break navigation" class:bold tabindex="1" data-l10n-id="{languageId}" on:click on:focus><slot/></div>
-{:else}
-    <div class="kui-body kui-text navigation" class:bold tabindex="1" data-l10n-id="{languageId}" on:click on:focus><slot/></div>
-{/if}
-
+<span class="kui-text navigation" class:text-break={breakAll} tabindex="1" data-l10n-id="{languageId}" on:click on:focus><slot/></span>

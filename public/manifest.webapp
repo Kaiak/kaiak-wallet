@@ -27,7 +27,7 @@
       "description": "Required for sending/receiving transactions"
     }
   },
-  "theme_color": "#4A90E2",
+  "theme_color": "#F4FAFF",
   "cursor": false,
   "fullscreen": false,
   "locales": {

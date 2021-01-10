@@ -1,9 +1,7 @@
 <script lang="ts">
     import Content from "../../components/Content.svelte";
-    import Text from "../../components/Text.svelte";
-    import {beforeUpdate, onDestroy} from "svelte";
+    import {onDestroy} from "svelte";
     import {navigationStore} from "../../stores/stores";
-    import {navigationReload, pushOnboardState} from "../../machinery/eventListener";
     import type {NavigationState, OnboardState, OnboardView} from "../../machinery/NavigationState";
     import Disclaimer from "./Disclaimer.svelte";
     import CreateSeed from "./CreateSeed.svelte";
@@ -13,7 +11,7 @@
     import DisclaimerImport from "./DisclaimerImport.svelte";
     import InputSeed from "./InputSeed.svelte";
     import KeyboardLayout from "./KeyboardLayout.svelte";
-    import Seperator from "../../components/Seperator.svelte";
+    import Intro from "./Intro.svelte";
 
     let onboardState: OnboardState | undefined = undefined
     let state: NavigationState | undefined = undefined
@@ -31,18 +29,7 @@
         attemptedSeedInput = onboardState?.attemptedSeedImport
     })
     onDestroy(() => naviStore())
-    beforeUpdate(() => navigationReload({
-        leftKey: {
-            languageId: 'create',
-            onClick: async () => {
-                pushOnboardState({view: 'disclaimer', walletResult: undefined, alias: undefined})
-            }
-        },
-        rightKey: {
-            onClick: async () => pushOnboardState({view: 'disclaimer-import'}),
-            languageId: 'import-wallet'
-        }
-    }))
+
 </script>
 
 
@@ -62,11 +49,7 @@
     {:else if view === 'input-import'}
         <InputSeed seedInputValue={attemptedSeedInput} />
     {:else}
-        <Text bold={true} languageId="title" />
-        <Seperator languageId="what-is-nano-title"/>
-        <Text languageId="onboard-title" />
-        <Seperator languageId="onboard-import-or-create"/>
-        <Text breakAll={false} languageId="onboard-description"/>
+        <Intro />
     {/if}
 </Content>
 

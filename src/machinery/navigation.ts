@@ -78,7 +78,8 @@ export class Navigation {
     return (
       this.selectedElement &&
       (this.selectedElement instanceof HTMLButtonElement ||
-        this.selectedElement instanceof HTMLLIElement) &&
+        this.selectedElement instanceof HTMLLIElement ||
+        this.selectedElement instanceof HTMLAnchorElement) &&
       this.selectedElement.click !== undefined
     );
   }
