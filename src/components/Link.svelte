@@ -6,6 +6,7 @@
     a {
         font-weight: 700;
         text-decoration: none;
+        color: black;
     }
     a:active, a:focus {
         text-decoration: underline;
