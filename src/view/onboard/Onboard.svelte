@@ -12,7 +12,7 @@
     import InputSeed from "./InputSeed.svelte";
     import KeyboardLayout from "./KeyboardLayout.svelte";
     import Intro from "./Intro.svelte";
-import LicenseAgreement from "./LicenseAgreement.svelte";
+    import LicenseAgreement from "./LicenseAgreement.svelte";
 
     let onboardState: OnboardState | undefined = undefined
     let state: NavigationState | undefined = undefined
