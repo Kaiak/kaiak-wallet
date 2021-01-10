@@ -85,8 +85,8 @@
                     onClick: triggerRefresh
                 },
                 rightKey: {
-                    languageId: 'about',
-                    onClick: async () => pushMenu('about'),
+                    languageId: 'menu',
+                    onClick: async () => pushMenu('menu'),
                 },
             })
         }
