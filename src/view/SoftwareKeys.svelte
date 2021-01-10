@@ -39,10 +39,21 @@
         box-sizing: border-box;
         padding: 10px 5px;
     }
-    .kui-software-key h5 {
-        width: 33.3333333333%;
+    .kui-software-key-left {
+        text-align: left;
+        font-weight: 600;
+    }
+    .kui-software-key-center {
         text-align: center;
         text-transform: uppercase;
+        font-weight: 800;
+    }
+    .kui-software-key-right {
+        text-align: right;
+        font-weight: 600;
+    }
+    .kui-software-key h5 {
+        width: 33.3333333333%;
     }
     .hidden {
         visibility: hidden;
@@ -53,7 +64,7 @@
 </style>
 
 <div class="kui-software-key">
-    <h5 class:hidden={!leftKey} class:disabled={leftKey?.disabled === true} on:click={getOnClicker(leftKey)} data-l10n-id={leftKey?.languageId}>|</h5>
-    <h5 class:hidden={!middleKey} class:disabled={middleKey?.disabled === true} on:click={getOnClicker(middleKey)} data-l10n-id={middleKey?.languageId}>|</h5>
-    <h5 class:hidden={!rightKey} class:disabled={rightKey?.disabled === true} on:click={getOnClicker(rightKey)} data-l10n-id={rightKey?.languageId}>|</h5>
+    <h5 class:hidden={!leftKey} class="kui-software-key-left" class:disabled={leftKey?.disabled === true} on:click={getOnClicker(leftKey)} data-l10n-id={leftKey?.languageId}>|</h5>
+    <h5 class:hidden={!middleKey} class="kui-software-key-center" class:disabled={middleKey?.disabled === true} on:click={getOnClicker(middleKey)} data-l10n-id={middleKey?.languageId}>|</h5>
+    <h5 class:hidden={!rightKey} class="kui-software-key-right" class:disabled={rightKey?.disabled === true} on:click={getOnClicker(rightKey)} data-l10n-id={rightKey?.languageId}>|</h5>
 </div>
