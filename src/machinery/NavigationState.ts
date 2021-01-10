@@ -21,6 +21,7 @@ export type AccountAction =
 
 export type OnboardView =
   | 'start'
+  | 'intro'
   | 'disclaimer'
   | 'seed'
   | 'account'
