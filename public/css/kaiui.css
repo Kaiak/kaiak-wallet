@@ -93,13 +93,12 @@ h1, h2, h3, h4, h5, ul, p {
     font-size: 17px;
     font-weight: 400;
     padding: 5px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 
-.kui-body {
-}
-
-.kui-text-break{
-    word-break: break-all;
+:global(.kui-content-area:not(.kui-separator)) {
+    padding: 5px;
 }
 
 .kui-btn{
