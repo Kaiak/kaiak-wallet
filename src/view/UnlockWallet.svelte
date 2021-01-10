@@ -8,7 +8,7 @@
     } from "../machinery/eventListener";
     import type {NanoWallet} from "../machinery/models";
     import {unlockWallet} from "../machinery/secure-storage";
-    import {afterUpdate, onMount} from "svelte";
+    import {onMount} from "svelte";
     import {setWalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
     import NumberInput from "../components/input/NumberInput.svelte";

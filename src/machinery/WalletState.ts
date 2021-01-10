@@ -10,7 +10,7 @@ import { pushToast } from './eventListener';
 import { writable, Writable } from 'svelte/store';
 
 export interface WalletState {
-  wallet: NanoWallet | undefined;
+  wallet?: NanoWallet;
   transactions?: NanoTransaction[];
   account?: NanoAccount;
   transaction?: NanoTransaction;

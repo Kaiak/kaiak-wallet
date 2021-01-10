@@ -16,7 +16,7 @@
 	import type {WalletState} from "./machinery/WalletState";
 	import AccountList from "./view/AccountList.svelte";
 	import Account from "./view/wallet/Account.svelte";
-	import {walletStore} from "./machinery/WalletState";
+	import {setWalletState, walletStore} from "./machinery/WalletState";
 
 	export let version: () => string
 	let header: string | undefined = undefined
@@ -25,7 +25,14 @@
 	let state: NavigationState
 	let loader: Loader | undefined
 	let walletState: WalletState | undefined
+
 	$: fullscreen = state?.menu === 'account' && state?.accountAction === 'send_qr'
+	$: {
+		const clearState = state === undefined || state.menu === 'unlock'
+		if(clearState) {
+			setWalletState({})
+		}
+	}
 
 	const unsubscribeLoader = loaderStore.subscribe((value) => loader = value)
 	const unsubscribeNavigation = navigationStore.subscribe<NavigationState>(value => state = value);
