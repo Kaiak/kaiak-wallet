@@ -100,6 +100,10 @@ export function pushToast(state: ToastState): void {
   toastStore.set(state);
 }
 
+export function clickSelection(): void {
+  navigation.selection().click();
+}
+
 export async function handleKeydown(e) {
   switch (e.key) {
     case 'ArrowUp':

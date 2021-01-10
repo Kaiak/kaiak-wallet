@@ -1,13 +1,14 @@
 <script lang="ts">
     import List from "../../components/List.svelte";
     import type {NanoTransaction} from "../../machinery/models";
-    import {afterUpdate, onDestroy} from "svelte";
+    import {onDestroy, onMount} from "svelte";
     import {navigationReload, pushAccountAction} from "../../machinery/eventListener";
     import Primary from "../../components/list/Primary.svelte";
     import Text from "../../components/Text.svelte";
     import {setWalletState, walletStore} from "../../machinery/WalletState";
     import type {WalletState} from "../../machinery/WalletState";
     import {transactionText} from "../../machinery/text-utils";
+    import {SOFT_KEY_SELECT} from "../../machinery/SoftwareKeysState";
 
     export let transactions: NanoTransaction[]
     let wallet: WalletState | undefined = undefined;
@@ -19,7 +20,9 @@
         pushAccountAction('transaction')
     }
 
-    afterUpdate(() => navigationReload())
+    onMount(() => navigationReload(transactions.length > 0 ? {
+        middleKey: SOFT_KEY_SELECT
+    } : undefined))
     onDestroy(() => unsubscribe())
 </script>
 

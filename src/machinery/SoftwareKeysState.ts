@@ -1,4 +1,4 @@
-import { pushMenu } from './eventListener';
+import { clickSelection, pushMenu } from './eventListener';
 import { writable, Writable } from 'svelte/store';
 
 export interface SoftKey {
@@ -28,6 +28,11 @@ export function setSoftwareKeys(state: SoftwareKeysState) {
 export const SOFT_KEY_MENU: SoftKey = {
   languageId: 'menu',
   onClick: async () => pushMenu('menu'),
+};
+
+export const SOFT_KEY_SELECT: SoftKey = {
+  languageId: 'select-button',
+  onClick: async () => clickSelection(),
 };
 
 /** Sets software / menu keys */

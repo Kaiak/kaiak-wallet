@@ -3,8 +3,11 @@
     import List from "../../components/List.svelte";
     import {navigationReload, pushAccountAction} from "../../machinery/eventListener";
     import {afterUpdate} from "svelte";
+    import {SOFT_KEY_SELECT} from "../../machinery/SoftwareKeysState";
 
-    afterUpdate(() => navigationReload());
+    afterUpdate(() => navigationReload({
+        middleKey: SOFT_KEY_SELECT
+    }));
 </script>
 
 <List>

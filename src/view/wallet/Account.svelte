@@ -20,6 +20,7 @@
     import CameraCapture from "../../components/CameraCapture.svelte";
     import {pushMenu} from "../../machinery/eventListener";
     import Donate from "./Donate.svelte";
+    import {SOFT_KEY_SELECT} from "../../machinery/SoftwareKeysState";
 
     export let walletState: WalletState
     export let action: AccountAction;
@@ -84,6 +85,7 @@
                     languageId: 'update-button',
                     onClick: triggerRefresh
                 },
+                middleKey: SOFT_KEY_SELECT,
                 rightKey: {
                     languageId: 'menu',
                     onClick: async () => pushMenu('menu'),
