@@ -9,9 +9,13 @@
     import {setWalletState} from "../machinery/WalletState";
     import type {WalletState} from "../machinery/WalletState";
     import {DEFAULT_REP} from "../machinery/nano-ops";
+    import {getLanguage} from "../machinery/language";
 
+    export let version: () => string
     export let walletState: WalletState
+
     $: canDonate = walletState?.account !== undefined
+    $: getVersion = `${getLanguage('version')} ${version()}`;
 
     const softwareKeys: SoftwareKeysState = {
         rightKey: {
@@ -35,4 +39,5 @@
     <Link href="https://github.com/Kaiak/kaiak-wallet">Kaiak Github</Link>
     <Seperator languageId="about-project-donate" />
     <Text languageId="about-project-donate-text" />
+    <Text>{getVersion}</Text>
 </Content>

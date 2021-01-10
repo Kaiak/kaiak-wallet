@@ -18,9 +18,9 @@
 	import Account from "./view/wallet/Account.svelte";
 	import {walletStore} from "./machinery/WalletState";
 
+	export let version: () => string
 	let header: string | undefined = undefined
 	let view: string | undefined = undefined
-
 
 	let state: NavigationState
 	let loader: Loader | undefined
@@ -69,7 +69,7 @@
 			{:else if state.menu === 'menu'}
 				<Menu wallet={walletState} accountAction={state.accountAction}/>
 			{:else if state.menu === 'about'}
-				<About walletState={walletState}/>
+				<About walletState={walletState} version={version}/>
 			{/if}
 			<SoftwareKeys/>
 		{/if}
