@@ -1,4 +1,4 @@
-# Kaiak
+![Kaiak Logo](/media/kaiak_logo_wide_small.png)
 
 A community driven [Nano](https://nano.org/) Wallet for [KaiOS](https://developer.kaiostech.com/).
 
@@ -30,3 +30,24 @@ Ensure that you have `adb` installed, and that `$ adb devices` returns the conne
 Publish to device with:
 
     $ yarn push
+
+## Media files (Logos etc.)
+
+[High resolution Media files](/media/) are available. 
+Images and vector files are licensed under CC BY-NC-SA @ Philipp-Alexander Blum.
+
+*What is allowed?*
+
+We hightly encourage the usage of all media material in the press. In For-profit, as well not-for-profit media.
+So, if you want to use the logo in an article about the wallet, go for it!
+The same goes for community sites, such as forums, discord servers etc. 
+We highly encourage the usage of the media material for this purpose.
+
+*What is not allowed?*
+Merchandise products etc., such as T-Shirts etc. have to ask for permission in order to use the media material.
+
+For questions about the license and requests for commercial usage, send an email to kaiak_media(you_know)jakiku.com
+
+## Press
+
+For press inquiries, please use kaiak_press(you_know)jakiku.com
