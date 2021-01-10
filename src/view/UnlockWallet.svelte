@@ -1,7 +1,7 @@
 <script lang="ts">
     import Content from "../components/Content.svelte";
     import {
-        navigationReload,
+        navigationReload, pushMenu,
         pushOnboardState,
         pushState,
         pushToast
@@ -33,14 +33,18 @@
 
     const softwareKeys = (disabledUnlock) => {
         return {
+            leftKey: {
+                onClick: async () => pushOnboardState({ view: undefined }),
+                languageId: 'create-new-wallet'
+            },
             middleKey: {
                 disabled: disabledUnlock,
                 onClick: unlock,
                 languageId: 'unlock-wallet'
             },
             rightKey: {
-                onClick: async () => pushOnboardState({ view: undefined }),
-                languageId: 'create-new-wallet'
+                onClick: async () => pushMenu('about'),
+                languageId: 'about'
             },
         }
     }

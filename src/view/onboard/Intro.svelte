@@ -3,6 +3,7 @@
     import Text from "../../components/Text.svelte";
     import {onMount} from "svelte";
     import {navigationReload, pushOnboardState} from "../../machinery/eventListener";
+    import Title from "../../components/Title.svelte";
 
     onMount(() => navigationReload({
         leftKey: {
@@ -18,7 +19,7 @@
     }))
 </script>
 
-<Text bold={true} languageId="title" />
+<Title languageId="title" />
 <Seperator languageId="what-is-nano-title"/>
 <Text languageId="onboard-title" />
 <Seperator languageId="onboard-import-or-create"/>

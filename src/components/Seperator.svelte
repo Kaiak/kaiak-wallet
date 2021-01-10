@@ -8,7 +8,7 @@
         color: white;
         background-color: #000034;
         line-height: 28px;
-        padding-left: 10px;
+        padding-left: 5px;
     }
     .kui-thi {
         font-size: 12px;
@@ -17,5 +17,5 @@
 </style>
 
 <div class="kui-separator">
-    <p class="kui-thi" data-l10n-id={languageId}>{primaryText}</p>
+    <span class="kui-thi" data-l10n-id={languageId}>{primaryText}</span>
 </div>
