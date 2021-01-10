@@ -8,4 +8,4 @@
     }
 </style>
 
-<a href={href} class="kui-text navigation"><slot /></a>
+<a href={href} class="kui-text navigation" target="_blank"><slot /></a>
