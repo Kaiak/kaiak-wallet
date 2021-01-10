@@ -9,6 +9,9 @@
     import {setWalletState} from "../../machinery/WalletState";
     import NumberInput from "../../components/input/NumberInput.svelte";
     import TextArea from "../../components/input/TextArea.svelte";
+    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
+    import {getLanguage} from "../../machinery/language";
+    import Text from "../../components/Text.svelte";
 
     export let wallet: NanoWallet;
     export let account: NanoAccount;
@@ -18,24 +21,35 @@
     let sending: boolean = false;
     let sendValue: number | undefined = undefined
 
-    const setAmount = (event) => {
-        let strAmount: string = event.target.value;
-        const amount: number = Number.parseFloat(strAmount);
-        if (!isNaN(amount)) {
-            sendValue = amount;
+
+    const softwareKeys = (disabled) => {
+        return {
+            leftKey: {
+                languageId: 'set-max-button',
+                onClick: setMax
+            },
+            rightKey: {
+                disabled: disabled,
+                languageId: 'send-button',
+                onClick: send
+            }
         }
     }
 
+    $: nanoAmount = balance ? Number.parseFloat(rawToNano(balance).amount) : 0
+    $: {
+        const canSend = (toAddress ? tools.validateAddress(toAddress) : false) && sendValue <= nanoAmount && sendValue > 0
+        setSoftwareKeys(softwareKeys(!canSend))
+    }
+    $: balanceString = `${getLanguage('current-balance')}: ${nanoAmount} Nano`
+
     const setMax = async () => {
         if (balance && balance.raw) {
-            sendValue = Number.parseFloat(rawToNano(balance, 10).amount)
+            sendValue = Number.parseFloat(rawToNano(balance).amount)
         }
     }
 
     const send = async () => {
-        if(!tools.validateAddress(toAddress) || sendValue <= 0) {
-            return; // TODO: Toast
-        }
         await load({
             languageId: 'sending-funds',
             load: async () => {
@@ -54,19 +68,9 @@
         })
     }
 
-    onMount(() => {
-        navigationReload({
-            leftKey: {
-                languageId: 'set-max-button',
-                onClick: setMax
-            },
-            rightKey: {
-                languageId: 'send-button',
-                onClick: send
-            }
-        })
-    })
+    onMount(() => navigationReload(softwareKeys(true)))
 
 </script>
+<Text>{balanceString}</Text>
 <TextArea languageId="send-address" bind:value={toAddress}/>
 <NumberInput languageId="send-amount" bind:value={sendValue}/>
