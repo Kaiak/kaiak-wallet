@@ -5,6 +5,13 @@
 <style>
     a {
         font-weight: 700;
+        text-decoration: none;
+    }
+    a:active, a:focus {
+        text-decoration: underline;
+    }
+    a:visited {
+        color: black;
     }
 </style>
 
