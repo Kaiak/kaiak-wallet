@@ -9,6 +9,7 @@ import css from 'rollup-plugin-css-only';
 import multi from '@rollup/plugin-multi-entry';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
 import babel from "@rollup/plugin-babel";
+import versionInjector from 'rollup-plugin-version-injector';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -76,6 +77,7 @@ export default {
 			presets: [['@babel/preset-env']],
 			plugins: [['@babel/plugin-transform-runtime']]
 		}),
+		versionInjector(),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
