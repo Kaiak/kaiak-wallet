@@ -12,6 +12,7 @@
     import InputSeed from "./InputSeed.svelte";
     import KeyboardLayout from "./KeyboardLayout.svelte";
     import Intro from "./Intro.svelte";
+    import LicenseAgreement from "./LicenseAgreement.svelte";
 
     let onboardState: OnboardState | undefined = undefined
     let state: NavigationState | undefined = undefined
@@ -34,7 +35,9 @@
 
 
 <Content titleKey="create-wallet">
-    {#if view === 'disclaimer'}
+    {#if view === 'intro'}
+        <Intro />
+    {:else if view === 'disclaimer'}
         <Disclaimer />
     {:else if view === 'seed'}
         <CreateSeed walletResult={walletResult} />
@@ -49,7 +52,7 @@
     {:else if view === 'input-import'}
         <InputSeed seedInputValue={attemptedSeedInput} />
     {:else}
-        <Intro />
+        <LicenseAgreement />
     {/if}
 </Content>
 
