@@ -19,6 +19,7 @@
     import Transaction from "./Transaction.svelte";
     import CameraCapture from "../../components/CameraCapture.svelte";
     import {pushMenu} from "../../machinery/eventListener";
+    import Donate from "./Donate.svelte";
 
     export let walletState: WalletState
     export let action: AccountAction;
@@ -101,6 +102,7 @@
             <Primary primaryLanguageId="send" on:click={() => pushAccountAction('send') }/>
             <Primary primaryLanguageId="receive" on:click={() => pushAccountAction('receive') }/>
             <Primary primaryLanguageId="settings" on:click={() => showSettings() }/>
+            <Primary primaryLanguageId="about-donate-button" on:click={() => pushAccountAction('donate') }/>
         </List>
     {:else if action === 'transactions' && transactions}
         <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
@@ -117,5 +119,7 @@
         <Receive account={selectedAccount} />
     {:else if action === 'settings'}
         <Settings wallet={wallet} selectedAccount={selectedAccount}/>
+    {:else if action === 'donate'}
+        <Donate walletState={walletState} />
     {/if}
 </Content>

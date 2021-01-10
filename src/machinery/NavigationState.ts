@@ -17,7 +17,8 @@ export type AccountAction =
   | 'receive'
   | 'send_qr'
   | 'send_address'
-  | 'settings';
+  | 'settings'
+  | 'donate';
 
 export type OnboardView =
   | 'start'
