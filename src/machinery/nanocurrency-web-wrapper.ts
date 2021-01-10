@@ -19,7 +19,7 @@ function round(number: number, places: number): number {
 }
 
 /** Used for displaying RAW as NANO */
-export function rawToNano(raw: RAW, fractions: number): NANO {
+export function rawToNano(raw: RAW, fractions: number = 6): NANO {
   return {
     amount: round(
       Number(tools.convert(raw.raw, 'RAW', 'NANO')),

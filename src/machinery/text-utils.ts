@@ -38,7 +38,7 @@ export const direction = (transaction: NanoTransaction) => {
 
 export const transactionText = (transaction: NanoTransaction) => {
   return `${getLanguage(transactionType(transaction))} ${
-    rawToNano(transaction.amount, 6).amount
+    rawToNano(transaction.amount).amount
   } ${getLanguage(direction(transaction))} ${truncateNanoAddress(
     transaction.account
   )}`;
