@@ -51,8 +51,6 @@
     })
 </script>
 
-<Seperator languageId="wallet-mnemonic"/>
-<Text>{walletResult.mnemonic}</Text>
 <Seperator languageId="wallet-seed" />
 <Text breakAll={true}>{walletResult.seed}</Text>
 <Seperator languageId="wallet-accept"/>

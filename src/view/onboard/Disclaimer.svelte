@@ -25,3 +25,5 @@
 
 <Seperator languageId="onboard-seed-title" />
 <Text languageId="onboard-disclaimer-text"/>
+<Seperator languageId="onboard-important-title" />
+<Text languageId="onboard-important-description"/>

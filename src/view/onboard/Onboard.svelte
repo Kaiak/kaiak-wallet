@@ -12,7 +12,8 @@
     import type {WalletResult} from "../../machinery/wallet";
     import DisclaimerImport from "./DisclaimerImport.svelte";
     import InputSeed from "./InputSeed.svelte";
-import KeyboardLayout from "./KeyboardLayout.svelte";
+    import KeyboardLayout from "./KeyboardLayout.svelte";
+    import Seperator from "../../components/Seperator.svelte";
 
     let onboardState: OnboardState | undefined = undefined
     let state: NavigationState | undefined = undefined
@@ -38,7 +39,7 @@ import KeyboardLayout from "./KeyboardLayout.svelte";
             }
         },
         rightKey: {
-            onClick: async () => pushOnboardState({ view: 'disclaimer-import' }),
+            onClick: async () => pushOnboardState({view: 'disclaimer-import'}),
             languageId: 'import-wallet'
         }
     }))
@@ -61,7 +62,10 @@ import KeyboardLayout from "./KeyboardLayout.svelte";
     {:else if view === 'input-import'}
         <InputSeed seedInputValue={attemptedSeedInput} />
     {:else}
+        <Text bold={true} languageId="title" />
+        <Seperator languageId="what-is-nano-title"/>
         <Text languageId="onboard-title" />
+        <Seperator languageId="onboard-import-or-create"/>
         <Text breakAll={false} languageId="onboard-description"/>
     {/if}
 </Content>
