@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NanoAccount, NanoAddress, NanoTransaction, NanoWallet} from "../../machinery/models";
+    import type {NanoAccount, NanoAddress} from "../../machinery/models";
     import Seperator from "../../components/Seperator.svelte";
     import List from "../../components/List.svelte";
     import Primary from "../../components/list/Primary.svelte";
@@ -11,7 +11,6 @@
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
     import {afterUpdate} from "svelte";
-    import {SOFT_KEY_MENU} from "../../machinery/SoftwareKeysState";
     import {load} from "../../machinery/loader-store";
     import {setWalletState, updateWalletState} from "../../machinery/WalletState";
     import type {WalletState} from "../../machinery/WalletState";
@@ -19,6 +18,7 @@
     import Content from "../../components/Content.svelte";
     import Transaction from "./Transaction.svelte";
     import CameraCapture from "../../components/CameraCapture.svelte";
+    import {pushMenu} from "../../machinery/eventListener";
 
     export let walletState: WalletState
     export let action: AccountAction;
@@ -83,7 +83,10 @@
                     languageId: 'update-button',
                     onClick: triggerRefresh
                 },
-                rightKey: SOFT_KEY_MENU,
+                rightKey: {
+                    languageId: 'about',
+                    onClick: async () => pushMenu('about'),
+                },
             })
         }
     })
