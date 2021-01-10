@@ -24,7 +24,7 @@ import {
 
 /** This file combines nanocurrency-web and nano-rpc-fetch */
 
-const DEFAULT_REP: NanoAddress =
+export const DEFAULT_REP: NanoAddress =
   'nano_1kaiak5dbaaqpenb7nshqgq9tehgb5wy9y9ju9ehunexzmkzmzphk8yw8r7u';
 let OPEN_FRONTIER =
   '0000000000000000000000000000000000000000000000000000000000000000';

@@ -69,7 +69,7 @@
 			{:else if state.menu === 'menu'}
 				<Menu wallet={walletState} accountAction={state.accountAction}/>
 			{:else if state.menu === 'about'}
-				<About />
+				<About walletState={walletState}/>
 			{/if}
 			<SoftwareKeys/>
 		{/if}

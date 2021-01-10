@@ -12,5 +12,5 @@
     }
 </style>
 <LabelInput languageId={languageId} text={text}>
-    <textarea id={languageId} class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} rows="4" lang="en" bind:value/>
+    <textarea id={languageId} class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} rows="3" lang="en" bind:value/>
 </LabelInput>
