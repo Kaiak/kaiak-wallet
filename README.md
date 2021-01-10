@@ -1,4 +1,4 @@
-# Nano KaiOS
+# Kaiak
 
 A community driven [Nano](https://nano.org/) Wallet for [KaiOS](https://developer.kaiostech.com/).
 
