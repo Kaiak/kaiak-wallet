@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "Kaiak",
-  "description": "A secure and fast wallet for the Nano cryptocurrency",
+  "description": "A secure and fast way to send and receive Nano cryptocurrency",
   "type": "privileged",
   "launch_path": "/index.html",
   "icons": {
@@ -33,8 +33,8 @@
   "locales": {
     "en-US": {
       "name": "Kaiak",
-      "subtitle": "A secure and fast wallet for the Nano cryptocurrency",
-      "description": "Kaiak lets you create a wallet to receive and send Nano cryptocurrency. Nano is a feeless cryptocurrency. A secure and fast way to transfer money across borders."
+      "subtitle": "A secure Nano cryptocurrency wallet",
+      "description": "A secure and fast way to transfer digital money anywhere in the world - for free."
     }
   },
   "default_locale": "en-US"
