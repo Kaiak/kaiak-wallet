@@ -47,11 +47,11 @@
     }
 
     afterUpdate(() => {
-        if(!checked) navigationReload(createAcceptKey(true))
+        if(!checked) navigationReload(createAcceptKey(false))
     })
 </script>
 
 <Seperator languageId="wallet-seed" />
-<Text breakAll={true}>{walletResult.seed}</Text>
+<Text breakAll={true} preventNavigation={true}>{walletResult.seed}</Text>
 <Seperator languageId="wallet-accept"/>
 <Checkbox languageId="wallet-accept-text" on:change={accept} on:focus={showAccept} bind:checked/>
