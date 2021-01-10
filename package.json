@@ -1,8 +1,8 @@
 {
-  "name": "nano-kaios",
-  "version": "0.0.1",
-  "description": "KaiOS Nano Wallet",
-  "repository": "https://github.com/Citrullin/nano-kaios.git",
+  "name": "Kaiak",
+  "version": "1.0.0",
+  "description": "Kaiak a KaiOS Nano Wallet",
+  "repository": "https://github.com/Kaiak/kaiak-wallet",
   "license": "GNU General Public License v2.0",
   "scripts": {
     "build": "rollup -c",
@@ -12,7 +12,8 @@
     "push": "yarn clean && yarn build && kaios-scripts push",
     "validate": "svelte-check",
     "lint": "eslint 'src/**/*.ts'",
-    "fixlint": "eslint --fix 'src/**/*.ts'"
+    "fixlint": "eslint --fix 'src/**/*.ts'",
+    "prod": "rollup -c --environment INCLUDE_DEPS,BUILD:production"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.12.1",

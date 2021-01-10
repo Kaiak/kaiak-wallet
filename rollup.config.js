@@ -10,7 +10,7 @@ import multi from '@rollup/plugin-multi-entry';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
 import babel from "@rollup/plugin-babel";
 
-const production = !process.env.ROLLUP_WATCH;
+const production = process.env.BUILD === 'production';
 
 function serve() {
 	let server;
@@ -36,7 +36,7 @@ function serve() {
 export default {
 	input: ['src/main.ts', 'node_modules/kaios-gaia-l10n/l10n.js'],
 	output: {
-		sourcemap: true,
+		sourcemap: !production,
 		format: 'iife',
 		name: 'app',
 		file: 'public/build/bundle.js'
