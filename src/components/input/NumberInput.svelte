@@ -3,7 +3,7 @@
     export let languageId: string | undefined
     export let text: string | undefined
     export let placeholderLanguage: string | undefined
-    export let value: string = '';
+    export let value: any;
 </script>
 <LabelInput languageId={languageId} text={text}>
     <!-- To get number behaviour working https://stackoverflow.com/questions/60890475/backspace-doesnt-work-in-number-input-field-kaios-svelte3 -->

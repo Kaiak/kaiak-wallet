@@ -35,8 +35,8 @@
 	}
 
 	const unsubscribeLoader = loaderStore.subscribe((value) => loader = value)
-	const unsubscribeNavigation = navigationStore.subscribe<NavigationState>(value => state = value);
-	const unsubscribeWalletStore = walletStore.subscribe<WalletState>(value => walletState = value)
+	const unsubscribeNavigation = navigationStore.subscribe(value => state = value);
+	const unsubscribeWalletStore = walletStore.subscribe(value => walletState = value)
 
 	onDestroy(() => {
 		unsubscribeLoader()
@@ -72,9 +72,9 @@
 			{:else if state.menu === 'onboard'}
 				<Onboard />
 			{:else if state.menu === 'setup' && state.setupAction}
-				<Setup setupAction={state.setupAction} wallet={walletState} />
+				<Setup setupAction={state.setupAction} />
 			{:else if state.menu === 'menu'}
-				<Menu wallet={walletState} accountAction={state.accountAction}/>
+				<Menu wallet={walletState} />
 			{:else if state.menu === 'about'}
 				<About walletState={walletState} version={version}/>
 			{/if}

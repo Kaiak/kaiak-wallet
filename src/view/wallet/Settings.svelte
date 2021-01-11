@@ -20,7 +20,7 @@
     const setAlias = (event) => aliasValue = event.target.value;
 
     const save = async () => {
-        if(aliasValue < 3) {
+        if(aliasValue.length < 3) {
             pushToast({languageId: 'onboard-alias-rule'})
             return;
         }
