@@ -7,6 +7,7 @@
         font-weight: 700;
         text-decoration: none;
         color: black;
+        padding: 5px;
     }
     a:active, a:focus {
         text-decoration: underline;
