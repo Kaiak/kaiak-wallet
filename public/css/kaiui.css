@@ -251,6 +251,11 @@ button.kui-btn:focus {
     border: 1px solid #aaaaaa;
 }
 
+.kui-input:focus {
+    border: 2px solid #676686;
+    border-radius: 4px;
+}
+
 .kui-input ::-moz-placeholder,
 .kui-input :-moz-placeholder {
     color: #212529;
