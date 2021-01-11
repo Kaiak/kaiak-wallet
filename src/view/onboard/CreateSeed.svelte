@@ -6,9 +6,11 @@
     import {navigationReload, pushOnboardState} from "../../machinery/eventListener";
     import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
     import Checkbox from "../../components/input/Checkbox.svelte";
+    import {hashString} from "../../machinery/utils";
 
     export let walletResult: WalletResult;
     let checked: boolean = false;
+    let hashCode: number = hashString(walletResult.seed)
 
     const createKeyWithEnabledState = (disabled: boolean) => {
         return {
@@ -53,5 +55,6 @@
 
 <Seperator languageId="wallet-seed" />
 <Text breakAll={true} preventNavigation={true}>{walletResult.seed}</Text>
+<Text languageId="seed-checksum"/>{hashCode}
 <Seperator languageId="wallet-accept"/>
 <Checkbox languageId="wallet-accept-text" on:change={accept} on:focus={showAccept} bind:checked/>

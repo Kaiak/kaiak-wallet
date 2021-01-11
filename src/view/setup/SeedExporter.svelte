@@ -7,9 +7,12 @@
     import type {NanoWallet} from "../../machinery/models";
     import {unlockWallet} from "../../machinery/secure-storage";
     import Seperator from "../../components/Seperator.svelte";
+    import {hashString} from "../../machinery/utils";
 
     let inputPhrase: string | undefined;
     let seed: string | undefined
+
+    $: seedChecksum = seed ? hashString(seed) : undefined
 
     const showSeed = async () => {
         try {
@@ -39,10 +42,11 @@
 
 </script>
 
-<Text languageId="seed-export-text"/>
 {#if seed}
     <Seperator languageId="wallet-seed" />
     <Text breakAll={true}>{seed}</Text>
+    <Text languageId="seed-checksum" />{seedChecksum}
 {:else}
+    <Text languageId="seed-export-text"/>
     <NumberInput languageId="unlock-label" placeholderLanguage="unlock-label" bind:value={inputPhrase}/>
 {/if}

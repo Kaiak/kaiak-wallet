@@ -7,6 +7,7 @@
     import Text from "../../components/Text.svelte";
     import TextArea from "../../components/input/TextArea.svelte";
     import Seperator from "../../components/Seperator.svelte";
+    import {hashString} from "../../machinery/utils";
 
     export let seedInputValue: string;
 
@@ -14,6 +15,8 @@
         const seedLength = seedInputValue.length;
         return seedLength === BIP39_SEED_LENGTH || seedLength === NANO_SEED_LENGTH
     }
+
+    $: seedChecksum = seedInputValue ? hashString(seedInputValue) : undefined
 
     onMount(() => navigationReload({
         middleKey: {
@@ -43,3 +46,6 @@
 <Seperator languageId="onboard-keyboard-seed-title"/>
 <Text languageId="import-from-seed-text"/>
 <TextArea languageId="import-from-seed" bind:value={seedInputValue}/>
+{#if seedChecksum}
+    <Text languageId="seed-checksum" />{seedChecksum}
+{/if}
