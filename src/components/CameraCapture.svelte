@@ -26,8 +26,7 @@
     const setLoadingKeys = () => {
         navigationReload({
             middleKey: {
-                onClick: async () => {
-                },
+                onClick: async () => {},
                 languageId: "softkey-capture-scanning"
             },
         })
