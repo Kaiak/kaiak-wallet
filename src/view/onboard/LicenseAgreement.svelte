@@ -17,3 +17,4 @@
 <Text languageId="license-text"/>
 <Text languageId="license-text2"/>
 <Link href="https://www.gnu.org/licenses/gpl-2.0.html">GPLv2 License Agreement</Link>
+<Text></Text>

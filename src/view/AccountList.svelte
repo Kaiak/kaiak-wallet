@@ -9,6 +9,7 @@
     import {load} from "../machinery/loader-store";
     import {addNanoAccount} from "../machinery/wallet";
     import {truncateNanoAddress, accountAliasOrFallback} from "../machinery/text-utils";
+    import {SOFT_KEY_SELECT} from "../machinery/SoftwareKeysState";
 
     export let wallet: NanoWallet
     const selectAccount = async (account: NanoAccount) => {
@@ -40,11 +41,11 @@
     afterUpdate(() => {
         navigationReload(
             {
-                middleKey: undefined,
                 leftKey: {
                     languageId: 'add-account',
                     onClick: async () => addAccount()
                 },
+                middleKey: SOFT_KEY_SELECT,
                 rightKey: {
                     languageId: 'menu',
                     onClick: async () => pushMenu('menu')

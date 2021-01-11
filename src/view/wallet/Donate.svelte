@@ -10,7 +10,7 @@
     export let walletState: WalletState
 
     onMount(() => navigationReload({
-        rightKey: {
+        middleKey: {
             languageId: 'about-donate-button',
             onClick: async () => {
                 setWalletState({
