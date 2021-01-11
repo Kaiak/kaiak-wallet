@@ -68,7 +68,11 @@ export function reset(): void {
 }
 
 export function back(): boolean {
-  return stack.pop() !== undefined;
+  const current = stack.peek();
+  if (current?.menu === 'unlock') return false;
+  else if (current?.menu === 'onboard' && current.onboardState === undefined)
+    return false;
+  else return stack.pop() !== undefined;
 }
 export function pushMenu(menu: MenuSelector): void {
   stack.pushOn((current: NavigationState | undefined) => {
