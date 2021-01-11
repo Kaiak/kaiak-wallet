@@ -4,24 +4,22 @@
     import {onMount} from "svelte";
     import {navigationReload, pushOnboardState} from "../../machinery/eventListener";
     import Title from "../../components/Title.svelte";
+    import Link from "../../components/Link.svelte";
 
     onMount(() => navigationReload({
-        leftKey: {
-            languageId: 'create',
+        middleKey: {
+            languageId: 'continue',
             onClick: async () => {
-                pushOnboardState({view: 'disclaimer', walletResult: undefined, alias: undefined})
+                pushOnboardState({view: 'license', walletResult: undefined, alias: undefined})
             }
         },
-        rightKey: {
-            onClick: async () => pushOnboardState({view: 'disclaimer-import'}),
-            languageId: 'import-wallet'
-        }
     }))
 </script>
 
 <Title languageId="title" />
 <Seperator languageId="what-is-nano-title"/>
 <Text languageId="onboard-title" />
-<Seperator languageId="onboard-import-or-create"/>
-<Text breakAll={false} languageId="onboard-description"/>
+<Seperator languageId="about-project-title"/>
+<Text languageId="about-project-text" />
+<Link href="https://github.com/Kaiak/kaiak-wallet">Kaiak Github</Link>
 

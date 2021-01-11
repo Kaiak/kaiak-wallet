@@ -29,7 +29,8 @@ export type OnboardView =
   | 'pin'
   | 'disclaimer-import'
   | 'keyboard-change'
-  | 'input-import';
+  | 'input-import'
+  | 'license';
 
 export type SetupAction = 'menu' | 'export-seed';
 
