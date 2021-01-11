@@ -7,6 +7,7 @@
 <style>
     span {
         display: inline-block;
+        padding: 5px;
     }
     span:focus {
         outline: none;
