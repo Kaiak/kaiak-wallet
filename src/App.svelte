@@ -17,6 +17,7 @@
 	import AccountList from "./view/AccountList.svelte";
 	import Account from "./view/wallet/Account.svelte";
 	import {setWalletState, walletStore} from "./machinery/WalletState";
+	import Splash from "./view/Splash.svelte";
 
 	export let version: () => string
 	let header: string | undefined = undefined
@@ -29,7 +30,7 @@
 	$: fullscreen = state?.menu === 'account' && state?.accountAction === 'send_qr'
 	$: {
 		const clearState = state === undefined || state.menu === 'unlock'
-		if(clearState) {
+		if (clearState) {
 			setWalletState({})
 		}
 	}
@@ -63,7 +64,9 @@
 				<LabelledLoader languageId={loader.languageId}/>
 			</Content>
 		{:else}
-			{#if state === undefined || state.menu === 'unlock'}
+			{#if state === undefined || state.menu === 'splash'}
+				<Splash />
+			{:else if state.menu === 'unlock'}
 				<UnlockWallet />
 			{:else if state.menu === 'accounts' && walletState?.wallet}
 				<AccountList wallet={walletState.wallet} />

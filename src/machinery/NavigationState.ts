@@ -1,6 +1,7 @@
 import type { WalletResult } from './wallet';
 
 export type MenuSelector =
+  | 'splash'
   | 'accounts'
   | 'account'
   | 'setup'
@@ -48,7 +49,7 @@ export interface NavigationState {
 }
 
 export const START_STATE: NavigationState = {
-  menu: 'unlock',
+  menu: 'splash',
   accountAction: undefined,
   onboardState: undefined,
   setupAction: undefined,
