@@ -2,6 +2,8 @@
     export let languageId: string | undefined
     export let text: string | undefined
     export let row: boolean = false
+
+
 </script>
 
 <style>
@@ -18,9 +20,10 @@
         padding-bottom: 8px;
         padding-top: 8px;
     }
+
 </style>
 
-<div class="kui-input-holder" class:row on:focus>
+<div class="kui-input-holder" class:row tabindex="1">
     {#if languageId || text}
         <label for={languageId || text} class="kui-input-label kui-h3" data-l10n-id={languageId}>{text}</label>
     {/if}

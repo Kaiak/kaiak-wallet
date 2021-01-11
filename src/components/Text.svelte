@@ -6,9 +6,12 @@
 <style>
     span {
         display: inline-block;
+        width: 100%;
     }
     span:focus {
         outline: none;
+        background-color: #676686;
+        color: #F4FAFF;
     }
     .text-break {
         word-break: break-all;

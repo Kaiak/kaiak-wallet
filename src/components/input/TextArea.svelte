@@ -10,7 +10,10 @@
     textarea {
         height: 100%;
     }
-</style>
+    textarea:focus {
+        margin-bottom: -2px;
+    }
+    </style>
 <LabelInput languageId={languageId} text={text}>
     <textarea id={languageId} class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} rows="3" lang="en" bind:value/>
 </LabelInput>
