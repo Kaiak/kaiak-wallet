@@ -34,7 +34,7 @@
     "en-US": {
       "name": "Kaiak",
       "subtitle": "A secure Nano cryptocurrency wallet",
-      "description": "A secure and fast digital money wallet. Send money in seconds - for free.\n For a crypto similar to Ethereum and Bitcoin, but with feeless transactions. Nano is a secure and instant money transfer network with borderless global payments in mind."
+      "description": "A secure and fast digital money wallet. Send money in seconds - for free. For a crypto similar to Ethereum and Bitcoin, but with feeless transactions. Nano is a secure and instant money transfer network with borderless global payments in mind."
     }
   },
   "default_locale": "en-US"
