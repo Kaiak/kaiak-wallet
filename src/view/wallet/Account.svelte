@@ -32,6 +32,8 @@
     $: transaction = walletState.transaction
     $: sendToAddress = walletState.sendToAddress
 
+    let cameraGranted = true;
+
     const accountTitle = (account: NanoAccount) => {
         if (account === undefined) {
             return ''
@@ -96,7 +98,7 @@
 
 </script>
 
-<Content titleKey="account" fullscreen={fullscreen}>
+<Content titleKey="account" fullscreen={fullscreen && cameraGranted}>
     {#if action === 'menu'}
         <Seperator primaryText={accountTitle(selectedAccount)}/>
         <List>
@@ -114,7 +116,7 @@
     {:else if action === 'send'}
         <SendSelector />
     {:else if action === 'send_qr'}
-        <CameraCapture scannedAddress={sendToAccount}/>
+        <CameraCapture scannedAddress={sendToAccount} bind:cameraGranted/>
     {:else if action === 'send_address'}
         <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} sendType={action} toAddress={sendToAddress} sendFunction={sendToAccount} />
     {:else if action === 'receive'}

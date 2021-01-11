@@ -4,9 +4,12 @@
     import jsQR, {QRCode} from "jsqr";
     import type {NanoAddress} from "../machinery/models";
     import {tools} from "nanocurrency-web";
-    import {clearSoftwareKeys} from "../machinery/SoftwareKeysState";
-    import {navigationReload, pushToast} from "../machinery/eventListener";
+    import {clearSoftwareKeys, setSoftwareKeys} from "../machinery/SoftwareKeysState";
+    import {back, navigationReload, pushToast} from "../machinery/eventListener";
+    import Text from "./Text.svelte";
+    import Seperator from "./Seperator.svelte";
 
+    export let cameraGranted: boolean;
     export let scannedAddress: (address: NanoAddress) => void
 
     let videoPreview: MediaStream | undefined
@@ -23,26 +26,42 @@
     const setLoadingKeys = () => {
         navigationReload({
             middleKey: {
-                onClick: async () => {},
+                onClick: async () => {
+                },
                 languageId: "softkey-capture-scanning"
             },
         })
     }
 
     const startRecording = async () => {
-        showVideo = true
-        videoPreview = await navigator.mediaDevices.getUserMedia({video: true})
-        const video: HTMLVideoElement = document.querySelector('#video');
-        video.srcObject = videoPreview
-        await video.play()
-        setCaptureKeys();
+        try {
+            videoPreview = await navigator.mediaDevices.getUserMedia({video: true})
+            showVideo = true
+            const video: HTMLVideoElement = document.querySelector('#video');
+            video.srcObject = videoPreview
+            await video.play()
+            setCaptureKeys();
+        } catch (error) {
+            cameraGranted = false;
+            pushToast({languageId: 'no-camera-access', type: "warn"})
+            setSoftwareKeys({
+                middleKey: {
+                    languageId: "onboard-disclaimer-ok",
+                    onClick: async () => {
+                        back();
+                    }
+                }
+            })
+        }
     }
 
     const stopRecording = () => {
-        const tracks: MediaStreamTrack[] | undefined = videoPreview.getVideoTracks()
-        tracks.forEach(track => {
-            track.stop()
-        })
+        const tracks: MediaStreamTrack[] | undefined = videoPreview?.getVideoTracks()
+        if (tracks) {
+            tracks.forEach(track => {
+                track.stop()
+            })
+        }
         clearSoftwareKeys();
     }
 
@@ -103,5 +122,10 @@
         height: auto;
     }
 </style>
-<canvas id="canvas" height={0} width={0} hidden={showVideo} class="video-el"></canvas>
-<video id="video" autoplay hidden={!showVideo} class="video-el"></video>
+{#if !cameraGranted}
+    <Seperator languageId="no-camera-access"/>
+    <Text languageId="grant-camera-access"/>
+{:else}
+    <canvas id="canvas" height={0} width={0} hidden={showVideo} class="video-el"></canvas>
+    <video id="video" autoplay hidden={!showVideo} class="video-el"></video>
+{/if}
