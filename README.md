@@ -8,7 +8,9 @@ This is an app built with  [Svelte](https://svelte.dev)
 
 Reach out to @citrullin or @mehl on the [Nano Discord server](https://chat.nano.org/).
 
-## To run
+### Development
+
+#### To run
 
 First install [yarn](prerequisite), then.
 
@@ -23,13 +25,22 @@ run dev server:
 Navigate to [localhost:5000](http://localhost:5000).
 
 
-## To push to device
+#### To push to device
 
 Ensure that you have `adb` installed, and that `$ adb devices` returns the connected device.
 
 Publish to device with:
 
     $ yarn push
+
+## Translating
+
+We rely on the community to help us translate texts in the app. For now reach out on Discord and tell us what language 
+you can translate to. Later we'll accept pull requests to improve any texts.
+
+Kaiak is currently available in these languages:
+
+* English (US)
 
 ## Media files (Logos etc.)
 
