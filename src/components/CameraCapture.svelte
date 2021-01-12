@@ -41,16 +41,20 @@
             await video.play()
             setCaptureKeys();
         } catch (error) {
-            cameraGranted = false;
-            pushToast({languageId: 'no-camera-access', type: "warn"})
-            setSoftwareKeys({
-                middleKey: {
-                    languageId: "onboard-disclaimer-ok",
-                    onClick: async () => {
-                        back();
+            if(error.message === 'Permission denied') {
+                cameraGranted = false;
+                pushToast({languageId: 'no-camera-access', type: "warn"})
+                setSoftwareKeys({
+                    middleKey: {
+                        languageId: "onboard-disclaimer-ok",
+                        onClick: async () => {
+                            back();
+                        }
                     }
-                }
-            })
+                })
+            } else {
+                back();
+            }
         }
     }
 
