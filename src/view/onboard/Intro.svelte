@@ -19,7 +19,4 @@
 <Title languageId="title" />
 <Seperator languageId="what-is-nano-title"/>
 <Text languageId="onboard-title" />
-<Seperator languageId="about-project-title"/>
-<Text languageId="about-project-text" />
-<Link href="https://github.com/Kaiak/kaiak-wallet">Kaiak Github</Link>
 

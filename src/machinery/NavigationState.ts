@@ -24,6 +24,7 @@ export type OnboardView =
   | 'start'
   | 'intro'
   | 'disclaimer'
+  | 'create-or-import'
   | 'seed'
   | 'account'
   | 'pin'
