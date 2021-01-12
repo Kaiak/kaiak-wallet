@@ -8,7 +8,7 @@
     afterUpdate(() => navigationReload({
         middleKey: {
             languageId: 'onboard-disclaimer-agree',
-            onClick: async () => { pushOnboardState({view: 'intro'}) }
+            onClick: async () => { pushOnboardState({view: 'create-or-import'}) }
         },
     }))
 </script>

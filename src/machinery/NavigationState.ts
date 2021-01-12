@@ -25,12 +25,14 @@ export type OnboardView =
   | 'start'
   | 'intro'
   | 'disclaimer'
+  | 'create-or-import'
   | 'seed'
   | 'account'
   | 'pin'
   | 'disclaimer-import'
   | 'keyboard-change'
-  | 'input-import';
+  | 'input-import'
+  | 'license';
 
 export type SetupAction = 'menu' | 'export-seed';
 
