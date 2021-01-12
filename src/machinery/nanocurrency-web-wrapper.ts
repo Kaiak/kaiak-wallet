@@ -20,12 +20,16 @@ function round(number: number, places: number): number {
 
 /** Used for displaying RAW as NANO */
 export function rawToNano(raw: RAW, fractions: number = 6): NANO {
-  return {
-    amount: round(
-      Number(tools.convert(raw.raw, 'RAW', 'NANO')),
-      fractions
-    ).toString(),
-  };
+  let value = round(Number(tools.convert(raw.raw, 'RAW', 'NANO')), fractions);
+  if (isNaN(value)) {
+    return {
+      amount: '0.000000',
+    };
+  } else {
+    return {
+      amount: value.toString(),
+    };
+  }
 }
 
 export function nanoToRaw(nano: NANO): RAW {
