@@ -15,7 +15,8 @@
     "fixlint": "eslint --fix 'src/**/*.ts'",
     "prod": "rollup -c --environment INCLUDE_DEPS,BUILD:production",
     "preversion": "yarn lint",
-    "postversion": "git push --tags && echo \"Successfully released version $npm_package_version!\""
+    "postversion": "git push --tags && echo \"Successfully released version $npm_package_version!\"",
+    "locale": "yarn json-to-properties -c to-json-config.json"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.12.1",
@@ -33,6 +34,7 @@
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-svelte3": "^2.7.3",
+    "json-to-properties": "^1.1.3",
     "kaios-gaia-l10n": "^0.0.1",
     "kaios-scripts": "^0.0.9",
     "prettier": "^2.1.2",
