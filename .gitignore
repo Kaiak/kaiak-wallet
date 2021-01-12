@@ -8,3 +8,4 @@ yarn.lock
 /public/build/
 
 .DS_Store
+/public/locales/*.json
