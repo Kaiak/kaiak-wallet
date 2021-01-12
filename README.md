@@ -41,6 +41,7 @@ you can translate to. Later we'll accept pull requests to improve any texts.
 Kaiak is currently available in these languages:
 
 * 🇺🇸 English (en_US)
+* 🇳🇱 Dutch (nl-NL)
 
 ## Media files (Logos etc.)
 
