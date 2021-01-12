@@ -40,7 +40,8 @@ you can translate to. Later we'll accept pull requests to improve any texts.
 
 Kaiak is currently available in these languages:
 
-* English (US)
+* 🇺🇸 English (en_US)
+* 🇮🇳 Hindi **hi_IN** – _Thanks_ Rahul Karda
 
 ## Media files (Logos etc.)
 
