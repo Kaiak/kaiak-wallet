@@ -1,6 +1,6 @@
 {
   "name": "kaiak",
-  "version": "1.0.0-rc1",
+  "version": "1.0.1-1",
   "description": "Kaiak a KaiOS Nano Wallet",
   "repository": "https://github.com/Kaiak/kaiak-wallet",
   "license": "GNU General Public License v2.0",
@@ -15,7 +15,7 @@
     "fixlint": "eslint --fix 'src/**/*.ts'",
     "prod": "rollup -c --environment INCLUDE_DEPS,BUILD:production",
     "preversion": "yarn lint",
-    "postversion": "git push && git push --tags && echo \"Successfully released version $npm_package_version!\"",
+    "postversion": "git push --tags && git push && echo \"Successfully released version $npm_package_version!\"",
     "locale": "yarn json-to-properties -c to-json-config.json"
   },
   "devDependencies": {

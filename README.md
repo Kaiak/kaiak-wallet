@@ -42,6 +42,7 @@ Kaiak is currently available in these languages:
 
 * 🇺🇸 English (en_US)
 * 🇨🇴 Spanish (Colombia) (es-CO) – _Thanks_ Alessandro C
+* 🇳🇱 Dutch (nl-NL)
 
 ## Media files (Logos etc.)
 

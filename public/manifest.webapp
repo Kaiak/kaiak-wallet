@@ -40,6 +40,11 @@
         "name": "Kaiak",
         "subtitle": "Un seguro monedero de Nano",
         "description": "Una billetera digital segura y rápida. Envía dinero en segundos - gratis. Una criptomoneda similar a Ethereum y Bitcoin, pero con transacciones sin comisión alguna. Nano es una segura e instantanea red de transferencia de dinero con pagos sin fronteras globales en mente."
+    },
+    "nl": {
+      "name": "Kaiak",
+      "subtitle": "Een veilige Nano cryptocurrency wallet",
+      "description": "Een veilige en snelle portemonnee voor digitaal geld. Verstuur geld binnen een seconde - gratis. Dit is een wallet voor een crypto zoals Ethereum en Bitcoin, maar dan met kosteloze transacties. Nano is een beveiligd netwerk waarmee je direct, binnen een seconde, wereldwijd en grenzeloos geld kan verzenden."
     }
   },
   "default_locale": "en-US"
