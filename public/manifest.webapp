@@ -36,6 +36,11 @@
       "subtitle": "A secure Nano cryptocurrency wallet",
       "description": "A secure and fast digital money wallet. Send money in seconds - for free. For a crypto similar to Ethereum and Bitcoin, but with feeless transactions. Nano is a secure and instant money transfer network with borderless global payments in mind."
     },
+    "hi": {
+      "name": "Kaiak",
+      "subtitle": "एक सुरक्षित नैनो क्रिप्टोक्यूरेंसी वॉलेट",
+      "description": "नैनो वॉलेट एक सुरक्षित और तेज़ डिजिटल क्रिप्टोक्यूरेंसी वॉलेट है। सेकंड में पैसा भेजें - मुफ्त में। एथेरियम और बिटकॉइन के समान क्रिप्टो के लिए, लेकिन सुरक्षित लेनदेन के साथ। नैनो एक सुरक्षित और त्वरित मनी ट्रांसफर नेटवर्क है, जिसकी सीमा वैश्विक भुगतानों को ध्यान में रखते हुए होती है।फीललेस, फ्री, डिजिटल मनी ट्रांसफर और ग्लोबल पेमेंट भेजें कयाक ऐप डाउनलोड करने के बाद।"
+    },
     "es-US": {
         "name": "Kaiak",
         "subtitle": "Un seguro monedero de Nano",
