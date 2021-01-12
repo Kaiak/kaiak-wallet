@@ -45,6 +45,12 @@ Kaiak is currently available in these languages:
 * 🇨🇴 Spanish (Colombia) (es-CO) – _Thanks_ Alessandro C
 * 🇳🇱 Dutch (nl-NL)
 
+### Add new language
+
+1. Export language from Tradoura as JSON to `/public/locales`
+2. Run `$ yarn locales` to transform new language to .properties file, ensure country name is correct.
+3. Add to project, and remember to update `manifest.webapp` with `subtitle` and `description`.
+
 ## Media files (Logos etc.)
 
 [High resolution Media files](/media/) are available. 
