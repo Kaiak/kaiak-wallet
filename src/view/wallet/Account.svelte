@@ -118,7 +118,7 @@
     {:else if action === 'send_qr'}
         <CameraCapture scannedAddress={sendToAccount} bind:cameraGranted/>
     {:else if action === 'send_address'}
-        <SendByAddress wallet={wallet} account={selectedAccount} balance={selectedAccount.balance} toAddress={sendToAddress} />
+        <SendByAddress walletState={walletState} />
     {:else if action === 'receive'}
         <Receive account={selectedAccount} />
     {:else if action === 'settings'}
