@@ -20,12 +20,13 @@
     export let toAddress: NanoAddress | undefined = undefined
 
     let sending: boolean = false;
-    let sendValue: number | undefined = undefined
+    let sendValue: string | undefined = undefined
 
 
-    const softwareKeys = (disabled) => {
+    const softwareKeys = (disabledSend, disabledMax) => {
         return {
             leftKey: {
+                disabled: disabledMax,
                 languageId: 'update-button',
                 onClick: async() => {
                     await load({
@@ -37,7 +38,7 @@
                 }
             },
             middleKey: {
-                disabled: disabled,
+                disabled: disabledSend,
                 languageId: 'send-button',
                 onClick: send
             },
@@ -50,14 +51,16 @@
 
     $: readableBalance = balance ? rawToReadable(balance) : ''
     $: nanoAmount = balance ? rawToNumber(balance) : 0
+    $: disabledMax = nanoAmount <= 0;
     $: {
-        const canSend = (toAddress ? tools.validateAddress(toAddress) : false) && sendValue <= nanoAmount && sendValue > 0
-        setSoftwareKeys(softwareKeys(!canSend))
+        const sendAsNumber = Number.parseFloat(sendValue)
+        const canSend = (toAddress ? tools.validateAddress(toAddress) : false) && sendAsNumber <= nanoAmount && sendAsNumber > 0
+        setSoftwareKeys(softwareKeys(!canSend, disabledMax))
     }
     $: balanceString = `${getLanguage('current-balance')}: ${readableBalance} Nano`
 
     const setMax = async () => {
-        if (balance && balance.raw) {
+        if (balance && balance.raw && nanoAmount > 0) {
             sendValue = rawToNumber(balance)
         }
     }
@@ -66,7 +69,8 @@
         await load({
             languageId: 'sending-funds',
             load: async () => {
-                const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, nanoToRaw({amount: sendValue.toString()}))
+                let amount = nanoToRaw({amount: sendValue});
+                const updatedAccount: NanoAccount | undefined = await sendNano(account, toAddress, amount)
                 if (updatedAccount) {
                     setWalletState({
                         wallet: updateAccountInWallet(updatedAccount, wallet),
@@ -81,7 +85,7 @@
         })
     }
 
-    onMount(() => navigationReload(softwareKeys(true)))
+    onMount(() => navigationReload(softwareKeys(true, disabledMax)))
 
 </script>
 <Text>{balanceString}</Text>

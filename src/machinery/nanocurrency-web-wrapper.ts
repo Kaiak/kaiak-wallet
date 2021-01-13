@@ -22,8 +22,9 @@ export function rawToNano(raw: RAW): NANO {
   };
 }
 
-export function rawToNumber(raw: RAW): number {
-  return new BigNumber(rawToNano(raw).amount).toNumber();
+export function rawToNumber(raw: RAW): string {
+  const number = new BigNumber(rawToNano(raw).amount);
+  return number.toFixed(number.decimalPlaces());
 }
 
 export function nanoToRaw(nano: NANO): RAW {
