@@ -41,7 +41,7 @@ export default {
 		sourcemap: !production,
 		format: 'iife',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: 'public/bundle.js'
 	},
 	plugins: [
 		multi(),
@@ -79,6 +79,17 @@ export default {
 			plugins: [['@babel/plugin-transform-runtime']]
 		}),
 		versionInjector(),
+		{
+			name: 'manifest-generator',
+			generateBundle(outputOptions, bundle) {
+				const entry = Object.values(bundle).find((chunk) => chunk.isEntry);
+				this.emitFile({
+					type: 'asset',
+					fileName: 'entry.json',
+					source: JSON.stringify(entry.code)
+				});
+			}
+		},
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated

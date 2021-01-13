@@ -4,7 +4,9 @@ dist/
 yarn-error.log
 
 /node_modules/
-/public/build/
+/public/bundle.css
+/public/bundle.js
+/public/bundle.js.map
 
 .DS_Store
 /public/locales/*.json
