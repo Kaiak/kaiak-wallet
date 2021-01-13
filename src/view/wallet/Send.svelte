@@ -22,7 +22,6 @@
     let sending: boolean = false;
     let sendValue: string | undefined = undefined
 
-
     const softwareKeys = (disabledSend, disabledMax) => {
         return {
             leftKey: {
@@ -50,17 +49,17 @@
     }
 
     $: readableBalance = balance ? rawToReadable(balance) : ''
-    $: nanoAmount = balance ? rawToNumber(balance) : 0
-    $: disabledMax = nanoAmount <= 0;
+    $: numberBalance = balance ? Number.parseFloat(rawToNumber(balance)) : 0
+    $: disabledMax = numberBalance <= 0;
     $: {
         const sendAsNumber = Number.parseFloat(sendValue)
-        const canSend = (toAddress ? tools.validateAddress(toAddress) : false) && sendAsNumber <= nanoAmount && sendAsNumber > 0
+        const canSend = (toAddress ? tools.validateAddress(toAddress) : false) && sendAsNumber <= numberBalance && sendAsNumber > 0
         setSoftwareKeys(softwareKeys(!canSend, disabledMax))
     }
     $: balanceString = `${getLanguage('current-balance')}: ${readableBalance} Nano`
 
     const setMax = async () => {
-        if (balance && balance.raw && nanoAmount > 0) {
+        if (balance && balance.raw && numberBalance > 0) {
             sendValue = rawToNumber(balance)
         }
     }
