@@ -1,5 +1,6 @@
 <script lang="ts">
-    import type {NanoAddress, NanoAccount, RAW, NanoWallet} from "../../machinery/models";
+    import type {NanoAccount} from "../../machinery/models";
+    import type { WalletState } from "../../machinery/WalletState";
     import {tools} from "nanocurrency-web";
     import {sendNano, updateAccountInWallet} from "../../machinery/nano-ops";
     import {nanoToRaw, rawToNumber} from "../../machinery/nanocurrency-web-wrapper";
@@ -14,10 +15,11 @@
     import Text from "../../components/Text.svelte";
     import {rawToReadable} from "../../machinery/text-utils";
 
-    export let wallet: NanoWallet;
-    export let account: NanoAccount;
-    export let balance: RAW;
-    export let toAddress: NanoAddress | undefined = undefined
+    export let walletState: WalletState;
+    $: wallet = walletState.wallet;
+    $: account = walletState.account;
+    $: balance = account.balance;
+    $: toAddress = walletState.sendToAddress
 
     let sending: boolean = false;
     let sendValue: string | undefined = undefined
@@ -74,6 +76,8 @@
                     setWalletState({
                         wallet: updateAccountInWallet(updatedAccount, wallet),
                         account: updatedAccount,
+                        transactions: walletState.transactions,
+                        transaction: walletState.transaction,
                     })
                     pushToast({languageId: 'sent-funds-success', type: 'success'})
                     pushAccountAction('menu')
