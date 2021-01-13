@@ -23,7 +23,7 @@ jobs:
         run: yarn prod
 
       - name: Zip Folder
-        run: cd public && zip -r ../kaiak.zip * && cd -
+        run: cd public && zip -r ../kaiak.zip * -x manifest.json && cd -
 
       - name: Release Drafter
         id: release_drafter
