@@ -32,7 +32,7 @@
                     await load({
                         languageId: 'loading-refresh',
                         load: async () => {
-                            await updateWalletState(account, wallet)
+                            await updateWalletState(account, wallet, toAddress)
                         }
                     })
                 }
