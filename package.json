@@ -15,7 +15,7 @@
     "fixlint": "eslint --fix 'src/**/*.ts'",
     "prod": "rollup -c --environment INCLUDE_DEPS,BUILD:production",
     "test-all": "yarn lint && yarn test && yarn validate",
-    "preversion": "yarn lint",
+    "preversion": "yarn test-all",
     "postversion": "git push --tags && git push && echo \"Successfully released version $npm_package_version!\"",
     "locale": "yarn json-to-properties -c to-json-config.json",
     "test": "jest"
