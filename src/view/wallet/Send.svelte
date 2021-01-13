@@ -14,7 +14,6 @@
     import {getLanguage} from "../../machinery/language";
     import Text from "../../components/Text.svelte";
     import {rawToReadable} from "../../machinery/text-utils";
-    import {toastStore} from "../../stores/stores";
 
     export let walletState: WalletState;
     $: wallet = walletState.wallet;
