@@ -17,6 +17,9 @@ categories:
       - 'refactor'
       - 'style'
       - 'docs'
+  - title: '🌍 Translations'
+    labels:
+      - 'localization'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 version-resolver:
   major:
