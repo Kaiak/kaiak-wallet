@@ -33,17 +33,17 @@ describe('rawToNumber', function () {
   test('with much RAW', () => {
     const raw: RAW = { raw: '100000000000000000000000000000000000000' };
     const n = rawToNumber(raw);
-    expect(n).toStrictEqual(100000000);
+    expect(n).toStrictEqual('100000000');
   });
 
   test('with low RAW', () => {
     const raw: RAW = { raw: '1' };
-    const n = rawToNumber(raw);
+    const n = Number.parseFloat(rawToNumber(raw));
     expect(n).toStrictEqual(1e-30);
   });
   test('two very low RAWs are comparable', () => {
-    const oneRaw: number = rawToNumber({ raw: '1' });
-    const twoRaw: number = rawToNumber({ raw: '2' });
+    const oneRaw: number = Number.parseFloat(rawToNumber({ raw: '1' }));
+    const twoRaw: number = Number.parseFloat(rawToNumber({ raw: '2' }));
     expect(oneRaw > twoRaw).toStrictEqual(false);
     expect(oneRaw < twoRaw).toStrictEqual(true);
   });
