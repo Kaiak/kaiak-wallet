@@ -8,7 +8,7 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public",
-    "clean": "rm -rf public/build",
+    "clean": "rm public/bundle*",
     "push": "yarn clean && yarn build && kaios-scripts push",
     "validate": "svelte-check",
     "lint": "eslint 'src/**/*.ts'",
