@@ -2,7 +2,7 @@
     import type {NanoAddress, NanoAccount, RAW, NanoWallet} from "../../machinery/models";
     import {tools} from "nanocurrency-web";
     import {sendNano, updateAccountInWallet} from "../../machinery/nano-ops";
-    import {nanoToRaw, rawToNano} from "../../machinery/nanocurrency-web-wrapper";
+    import {nanoToRaw, rawToNumber} from "../../machinery/nanocurrency-web-wrapper";
     import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
     import {load} from "../../machinery/loader-store";
     import {onMount} from "svelte";
@@ -12,6 +12,7 @@
     import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
     import {getLanguage} from "../../machinery/language";
     import Text from "../../components/Text.svelte";
+    import {rawToReadable} from "../../machinery/text-utils";
 
     export let wallet: NanoWallet;
     export let account: NanoAccount;
@@ -47,16 +48,17 @@
         }
     }
 
-    $: nanoAmount = balance ? Number.parseFloat(rawToNano(balance).amount) : 0
+    $: readableBalance = balance ? rawToReadable(balance) : ''
+    $: nanoAmount = balance ? rawToNumber(balance) : 0
     $: {
         const canSend = (toAddress ? tools.validateAddress(toAddress) : false) && sendValue <= nanoAmount && sendValue > 0
         setSoftwareKeys(softwareKeys(!canSend))
     }
-    $: balanceString = `${getLanguage('current-balance')}: ${nanoAmount} Nano`
+    $: balanceString = `${getLanguage('current-balance')}: ${readableBalance} Nano`
 
     const setMax = async () => {
         if (balance && balance.raw) {
-            sendValue = Number.parseFloat(rawToNano(balance).amount)
+            sendValue = rawToNumber(balance)
         }
     }
 

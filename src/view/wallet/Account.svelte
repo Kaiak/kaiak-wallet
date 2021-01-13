@@ -7,7 +7,6 @@
     import Receive from "./Receive.svelte";
     import type {AccountAction} from "../../machinery/NavigationState";
     import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
-    import {rawToNano} from "../../machinery/nanocurrency-web-wrapper";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
     import {afterUpdate} from "svelte";
@@ -21,6 +20,7 @@
     import {pushMenu} from "../../machinery/eventListener";
     import Donate from "./Donate.svelte";
     import {SOFT_KEY_SELECT} from "../../machinery/SoftwareKeysState";
+    import {rawToReadable} from "../../machinery/text-utils";
 
     export let walletState: WalletState
     export let action: AccountAction;
@@ -38,7 +38,7 @@
         if (account === undefined) {
             return ''
         } else if (account && account.balance) {
-            return `${account.alias || ''} ${rawToNano(account.balance).amount} Nano`
+            return `${account.alias || ''} ${rawToReadable(account.balance)} Nano`
         } else {
             return `${account.alias || ''}`
         }

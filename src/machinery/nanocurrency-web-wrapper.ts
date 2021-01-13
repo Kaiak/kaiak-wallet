@@ -13,19 +13,17 @@ import type {
   ReceiveBlock,
   RepresentativeBlock,
 } from 'nanocurrency-web/dist/lib/block-signer';
-
-function round(number: number, places: number): number {
-  return +(Math.round(Number(number + 'e+' + places)) + 'e-' + places);
-}
+import { BigNumber } from 'bignumber.js';
 
 /** Used for displaying RAW as NANO */
-export function rawToNano(raw: RAW, fractions: number = 6): NANO {
+export function rawToNano(raw: RAW): NANO {
   return {
-    amount: round(
-      Number(tools.convert(raw.raw, 'RAW', 'NANO')),
-      fractions
-    ).toString(),
+    amount: tools.convert(raw.raw, 'RAW', 'NANO'),
   };
+}
+
+export function rawToNumber(raw: RAW): number {
+  return new BigNumber(rawToNano(raw).amount).toNumber();
 }
 
 export function nanoToRaw(nano: NANO): RAW {
