@@ -6,7 +6,7 @@
     import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
     import {load} from "../../machinery/loader-store";
     import {onMount} from "svelte";
-    import {setWalletState} from "../../machinery/WalletState";
+    import {setWalletState, updateWalletState} from "../../machinery/WalletState";
     import NumberInput from "../../components/input/NumberInput.svelte";
     import TextArea from "../../components/input/TextArea.svelte";
     import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
@@ -25,14 +25,25 @@
     const softwareKeys = (disabled) => {
         return {
             leftKey: {
-                languageId: 'set-max-button',
-                onClick: setMax
+                languageId: 'update-button',
+                onClick: async() => {
+                    await load({
+                        languageId: 'loading-refresh',
+                        load: async () => {
+                            await updateWalletState(account, wallet)
+                        }
+                    })
+                }
             },
-            rightKey: {
+            middleKey: {
                 disabled: disabled,
                 languageId: 'send-button',
                 onClick: send
-            }
+            },
+            rightKey: {
+                languageId: 'set-max-button',
+                onClick: setMax
+            },
         }
     }
 
