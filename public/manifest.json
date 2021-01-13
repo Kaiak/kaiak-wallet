@@ -1,5 +1,5 @@
 {
-  "version": "0.0.0",
+  "version": "1.0.0-rc3",
   "name": "Kaiak",
   "description": "A secure and fast way to send and receive Nano cryptocurrency",
   "type": "privileged",
@@ -9,8 +9,8 @@
     "112": "/assets/icons/kaiak_112.png"
   },
   "developer": {
-    "name": "Philipp Blum",
-    "url": "https://www.facebook.com/Philipp-Blum-100785578393066"
+    "name": "Kaiak Team",
+    "url": "https://github.com/Kaiak/"
   },
   "permissions": {
     "systemXHR": {},
