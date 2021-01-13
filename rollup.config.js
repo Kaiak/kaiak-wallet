@@ -10,6 +10,8 @@ import multi from '@rollup/plugin-multi-entry';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
 import babel from "@rollup/plugin-babel";
 import versionInjector from 'rollup-plugin-version-injector';
+import manifestJson from "rollup-plugin-manifest-json";
+import * as fs from 'fs'
 
 const watch = !process.env.ROLLUP_WATCH;
 const production = process.env.BUILD === 'production';
@@ -41,7 +43,7 @@ export default {
 		sourcemap: !production,
 		format: 'iife',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: 'public/bundle.js'
 	},
 	plugins: [
 		multi(),
@@ -79,7 +81,13 @@ export default {
 			plugins: [['@babel/plugin-transform-runtime']]
 		}),
 		versionInjector(),
-
+		manifestJson({
+			input: 'public/manifest.webapp', // Required
+			output: 'public/manifest.webapp',
+			manifest: {
+				version: JSON.parse(fs.readFileSync('./package.json', 'UTF-8')).version
+			}
+		}),
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
 		!watch && serve(),

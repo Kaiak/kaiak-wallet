@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0-rc3",
+  "name": "Kaiak",
+  "description": "A secure and fast way to send and receive Nano cryptocurrency",
+  "type": "privileged",
+  "launch_path": "/index.html",
+  "icons": {
+    "56": "/assets/icons/kaiak_56.png",
+    "112": "/assets/icons/kaiak_112.png"
+  },
+  "developer": {
+    "name": "Kaiak Team",
+    "url": "https://github.com/Kaiak/"
+  },
+  "permissions": {
+    "systemXHR": {},
+    "camera": {
+      "description": "Required for scanning QR codes"
+    },
+    "video-capture": {
+      "description": "Required for scanning QR codes"
+    },
+    "mobiledata": {
+      "description": "Required for sending/receiving transactions"
+    },
+    "wifidata": {
+      "description": "Required for sending/receiving transactions"
+    }
+  },
+  "theme_color": "#F4FAFF",
+  "cursor": false,
+  "fullscreen": false,
+  "locales": {
+    "en-US": {
+      "name": "Kaiak",
+      "subtitle": "A secure Nano cryptocurrency wallet",
+      "description": "A secure and fast digital money wallet. Send money in seconds - for free. For a crypto similar to Ethereum and Bitcoin, but with feeless transactions. Nano is a secure and instant money transfer network with borderless global payments in mind."
+    },
+    "hi": {
+      "name": "Kaiak",
+      "subtitle": "एक सुरक्षित नैनो क्रिप्टोक्यूरेंसी वॉलेट",
+      "description": "नैनो वॉलेट एक सुरक्षित और तेज़ डिजिटल क्रिप्टोक्यूरेंसी वॉलेट है। सेकंड में पैसा भेजें - मुफ्त में। एथेरियम और बिटकॉइन के समान क्रिप्टो के लिए, लेकिन सुरक्षित लेनदेन के साथ। नैनो एक सुरक्षित और त्वरित मनी ट्रांसफर नेटवर्क है, जिसकी सीमा वैश्विक भुगतानों को ध्यान में रखते हुए होती है।फीललेस, फ्री, डिजिटल मनी ट्रांसफर और ग्लोबल पेमेंट भेजें कयाक ऐप डाउनलोड करने के बाद।"
+    },
+    "es-US": {
+      "name": "Kaiak",
+      "subtitle": "Un seguro monedero de Nano",
+      "description": "Una billetera digital segura y rápida. Envía dinero en segundos - gratis. Una criptomoneda similar a Ethereum y Bitcoin, pero con transacciones sin comisión alguna. Nano es una segura e instantanea red de transferencia de dinero con pagos sin fronteras globales en mente."
+    },
+    "nl": {
+      "name": "Kaiak",
+      "subtitle": "Een veilige Nano cryptocurrency wallet",
+      "description": "Een veilige en snelle portemonnee voor digitaal geld. Verstuur geld binnen een seconde - gratis. Dit is een wallet voor een crypto zoals Ethereum en Bitcoin, maar dan met kosteloze transacties. Nano is een beveiligd netwerk waarmee je direct, binnen een seconde, wereldwijd en grenzeloos geld kan verzenden."
+    }
+  },
+  "default_locale": "en-US"
+}
