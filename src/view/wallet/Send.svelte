@@ -27,7 +27,6 @@
     const softwareKeys = (disabledSend, disabledMax) => {
         return {
             leftKey: {
-                disabled: disabledMax,
                 languageId: 'update-button',
                 onClick: async() => {
                     await load({
@@ -44,6 +43,7 @@
                 onClick: send
             },
             rightKey: {
+                disabled: disabledMax,
                 languageId: 'set-max-button',
                 onClick: setMax
             },
