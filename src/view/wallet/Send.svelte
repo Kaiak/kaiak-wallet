@@ -14,6 +14,7 @@
     import {getLanguage} from "../../machinery/language";
     import Text from "../../components/Text.svelte";
     import {rawToReadable} from "../../machinery/text-utils";
+    import {toastStore} from "../../stores/stores";
 
     export let walletState: WalletState;
     $: wallet = walletState.wallet;
@@ -32,7 +33,7 @@
                     await load({
                         languageId: 'loading-refresh',
                         load: async () => {
-                            await updateWalletState(account, wallet)
+                            await updateWalletState(account, wallet, toAddress)
                         }
                     })
                 }
