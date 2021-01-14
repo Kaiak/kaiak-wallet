@@ -50,6 +50,11 @@
       "name": "Kaiak",
       "subtitle": "Een veilige Nano cryptocurrency wallet",
       "description": "Een veilige en snelle portemonnee voor digitaal geld. Verstuur geld binnen een seconde - gratis. Dit is een wallet voor een crypto zoals Ethereum en Bitcoin, maar dan met kosteloze transacties. Nano is een beveiligd netwerk waarmee je direct, binnen een seconde, wereldwijd en grenzeloos geld kan verzenden."
+    },
+    "fa": {
+      "name": "Kaiak",
+      "subtitle": "یک کیف پول امن نانو",
+      "description": "یک کیف پول پول دیجیتال مطمئن و سریع. در چند ثانیه پول ارسال کنید - به صورت رایگان. برای رمزنگاری مشابه Ethereum و Bitcoin ، اما با معاملات بی فایده. نانو یک شبکه انتقال پول ایمن و فوری با پرداخت های جهانی بدون مرز است."
     }
   },
   "default_locale": "en-US"
