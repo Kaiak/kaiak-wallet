@@ -55,6 +55,11 @@
       "name": "Kaiak",
       "subtitle": "یک کیف پول امن نانو",
       "description": "یک کیف پول پول دیجیتال مطمئن و سریع. در چند ثانیه پول ارسال کنید - به صورت رایگان. برای رمزنگاری مشابه Ethereum و Bitcoin ، اما با معاملات بی فایده. نانو یک شبکه انتقال پول ایمن و فوری با پرداخت های جهانی بدون مرز است."
+    },
+    "pt-BR": {
+      "name": "Kaiak",
+      "subtitle": "Uma carteira segura para a moeda Nano",
+      "description": "Uma carteira segura e rápida para o dinheiro digital. Envie dinheiro em segundos - de graça. Com uma criptomoeda semelhante ao Ethereum e Bitcoin, mas com transações sem taxas. Nano é rede de transferência de dinheiro instantânea e segura, com pagamentos globais e sem fronteiras em mente."
     }
   },
   "default_locale": "en-US"
