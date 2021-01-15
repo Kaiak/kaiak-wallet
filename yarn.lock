@@ -8741,10 +8741,10 @@ nano-rpc-fetch@^1.1.8:
   resolved "https://registry.yarnpkg.com/nano-rpc-fetch/-/nano-rpc-fetch-1.1.8.tgz#b7d9c8fb6f6f6d1a9a43f23e2f77cd21c6500f31"
   integrity sha512-bF4t/3t78EpBN1xmFpRq2CROmOlLapQiZ5Tbx/pD5XKURTx+Ut8E7ooUItgz5AccNha8kg3ZTHm/ytHT557k/w==
 
-nanocurrency-web@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/nanocurrency-web/-/nanocurrency-web-1.2.2.tgz#5aa015f5729a2cba4387d96f06c19ac9d36a881e"
-  integrity sha512-Ujx+nnhyD1fr2wAubK93b7Nck2K6PrfcmUoMpO9eNOpbNzvfYNx17+4ZteIr+ZM/Rk3tYacEXWfUzHgJ45D3mQ==
+nanocurrency-web@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/nanocurrency-web/-/nanocurrency-web-1.3.0.tgz#799c04cdf5401e944a5c5b1415d11c2ba2f721ec"
+  integrity sha512-tO23yPS0kWfpNq6S9Zzb4CaCCNUp2IzU11WagMvWgoMRImHqhJm064C96+ca5XkhoTxdQftQwLNWHgjhYD+26g==
   dependencies:
     bignumber.js "9.0.0"
     blakejs "1.1.0"

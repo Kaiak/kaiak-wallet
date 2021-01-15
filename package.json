@@ -65,7 +65,7 @@
     "image-capture": "^0.4.0",
     "jsqr": "^1.3.1",
     "nano-rpc-fetch": "^1.1.8",
-    "nanocurrency-web": "^1.2.2",
+    "nanocurrency-web": "^1.3.0",
     "qrcode": "^1.4.4",
     "redux": "^4.0.5",
     "secure-webstore": "^1.3.1",
