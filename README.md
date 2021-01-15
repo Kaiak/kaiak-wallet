@@ -45,6 +45,7 @@ Kaiak is currently available in these languages:
 * 🇨🇴 Spanish (Colombia) (es-CO) – _Thanks_ Alessandro C
 * 🇳🇱 Dutch (nl-NL)
 * 🇮🇷 Farsi (fa) – _Thanks_ Abolfazl Jafari
+* 🇧🇷 Brazilian Portuguese (pt-BR) – _Thanks_ [@marcosbmf](https://github.com/marcosbmf)
 
 ### Add new language
 
