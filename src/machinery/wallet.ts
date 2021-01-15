@@ -39,7 +39,7 @@ function accounts(
 export function generateWallet(): Promise<WalletResult> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const w = wallet.generate();
+      const w = wallet.generateLegacy(undefined);
       resolve({
         seed: w.seed,
         mnemonic: w.mnemonic,
