@@ -40,12 +40,12 @@ you can translate to. Later we'll accept pull requests to improve any texts.
 
 Kaiak is currently available in these languages:
 
-* 🇺🇸 English (en_US)
-* 🇮🇳 Hindi **hi_IN** – _Thanks_ Rahul Karda
-* 🇨🇴 Spanish (Colombia) (es-CO) – _Thanks_ Alessandro C
-* 🇳🇱 Dutch (nl-NL)
-* 🇮🇷 Farsi (fa) – _Thanks_ Abolfazl Jafari
-* 🇧🇷 Brazilian Portuguese (pt-BR) – _Thanks_ [@marcosbmf](https://github.com/marcosbmf)
+* 🇺🇸 [American English](/public/locales/en-US.properties)
+* 🇮🇳 [Hindi](/public/locales/hi.properties) – _Thanks_ Rahul Karda
+* 🇨🇴 [Colombian Spanish](/public/locales/es-US.properties) – _Thanks_ Alessandro C
+* 🇳🇱 [Dutch](/public/locales/nl.properties)
+* 🇮🇷 [Farsi](/public/locales/fa.properties) – _Thanks_ Abolfazl Jafari
+* 🇧🇷 [Brazilian Portuguese](/public/locales/pt-BR.properties) – _Thanks_ [@marcosbmf](https://github.com/marcosbmf) and [@guil5566](https://github.com/guil5566)
 
 ### Add new language
 
