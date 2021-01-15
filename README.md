@@ -44,6 +44,7 @@ Kaiak is currently available in these languages:
 * 🇮🇳 Hindi **hi_IN** – _Thanks_ Rahul Karda
 * 🇨🇴 Spanish (Colombia) (es-CO) – _Thanks_ Alessandro C
 * 🇳🇱 Dutch (nl-NL)
+* 🇮🇷 Farsi (fa) – _Thanks_ Abolfazl Jafari
 
 ### Add new language
 
