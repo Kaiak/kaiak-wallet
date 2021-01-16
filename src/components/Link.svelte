@@ -9,7 +9,7 @@
         color: black;
         padding: 5px;
     }
-    a:active, a:focus {
+    a:active, a:focus, a:hover {
         text-decoration: underline;
     }
     a:visited {

@@ -14,6 +14,12 @@
     textarea:focus {
         margin-bottom: -2px;
     }
+    .kui-text {
+        font-size: 17px;
+        font-weight: 400;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+    }
 </style>
 <LabelInput languageId={languageId} text={text}>
     <textarea id={languageId} class="kui-input kui-text navigation" data-l10n-id={placeholderLanguage} rows="3" lang="en" bind:value/>

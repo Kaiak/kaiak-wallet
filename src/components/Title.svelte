@@ -8,6 +8,7 @@
         font-size: 17px;
         font-weight: 600;
         padding: 5px;
+        margin: 0;
     }
     .warning {
         color: red;
