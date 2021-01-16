@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-rc3",
+  "version": "1.0.1",
   "name": "Kaiak",
   "description": "A secure and fast way to send and receive Nano cryptocurrency",
   "type": "privileged",
