@@ -29,7 +29,7 @@ navigator.mozL10n.ready(() => {
 });
 
 const app = new App({
-  target: document.body,
+  target: document.getElementById('app'),
   props: {
     version: () => '[VI]{version}[/VI]',
   },
