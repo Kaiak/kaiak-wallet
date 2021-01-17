@@ -46,6 +46,14 @@
 	})
 </script>
 
+<svelte:head>
+	<style>
+		body {
+			font-family: 'Open Sans', sans-serif;
+		}
+	</style>
+</svelte:head>
+
 <style>
 	.kui-app {
 		height: 100vh;

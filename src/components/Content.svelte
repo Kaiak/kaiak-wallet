@@ -5,6 +5,10 @@
 </script>
 
 <style>
+    h1 {
+        margin: 0;
+        padding: 0;
+    }
     .kui-header {
         background-color: #4A90E2;
         color: white;
