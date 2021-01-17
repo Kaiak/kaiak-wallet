@@ -18,9 +18,7 @@
     })
 
     const languageUnsubscribe = languageStore.subscribe(() => {
-        if(document.dir) {
-            rightToLeft = document.dir === 'rtl'
-        }
+        rightToLeft = document.dir === 'rtl'
     })
 
     const getOnClicker = (key: SoftKey) => {
