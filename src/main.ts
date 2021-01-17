@@ -7,20 +7,31 @@ import {
 } from './machinery/eventListener';
 import { languageStore } from './machinery/language';
 
-window.addEventListener('focus', async () => {
-  if (ignoreOnCameraBlur()) {
-    return;
-  }
-  setTimeout(async () => {
-    await loadStartScreen();
-  }, 300);
-});
-window.addEventListener('blur', () => {
-  if (ignoreOnCameraBlur()) {
-    return;
-  }
-  reset();
-});
+const appNode: HTMLElement = document.getElementById('app');
+const addKaiosEvents: boolean = appNode.getAttribute('kaios') === 'true';
+
+if (addKaiosEvents) {
+  window.addEventListener('focus', async () => {
+    if (ignoreOnCameraBlur()) {
+      return;
+    }
+    setTimeout(async () => {
+      await loadStartScreen();
+    }, 300);
+  });
+  window.addEventListener('blur', () => {
+    if (ignoreOnCameraBlur()) {
+      return;
+    }
+    reset();
+  });
+} else {
+  window.addEventListener('load', () => {
+    setTimeout(async () => {
+      await loadStartScreen();
+    }, 300);
+  });
+}
 
 // @ts-ignore
 navigator.mozL10n.ready(() => {
@@ -29,7 +40,7 @@ navigator.mozL10n.ready(() => {
 });
 
 const app = new App({
-  target: document.getElementById('app'),
+  target: appNode,
   props: {
     version: () => '[VI]{version}[/VI]',
   },
