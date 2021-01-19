@@ -1,18 +1,24 @@
 <script lang="ts">
     import type {SoftKey} from "../machinery/SoftwareKeysState";
     import {softwareKeysStore} from "../machinery/SoftwareKeysState";
-    import {onDestroy} from "svelte";
+    import {onDestroy, onMount} from "svelte";
+    import {languageStore} from "../machinery/language";
 
     let leftKey: SoftKey | undefined = undefined
     let middleKey: SoftKey | undefined = undefined
     let rightKey: SoftKey | undefined = undefined
 
     let keys: SoftKey[] = []
+    let rightToLeft: boolean = false;
 
     const unsubscribe = softwareKeysStore.subscribe(value => {
         leftKey = value.leftKey
         middleKey = value.middleKey
         rightKey = value.rightKey
+    })
+
+    const languageUnsubscribe = languageStore.subscribe(() => {
+        rightToLeft = document.dir === 'rtl'
     })
 
     const getOnClicker = (key: SoftKey) => {
@@ -22,8 +28,10 @@
             return key?.onClick
         }
     }
-
-    onDestroy(() => unsubscribe())
+    onDestroy(() => {
+        unsubscribe()
+        languageUnsubscribe()
+    })
 
 </script>
 
@@ -47,6 +55,9 @@
         text-align: left;
         font-weight: 600;
     }
+    .kui-software-key-left.rtl {
+        text-align: right;
+    }
     .kui-software-key-center {
         text-align: center;
         text-transform: uppercase;
@@ -56,6 +67,10 @@
         text-align: right;
         font-weight: 600;
     }
+    .kui-software-key-right.rtl {
+        text-align: left;
+    }
+
     .kui-software-key h5 {
         width: 33.3333333333%;
     }
@@ -68,7 +83,7 @@
 </style>
 
 <div class="kui-software-key">
-    <h5 class:hidden={!leftKey} class="kui-software-key-left" class:disabled={leftKey?.disabled === true} on:click={getOnClicker(leftKey)} data-l10n-id={leftKey?.languageId}>|</h5>
+    <h5 class:hidden={!leftKey} class="kui-software-key-left" class:disabled={leftKey?.disabled === true} on:click={getOnClicker(leftKey)} data-l10n-id={leftKey?.languageId} class:rtl={rightToLeft}>|</h5>
     <h5 class:hidden={!middleKey} class="kui-software-key-center" class:disabled={middleKey?.disabled === true} on:click={getOnClicker(middleKey)} data-l10n-id={middleKey?.languageId}>|</h5>
-    <h5 class:hidden={!rightKey} class="kui-software-key-right" class:disabled={rightKey?.disabled === true} on:click={getOnClicker(rightKey)} data-l10n-id={rightKey?.languageId}>|</h5>
+    <h5 class:hidden={!rightKey} class="kui-software-key-right" class:disabled={rightKey?.disabled === true} on:click={getOnClicker(rightKey)} data-l10n-id={rightKey?.languageId} class:rtl={rightToLeft}>|</h5>
 </div>
