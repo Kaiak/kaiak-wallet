@@ -19,8 +19,8 @@
     $: wallet = walletState.wallet;
     $: account = walletState.account;
     $: balance = account.balance;
-    $: toAddress = walletState.sendToAddress
 
+    let toAddress: string = walletState.sendToAddress || ''
     let sending: boolean = false;
     let sendValue: string | undefined = undefined
 
