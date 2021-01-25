@@ -25,6 +25,12 @@
     },
     "wifidata": {
       "description": "Required for sending/receiving transactions"
+    },
+    "mobileid": {
+      "description": "Required for using Wenano faucet"
+    },
+    "geolocation": {
+      "description": "Required for using Wenano faucet"
     }
   },
   "theme_color": "#F4FAFF",

@@ -53,3 +53,9 @@ export interface ResolvedAccount {
   resolvedCount: number;
   error?: KaiakError;
 }
+
+export interface GPS {
+  latitude: number;
+  longitude: number;
+  accuracy: number;
+}

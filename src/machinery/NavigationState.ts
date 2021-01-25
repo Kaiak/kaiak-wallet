@@ -19,7 +19,8 @@ export type AccountAction =
   | 'send_qr'
   | 'send_address'
   | 'settings'
-  | 'donate';
+  | 'donate'
+  | 'faucet';
 
 export type OnboardView =
   | 'start'

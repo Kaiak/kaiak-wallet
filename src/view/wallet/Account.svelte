@@ -21,6 +21,7 @@
     import Donate from "./Donate.svelte";
     import {SOFT_KEY_SELECT} from "../../machinery/SoftwareKeysState";
     import {rawToReadable} from "../../machinery/text-utils";
+    import Faucet from "./Faucet.svelte";
 
     export let walletState: WalletState
     export let action: AccountAction;
@@ -107,6 +108,7 @@
             <Primary primaryLanguageId="receive" on:click={() => pushAccountAction('receive') }/>
             <Primary primaryLanguageId="settings" on:click={() => showSettings() }/>
             <Primary primaryLanguageId="about-donate-button" on:click={() => pushAccountAction('donate') }/>
+            <Primary primaryLanguageId="faucet" on:click={() => pushAccountAction('faucet') }/>
         </List>
     {:else if action === 'transactions' && transactions}
         <Seperator languageId="transactions" primaryText={selectedAccount.alias}/>
@@ -125,5 +127,7 @@
         <Settings wallet={wallet} selectedAccount={selectedAccount}/>
     {:else if action === 'donate'}
         <Donate walletState={walletState} />
+    {:else if action === 'faucet'}
+        <Faucet selectedAccount={selectedAccount}/>
     {/if}
 </Content>
