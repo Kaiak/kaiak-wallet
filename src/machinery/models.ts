@@ -10,7 +10,7 @@ type KaiakError = 'unable-to-fetch';
 export interface NanoAccount {
   alias: string;
   address: NanoAddress;
-  publicKey: PrivateKey;
+  publicKey: PublicKey;
   privateKey: PrivateKey;
   balance: RAW | undefined;
   representative?: NanoAddress;
