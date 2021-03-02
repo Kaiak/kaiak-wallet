@@ -8,6 +8,12 @@ This is an app built with [Svelte](https://svelte.dev).
 
 Reach out to @citrullin or @mehl on the [Nano Discord server](https://chat.nano.org/).
 
+We could use help with:
+
+* [Next version of Kaiak](/github.com/Kaiak/kaiak-wallet/milestone/1)
+* [Known issues](/github.com/Kaiak/kaiak-wallet/issues)
+* [Translations](/github.com/Kaiak/kaiak-wallet#translating)
+
 ### Development
 
 #### To run
