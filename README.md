@@ -6,7 +6,7 @@ This is an app built with [Svelte](https://svelte.dev).
 
 ## Want to contribute?
 
-Reach out to @citrullin or @mehl on the [Nano Discord server](https://chat.nano.org/).
+Reach out to @citrullin or @mehl on the [Nano Discord](https://chat.nano.org/), or the **#kaiak** channel on the [Nano Center Discord](http://discord.nanocenter.org/)
 
 We could use help with:
 
