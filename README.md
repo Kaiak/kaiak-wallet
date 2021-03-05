@@ -10,9 +10,9 @@ Reach out to @citrullin or @mehl on the [Nano Discord server](https://chat.nano.
 
 We could use help with:
 
-* [Next version of Kaiak](/github.com/Kaiak/kaiak-wallet/milestone/1)
-* [Known issues](/github.com/Kaiak/kaiak-wallet/issues)
-* [Translations](/github.com/Kaiak/kaiak-wallet#translating)
+* [Next version of Kaiak](https://github.com/Kaiak/kaiak-wallet/milestone/1)
+* [Known issues](https://github.com/Kaiak/kaiak-wallet/issues)
+* [Translations](https://github.com/Kaiak/kaiak-wallet#translating)
 
 ### Development
 
