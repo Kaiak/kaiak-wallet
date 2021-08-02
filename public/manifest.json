@@ -65,7 +65,12 @@
       "name": "Kaiak",
       "subtitle": "Безопасный криптовалютный кошелёк Nano",
       "description": "Безопасный и быстрый кошелек для криптовалюты. Отправляйте деньги за считанные секунды - бесплатно. Для криптовалюты, подобной Ethereum и Bitcoin, но с бесплатными транзакциями. Nano – это безопасная и мгновенная сеть денежных переводов, ориентированная на глобальные платежи без границ."
-    } 
+    }, 
+    "da-DK": {
+      "name": "Kaiak",
+      "subtitle": "En sikker Nano kryptovaluta tegnebog",
+      "description": "En sikker og hurtig digital tegnebog. Send penge på få sekunder - gratis. For en kryptovaluta svarende til Ethereum og Bitcoin, men med gebyrfrie transaktioner. Nano er et sikkert og lynhurtigt pengeoverførselsnetværk med en vision om globale betalinger uden grænser."
+    }
   },
   "default_locale": "en-US"
 }
