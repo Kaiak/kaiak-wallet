@@ -47,7 +47,7 @@ you can translate to. Later we'll accept pull requests to improve any texts.
 Kaiak is currently available in these languages:
 
 * 🇺🇸 [American English](/public/locales/en-US.properties)
-* 🇮🇳 [Hindi](/public/locales/hi.properties) – _Thanks_ Rahul Karda
+* 🇮🇳 [Hindi](/public/locales/hi.properties) – _Thanks_ [@rahulkarda](https://github.com/rahulkarda)
 * 🇨🇴 [Colombian Spanish](/public/locales/es-US.properties) – _Thanks_ Alessandro C
 * 🇳🇱 [Dutch](/public/locales/nl.properties)
 * 🇮🇷 [Farsi](/public/locales/fa.properties) – _Thanks_ Abolfazl Jafari
